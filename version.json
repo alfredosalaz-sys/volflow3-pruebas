@@ -1,0 +1,191 @@
+{
+  "version": "2.9.4",
+  "build": "2026.10.15.0100",
+  "date": "2026-10-15",
+  "changelog": [
+    {
+      "title": "Control estricto de coste para IA",
+      "desc": "Todas las rutas de IA usan una pasarela unica que falla en modo cerrado mientras no exista un control externo de facturacion verificable. El buscador inicia con indices locales y enriquecimiento opcional."
+    },
+    {
+      "title": "Buscador gratuito multifuente",
+      "desc": "Se incorpora arquitectura multiproveedor con OpenStreetMap Overpass, DIBA GIA, indices estaticos de datos abiertos, ZERO_COST_MODE reforzado, deduplicacion multifuente y pruebas automatizadas sin llamadas facturables."
+    },
+    {
+      "title": "Estabilidad en equipos lentos",
+      "desc": "Se aplazan tareas no criticas de arranque como tours, copiloto diario, snapshots y backups automaticos para evitar bloqueos en procesadores de dos nucleos."
+    },
+    {
+      "title": "Auditoria B2B verificada",
+      "desc": "Se corrige la fusion de sectores en deduplicacion para no arrastrar categorias descartadas durante busquedas solapadas."
+    },
+    {
+      "title": "Prospeccion B2B ampliada",
+      "desc": "Se incorporan Gestorias, Arquitectos, Aparejadores, Administradores de fincas e Inmobiliarias al buscador, multi-sector, clasificacion, deduplicacion, campaÃƒÂ±as y filtros."
+    },
+    {
+      "title": "Arranque estable y diagnostico de Google Places",
+      "desc": "Se evita que el normalizador de textos bloquee la pagina durante el modal de novedades y se endurece la carga de Google Maps/Places para mostrar errores claros de key, cuota, facturacion o restricciones."
+    },
+    {
+      "title": "Diagnostico automatico de Places",
+      "desc": "Cuando Google Places devuelve cero resultados, la app lanza una consulta de control para separar problemas de API/key de busquedas demasiado estrechas."
+    },
+    {
+      "title": "Google Places mas estable",
+      "desc": "La busqueda usa una version estable del SDK de Google Maps, mejora el sesgo por codigo postal/zona y reintenta consultas validas cuando Places devuelve cero resultados."
+    },
+    {
+      "title": "Correccion de caracteres visibles",
+      "desc": "Se limpian comillas curvas, espacios especiales y separadores corruptos que algunos navegadores mostraban como caracteres raros en filtros, selectores y controles."
+    },
+    {
+      "title": "Optimizacion profesional de carga y scraping",
+      "desc": "El HTML inicial pesa mucho menos, los assets internos usan build nuevo, las librerias externas cargan en diferido y la busqueda multisectorial trabaja con concurrencia controlada."
+    },
+    {
+      "title": "Cobertura mas fluida con muchos leads",
+      "desc": "La matriz CP x sector reutiliza un indice temporal de leads para evitar recalculos repetidos y mantener la navegacion agil."
+    },
+    {
+      "title": "Backup diario automatico en disco",
+      "desc": "La app puede guardar una copia completa diaria en una carpeta autorizada del ordenador, incluyendo leads, API keys, cobertura, scraping, campanas, historial y configuracion."
+    },
+    {
+      "title": "Arranque mas estable en GitHub",
+      "desc": "La app carga primero lo esencial, difiere paneles pesados y muestra un diagnostico visible si algun ordenador se queda bloqueado durante la carga."
+    },
+    {
+      "title": "Correcciones de bugs de tours y workflow",
+      "desc": "Se evitan tours simultaneos, se anade posponer, se corrigen acciones del mapa y se preservan retornos sincronicos del workflow."
+    },
+    {
+      "title": "Fluidez y rendimiento",
+      "desc": "La ayuda contextual y el workflow reducen re-renderizados constantes y agrupan actualizaciones para una experiencia mas agil."
+    },
+    {
+      "title": "Estado del manual guardado",
+      "desc": "El manual recuerda la ultima seccion consultada y queda registrado como dato persistente controlado."
+    },
+    {
+      "title": "Manual detallado conectado al tour",
+      "desc": "Cada tarjeta del tour incluye un acceso a un manual completo por seccion para profundizar sin perder el contexto."
+    },
+    {
+      "title": "Tours automaticos en cada actualizacion",
+      "desc": "El tour de novedades queda ligado al build real de app.html: cada nueva publicacion con build nuevo lo muestra una vez."
+    },
+    {
+      "title": "Tour de novedades profesional",
+      "desc": "Nuevo recorrido guiado para Dashboard, Buscar Empresas, Gestion de Leads y Mapa, comparado con la version funcional anterior."
+    },
+    {
+      "title": "Tour compatible con usuarios nuevos",
+      "desc": "El tour de Cobertura espera al tutorial general y salta elementos ocultos o inexistentes para evitar focos vacios."
+    },
+    {
+      "title": "Tour de Cobertura mas legible",
+      "desc": "El foco del tour deja visible la zona senalada y oscurece solo el exterior para que el usuario entienda que se esta explicando."
+    },
+    {
+      "title": "Guia inicial de Cobertura",
+      "desc": "La primera apertura de esta actualizacion muestra un tour con pasos, foco visual y explicaciones del nuevo flujo CP x sector."
+    },
+    {
+      "title": "Cobertura simplificada",
+      "desc": "La pestaÃƒÆ’Ã‚Â±a prioriza la matriz CP x sector, buscador y filtros esenciales; objetivos, embudo y filtros completos quedan en opciones avanzadas."
+    },
+    {
+      "title": "Ayuda contextual en toda la app",
+      "desc": "Iconos de interrogacion explican dashboard, scraping, resultados, leads, cobertura, mapa, configuracion, salud y backups."
+    },
+    {
+      "title": "Asistente entrenado con manual operativo",
+      "desc": "El bot recibe el flujo completo actualizado: cobertura, scraping, leads, mapa, backups, APIs, localStorage y versionado local."
+    },
+    {
+      "title": "Workflow profesional integrado",
+      "desc": "Centro de mando diario, mision activa, cierre post-scraping, importacion recomendada, salud del sistema y backups inteligentes."
+    },
+    {
+      "title": "No repetir trabajo",
+      "desc": "La app avisa si se intenta buscar un CP/sector ya trabajado y ofrece abrir cobertura, mapa o buscar igualmente."
+    },
+    {
+      "title": "Embudo CP/sector hasta leads",
+      "desc": "Cobertura, mapa y leads muestran mejor la trazabilidad desde scraping hasta contacto."
+    }
+  ],
+  "history": [
+    {
+      "version": "2.9.4",
+      "build": "2026.10.15.0100",
+      "date": "2026-10-15",
+      "title": "Pasarela de IA y busqueda local predeterminada",
+      "description": "Centralizacion de proveedores IA con bloqueo estricto de red y optimizacion local-first para equipos modestos."
+    },
+    {
+      "version": "2.9.3",
+      "build": "2026.10.14.0200",
+      "date": "2026-10-14",
+      "title": "Buscador empresarial gratuito multifuente",
+      "description": "Motor de descubrimiento con proveedores gratuitos, fuente DIBA operativa, soporte de indices abiertos importables y protecciones de coste cero."
+    },
+    {
+      "version": "2.9.2",
+      "build": "2026.10.13.0100",
+      "date": "2026-10-13",
+      "title": "Estabilidad post-arranque",
+      "description": "Se reducen tareas automÃ¡ticas en los primeros 120 segundos y se evita que lecturas de cobertura escriban localStorage sin cambios."
+    },
+    {
+      "version": "2.9.1",
+      "build": "2026.10.09.0200",
+      "date": "2026-10-09",
+      "title": "Auditoria B2B verificada",
+      "description": "Correccion de deduplicacion multisectorial tras auditoria local de calidad."
+    },
+    {
+      "version": "2.9.0",
+      "build": "2026.10.09.0100",
+      "date": "2026-10-09",
+      "title": "Prospeccion B2B ampliada",
+      "description": "Nuevas categorias B2B con consultas especificas, clasificacion determinista, deduplicacion multisectorial y cache busting de entrega."
+    },
+    {
+      "version": "2.8.0",
+      "build": "2026.09.23.0100",
+      "date": "2026-09-23",
+      "title": "Correccion de bloqueo de arranque y Places",
+      "description": "Se reduce trabajo sincronico de normalizacion de texto, se actualiza cache busting y se mejora el loader/diagnostico de Google Maps Places."
+    },
+    {
+      "version": "2.7.9",
+      "build": "2026.09.21.0100",
+      "date": "2026-09-21",
+      "title": "Recuperacion de resultados de Google Places",
+      "description": "Se estabiliza la carga de Google Maps, se mejora la ubicacion enviada a Places y se anaden reintentos para evitar busquedas a cero por sesgo demasiado estrecho. Tambien se anade un diagnostico automatico de Places cuando una busqueda queda a cero."
+    },
+    {
+      "version": "2.7.8",
+      "build": "2026.06.04.0100",
+      "date": "2026-06-04",
+      "title": "Arranque seguro en navegadores con muchos datos",
+      "description": "Se difieren snapshots y backups pesados, se evita renderizar Cobertura al abrir Dashboard y se anade un control de calidad para impedir textos visibles con prefijos corruptos."
+    },
+    {
+      "version": "2.7.7",
+      "build": "2026.06.03.0600",
+      "date": "2026-06-03",
+      "title": "Limpieza de titulos y controles visibles",
+      "description": "Se eliminan restos de iconos corruptos como x, x9, xR, xa, x&, x} y S0 de encabezados, botones, filtros y paneles visibles."
+    },
+    {
+      "version": "2.7.6",
+      "build": "2026.06.03.0500",
+      "date": "2026-06-03",
+      "title": "Cierre de riesgos no criticos",
+      "description": "Se corrige la carga de QRCode, se limpian temporizadores pendientes de busqueda, se ordena el filtrado final multi-sector y se excluyen herramientas de limpieza antiguas del despliegue."
+    }
+  ]
+}

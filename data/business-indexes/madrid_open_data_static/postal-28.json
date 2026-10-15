@@ -1,0 +1,1583 @@
+{
+  "provider": "madrid_open_data_static",
+  "generatedAt": "2026-10-14T13:40:29.232Z",
+  "source": {
+    "name": "Ayuntamiento de Madrid - Censo de locales",
+    "resourceId": "200085-1-censo-locales",
+    "api": "https://datos.madrid.es/api/3/action/datastore_search",
+    "license": "CC BY 4.0"
+  },
+  "stats": {
+    "Dental": 9,
+    "Gestorias": 10,
+    "Inmobiliarias": 10
+  },
+  "records": [
+    {
+      "id": "madrid:280036392:clinica dental 4 dental",
+      "externalId": "280036392",
+      "externalIds": {
+        "madrid_open_data_static": "280036392"
+      },
+      "name": "CLINICA DENTAL 4 DENTAL",
+      "address": "CALLE ESCOSURA, 15, 28015, Madrid",
+      "postalCode": "28015",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "CHAMBERI",
+      "neighborhood": "ARAPILES",
+      "lat": 40.4353226,
+      "lng": -3.7069626,
+      "category": "dental",
+      "activity": "dental",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Dental"
+      ],
+      "sourceSector": "Dental",
+      "segment": "Dental",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "280036392",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:280072772:laboratorio de protesis dental laboratorio de es",
+      "externalId": "280072772",
+      "externalIds": {
+        "madrid_open_data_static": "280072772"
+      },
+      "name": "LABORATORIO DE PROTESIS DENTAL / LABORATORIO DE ESTETICA DENTAL CARAS",
+      "address": "TRAVESIA VIRGEN DE LA ROCA, 15, 28027, Madrid",
+      "postalCode": "28027",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "CIUDAD LINEAL",
+      "neighborhood": "CONCEPCION",
+      "lat": 40.4355023,
+      "lng": -3.6565496,
+      "category": "dental",
+      "activity": "dental",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Dental"
+      ],
+      "sourceSector": "Dental",
+      "segment": "Dental",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "280072772",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:270378525:mapra dental laboratorio dental",
+      "externalId": "270378525",
+      "externalIds": {
+        "madrid_open_data_static": "270378525"
+      },
+      "name": "MAPRA DENTAL LABORATORIO DENTAL",
+      "address": "PLAZA ALCIRA, 8, 28039, Madrid",
+      "postalCode": "28039",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "MONCLOA-ARAVACA",
+      "neighborhood": "VALDEZARZA",
+      "lat": 40.4637687,
+      "lng": -3.7150217,
+      "category": "dental",
+      "activity": "dental",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Dental"
+      ],
+      "sourceSector": "Dental",
+      "segment": "Dental",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "270378525",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:280021619:imagine dental clinica dental",
+      "externalId": "280021619",
+      "externalIds": {
+        "madrid_open_data_static": "280021619"
+      },
+      "name": "IMAGINE DENTAL  CLINICA DENTAL",
+      "address": "CALLE CARDENAL SILICEO, 30, 28002, Madrid",
+      "postalCode": "28002",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "CHAMARTIN",
+      "neighborhood": "PROSPERIDAD",
+      "lat": 40.4433711,
+      "lng": -3.670045,
+      "category": "dental",
+      "activity": "dental",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Dental"
+      ],
+      "sourceSector": "Dental",
+      "segment": "Dental",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "280021619",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:280069102:gap dental gabinete dental dra angela pescador",
+      "externalId": "280069102",
+      "externalIds": {
+        "madrid_open_data_static": "280069102"
+      },
+      "name": "GAP DENTAL. GABINETE DENTAL DRA.ANGELA PESCADOR",
+      "address": "CARRETERA CANILLAS, 60, 28043, Madrid",
+      "postalCode": "28043",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "HORTALEZA",
+      "neighborhood": "CANILLAS",
+      "lat": 40.4631239,
+      "lng": -3.6469695,
+      "category": "dental",
+      "activity": "dental",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Dental"
+      ],
+      "sourceSector": "Dental",
+      "segment": "Dental",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "280069102",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:40000271:it dental clinica dental castello",
+      "externalId": "40000271",
+      "externalIds": {
+        "madrid_open_data_static": "40000271"
+      },
+      "name": "IT DENTAL CLINICA DENTAL CASTELLO",
+      "address": "CALLE CASTELLO, 115, 28006, Madrid",
+      "postalCode": "28006",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "SALAMANCA",
+      "neighborhood": "CASTELLANA",
+      "lat": 40.43648,
+      "lng": -3.6807058,
+      "category": "dental",
+      "activity": "dental",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Dental"
+      ],
+      "sourceSector": "Dental",
+      "segment": "Dental",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "40000271",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:270252195:clinica dental ade agrupacion dental",
+      "externalId": "270252195",
+      "externalIds": {
+        "madrid_open_data_static": "270252195"
+      },
+      "name": "CLINICA DENTAL ADE AGRUPACION DENTAL",
+      "address": "CALLE MOLINA DE SEGURA, 9, 28030, Madrid",
+      "postalCode": "28030",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "MORATALAZ",
+      "neighborhood": "MARROQUINA",
+      "lat": 40.4067702,
+      "lng": -3.6376029,
+      "category": "dental",
+      "activity": "dental",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Dental"
+      ],
+      "sourceSector": "Dental",
+      "segment": "Dental",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "270252195",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:280002823:clinica dental arte dental",
+      "externalId": "280002823",
+      "externalIds": {
+        "madrid_open_data_static": "280002823"
+      },
+      "name": "CLINICA DENTAL ARTE DENTAL",
+      "address": "CALLE RUFINO BLANCO, 16, 28028, Madrid",
+      "postalCode": "28028",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "SALAMANCA",
+      "neighborhood": "FUENTE DEL BERRO",
+      "lat": 40.4271874,
+      "lng": -3.6659469,
+      "category": "dental",
+      "activity": "dental",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Dental"
+      ],
+      "sourceSector": "Dental",
+      "segment": "Dental",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "280002823",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:285032811:clinica dental dra de las heras salud y estetica",
+      "externalId": "285032811",
+      "externalIds": {
+        "madrid_open_data_static": "285032811"
+      },
+      "name": "CLINICA DENTAL DRA DE LAS HERAS SALUD Y ESTETICA DENTAL",
+      "address": "CALLE PEÑARANDA DE BRACAMONTE, 20A, 28051, Madrid",
+      "postalCode": "28051",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "VILLA DE VALLECAS",
+      "neighborhood": "ENSANCHE DE VALLECAS",
+      "lat": 40.3710555,
+      "lng": -3.6078896,
+      "category": "dental",
+      "activity": "dental",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Dental"
+      ],
+      "sourceSector": "Dental",
+      "segment": "Dental",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "285032811",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:70001190:gestoria",
+      "externalId": "70001190",
+      "externalIds": {
+        "madrid_open_data_static": "70001190"
+      },
+      "name": "GESTORIA",
+      "address": "CALLE BLASCO DE GARAY, 52, 28015, Madrid",
+      "postalCode": "28015",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "CHAMBERI",
+      "neighborhood": "ARAPILES",
+      "lat": 40.4350706,
+      "lng": -3.7113459,
+      "category": "gestoria",
+      "activity": "gestoria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Gestorias"
+      ],
+      "sourceSector": "Gestorias",
+      "segment": "Gestorias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "70001190",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:90001499:gestoria",
+      "externalId": "90001499",
+      "externalIds": {
+        "madrid_open_data_static": "90001499"
+      },
+      "name": "GESTORIA",
+      "address": "CALLE FERRAZ, 74, 28008, Madrid",
+      "postalCode": "28008",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "MONCLOA-ARAVACA",
+      "neighborhood": "ARGUELLES",
+      "lat": 40.428722,
+      "lng": -3.7196373,
+      "category": "gestoria",
+      "activity": "gestoria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Gestorias"
+      ],
+      "sourceSector": "Gestorias",
+      "segment": "Gestorias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "90001499",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:110000049:charo valle sanchez gestoria",
+      "externalId": "110000049",
+      "externalIds": {
+        "madrid_open_data_static": "110000049"
+      },
+      "name": "CHARO VALLE SANCHEZ GESTORIA",
+      "address": "CALLE GENERAL RICARDOS, 116, 28019, Madrid",
+      "postalCode": "28019",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "CARABANCHEL",
+      "neighborhood": "SAN ISIDRO",
+      "lat": 40.3923029,
+      "lng": -3.7261188,
+      "category": "gestoria",
+      "activity": "gestoria",
+      "classifications": [
+        "Abierto",
+        "Interior"
+      ],
+      "matchedSectors": [
+        "Gestorias"
+      ],
+      "sourceSector": "Gestorias",
+      "segment": "Gestorias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "110000049",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:270015109:gestoria soler",
+      "externalId": "270015109",
+      "externalIds": {
+        "madrid_open_data_static": "270015109"
+      },
+      "name": "GESTORIA SOLER",
+      "address": "CALLE ANTONIO SALVADOR, 27, 28026, Madrid",
+      "postalCode": "28026",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "USERA",
+      "neighborhood": "ALMENDRALES",
+      "lat": 40.3859266,
+      "lng": -3.7009323,
+      "category": "gestoria",
+      "activity": "gestoria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Gestorias"
+      ],
+      "sourceSector": "Gestorias",
+      "segment": "Gestorias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "270015109",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:270030149:gestoria sanchez villalva",
+      "externalId": "270030149",
+      "externalIds": {
+        "madrid_open_data_static": "270030149"
+      },
+      "name": "GESTORIA SANCHEZ VILLALVA",
+      "address": "PASEO MARCELINO CAMACHO, 22, 28025, Madrid",
+      "postalCode": "28025",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "CARABANCHEL",
+      "neighborhood": "VISTA ALEGRE",
+      "lat": 40.3863419,
+      "lng": -3.7412767,
+      "category": "gestoria",
+      "activity": "gestoria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Gestorias"
+      ],
+      "sourceSector": "Gestorias",
+      "segment": "Gestorias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "270030149",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:270030905:gestoria",
+      "externalId": "270030905",
+      "externalIds": {
+        "madrid_open_data_static": "270030905"
+      },
+      "name": "GESTORIA",
+      "address": "PLAZA ENCUENTRO, 3, 28030, Madrid",
+      "postalCode": "28030",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "MORATALAZ",
+      "neighborhood": "FONTARRON",
+      "lat": 40.4052889,
+      "lng": -3.6512476,
+      "category": "gestoria",
+      "activity": "gestoria",
+      "classifications": [
+        "Abierto",
+        "Interior"
+      ],
+      "matchedSectors": [
+        "Gestorias"
+      ],
+      "sourceSector": "Gestorias",
+      "segment": "Gestorias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "270030905",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:270044336:javier nunez campo perfox gestoria nunez",
+      "externalId": "270044336",
+      "externalIds": {
+        "madrid_open_data_static": "270044336"
+      },
+      "name": "JAVIER NUNEZ CAMPO PERFOX GESTORIA NUÑEZ",
+      "address": "CALLE ALCALA, 35, 28014, Madrid",
+      "postalCode": "28014",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "CENTRO",
+      "neighborhood": "CORTES",
+      "lat": null,
+      "lng": null,
+      "category": "gestoria",
+      "activity": "gestoria",
+      "classifications": [
+        "Abierto",
+        "Interior"
+      ],
+      "matchedSectors": [
+        "Gestorias"
+      ],
+      "sourceSector": "Gestorias",
+      "segment": "Gestorias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "270044336",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:270056346:gestoria de la torre",
+      "externalId": "270056346",
+      "externalIds": {
+        "madrid_open_data_static": "270056346"
+      },
+      "name": "GESTORIA DE LA TORRE",
+      "address": "CALLE ARTISTAS, 39, 28020, Madrid",
+      "postalCode": "28020",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "TETUAN",
+      "neighborhood": "CUATRO CAMINOS",
+      "lat": null,
+      "lng": null,
+      "category": "gestoria",
+      "activity": "gestoria",
+      "classifications": [
+        "Abierto",
+        "Interior"
+      ],
+      "matchedSectors": [
+        "Gestorias"
+      ],
+      "sourceSector": "Gestorias",
+      "segment": "Gestorias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "270056346",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:270060552:gestoria abogados",
+      "externalId": "270060552",
+      "externalIds": {
+        "madrid_open_data_static": "270060552"
+      },
+      "name": "GESTORIA ABOGADOS",
+      "address": "CALLE SANCHEZ BARCAIZTEGUI, 1, 28007, Madrid",
+      "postalCode": "28007",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "RETIRO",
+      "neighborhood": "PACIFICO",
+      "lat": 40.4022626,
+      "lng": -3.676272,
+      "category": "gestoria",
+      "activity": "gestoria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Gestorias"
+      ],
+      "sourceSector": "Gestorias",
+      "segment": "Gestorias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "270060552",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:10003348:gestoria coldeira",
+      "externalId": "10003348",
+      "externalIds": {
+        "madrid_open_data_static": "10003348"
+      },
+      "name": "GESTORIA COLDEIRA",
+      "address": "CALLE LOPEZ SILVA, 3, 28005, Madrid",
+      "postalCode": "28005",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "CENTRO",
+      "neighborhood": "EMBAJADORES",
+      "lat": 40.4100227,
+      "lng": -3.7088547,
+      "category": "gestoria",
+      "activity": "gestoria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Gestorias"
+      ],
+      "sourceSector": "Gestorias",
+      "segment": "Gestorias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "10003348",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:20001098:oficina dedicada a la gestion inmobiliaria",
+      "externalId": "20001098",
+      "externalIds": {
+        "madrid_open_data_static": "20001098"
+      },
+      "name": "OFICINA DEDICADA A LA GESTION INMOBILIARIA",
+      "address": "CALLE NAVES, 14A, 28005, Madrid",
+      "postalCode": "28005",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "ARGANZUELA",
+      "neighborhood": "ACACIAS",
+      "lat": 40.3988494,
+      "lng": -3.7062393,
+      "category": "inmobiliaria",
+      "activity": "inmobiliaria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Inmobiliarias"
+      ],
+      "sourceSector": "Inmobiliarias",
+      "segment": "Inmobiliarias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "20001098",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:20001691:inmobiliaria granito",
+      "externalId": "20001691",
+      "externalIds": {
+        "madrid_open_data_static": "20001691"
+      },
+      "name": "INMOBILIARIA GRANITO",
+      "address": "CALLE BOLIVAR, 11, 28045, Madrid",
+      "postalCode": "28045",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "ARGANZUELA",
+      "neighborhood": "DELICIAS",
+      "lat": 40.3922319,
+      "lng": -3.6921253,
+      "category": "inmobiliaria",
+      "activity": "inmobiliaria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Inmobiliarias"
+      ],
+      "sourceSector": "Inmobiliarias",
+      "segment": "Inmobiliarias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "20001691",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:30001146:moraleja inmobiliaria",
+      "externalId": "30001146",
+      "externalIds": {
+        "madrid_open_data_static": "30001146"
+      },
+      "name": "MORALEJA INMOBILIARIA",
+      "address": "AVENIDA MEDITERRANEO, 12, 28007, Madrid",
+      "postalCode": "28007",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "RETIRO",
+      "neighborhood": "PACIFICO",
+      "lat": 40.4071342,
+      "lng": -3.6766624,
+      "category": "inmobiliaria",
+      "activity": "inmobiliaria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Inmobiliarias"
+      ],
+      "sourceSector": "Inmobiliarias",
+      "segment": "Inmobiliarias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "30001146",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:40002866:oficina inmobiliaria",
+      "externalId": "40002866",
+      "externalIds": {
+        "madrid_open_data_static": "40002866"
+      },
+      "name": "OFICINA INMOBILIARIA",
+      "address": "CALLE HERMOSILLA, 21, 28001, Madrid",
+      "postalCode": "28001",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "SALAMANCA",
+      "neighborhood": "RECOLETOS",
+      "lat": 40.4264955,
+      "lng": -3.6857214,
+      "category": "inmobiliaria",
+      "activity": "inmobiliaria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Inmobiliarias"
+      ],
+      "sourceSector": "Inmobiliarias",
+      "segment": "Inmobiliarias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "40002866",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:40003076:db inmobiliaria",
+      "externalId": "40003076",
+      "externalIds": {
+        "madrid_open_data_static": "40003076"
+      },
+      "name": "DB INMOBILIARIA",
+      "address": "CALLE ALEJANDRO GONZALEZ, 2, 28028, Madrid",
+      "postalCode": "28028",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "SALAMANCA",
+      "neighborhood": "FUENTE DEL BERRO",
+      "lat": 40.4300456,
+      "lng": -3.663971,
+      "category": "inmobiliaria",
+      "activity": "inmobiliaria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Inmobiliarias"
+      ],
+      "sourceSector": "Inmobiliarias",
+      "segment": "Inmobiliarias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "40003076",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:40003257:agencia inmobiliaria",
+      "externalId": "40003257",
+      "externalIds": {
+        "madrid_open_data_static": "40003257"
+      },
+      "name": "AGENCIA INMOBILIARIA",
+      "address": "CALLE DOCTOR ESQUERDO, 10, 28028, Madrid",
+      "postalCode": "28028",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "SALAMANCA",
+      "neighborhood": "GOYA",
+      "lat": 40.426333,
+      "lng": -3.6688267,
+      "category": "inmobiliaria",
+      "activity": "inmobiliaria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Inmobiliarias"
+      ],
+      "sourceSector": "Inmobiliarias",
+      "segment": "Inmobiliarias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "40003257",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:50000721:inmobiliaria",
+      "externalId": "50000721",
+      "externalIds": {
+        "madrid_open_data_static": "50000721"
+      },
+      "name": "INMOBILIARIA",
+      "address": "CALLE FELIX BOIX, 14, 28036, Madrid",
+      "postalCode": "28036",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "CHAMARTIN",
+      "neighborhood": "NUEVA ESPAÑA",
+      "lat": 40.4630494,
+      "lng": -3.6865175,
+      "category": "inmobiliaria",
+      "activity": "inmobiliaria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Inmobiliarias"
+      ],
+      "sourceSector": "Inmobiliarias",
+      "segment": "Inmobiliarias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "50000721",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:50001749:consulting inmobiliaria",
+      "externalId": "50001749",
+      "externalIds": {
+        "madrid_open_data_static": "50001749"
+      },
+      "name": "CONSULTING INMOBILIARIA",
+      "address": "AVENIDA ALFONSO XIII, 75, 28016, Madrid",
+      "postalCode": "28016",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "CHAMARTIN",
+      "neighborhood": "HISPANOAMERICA",
+      "lat": 40.4549555,
+      "lng": -3.667129,
+      "category": "inmobiliaria",
+      "activity": "inmobiliaria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Inmobiliarias"
+      ],
+      "sourceSector": "Inmobiliarias",
+      "segment": "Inmobiliarias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "50001749",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:70002234:ofician inmobiliaria",
+      "externalId": "70002234",
+      "externalIds": {
+        "madrid_open_data_static": "70002234"
+      },
+      "name": "OFICIAN INMOBILIARIA",
+      "address": "CALLE ELOY GONZALO, 15, 28010, Madrid",
+      "postalCode": "28010",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "CHAMBERI",
+      "neighborhood": "TRAFALGAR",
+      "lat": 40.4342714,
+      "lng": -3.7020587,
+      "category": "inmobiliaria",
+      "activity": "inmobiliaria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Inmobiliarias"
+      ],
+      "sourceSector": "Inmobiliarias",
+      "segment": "Inmobiliarias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "70002234",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    },
+    {
+      "id": "madrid:10002479:lugaro inmobiliaria",
+      "externalId": "10002479",
+      "externalIds": {
+        "madrid_open_data_static": "10002479"
+      },
+      "name": "LUGARO INMOBILIARIA",
+      "address": "PLAZA LAVAPIES, 9, 28012, Madrid",
+      "postalCode": "28012",
+      "locality": "Madrid",
+      "province": "Madrid",
+      "district": "CENTRO",
+      "neighborhood": "EMBAJADORES",
+      "lat": 40.4088333,
+      "lng": -3.7014998,
+      "category": "inmobiliaria",
+      "activity": "inmobiliaria",
+      "classifications": [
+        "Abierto",
+        "Puerta Calle"
+      ],
+      "matchedSectors": [
+        "Inmobiliarias"
+      ],
+      "sourceSector": "Inmobiliarias",
+      "segment": "Inmobiliarias",
+      "dateUpdated": "13/10/2026",
+      "sourceProvider": "madrid_open_data_static",
+      "license": "CC BY 4.0",
+      "attribution": "Ayuntamiento de Madrid",
+      "confidence": 0.72,
+      "reviewStatus": "open_local",
+      "provenance": [
+        {
+          "provider": "madrid_open_data_static",
+          "externalId": "10002479",
+          "fields": [
+            "name",
+            "address",
+            "postalCode",
+            "coordinates",
+            "openingStatus"
+          ],
+          "license": "CC BY 4.0",
+          "resourceId": "200085-1-censo-locales"
+        }
+      ],
+      "signals": [
+        "Fuente: Ayuntamiento de Madrid Censo de Locales (Abierto)"
+      ],
+      "phones": [],
+      "emails": [],
+      "website": ""
+    }
+  ]
+}

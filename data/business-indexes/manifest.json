@@ -1,0 +1,70 @@
+{
+  "version": "2026.10.14.0200",
+  "generatedAt": "2026-10-14T13:40:29.233Z",
+  "description": "Manifest for browser-sized open-data business indexes. Empty by default; generate partitions with tools/build-business-index.cjs.",
+  "licenseMetadata": {
+    "overture_places_static": {
+      "license": "CDLA Permissive 2.0 / source-specific notices",
+      "attribution": "Overture Maps Foundation and source contributors",
+      "status": "importable_dataset"
+    },
+    "foursquare_os_places_static": {
+      "license": "Apache-2.0 with Foursquare NOTICE",
+      "attribution": "Foursquare Labs, Inc.",
+      "status": "pending_configuration"
+    },
+    "madrid_open_data_static": {
+      "license": "Open data municipal; verify current datos.madrid.es terms",
+      "attribution": "Ayuntamiento de Madrid",
+      "status": "importable_dataset"
+    },
+    "geofabrik_osm_static": {
+      "license": "ODbL 1.0",
+      "attribution": "OpenStreetMap contributors / Geofabrik",
+      "status": "importable_dataset_same_source_as_osm"
+    },
+    "alltheplaces_static": {
+      "license": "Not enabled until license/terms are verified per dataset output",
+      "attribution": "AllThePlaces and original store sources",
+      "status": "not_enabled"
+    }
+  },
+  "providers": {
+    "overture_places_static": {
+      "enabled": false,
+      "partitions": []
+    },
+    "foursquare_os_places_static": {
+      "enabled": false,
+      "partitions": []
+    },
+    "madrid_open_data_static": {
+      "enabled": true,
+      "status": "sample_index_generated",
+      "sourceResourceId": "200085-1-censo-locales",
+      "partitions": [
+        {
+          "file": "data/business-indexes/madrid_open_data_static/postal-28.json",
+          "postalPrefix": "28",
+          "locality": "Madrid",
+          "province": "Madrid",
+          "sectors": [
+            "Dental",
+            "Gestorias",
+            "Inmobiliarias"
+          ],
+          "count": 29,
+          "sha256": "2275627a2a9f7d12b9ba981bb4e53d10211afc055a8615bc797696e6301d431b"
+        }
+      ]
+    },
+    "geofabrik_osm_static": {
+      "enabled": false,
+      "partitions": []
+    },
+    "alltheplaces_static": {
+      "enabled": false,
+      "partitions": []
+    }
+  }
+}

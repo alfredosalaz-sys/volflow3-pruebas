@@ -1,0 +1,1335 @@
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/.github/workflows/quality-gate.yml" "b/.tmp-diff-auditoria-20261015\\candidata/.github/workflows/quality-gate.yml"
+index b457500..71fcb2d 100644
+--- "a/.tmp-diff-auditoria-20261015\\anterior/.github/workflows/quality-gate.yml"
++++ "b/.tmp-diff-auditoria-20261015\\candidata/.github/workflows/quality-gate.yml"
+@@ -32,6 +32,8 @@ jobs:
+         run: node tools/provider-performance-smoke.cjs
+       - name: Independent search regression audit
+         run: node voltflow-regression-tests.cjs "$GITHUB_WORKSPACE"
++      - name: Verify strict zero-cost AI gateway
++        run: node tools/ai-zero-cost-gate-test.cjs "$GITHUB_WORKSPACE"
+       - name: Verify release SHA256 manifest
+         run: node tools/verify-manifest.cjs
+       - name: Check business index manifest
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/INFORME_FINAL_BUSCADOR_MULTIFUENTE_CORREGIDO.md" "b/.tmp-diff-auditoria-20261015\\anterior/INFORME_FINAL_BUSCADOR_MULTIFUENTE_CORREGIDO.md"
+deleted file mode 100644
+index eb2d301..0000000
+--- "a/.tmp-diff-auditoria-20261015\\anterior/INFORME_FINAL_BUSCADOR_MULTIFUENTE_CORREGIDO.md"
++++ /dev/null
+@@ -1,102 +0,0 @@
+-# Voltflow3 - Informe final del buscador multifuente corregido
+-
+-Fecha de validacion: 2026-10-14  
+-Version: 2.9.3  
+-Build: 2026.10.14.0200  
+-Rama local: `reparacion-buscador-places-20261014`
+-
+-## Dictamen
+-
+-La correccion supera los siete casos de la auditoria independiente, todos los tests anteriores disponibles, la validacion SHA256 y una prueba automatizada en Chrome con perfil aislado y CPU x4. La entrega queda tecnicamente preparada para una publicacion controlada, pero no se ha hecho push, merge ni despliegue.
+-
+-No se afirma que el bloqueo este resuelto en un Celeron N4020 real. Las validaciones directas de la carpeta final en Chrome x4 registraron una tarea larga de arranque maxima de 494 ms y una maxima de 98 ms durante el flujo probado. No hubo bloqueo, error de ventana ni excepcion JavaScript en la prueba, pero permanece necesaria una comprobacion final en el equipo objetivo.
+-
+-## Los siete fallos y sus soluciones
+-
+-1. **Deduplicacion desconectada y agresiva.** `deduplicateResults()` delega ahora en `VoltflowBusinessProviders.deduplicateMultisource()` con `getMergeableSectors()`. Telefono, email o dominio son solo evidencia auxiliar: se exige compatibilidad fuerte de nombre y direccion. La fusion conserva `provenance`, `sources`, identificadores, sectores y snapshots de sucursal en `branches`.
+-2. **Clasificacion contaminada por la consulta.** `classifyRecord()` ya no usa `sourceSector`; los normalizadores no copian el sector solicitado como evidencia. Un sector solo entra en `matchedSectors` cuando la clasificacion independiente es fuerte o probable. La ferreteria del caso de auditoria queda `doubtful`, no Dental fuerte.
+-3. **Ubicacion incompleta aceptada en otra ciudad.** `locationMatches()` ignora campos vacios y rechaza registros sin evidencia geografica textual. El codigo postal mantiene coincidencia exacta. El registro 28015 incompleto no aparece en Sevilla.
+-4. **Vacio confundido con errores.** El agregador diferencia `SUCCESS_EMPTY`, `PARTIAL_WITH_ERRORS`, `ALL_PROVIDERS_FAILED` y `NO_PROVIDER_ELIGIBLE`. La interfaz avisa que una busqueda incompleta no confirma ausencia de empresas.
+-5. **ZERO_COST_MODE eludible.** Las banderas de `localStorage` ya no autorizan proveedores facturables o no verificados. Google Maps no se carga al iniciar ni al guardar una clave. Tambien se bloquearon las rutas de mapas, geocodificacion, reseñas y cargadores auxiliares.
+-6. **Orden lento de proveedores.** El indice estatico se consulta primero y emite resultados mediante `onPartialResults` antes de los proveedores remotos. DIBA solo acepta codigos postales 08 o consultas textuales que declaran Barcelona.
+-7. **Limites declarativos sin aplicacion.** Overpass y DIBA pasan por un coordinador con concurrencia maxima, intervalo minimo, timeout, cooldown y cancelacion. Los contadores se incrementan al iniciar la peticion real, no al planificarla.
+-
+-## Evidencias automatizadas
+-
+-| Prueba | Resultado |
+-|---|---:|
+-| `voltflow-regression-tests.cjs` | 7/7 PASS |
+-| `business-providers-mock-test.cjs` | PASS |
+-| `real-provider-index-test.cjs` | PASS: Madrid Dental 9; 28015 Dental 1; 28015 Gestorias 1 |
+-| `provider-performance-smoke.cjs` | PASS: 600 -> 300 en 25 ms |
+-| `places-search-mock-test.cjs` | PASS |
+-| `check-release-integrity.cjs` | PASS: 2.9.3 / 2026.10.14.0200 / 21 recursos |
+-| Sintaxis JavaScript | PASS: 33 archivos |
+-| `git diff --check` | PASS |
+-| Manifiesto SHA256 | PASS: 28 recursos de ejecucion |
+-
+-La prueba de limites confirma dos llamadas Overpass con concurrencia maxima 1, separacion minima observada de al menos 1.400 ms y cancelacion mediante `AbortController`. No se debilitaron las siete aserciones independientes.
+-
+-## Chrome aislado
+-
+-Metodologia: Chrome headless, perfil temporal nuevo, CPU throttling x4, todo HTTPS bloqueado, almacenamiento sintetico y servidor local. No se uso el perfil real del usuario.
+-
+-| Metrica | Entrega anterior parcial | Corregida |
+-|---|---:|---:|
+-| Madrid local | 9, sin emision progresiva | 9, emitidos progresivamente |
+-| Fallo de red + fuente vacia | `SUCCESS_EMPTY` incorrecto | `PARTIAL_WITH_ERRORS` |
+-| Negocios distintos con telefono comun | 1 incorrecto | 2 |
+-| Procedencias tras fusion real | 1 | 2 |
+-| Google habilitable por `localStorage` | Si | No |
+-| Interaccion medida | 15 ms | 49-77,2 ms |
+-| Tarea larga maxima del flujo | 74 ms | 66-98 ms |
+-| Tarea larga maxima de arranque | 688 ms | 329-494 ms |
+-| Heap JS | 1,57 MB | 2,67-3,09 MB |
+-| Excepciones JavaScript | 1 | 0 |
+-
+-La entrega anterior usada para comparar era parcial y carecia de estado requerido; por eso su heap e interaccion no representan una aplicacion completa y no deben interpretarse como una ventaja de rendimiento. Las comparaciones funcionales y de tareas largas usan el mismo navegador, CPU x4 y bloqueo de red.
+-
+-El flujo corregido verifico explicitamente que un registro local valido supera los filtros, la conversion de un resultado a candidato importable, deduplicacion positiva y negativa, errores de proveedor y ausencia del script de Google. La ultima repeticion directa sobre la carpeta de entrega dio 77,2 ms de interaccion, 92 ms de tarea maxima del flujo, 494 ms de arranque, 2,67 MB de heap, 0 errores de ventana y 0 excepciones JavaScript.
+-
+-## Madrid y Barcelona
+-
+-- Madrid: el indice versionado devolvio 9 clinicas dentales, incluyendo 1 resultado Dental y 1 Gestoria para 28015 en sus respectivas consultas.
+-- Barcelona: una consulta real al endpoint publico DIBA, limitada a 5 registros, devolvio 5 filas de `BARCELONA`, dataset actualizado `2026-10-14 00:32:24`, licencia CC BY 4.0. Los registros fueron normalizados como `diba_gia`.
+-- La prueba Chrome usa el mismo esquema DIBA con fixture aislado para evitar que la red externa afecte la regresion reproducible.
+-
+-No se llamo a Google Places, Google Maps, APIs de pago ni servicios con facturacion potencial. La unica consulta externa de validacion fue al dataset publico gratuito de DIBA.
+-
+-## Archivos corregidos o incorporados
+-
+-- `.github/workflows/quality-gate.yml`
+-- `modules/business-providers.js`
+-- `modules/search.js`
+-- `modules/init.js`
+-- `modules/ui.js`
+-- `modules/inbox.js`
+-- `modules/ai-email.js`
+-- `tools/business-providers-mock-test.cjs`
+-- `tools/places-search-mock-test.cjs`
+-- `tools/browser-search-regression.cjs`
+-- `tools/generate-manifest.cjs`
+-- `tools/verify-manifest.cjs`
+-- `voltflow-regression-tests.cjs`
+-- `MANIFEST_SHA256.txt`
+-
+-El quality gate ejecuta ahora la auditoria independiente y valida el manifiesto SHA256. `BASELINE_ESTABLE.json` no fue modificado.
+-
+-## Mojibake y EOL
+-
+-No se hizo una transcodificacion masiva: los modulos historicos contienen EOL mixtos en el propio blob de Git y texto heredado con codificacion dañada. Se preservo el contenido existente y se verifico que las lineas nuevas no introducen errores con `git diff --check`. La interfaz mantiene su normalizador visible diferido. Corregir todos los textos historicos requeriria una migracion separada con revision visual completa.
+-
+-## Riesgos pendientes
+-
+-- Falta repetir la prueba en el Celeron N4020 real.
+-- El arranque bajo CPU x4 conserva una tarea larga maxima observada de 494 ms; no produjo bloqueo, pero supera el objetivo de 50 ms.
+-- El flujo del buscador tuvo una tarea maxima observada de 98 ms bajo CPU x4, por encima del objetivo orientativo.
+-- Solo Madrid dispone hoy de indice local empaquetado. Barcelona depende de DIBA cuando se usa en operacion real.
+-- Los datos publicos externos pueden cambiar o estar temporalmente indisponibles; ahora esa situacion se muestra como error o resultado parcial, no como zona vacia.
+-
+-## Recomendacion de publicacion
+-
+-Publicar solo mediante revision del diff, ejecucion del quality gate y un unico commit controlado. Tras desplegar, comprobar contenido efectivo de `modules/search.js`, `modules/business-providers.js` y `modules/init.js`, no solo `version.json`. Mantener disponible el SHA anterior para una reversion inmediata.
+diff --git "a/.tmp-diff-auditoria-20261015\\candidata/INFORME_FINAL_CONTROL_COSTE_IA_20261015.md" "b/.tmp-diff-auditoria-20261015\\candidata/INFORME_FINAL_CONTROL_COSTE_IA_20261015.md"
+new file mode 100644
+index 0000000..d97503d
+--- /dev/null
++++ "b/.tmp-diff-auditoria-20261015\\candidata/INFORME_FINAL_CONTROL_COSTE_IA_20261015.md"
+@@ -0,0 +1,95 @@
++# Informe final: control de coste IA y busqueda local
++
++Fecha: 2026-10-15  
++Version candidata: 2.9.4  
++Build: 2026.10.15.0100  
++Base Git: `41b2e34daaf43c754f9cf799a8cf01d9965ce814`
++
++## Dictamen
++
++Los riesgos comprobables de la auditoria quedan corregidos. Todas las salidas a Gemini, Groq y OpenRouter pasan por una unica pasarela que falla en modo cerrado. Con claves sinteticas configuradas, la prueba registro cero solicitudes de red. El buscador selecciona indices locales sin enriquecimiento como modo predeterminado y termina tras el indice local cuando este ya ofrece resultados.
++
++La entrega esta preparada para revision mediante Pull Request, pero no se ha creado el PR, hecho push, merge ni despliegue. Tampoco se certifica coste cero contractual del proveedor: mientras no exista un bloqueo externo de facturacion verificable, las API de IA permanecen deshabilitadas. Falta validar en el Celeron N4020 real.
++
++## Correcciones
++
++1. `modules/ai-router.js` concentra la unica salida de red para proveedores IA en `aiGatewayFetch()`.
++2. Gemini, Groq y OpenRouter declaran `externallyEnforcedFree: false`; una clave de `localStorage` no cambia esa politica.
++3. Correo, chat, bandeja, UI e inteligencia de busqueda llaman a la pasarela y etiquetan el proposito de cada solicitud.
++4. La inteligencia de sesion deja de ejecutarse automaticamente al terminar una busqueda.
++5. La configuracion muestra `Bloqueado por coste cero` y deja de presentar una clave guardada como proveedor activo.
++6. El selector `plan-enrich` comienza en `none`: descubrimiento local/gratuito. El enriquecimiento completo queda optativo.
++7. Si el indice estatico devuelve resultados en el modo predeterminado, no se espera a Overpass o DIBA. Cuando no hay datos locales, se conservan los respaldos gratuitos y sus diagnosticos.
++8. `.github/workflows/quality-gate.yml` ejecuta la nueva prueba fail-closed.
++
++## Evidencia automatizada
++
++| Prueba | Resultado |
++|---|---|
++| `voltflow-regression-tests.cjs` | PASS 7/7 |
++| `ai-zero-cost-gate-test.cjs` | PASS, 0 llamadas de red; 3 proveedores bloqueados |
++| `business-providers-mock-test.cjs` | PASS |
++| `real-provider-index-test.cjs` | PASS: Madrid Dental 9; 28015 Dental 1; 28015 Gestorias 1 |
++| `provider-performance-smoke.cjs` | PASS: 600 -> 300 en 37 ms |
++| `places-search-mock-test.cjs` | PASS |
++| `check-release-integrity.cjs` | PASS: 2.9.4 / 2026.10.15.0100 / 21 recursos |
++| `verify-manifest.cjs` | PASS: 28 archivos en el arbol servido |
++| Sintaxis Node | PASS: 34 archivos JS/CJS |
++| `git diff --check` | PASS; solo avisos informativos de EOL de Git |
++
++`tools/quality-check.js` sigue detectando marcadores de mojibake heredados en `app.html`, `inbox.js`, `init.js`, `search.js`, `ui.js` y `workflow.js`. No se hizo una conversion masiva de codificacion porque no forma parte de las incidencias funcionales y presenta riesgo de alterar cientos de cadenas. Este control no forma parte del workflow actual y queda documentado como deuda, no como PASS.
++
++Las pruebas Python antiguas `b2b_quality_audit.py`, `b2b_segments_test.py`, `idb_consistency_test.py`, `idb_migration_test.py`, `idb_recovery_audit.py`, `functional_smoke.py`, `perf_startup.py` y `stability_120s.py` no existen en este clon y no se declaran superadas.
++
++## Chrome aislado
++
++Chrome headless uso un perfil temporal, CPU throttling x4, HTTPS externo bloqueado y datos sinteticos. No se accedio al perfil real ni al almacenamiento del CRM.
++
++| Metrica | Build 2026.10.14.0200 | Build 2026.10.15.0100 |
++|---|---:|---:|
++| Madrid Dental | 9 progresivos | 9 progresivos |
++| Adaptadores remotos tras resultado local | no medido | 0 |
++| Modo inicial de enriquecimiento | `all` | `none` |
++| Bloqueo de IA con clave sintetica | no existia de forma global | `AI_ZERO_COST_BLOCKED` |
++| Interaccion medida | 77,2 ms | 76,2 ms |
++| Tarea larga maxima de arranque | 494 ms | 356 ms |
++| Tarea larga maxima del flujo | 92 ms | 109 ms |
++| Heap JS | 2,67 MB | 3,09 MB |
++| Excepciones JavaScript | 0 | 0 |
++
++Las medidas son ejecuciones puntuales y no prueban una mejora estadistica. El cambio demostrado es funcional: el modo predeterminado evita esperas remotas cuando ya existen resultados locales. Bajo CPU x4 siguen observandose tareas superiores a 50 ms.
++
++## Integridad funcional
++
++- Las siete regresiones de deduplicacion, clasificacion, ubicacion, errores de proveedor y bloqueo de Google Places permanecen en PASS.
++- `getMergeableSectors()` sigue conectado a la deduplicacion real.
++- La procedencia y las sucursales se preservan en una fusion valida.
++- Madrid usa el indice versionado y devuelve 9 resultados Dental.
++- Barcelona se valida con un fixture DIBA normalizado; en esta fase no se hizo una llamada externa nueva.
++- Importacion y filtros aceptan un resultado local valido en Chrome.
++- `BASELINE_ESTABLE.json` no se modifico.
++
++## Archivos de esta auditoria
++
++- `app.html`, `index.html`, `version.json`
++- `modules/ai-router.js`, `modules/ai-email.js`, `modules/chat.js`, `modules/inbox.js`, `modules/ui.js`, `modules/search.js`, `modules/init.js`
++- `tools/ai-zero-cost-gate-test.cjs`, `tools/browser-search-regression.cjs`
++- `.github/workflows/quality-gate.yml`
++- `MANIFEST_SHA256.txt`
++- `INSTRUCCIONES_PUBLICACION_Y_REVERSION.md`
++
++El paquete tambien conserva los archivos de la reparacion multifuente anterior que aun no forman parte del commit base. `DIFF_EXACTO_AUDITORIA_20261015.patch` compara esta entrega con `ENTREGA_GITHUB_BUSCADOR_MULTIFUENTE_CORREGIDO`.
++
++## Riesgos pendientes
++
++- No hay prueba en el Celeron N4020 real.
++- La cobertura nacional no esta demostrada; Madrid es el unico indice local empaquetado y Barcelona depende de DIBA en operacion real.
++- Los proveedores IA quedan inutilizables en ZERO_COST_MODE hasta disponer de un control externo efectivo. Es una decision deliberada de seguridad economica.
++- Persiste mojibake heredado y el control historico `quality-check.js` falla por ese motivo.
++- Las API externas pueden cambiar sus condiciones; no se afirma que una etiqueta comercial `free` garantice ausencia de facturacion.
++
++## Estado de Pull Request
++
++Estado: **preparado, no creado**. La restriccion de no hacer push impide abrir un Pull Request remoto. El procedimiento correcto es publicar una rama, ejecutar el quality gate y abrir un PR hacia `main`; nunca sustituir el repositorio con la carpeta ni hacer push directo a `main`.
++
++Recomendacion: apta para Pull Request y revision controlada. No recomendar despliegue final hasta revisar el diff, resolver o aceptar expresamente la deuda de mojibake y repetir la prueba en el equipo objetivo.
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/INSTRUCCIONES_PUBLICACION_Y_REVERSION.md" "b/.tmp-diff-auditoria-20261015\\candidata/INSTRUCCIONES_PUBLICACION_Y_REVERSION.md"
+index 9775e6d..7bf860e 100644
+--- "a/.tmp-diff-auditoria-20261015\\anterior/INSTRUCCIONES_PUBLICACION_Y_REVERSION.md"
++++ "b/.tmp-diff-auditoria-20261015\\candidata/INSTRUCCIONES_PUBLICACION_Y_REVERSION.md"
+@@ -1,39 +1,59 @@
+-# Publicacion controlada y reversion
++# Publicacion controlada mediante Pull Request
++
++## Estado de esta entrega
++
++- Version candidata: `2.9.4`.
++- Build: `2026.10.15.0100`.
++- Base auditada: `41b2e34daaf43c754f9cf799a8cf01d9965ce814`.
++- Esta preparacion no crea el Pull Request, no hace push y no modifica `main`.
+ 
+ ## Publicacion
+ 
+-1. Trabajar en un clon limpio de `https://github.com/alfredosalaz-sys/Voltflow3` y rama `main`.
+-2. Ejecutar `git fetch origin` y guardar `git rev-parse origin/main` como SHA de reversion.
+-3. Copiar el contenido de la entrega conservando rutas. No copiar el informe ni las herramientas al directorio servido si la politica de publicacion los excluye.
+-4. Ejecutar:
++1. Actualizar el clon autorizado y comprobar que `origin/main` sigue en el SHA base indicado. Si ha cambiado, revisar de nuevo el diff antes de continuar.
++2. Crear una rama desde `origin/main`, por ejemplo:
++
++```powershell
++git switch -c auditoria-coste-cero-20261015 origin/main
++```
++
++3. Aplicar los archivos de la entrega conservando sus rutas. No sustituir el repositorio completo ni modificar `BASELINE_ESTABLE.json`.
++4. Ejecutar el quality gate local:
+ 
+ ```powershell
+ node voltflow-regression-tests.cjs .
++node tools/ai-zero-cost-gate-test.cjs .
+ node tools/business-providers-mock-test.cjs
+ node tools/real-provider-index-test.cjs
+ node tools/provider-performance-smoke.cjs
+ node tools/places-search-mock-test.cjs
+ node tools/check-release-integrity.cjs
+ node tools/verify-manifest.cjs
++node tools/browser-search-regression.cjs .
+ git diff --check
+-git diff --stat
+-git diff --name-status
+ ```
+ 
+-5. Confirmar que `BASELINE_ESTABLE.json` no aparece modificado y que no hay archivos temporales.
+-6. Crear un unico commit. Hacer push normal a `origin main`; nunca usar `--force`.
+-7. Consultar de nuevo `origin/main` y verificar que contiene el commit.
+-8. En GitHub Pages, descargar y comprobar el contenido efectivo de `modules/search.js`, `modules/business-providers.js` y `modules/init.js`. Confirmar tambien build `2026.10.14.0200`.
++5. Confirmar el diff contra `origin/main`, crear un unico commit y publicar solo la rama:
++
++```powershell
++git diff --stat origin/main
++git diff --name-status origin/main
++git add -- <archivos revisados>
++git commit -m "Centraliza IA y prioriza busqueda local"
++git push -u origin auditoria-coste-cero-20261015
++```
++
++6. Abrir un Pull Request hacia `main`. Exigir que pase `.github/workflows/quality-gate.yml` y revisar el diff antes de aprobar.
++7. Tras el merge autorizado, comprobar el contenido efectivo servido por GitHub Pages, no solo `version.json`: `modules/ai-router.js`, `modules/search.js`, `app.html` y sus SHA256.
+ 
+ ## Reversion
+ 
+-Si el commit ya fue publicado, crear una reversion trazable sin reescribir historial:
++Si el Pull Request ya fue fusionado, crear una reversion trazable sin reescribir historial:
+ 
+ ```powershell
+ git switch main
+ git pull --ff-only origin main
+-git revert <SHA_DEL_COMMIT_PUBLICADO>
+-git push origin main
++git revert <SHA_DEL_COMMIT_FUSIONADO>
++git push -u origin revert-coste-cero-20261015
+ ```
+ 
+-Comprobar despues `origin/main`, GitHub Pages y los hashes de los archivos servidos. No borrar datos locales, IndexedDB ni configuraciones del usuario durante la reversion.
++Abrir otro Pull Request con la reversion. No usar `push --force`, no borrar datos locales, IndexedDB ni configuraciones del usuario.
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/app.html" "b/.tmp-diff-auditoria-20261015\\candidata/app.html"
+index d7b13f4..bcc173e 100644
+--- "a/.tmp-diff-auditoria-20261015\\anterior/app.html"
++++ "b/.tmp-diff-auditoria-20261015\\candidata/app.html"
+@@ -9,7 +9,7 @@
+   <meta http-equiv="Expires" content="0">
+   <title>Voltium CRM</title>
+   <script>
+-    window.GORDI_APP_BUILD = '2026.10.14.0200';
++    window.GORDI_APP_BUILD = '2026.10.15.0100';
+     (function guardFreshBuild() {
+       try {
+         var current = window.GORDI_APP_BUILD;
+@@ -56,7 +56,7 @@
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/themes/dark.min.css">
+ 
+   <!-- CSS principal -->
+-  <link rel="stylesheet" href="styles/main.css?v=2026.10.14.0200">
++  <link rel="stylesheet" href="styles/main.css?v=2026.10.15.0100">
+ 
+   <!-- LibrerÃ­as externas -->
+   <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+@@ -740,11 +740,11 @@
+         <div class="input-group" style="flex:0.8;min-width:130px">
+           <label>Enriquecer con</label>
+           <select id="plan-enrich">
+-            <option value="all">Todo (recomendado)</option>
++            <option value="none" selected>Descubrimiento local/gratuito (recomendado)</option>
++            <option value="all">Todo (opcional)</option>
+             <option value="web">Solo web scraping</option>
+             <option value="hunter">Solo Hunter.io</option>
+             <option value="apollo">Solo Apollo.io</option>
+-            <option value="none">Solo Google Places</option>
+           </select>
+         </div>
+         <div style="display:flex;flex-direction:column;justify-content:flex-end">
+@@ -2411,26 +2411,26 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
+     }, 20000);
+   })();
+ </script>
+-<script defer src="modules/state.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/storage.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/email-templates.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/scoring.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/init.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/business-providers.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/search.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/leads.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/dashboard.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/ai-email.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/chat.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/ui.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/inbox.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/ai-router.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/coverage.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/misc.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/smart-import.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/disk-backup.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/workflow.js?v=2026.10.14.0200" charset="UTF-8"></script>
+-<script defer src="modules/help-system.js?v=2026.10.14.0200" charset="UTF-8"></script>
++<script defer src="modules/state.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/storage.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/email-templates.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/scoring.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/init.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/business-providers.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/search.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/leads.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/dashboard.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/ai-email.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/chat.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/ui.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/inbox.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/ai-router.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/coverage.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/misc.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/smart-import.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/disk-backup.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/workflow.js?v=2026.10.15.0100" charset="UTF-8"></script>
++<script defer src="modules/help-system.js?v=2026.10.15.0100" charset="UTF-8"></script>
+ 
+ </body>
+ </html>
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/index.html" "b/.tmp-diff-auditoria-20261015\\candidata/index.html"
+index 1c679d6..2a2e8a8 100644
+--- "a/.tmp-diff-auditoria-20261015\\anterior/index.html"
++++ "b/.tmp-diff-auditoria-20261015\\candidata/index.html"
+@@ -6,14 +6,14 @@
+   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+   <meta http-equiv="Pragma" content="no-cache">
+   <meta http-equiv="Expires" content="0">
+-  <meta http-equiv="refresh" content="0; url=app.html?build=2026.10.14.0200">
++  <meta http-equiv="refresh" content="0; url=app.html?build=2026.10.15.0100">
+   <title>Voltium CRM</title>
+   <script>
+-    location.replace('app.html?build=2026.10.14.0200');
++    location.replace('app.html?build=2026.10.15.0100');
+   </script>
+ </head>
+ <body>
+-  <a href="app.html?build=2026.10.14.0200">Abrir Voltium CRM</a>
++  <a href="app.html?build=2026.10.15.0100">Abrir Voltium CRM</a>
+ </body>
+ </html>
+ 
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/modules/ai-email.js" "b/.tmp-diff-auditoria-20261015\\candidata/modules/ai-email.js"
+index a78520d..ee2269d 100644
+--- "a/.tmp-diff-auditoria-20261015\\anterior/modules/ai-email.js"
++++ "b/.tmp-diff-auditoria-20261015\\candidata/modules/ai-email.js"
+@@ -21,7 +21,7 @@ function openAiEmailModal(id) {
+ 
+   const claudeKey = getGeminiKey();
+   if (!claudeKey) {
+-    alert('⚠️ Necesitas configurar tu API Key de Gemini en Configuración.\n\nVe a: aistudio.google.com/apikey -> Get API Key (gratis con tu cuenta Google)');
++    alert('Necesitas configurar una API Key de Gemini. ZERO_COST_MODE solo permitira usarla cuando exista un control externo de facturacion verificable.');
+     showView('settings');
+     return;
+   }
+@@ -30,7 +30,7 @@ function openAiEmailModal(id) {
+   document.getElementById('ai-modal-title').innerText = `✨ Email IA para ${lead.company}`;
+   document.getElementById('ai-modal-sub').innerHTML = lead.email 
+     ? `Destinatario: <span style="color:var(--primary);cursor:pointer;text-decoration:underline" onclick="copyToClipboard('${lead.email}', 'Email: ${lead.email}')" title="Clic para copiar">${lead.email} ⧉</span>`
+-    : 'Analizando reseñas con Gemini IA (gratuito)...';
++    : 'Comprobando disponibilidad de IA bajo control de coste...';
+   document.getElementById('ai-loading').style.display = 'block';
+   document.getElementById('ai-result').style.display = 'none';
+   document.getElementById('ai-error').style.display = 'none';
+@@ -101,14 +101,15 @@ Responde SOLO JSON válido (sin markdown):
+   {"title":"...", "why":"...", "hook":"...", "priority":3}
+ ]}`;
+ 
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${claudeKey}`,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.0-flash', claudeKey,
+       {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
+           generationConfig: { temperature: 0.6, maxOutputTokens: 600 } })
+-      }
++      },
++      { purpose: 'email_pain_analysis' }
+     );
+     const data = await res.json();
+     let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+@@ -168,10 +169,11 @@ async function preGenerateSubjects(lead, painCtx) {
+ Genera EXACTAMENTE 3 asuntos de email B2B para este ángulo. Cortos, sin spam, directos.
+ Responde SOLO JSON: {"subjects":["asunto1","asunto2","asunto3"]}`;
+ 
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${claudeKey}`,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.0-flash', claudeKey,
+       { method:'POST', headers:{'Content-Type':'application/json'},
+-        body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.7,maxOutputTokens:200} }) }
++        body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.7,maxOutputTokens:200} }) },
++      { purpose: 'email_subject_generation' }
+     );
+     const data = await res.json();
+     let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+@@ -264,14 +266,15 @@ Responde SOLO JSON válido:
+   {"day":30,"channel":"email","angle":"Cierre elegante","subject":"...","note":"Abrir puerta de salida"}
+ ]}`;
+ 
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${claudeKey}`,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.0-flash', claudeKey,
+       {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
+           generationConfig: { temperature: 0.7, maxOutputTokens: 800 } })
+-      }
++      },
++      { purpose: 'email_contact_calendar' }
+     );
+     const data = await res.json();
+     let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+@@ -430,14 +433,15 @@ REGLAS DEL WHATSAPP:
+ 
+ Responde SOLO JSON: {"message":"texto del WA","opener":"frase de apertura resumida en 5 palabras"}`;
+ 
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${claudeKey}`,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.0-flash', claudeKey,
+       {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
+           generationConfig: { temperature: 0.72, maxOutputTokens: 400 } })
+-      }
++      },
++      { purpose: 'whatsapp_message_generation' }
+     );
+     const data = await res.json();
+     let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+@@ -655,8 +659,8 @@ async function runAiEmailGeneration(lead, painContext) {
+   let newsContext = '';
+   try {
+     if (lead.company && claudeKey) {
+-      const newsRes = await fetch(
+-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${claudeKey}`,
++      const newsRes = await aiGatewayGeminiFetch(
++        'gemini-2.5-flash', claudeKey,
+         {
+           method: 'POST',
+           headers: { 'Content-Type': 'application/json' },
+@@ -669,7 +673,8 @@ Responde en máximo 3 frases concretas, sin inventar nada.` }] }],
+             tools: [{ googleSearch: {} }],
+             generationConfig: { temperature: 0.2, maxOutputTokens: 300 }
+           })
+-        }
++        },
++        { purpose: 'email_news_grounding' }
+       );
+       if (newsRes.ok) {
+         const newsData = await newsRes.json();
+@@ -1246,8 +1251,8 @@ EJEMPLO DE FORMATO BIEN APLICADO:
+ Responde ÚNICAMENTE con JSON válido, sin markdown, sin texto adicional:
+ {"subjects":["asunto opción 1 — emocional","asunto opción 2 — dato/racional","asunto opción 3 — curiosidad/intriga"],"body":"HTML del email empezando con '${saludo},'  y terminando con '{{FIRMA}}'","insight":"2-3 frases sobre QUÉ FUENTE usaste como gancho principal (reseñas/web/noticias/señales) y cómo el tono del sector influyó en el email"}`;
+ 
+-  const response = await fetch(
+-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${claudeKey}`,
++  const response = await aiGatewayGeminiFetch(
++    'gemini-2.5-flash', claudeKey,
+     {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+@@ -1258,7 +1263,8 @@ Responde ÚNICAMENTE con JSON válido, sin markdown, sin texto adicional:
+           maxOutputTokens: 8000
+         }
+       })
+-    }
++    },
++    { purpose: 'email_body_generation' }
+   );
+ 
+   if (!response.ok) {
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/modules/ai-router.js" "b/.tmp-diff-auditoria-20261015\\candidata/modules/ai-router.js"
+index bdda0a7..eae7f9d 100644
+--- "a/.tmp-diff-auditoria-20261015\\anterior/modules/ai-router.js"
++++ "b/.tmp-diff-auditoria-20261015\\candidata/modules/ai-router.js"
+@@ -4,9 +4,9 @@
+ 
+ const AI_ZERO_COST_MODE = true;
+ const AI_ZERO_COST_PROVIDERS = {
+-  gemini: { model: 'gemini-2.0-flash', verifiedFree: true, localLimits: { session: 20, day: 80, month: 1500 } },
+-  groq: { model: 'llama-3.3-70b-versatile', verifiedFree: true, localLimits: { session: 20, day: 80, month: 1500 } },
+-  openrouter: { model: 'meta-llama/llama-3.3-70b-instruct:free', verifiedFree: true, freeModelRequired: true, localLimits: { session: 20, day: 40, month: 1200 } },
++  gemini: { model: 'gemini-2.0-flash', endpoint: 'https://generativelanguage.googleapis.com/v1beta/models', verifiedFree: false, externallyEnforcedFree: false, localLimits: { session: 20, day: 80, month: 1500 } },
++  groq: { model: 'llama-3.3-70b-versatile', endpoint: 'https://api.groq.com/openai/v1/chat/completions', verifiedFree: false, externallyEnforcedFree: false, localLimits: { session: 20, day: 80, month: 1500 } },
++  openrouter: { model: 'meta-llama/llama-3.3-70b-instruct:free', endpoint: 'https://openrouter.ai/api/v1/chat/completions', verifiedFree: false, externallyEnforcedFree: false, freeModelRequired: true, localLimits: { session: 20, day: 40, month: 1200 } },
+ };
+ 
+ function aiZeroCostWindowKeys(provider) {
+@@ -28,7 +28,9 @@ function aiZeroCostCount(key, sessionOnly = false) {
+ function aiZeroCostAllowed(provider, model) {
+   if (!AI_ZERO_COST_MODE) return { ok: true };
+   const cfg = AI_ZERO_COST_PROVIDERS[provider];
+-  if (!cfg || !cfg.verifiedFree) return { ok: false, reason: 'provider_not_verified_free' };
++  if (!cfg) return { ok: false, reason: 'provider_not_registered' };
++  if (!cfg.externallyEnforcedFree) return { ok: false, reason: 'external_cost_control_not_verified' };
++  if (!cfg.verifiedFree) return { ok: false, reason: 'provider_not_verified_free' };
+   if (cfg.freeModelRequired && !/:free$/i.test(model || cfg.model || '')) return { ok: false, reason: 'paid_model_blocked' };
+   const keys = aiZeroCostWindowKeys(provider);
+   const limits = cfg.localLimits || {};
+@@ -41,6 +43,34 @@ function aiZeroCostAllowed(provider, model) {
+   return { ok: true, keys, session, day, month };
+ }
+ 
++function createAICostBlockedError(provider, reason, purpose = '') {
++  const error = new Error(`AI_ZERO_COST_BLOCKED:${provider}:${reason}`);
++  error.name = 'AICostControlError';
++  error.code = 'AI_ZERO_COST_BLOCKED';
++  error.provider = provider;
++  error.reason = reason;
++  error.purpose = purpose;
++  return error;
++}
++
++async function aiGatewayFetch(provider, model, key, options = {}, meta = {}) {
++  const allowed = aiZeroCostAllowed(provider, model);
++  const purpose = meta.purpose || 'unspecified';
++  if (!allowed.ok) throw createAICostBlockedError(provider, allowed.reason, purpose);
++  if (!key) throw createAICostBlockedError(provider, 'missing_key', purpose);
++  const cfg = AI_ZERO_COST_PROVIDERS[provider];
++  if (!cfg?.endpoint) throw createAICostBlockedError(provider, 'missing_endpoint', purpose);
++  aiRecordZeroCostUse(provider);
++  const endpoint = provider === 'gemini'
++    ? `${cfg.endpoint}/${model}:generateContent?key=${key}`
++    : cfg.endpoint;
++  return fetch(endpoint, options);
++}
++
++async function aiGatewayGeminiFetch(model, key, options = {}, meta = {}) {
++  return aiGatewayFetch('gemini', model, key, options, meta);
++}
++
+ function aiRecordZeroCostUse(provider) {
+   const state = aiZeroCostAllowed(provider, AI_ZERO_COST_PROVIDERS[provider]?.model);
+   if (!state.ok) return;
+@@ -73,14 +103,13 @@ const AI_ROUTER = {
+ 
+   // ── Proveedor 1: Gemini ──────────────────────────────────────
+   async _callGemini(prompt, key, model = 'gemini-2.0-flash') {
+-    const allowed = aiZeroCostAllowed('gemini', model);
+-    if (!allowed.ok) throw new Error(`ZERO_COST_BLOCKED:${allowed.reason}`);
+-    aiRecordZeroCostUse('gemini');
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
++    const res = await aiGatewayGeminiFetch(
++      model,
++      key,
+       { method: 'POST', headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+-        signal: AbortSignal.timeout(20000) }
++        signal: AbortSignal.timeout(20000) },
++      { purpose: 'router_text_generation' }
+     );
+     if (res.status === 429 || res.status === 503) { this._markLimited('gemini'); throw new Error('RATE_LIMIT'); }
+     if (!res.ok) throw new Error(`Gemini HTTP ${res.status}`);
+@@ -92,10 +121,7 @@ const AI_ROUTER = {
+   // ── Proveedor 2: Groq (llama3 ultra-rápido, gratis) ─────────
+   async _callGroq(prompt, key) {
+     const model = AI_ZERO_COST_PROVIDERS.groq.model;
+-    const allowed = aiZeroCostAllowed('groq', model);
+-    if (!allowed.ok) throw new Error(`ZERO_COST_BLOCKED:${allowed.reason}`);
+-    aiRecordZeroCostUse('groq');
+-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
++    const res = await aiGatewayFetch('groq', model, key, {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+       body: JSON.stringify({
+@@ -105,7 +131,7 @@ const AI_ROUTER = {
+         temperature: 0.7,
+       }),
+       signal: AbortSignal.timeout(20000)
+-    });
++    }, { purpose: 'router_text_generation' });
+     if (res.status === 429) { this._markLimited('groq'); throw new Error('RATE_LIMIT'); }
+     if (!res.ok) throw new Error(`Groq HTTP ${res.status}`);
+     const data = await res.json();
+@@ -116,10 +142,7 @@ const AI_ROUTER = {
+   // ── Proveedor 3: OpenRouter (50+ modelos gratuitos) ──────────
+   async _callOpenRouter(prompt, key) {
+     const model = AI_ZERO_COST_PROVIDERS.openrouter.model;
+-    const allowed = aiZeroCostAllowed('openrouter', model);
+-    if (!allowed.ok) throw new Error(`ZERO_COST_BLOCKED:${allowed.reason}`);
+-    aiRecordZeroCostUse('openrouter');
+-    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
++    const res = await aiGatewayFetch('openrouter', model, key, {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+@@ -133,7 +156,7 @@ const AI_ROUTER = {
+         max_tokens: 1500,
+       }),
+       signal: AbortSignal.timeout(25000)
+-    });
++    }, { purpose: 'router_text_generation' });
+     if (res.status === 429) { this._markLimited('openrouter'); throw new Error('RATE_LIMIT'); }
+     if (!res.ok) throw new Error(`OpenRouter HTTP ${res.status}`);
+     const data = await res.json();
+@@ -163,6 +186,7 @@ const AI_ROUTER = {
+     }
+ 
+     // Intentar proveedores en orden
++    let costBlocked = null;
+     for (const provider of providers) {
+       try {
+         const result = await provider.fn();
+@@ -173,7 +197,10 @@ const AI_ROUTER = {
+         return result;
+       } catch (err) {
+         if (err.message === 'RATE_LIMIT') continue; // pasar al siguiente
+-        if (/^ZERO_COST_BLOCKED/.test(err.message || '')) continue;
++        if (err?.code === 'AI_ZERO_COST_BLOCKED' || /^AI_ZERO_COST_BLOCKED/.test(err.message || '')) {
++          costBlocked = err;
++          continue;
++        }
+         console.error(`[AI Router] Error en ${provider.name}:`, err);
+         continue;
+       }
+@@ -184,6 +211,7 @@ const AI_ROUTER = {
+     if (!configured.length) {
+       throw new Error('NO_KEY');
+     }
++    if (costBlocked) throw costBlocked;
+     throw new Error('ALL_LIMITED');
+   },
+ 
+@@ -193,13 +221,22 @@ const AI_ROUTER = {
+     const groqKey       = localStorage.getItem('gordi_groq_key') || '';
+     const openrouterKey = localStorage.getItem('gordi_openrouter_key') || '';
+     return {
+-      gemini:      { configured: !!geminiKey,     limited: this._isLimited('gemini') },
+-      groq:        { configured: !!groqKey,        limited: this._isLimited('groq') },
+-      openrouter:  { configured: !!openrouterKey,  limited: this._isLimited('openrouter') },
++      gemini:      { configured: !!geminiKey, limited: this._isLimited('gemini'), ...aiZeroCostAllowed('gemini', AI_ZERO_COST_PROVIDERS.gemini.model) },
++      groq:        { configured: !!groqKey, limited: this._isLimited('groq'), ...aiZeroCostAllowed('groq', AI_ZERO_COST_PROVIDERS.groq.model) },
++      openrouter:  { configured: !!openrouterKey, limited: this._isLimited('openrouter'), ...aiZeroCostAllowed('openrouter', AI_ZERO_COST_PROVIDERS.openrouter.model) },
+     };
+   },
+ };
+ 
++if (typeof window !== 'undefined') {
++  window.VoltflowAIGateway = Object.freeze({
++    requestGemini: aiGatewayGeminiFetch,
++    request: aiGatewayFetch,
++    allowed: aiZeroCostAllowed,
++    policy: Object.freeze({ mode: 'strict-zero-cost', externallyEnforcedProviders: [] }),
++  });
++}
++
+ // Compatibilidad total: todas las llamadas antiguas a callGeminiAPI ahora usan el router
+ async function callGeminiAPI(prompt, geminiKey) {
+   try {
+@@ -1588,12 +1625,13 @@ Responde ÚNICAMENTE en JSON válido:
+ {"subject":"Re: asunto adaptado","body":"HTML de la respuesta con <br><br> entre párrafos y <strong> en máx 2 puntos clave","intent":"INTERESADO|DUDA|OBJECIÓN|SOLICITUD_PRECIO|RECHAZO_SUAVE|OTRO","tactic":"en 1 frase: qué detectaste en el email y cómo lo abordaste"}`;
+ 
+   try {
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.5-flash', key,
+       { method: 'POST', headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
+           generationConfig: { temperature: 0.65, maxOutputTokens: 2000 } }),
+-        signal: AbortSignal.timeout(25000) }
++        signal: AbortSignal.timeout(25000) },
++      { purpose: 'email_reply_generation' }
+     );
+     const data = await res.json();
+     let raw = data.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('').trim() || '';
+@@ -1743,12 +1781,13 @@ Responde ÚNICAMENTE en JSON válido:
+ {"ranking":[{"position":1,"name":"nombre exacto","score":85,"reason":"por qué es top oportunidad","angle":"cómo abrir el contacto","urgency":"ALTA|MEDIA|BAJA"},...],"summary":"1 frase: patrón general que observas en los mejores leads de esta búsqueda"}`;
+ 
+   try {
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.5-flash', key,
+       { method: 'POST', headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
+           generationConfig: { temperature: 0.3, maxOutputTokens: 2500 } }),
+-        signal: AbortSignal.timeout(30000) }
++        signal: AbortSignal.timeout(30000) },
++      { purpose: 'lead_ranking' }
+     );
+     const data = await res.json();
+     let raw = data.candidates?.[0]?.content?.parts?.map(p => p.text||'').join('').trim() || '';
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/modules/chat.js" "b/.tmp-diff-auditoria-20261015\\candidata/modules/chat.js"
+index 7411505..ea302fb 100644
+--- "a/.tmp-diff-auditoria-20261015\\anterior/modules/chat.js"
++++ "b/.tmp-diff-auditoria-20261015\\candidata/modules/chat.js"
+@@ -571,8 +571,8 @@ Responde SOLO en JSON válido:
+   "motivation": "frase motivadora"
+ }`;
+ 
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${claudeKey}`,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.0-flash', claudeKey,
+       {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+@@ -580,7 +580,8 @@ Responde SOLO en JSON válido:
+           contents: [{ parts: [{ text: prompt }] }],
+           generationConfig: { temperature: 0.6, maxOutputTokens: 1200 }
+         })
+-      }
++      },
++      { purpose: 'chat_weekly_plan' }
+     );
+     const data = await res.json();
+     let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+@@ -984,10 +985,11 @@ Responde SOLO en JSON válido:
+ }`;
+ 
+   try {
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${claudeKey}`,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.0-flash', claudeKey,
+       { method:'POST', headers:{'Content-Type':'application/json'},
+-        body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.4,maxOutputTokens:600} }) }
++        body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.4,maxOutputTokens:600} }) },
++      { purpose: 'chat_lead_profile' }
+     );
+     const data = await res.json();
+     let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+@@ -1066,10 +1068,11 @@ Responde SOLO JSON:
+ Genera 3-4 oportunidades para las empresas con más potencial.`;
+ 
+   try {
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${claudeKey}`,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.0-flash', claudeKey,
+       { method:'POST', headers:{'Content-Type':'application/json'},
+-        body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.7,maxOutputTokens:800} }) }
++        body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.7,maxOutputTokens:800} }) },
++      { purpose: 'chat_opportunity_analysis' }
+     );
+     const data = await res.json();
+     let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+@@ -1148,10 +1151,11 @@ Responde SOLO JSON:
+ }`;
+ 
+   try {
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${claudeKey}`,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.0-flash', claudeKey,
+       { method:'POST', headers:{'Content-Type':'application/json'},
+-        body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.65,maxOutputTokens:900} }) }
++        body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.65,maxOutputTokens:900} }) },
++      { purpose: 'chat_objection_strategy' }
+     );
+     const data = await res.json();
+     let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+@@ -2499,7 +2503,7 @@ async function chatSend() {
+ 
+   const geminiKey = getGeminiKey();
+   if (!geminiKey) {
+-    chatAddMessage('bot', '⚠️ Necesitas configurar tu <strong>API Key de Gemini</strong> en Configuración para usar el asistente.<br><br>Es gratuita: <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--primary)">aistudio.google.com/apikey</a>');
++    chatAddMessage('bot', 'Necesitas configurar una <strong>API Key de Gemini</strong>. ZERO_COST_MODE no realizara llamadas hasta que exista un control externo de facturacion verificable.');
+     chatToggleCommands(true);
+     renderChatDiagnostics();
+     return;
+@@ -2564,8 +2568,8 @@ async function chatSend() {
+       ...chatHistory
+     ];
+ 
+-    const res = await fetch(
+-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + geminiKey,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.5-flash', geminiKey,
+       {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+@@ -2573,7 +2577,8 @@ async function chatSend() {
+           contents: messages,
+           generationConfig: { temperature: 0.4, maxOutputTokens: 6000 }
+         })
+-      }
++      },
++      { purpose: 'chat_conversation' }
+     );
+ 
+     chatRemoveTyping();
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/modules/inbox.js" "b/.tmp-diff-auditoria-20261015\\candidata/modules/inbox.js"
+index 003474f..8cb62bc 100644
+--- "a/.tmp-diff-auditoria-20261015\\anterior/modules/inbox.js"
++++ "b/.tmp-diff-auditoria-20261015\\candidata/modules/inbox.js"
+@@ -114,11 +114,12 @@ async function registerInlineReply(leadId) {
+ 
+ EMAIL:
+ ${raw.slice(0, 1500)}`;
+-      const res = await fetch(
+-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
++      const res = await aiGatewayGeminiFetch(
++        'gemini-2.0-flash', geminiKey,
+         { method:'POST', headers:{'Content-Type':'application/json'},
+           body: JSON.stringify({ contents:[{parts:[{text:prompt}]}] }),
+-          signal: AbortSignal.timeout(10000) }
++          signal: AbortSignal.timeout(10000) },
++        { purpose: 'inbox_message_cleanup' }
+       );
+       const data = await res.json();
+       const extracted = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+@@ -325,11 +326,12 @@ async function processInboxEmails() {
+ Responde SOLO en JSON vÃ¡lido (array): [{"email":"remitente@empresa.com","name":"Nombre Remitente","subject":"Asunto","date":"fecha","body":"primeras 150 palabras del cuerpo del email"}]
+ Si no hay emails claros, devuelve [].
+ TEXTO:\n${raw.slice(0, 3000)}`;
+-      const res = await fetch(
+-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
++      const res = await aiGatewayGeminiFetch(
++        'gemini-2.0-flash', geminiKey,
+         { method:'POST', headers:{'Content-Type':'application/json'},
+           body: JSON.stringify({ contents:[{parts:[{text:prompt}]}] }),
+-          signal: AbortSignal.timeout(15000) }
++          signal: AbortSignal.timeout(15000) },
++        { purpose: 'inbox_email_import' }
+       );
+       const data = await res.json();
+       const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+@@ -624,11 +626,12 @@ Dictado: "${transcript.replace(/"/g, "'")}"`;
+   try {
+     let responseText = '';
+     if (geminiKey) {
+-      const res = await fetch(
+-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
++      const res = await aiGatewayGeminiFetch(
++        'gemini-2.0-flash', geminiKey,
+         { method:'POST', headers:{'Content-Type':'application/json'},
+           body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] }),
+-          signal: AbortSignal.timeout(12000) }
++          signal: AbortSignal.timeout(12000) },
++        { purpose: 'inbox_voice_lead' }
+       );
+       const data = await res.json();
+       responseText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+@@ -752,14 +755,15 @@ Extrae y responde SOLO en JSON vÃ¡lido:
+   "score_hint": "alto/medio/bajo segÃºn aspecto de las instalaciones"
+ }`;
+ 
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.0-flash', geminiKey,
+       { method:'POST', headers:{'Content-Type':'application/json'},
+         body: JSON.stringify({ contents:[{ parts:[
+           { inline_data:{ mime_type:'image/jpeg', data:_scanImageBase64 } },
+           { text: prompt }
+         ]}]}),
+-        signal: AbortSignal.timeout(15000) }
++        signal: AbortSignal.timeout(15000) },
++      { purpose: 'inbox_image_scan' }
+     );
+     const data = await res.json();
+     const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/modules/init.js" "b/.tmp-diff-auditoria-20261015\\candidata/modules/init.js"
+index 805882c..ff3ddfd 100644
+--- "a/.tmp-diff-auditoria-20261015\\anterior/modules/init.js"
++++ "b/.tmp-diff-auditoria-20261015\\candidata/modules/init.js"
+@@ -1689,8 +1689,9 @@ function refreshAiRouterStatus() {
+   const row = (name, label, icon, info) => {
+     const ok = s[name].configured;
+     const lim = s[name].limited;
+-    const color = !ok ? 'var(--text-dim)' : lim ? 'var(--warning)' : 'var(--success)';
+-    const badge = !ok ? 'No configurado' : lim ? 'Limite alcanzado' : 'Activo';
++    const allowed = s[name].ok;
++    const color = !ok ? 'var(--text-dim)' : !allowed ? 'var(--warning)' : lim ? 'var(--warning)' : 'var(--success)';
++    const badge = !ok ? 'No configurado' : !allowed ? 'Bloqueado por coste cero' : lim ? 'Limite alcanzado' : 'Activo';
+     return `<div style="display:flex;align-items:center;gap:.6rem;padding:.35rem 0;border-bottom:1px solid var(--glass-border)">
+       <span>${icon}</span>
+       <span style="flex:1;font-weight:600">${label}</span>
+@@ -1702,7 +1703,7 @@ function refreshAiRouterStatus() {
+     row('gemini', 'Gemini (Principal)', 'G', 'https://aistudio.google.com/apikey') +
+     row('groq', 'Groq (Respaldo 1)', 'G', 'https://console.groq.com') +
+     row('openrouter', 'OpenRouter (Resp. 2)', 'O', 'https://openrouter.ai') +
+-    `<p style="margin-top:.6rem;font-size:.75rem;color:var(--text-dim)">Configura los 3 proveedores para tener IA practicamente ilimitada. El sistema cambia automaticamente cuando uno alcanza su limite.</p>`;
++    `<p style="margin-top:.6rem;font-size:.75rem;color:var(--text-dim)">Las claves guardadas no habilitan llamadas. ZERO_COST_MODE exige un bloqueo externo de facturacion verificable; mientras no exista, la IA remota permanece desactivada.</p>`;
+ }
+ 
+ // Clean override for the startup modal. The older block above contains mojibake
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/modules/search.js" "b/.tmp-diff-auditoria-20261015\\candidata/modules/search.js"
+index e446c3a..2238ad8 100644
+--- "a/.tmp-diff-auditoria-20261015\\anterior/modules/search.js"
++++ "b/.tmp-diff-auditoria-20261015\\candidata/modules/search.js"
+@@ -2267,6 +2267,7 @@ async function fetchPlacesZeroCost(segment, location, maxResults, opts = {}) {
+         const progressive = deduplicateResults(partial).slice(0, maxResults);
+         await opts.onPartialResults(progressive, providerDiagnostics.slice());
+       }
++      if (adapter.id === 'static_open_data' && results.length && opts.returnAfterLocalResults) break;
+       if (partial.length >= Math.max(maxResults, maxResults * 2)) break;
+     } catch (err) {
+       providerDiagnostics.push({ provider: adapter.id, status: err.placesStatus || err.zeroCostStatus || 'ERROR', reason: err.reason || err.message });
+@@ -3726,14 +3727,15 @@ async function extractEmailWithAI(websiteUrl, companyName, geminiKey) {
+ 
+     const prompt = `Eres un experto extrayendo emails de contacto de webs de empresas. Busca el email de contacto de la empresa "${companyName}" en este texto extraÃ­do de su web. Responde ÃšNICAMENTE con el email encontrado, o con la palabra "null" si no hay ninguno. No aÃ±adas explicaciones ni texto adicional.\n\nTexto:\n${textSnippet}`;
+ 
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.0-flash', geminiKey,
+       {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+         signal: AbortSignal.timeout(12000),
+-      }
++      },
++      { purpose: 'search_email_extraction' }
+     );
+     if (!res.ok) return null;
+     const data = await res.json();
+@@ -4196,14 +4198,15 @@ async function enrichFromStreetView(company) {
+       reader.readAsDataURL(blob);
+     });
+     if (!base64 || base64.length < 500) return company;
+-    const gemRes = await fetch(
+-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + geminiKey,
++    const gemRes = await aiGatewayGeminiFetch(
++      'gemini-2.0-flash', geminiKey,
+       { method: 'POST', headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ contents: [{ parts: [
+           { inline_data: { mime_type: 'image/jpeg', data: base64 } },
+           { text: 'Analiza esta fachada. Â¿Ves signos de deterioro (pintura, Ã³xido, cables sueltos, iluminaciÃ³n vieja)? Â¿Parece un local vacÃ­o o en obras? Responde en una frase corta enfocada en necesidades de reforma.' }
+         ]}]}),
+-        signal: AbortSignal.timeout(14000) }
++        signal: AbortSignal.timeout(14000) },
++      { purpose: 'search_facade_analysis' }
+     );
+     const gemData = await gemRes.json();
+     const analysis = gemData.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
+@@ -4661,6 +4664,7 @@ async function searchBusinessesMultiSector(sectors, location) {
+   const originalSegment = document.getElementById('plan-segment')?.value;
+   const parsedMax = parseInt(document.getElementById('plan-max')?.value || '20', 10);
+   const maxRes = Number.isFinite(parsedMax) && parsedMax > 0 ? parsedMax : 20;
++  const enrichMode = document.getElementById('plan-enrich')?.value || 'none';
+   const btn = document.getElementById('btn-search');
+   const allResults = [];
+   const perSector = {};
+@@ -4687,7 +4691,9 @@ async function searchBusinessesMultiSector(sectors, location) {
+     await runLimitedBatches(sectors.map((seg, i) => ({ seg, i })), multiSectorConcurrency, async ({ seg, i }) => {
+       setMultiSectorProgress(seg, 'buscando', 12, i, sectors.length);
+       try {
+-        const places = await searchSectorPlacesOnly(seg, location, maxRes);
++        const places = await searchSectorPlacesOnly(seg, location, maxRes, {
++          returnAfterLocalResults: enrichMode === 'none',
++        });
+         const sectorResults = places.map(c => ({
+           ...normalizeSearchCompany(applySectorClassification(c, seg)),
+           segment: seg,
+@@ -4724,7 +4730,6 @@ async function searchBusinessesMultiSector(sectors, location) {
+       c.segment = c.sourceSector || c.segment;
+       decorateOpportunity(c);
+     });
+-    const enrichMode = document.getElementById('plan-enrich')?.value || 'all';
+     await enrichMultiSectorMergedResults(location, enrichMode);
+     sortSearchResultsLive();
+     renderSearchCards();
+@@ -4747,7 +4752,7 @@ async function searchBusinessesMultiSector(sectors, location) {
+   }
+ }
+ 
+-async function enrichMultiSectorMergedResults(location, enrichMode = 'all') {
++async function enrichMultiSectorMergedResults(location, enrichMode = 'none') {
+   if (!Array.isArray(tempSearchResults) || !tempSearchResults.length) return;
+ 
+   const shouldWeb = enrichMode === 'all' || enrichMode === 'web';
+@@ -4755,7 +4760,7 @@ async function enrichMultiSectorMergedResults(location, enrichMode = 'all') {
+   const shouldSignals = enrichMode === 'all';
+ 
+   if (enrichMode === 'none') {
+-    logEnrich('Multi-sector: modo Solo Google Places, scraping omitido por configuracion.', 'warn');
++    logEnrich('Multi-sector: descubrimiento local, enriquecimiento omitido por configuracion.', 'warn');
+     return;
+   }
+ 
+@@ -4883,8 +4888,8 @@ async function enrichMultiSectorMergedResults(location, enrichMode = 'all') {
+   setProgress(100);
+ }
+ 
+-async function searchSectorPlacesOnly(segment, location, maxRes) {
+-  let places = await fetchPlaces(segment, location, maxRes, { multiSector: true });
++async function searchSectorPlacesOnly(segment, location, maxRes, options = {}) {
++  let places = await fetchPlaces(segment, location, maxRes, { multiSector: true, ...options });
+   places = await enrichDistances(places, location);
+   places = places.map(c => detectOptimalContactWindow(c));
+   places = places.map(c => {
+@@ -4916,7 +4921,7 @@ async function searchBusinessesSingle(options = {}) {
+   const location = document.getElementById('plan-location').value.trim();
+   const parsedMax = parseInt(document.getElementById('plan-max')?.value || '20', 10);
+   const maxRes = Number.isFinite(parsedMax) && parsedMax > 0 ? parsedMax : 20;
+-  const selectedEnrichMode = document.getElementById('plan-enrich').value;
++  const selectedEnrichMode = document.getElementById('plan-enrich')?.value || 'none';
+   const enrichMode = isMultiChild ? 'none' : selectedEnrichMode;
+ 
+   if (!location) { alert('Introduce una ciudad o zona.'); return; }
+@@ -4962,6 +4967,7 @@ async function searchBusinessesSingle(options = {}) {
+   let places = [];
+   try {
+     places = await fetchPlaces(segment, location, maxRes, {
++      returnAfterLocalResults: enrichMode === 'none',
+       onPartialResults(progressive) {
+         if (!progressive.length) return;
+         tempSearchResults = progressive.map(c => normalizeSearchCompany(applySectorClassification(c, segment)));
+@@ -5324,7 +5330,7 @@ async function searchBusinessesSingle(options = {}) {
+   if (!isMultiChild) resetSearchBtn();
+ 
+   // â”€â”€ Inteligencia de sesiÃ³n (asÃ­ncrona, no bloquea el pipeline) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+-  generateSessionIntel(tempSearchResults, segment, location);
++  // La inteligencia de sesion solo se genera bajo una accion explicita del usuario.
+   } catch (err) {
+     console.error('searchBusinessesSingle failed:', err);
+     const status = err?.placesStatus || PLACES_SEARCH_STATUS.UNKNOWN_ERROR;
+@@ -5422,14 +5428,15 @@ async function generateSessionIntel(results, segment, location) {
+   const prompt = `Eres un experto en ventas B2B para Voltium Madrid, empresa de instalaciones elÃ©ctricas y reformas integrales. Analiza los ${top.length} mejores leads encontrados en "${location}" (sector: ${segment}) y crea un briefing ejecutivo CONCISO. Para cada lead: una frase de por quÃ© es prioritario y una frase con el mejor Ã¡ngulo de primer contacto. Sin listas con guiones, sin markdown, texto en prosa con saltos de lÃ­nea entre leads. MÃ¡ximo 220 palabras.\n\nLeads:\n${summary}`;
+ 
+   try {
+-    const res = await fetch(
+-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
++    const res = await aiGatewayGeminiFetch(
++      'gemini-2.0-flash', geminiKey,
+       {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+         signal: AbortSignal.timeout(18000),
+-      }
++      },
++      { purpose: 'search_session_intelligence' }
+     );
+     const data = await res.json();
+     const intel = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+@@ -7106,4 +7113,3 @@ function findSimilarLeads(idx) {
+     if (btn) btn.click();
+   }
+ }
+-
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/modules/ui.js" "b/.tmp-diff-auditoria-20261015\\candidata/modules/ui.js"
+index aa29510..dd090b9 100644
+--- "a/.tmp-diff-auditoria-20261015\\anterior/modules/ui.js"
++++ "b/.tmp-diff-auditoria-20261015\\candidata/modules/ui.js"
+@@ -391,7 +391,7 @@ async function regenerateSubjectOnly() {
+   btn.textContent = 'â³ Generando...'; btn.disabled = true;
+   try {
+     // Usar Gemini para generar asuntos de email
+-    const geminiResp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
++    const geminiResp = await aiGatewayGeminiFetch('gemini-2.0-flash', key, {
+       method: 'POST', headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ contents: [{ parts: [{ text: `Genera 3 asuntos de email comercial cortos y directos para contactar a ${lead.company} (sector ${lead.segment}). Solo los 3 asuntos numerados, sin mÃ¡s texto.` }] }] })
+     });
+@@ -496,7 +496,7 @@ ${daysInStatus <= 4 ? `- Han pasado SOLO ${daysInStatus} dÃ­as. El tono debe s
+ Responde ÃšNICAMENTE JSON vÃ¡lido:
+ {"subjects":["asunto directo","asunto pregunta/curiosidad"],"body":"HTML del email","tactic":"en 1 frase: quÃ© tÃ¡ctica usaste y por quÃ© para este caso concreto"}`;
+ 
+-    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
++    const resp = await aiGatewayGeminiFetch('gemini-2.5-flash', key, {
+       method: 'POST', headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ contents: [{ parts: [{ text: followupPrompt }] }],
+         generationConfig: { temperature: 0.75, maxOutputTokens: 1500 } })
+@@ -1467,7 +1467,7 @@ function normalizeVisibleTextNodes(root = document.body, deadline = null) {
+       if (!VISIBLE_TEXT_MOJIBAKE_RE.test(value || '')) return;
+       const cleaned = cleanVisibleText(value);
+       if (cleaned !== value) el.setAttribute(attr, cleaned);
+-    });
++    }, { purpose: 'ui_subject_regeneration' });
+   });
+ }
+ 
+@@ -1511,7 +1511,7 @@ function initVisibleTextNormalization() {
+           }
+         });
+       });
+-    });
++    }, { purpose: 'ui_followup_generation' });
+     _textNormalizeObserver.observe(document.body, { childList: true, subtree: true });
+   }
+ }
+diff --git "a/.tmp-diff-auditoria-20261015\\candidata/tools/ai-zero-cost-gate-test.cjs" "b/.tmp-diff-auditoria-20261015\\candidata/tools/ai-zero-cost-gate-test.cjs"
+new file mode 100644
+index 0000000..0bae146
+--- /dev/null
++++ "b/.tmp-diff-auditoria-20261015\\candidata/tools/ai-zero-cost-gate-test.cjs"
+@@ -0,0 +1,101 @@
++const assert = require('assert');
++const fs = require('fs');
++const path = require('path');
++const vm = require('vm');
++
++const root = path.resolve(process.argv[2] || path.join(__dirname, '..'));
++const modulesDir = path.join(root, 'modules');
++const routerPath = path.join(modulesDir, 'ai-router.js');
++const routerSource = fs.readFileSync(routerPath, 'utf8');
++const searchSource = fs.readFileSync(path.join(modulesDir, 'search.js'), 'utf8');
++const appSource = fs.readFileSync(path.join(root, 'app.html'), 'utf8');
++
++const providerEndpoints = [
++  'generativelanguage.googleapis.com',
++  'api.groq.com/openai',
++  'openrouter.ai/api',
++];
++
++for (const file of fs.readdirSync(modulesDir).filter(name => name.endsWith('.js') && name !== 'ai-router.js')) {
++  const source = fs.readFileSync(path.join(modulesDir, file), 'utf8');
++  for (const endpoint of providerEndpoints) {
++    assert(!source.includes(endpoint), `${file} contiene una salida directa a ${endpoint}`);
++  }
++}
++
++assert.strictEqual((routerSource.match(/\bfetch\(endpoint, options\)/g) || []).length, 1,
++  'La pasarela debe contener una unica salida fetch para proveedores IA');
++assert(!/generateSessionIntel\s*\(tempSearchResults/.test(searchSource),
++  'La inteligencia de sesion no debe ejecutarse automaticamente');
++assert(/adapter\.id === 'static_open_data'[\s\S]{0,120}opts\.returnAfterLocalResults/.test(searchSource),
++  'El buscador debe poder finalizar tras obtener resultados del indice local');
++assert(/<option value="none" selected>Descubrimiento local\/gratuito \(recomendado\)<\/option>/.test(appSource),
++  'El descubrimiento local debe ser el modo predeterminado');
++
++const storageValues = new Map([
++  ['gordi_gemini_key', 'synthetic-gemini-key'],
++  ['gordi_groq_key', 'synthetic-groq-key'],
++  ['gordi_openrouter_key', 'synthetic-openrouter-key'],
++]);
++const storage = {
++  getItem: key => storageValues.get(key) || null,
++  setItem: (key, value) => storageValues.set(key, String(value)),
++  removeItem: key => storageValues.delete(key),
++};
++let networkCalls = 0;
++const context = {
++  console,
++  localStorage: storage,
++  sessionStorage: storage,
++  fetch: async () => { networkCalls += 1; throw new Error('NETWORK_MUST_NOT_RUN'); },
++  document: { addEventListener() {}, getElementById() { return null; }, querySelector() { return null; }, querySelectorAll() { return []; } },
++  navigator: {},
++  location: { href: 'http://127.0.0.1/', search: '' },
++  AbortSignal,
++  Blob,
++  URL,
++  URLSearchParams,
++  Date,
++  JSON,
++  Math,
++  Promise,
++  setTimeout,
++  clearTimeout,
++  setInterval,
++  clearInterval,
++  getGeminiKey: () => storage.getItem('gordi_gemini_key'),
++  showToast() {},
++  renderDashboardCharts() {},
++  openLeadDetail() {},
++  renderLeads() {},
++  resetSearchBtn() {},
++};
++context.window = context;
++context.globalThis = context;
++vm.createContext(context);
++vm.runInContext(routerSource, context, { filename: routerPath });
++
++async function expectBlocked(expression, provider) {
++  let error;
++  try {
++    await vm.runInContext(expression, context);
++  } catch (caught) {
++    error = caught;
++  }
++  assert(error, `${provider} no fue bloqueado`);
++  assert.strictEqual(error.code, 'AI_ZERO_COST_BLOCKED', `${provider} devolvio un error no auditable`);
++  assert.strictEqual(error.provider, provider);
++  assert.strictEqual(error.reason, 'external_cost_control_not_verified');
++}
++
++(async () => {
++  await expectBlocked("aiGatewayFetch('gemini','gemini-2.0-flash','synthetic',{}, {purpose:'test'})", 'gemini');
++  await expectBlocked("aiGatewayFetch('groq','llama-3.3-70b-versatile','synthetic',{}, {purpose:'test'})", 'groq');
++  await expectBlocked("aiGatewayFetch('openrouter','meta-llama/llama-3.3-70b-instruct:free','synthetic',{}, {purpose:'test'})", 'openrouter');
++  await expectBlocked("AI_ROUTER.call('synthetic prompt','synthetic-gemini-key')", 'openrouter');
++  assert.strictEqual(networkCalls, 0, 'Se intento una llamada de red pese al bloqueo estricto');
++  console.log('AI zero-cost gate PASS: 0 network calls; Gemini, Groq and OpenRouter blocked closed');
++})().catch(error => {
++  console.error(error.stack || error);
++  process.exitCode = 1;
++});
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/tools/browser-search-regression.cjs" "b/.tmp-diff-auditoria-20261015\\candidata/tools/browser-search-regression.cjs"
+index 09fb861..c66333b 100644
+--- "a/.tmp-diff-auditoria-20261015\\anterior/tools/browser-search-regression.cjs"
++++ "b/.tmp-diff-auditoria-20261015\\candidata/tools/browser-search-regression.cjs"
+@@ -147,6 +147,20 @@ async function main() {
+           freeProviderAdapters: [{ id: 'static_open_data', run: () => fetchStaticOpenDataBusinesses('Dental', 'Madrid', 20) }],
+           onPartialResults(items) { progressiveCount = Math.max(progressiveCount, items.length); },
+         });
++        let remoteAdapterCalls = 0;
++        const localFirst = await fetchPlacesZeroCost('Dental', 'Madrid', 20, {
++          returnAfterLocalResults: true,
++          freeProviderAdapters: [
++            { id: 'static_open_data', run: async () => makeResults(madrid.slice(0, 1)) },
++            { id: 'osm_overpass', run: async () => { remoteAdapterCalls++; return makeResults([]); } },
++          ],
++        });
++        let aiBlockedCode = '';
++        try {
++          await VoltflowAIGateway.requestGemini('gemini-2.0-flash', 'synthetic-key', {}, { purpose: 'browser_test' });
++        } catch (error) {
++          aiBlockedCode = error?.code || '';
++        }
+         const dibaFixture = VoltflowBusinessProviders.normalizeDibaElement({
+           id: 'cens-0819230008-868',
+           nom_comercial: 'GESTORIA JORBA',
+@@ -196,6 +210,10 @@ async function main() {
+           title: document.title,
+           madridCount: madrid.length,
+           madridProgressiveCount: progressiveCount,
++          localFirstCount: localFirst.length,
++          remoteAdapterCalls,
++          aiBlockedCode,
++          defaultEnrichmentMode: document.getElementById('plan-enrich')?.value,
+           barcelonaCount: barcelona.length,
+           barcelonaProvider: barcelona[0]?.provider,
+           mixedFailureStatus: failed.__placesDiagnostics?.status,
+@@ -222,6 +240,10 @@ async function main() {
+     if (!measureOnly) {
+       assert.ok(result.madridCount >= 1, 'Madrid local index returned no data');
+       assert.strictEqual(result.madridProgressiveCount, result.madridCount, 'Madrid results were not emitted progressively');
++      assert.ok(result.localFirstCount >= 1, 'Local-first search returned no data');
++      assert.strictEqual(result.remoteAdapterCalls, 0, 'Local-first search waited for a remote provider');
++      assert.strictEqual(result.aiBlockedCode, 'AI_ZERO_COST_BLOCKED', 'AI gateway did not fail closed');
++      assert.strictEqual(result.defaultEnrichmentMode, 'none', 'Slow enrichment is still selected by default');
+       assert.strictEqual(result.barcelonaCount, 1, 'Barcelona DIBA fixture failed');
+       assert.strictEqual(result.barcelonaProvider, 'diba_gia');
+       assert.strictEqual(result.mixedFailureStatus, 'PARTIAL_WITH_ERRORS');
+diff --git "a/.tmp-diff-auditoria-20261015\\anterior/version.json" "b/.tmp-diff-auditoria-20261015\\candidata/version.json"
+index 6ca1b18..5f0e346 100644
+--- "a/.tmp-diff-auditoria-20261015\\anterior/version.json"
++++ "b/.tmp-diff-auditoria-20261015\\candidata/version.json"
+@@ -1,8 +1,12 @@
+ {
+-  "version": "2.9.3",
+-  "build": "2026.10.14.0200",
+-  "date": "2026-10-14",
++  "version": "2.9.4",
++  "build": "2026.10.15.0100",
++  "date": "2026-10-15",
+   "changelog": [
++    {
++      "title": "Control estricto de coste para IA",
++      "desc": "Todas las rutas de IA usan una pasarela unica que falla en modo cerrado mientras no exista un control externo de facturacion verificable. El buscador inicia con indices locales y enriquecimiento opcional."
++    },
+     {
+       "title": "Buscador gratuito multifuente",
+       "desc": "Se incorpora arquitectura multiproveedor con OpenStreetMap Overpass, DIBA GIA, indices estaticos de datos abiertos, ZERO_COST_MODE reforzado, deduplicacion multifuente y pruebas automatizadas sin llamadas facturables."
+@@ -113,6 +117,13 @@
+     }
+   ],
+   "history": [
++    {
++      "version": "2.9.4",
++      "build": "2026.10.15.0100",
++      "date": "2026-10-15",
++      "title": "Pasarela de IA y busqueda local predeterminada",
++      "description": "Centralizacion de proveedores IA con bloqueo estricto de red y optimizacion local-first para equipos modestos."
++    },
+     {
+       "version": "2.9.3",
+       "build": "2026.10.14.0200",
