@@ -1,0 +1,13 @@
+{
+  "version": "2.0",
+  "backupType": "auto_disk_daily",
+  "date": "2026-10-15T03:00:00.000Z",
+  "appVersion": "2.9.4",
+  "build": "2026.10.15.0300",
+  "portableSnapshot": {
+    "gordi_leads": "[{\"id\":\"daily-lead-1\",\"commercialRefs\":{\"companyId\":\"company-1\"}}]",
+    "gordi_email_history": "[]",
+    "gordi_gh_token": "SYNTHETIC_GITHUB_TOKEN_NEVER_REAL",
+    "gordi_jsonbin_key": "SYNTHETIC_JSONBIN_KEY_NEVER_REAL"
+  }
+}

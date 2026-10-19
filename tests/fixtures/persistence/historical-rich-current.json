@@ -1,0 +1,9 @@
+{
+  "_voltflow_version": "2.9.4",
+  "gordi_leads": "[{\"id\":\"lead-current\",\"company\":\"Actual Reformas SL\",\"address\":\"Calle Uno 1\",\"commercialRefs\":{\"companyIdentityAnchor\":\"company:actual\",\"establishmentIdentityAnchor\":\"site:actual:madrid\"},\"contacts\":[{\"contactId\":\"contact-a\",\"name\":\"Ana\",\"email\":\"ana@example.invalid\"}]}]",
+  "gordi_email_history": "[{\"id\":\"message-current\",\"leadId\":\"lead-current\",\"companyIdentityAnchor\":\"company:actual\",\"contactIdentityAnchor\":\"contact:a\",\"purpose\":\"sales\",\"commercialState\":\"SENT_CONFIRMED\",\"sendConfirmation\":{\"method\":\"manual_explicit\",\"confirmedBy\":\"owner\",\"confirmationId\":\"evidence-current\",\"confirmedAt\":\"2026-10-10T10:00:00.000Z\"}}]",
+  "gordi_commercial_exclusions": "[{\"id\":\"exclude-1\",\"recipient\":\"blocked@example.invalid\",\"reason\":\"opposition\"}]",
+  "gordi_gemini_key": "SYNTHETIC_CURRENT_KEY",
+  "gordi_zero_cost_ai_gemini_authorized": "false",
+  "gordi_unknown_current": "preserve-current"
+}

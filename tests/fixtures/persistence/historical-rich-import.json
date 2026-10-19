@@ -1,0 +1,14 @@
+{
+  "type": "voltflow-portable",
+  "_voltflow_version": "2.9.2",
+  "_exported": "2026-10-01T10:00:00.000Z",
+  "snapshot": {
+    "gordi_leads": "[{\"id\":\"lead-old\",\"company\":\"Actual Reformas SL\",\"address\":\"Calle Uno 1\",\"phone\":\"910000000\",\"commercialRefs\":{\"companyIdentityAnchor\":\"company:actual\",\"establishmentIdentityAnchor\":\"site:actual:madrid\"},\"contacts\":[{\"contactId\":\"contact-b\",\"name\":\"Bruno\",\"email\":\"bruno@example.invalid\"}]},{\"id\":\"lead-branch\",\"company\":\"Actual Reformas SL\",\"address\":\"Calle Dos 2\",\"phone\":\"910000000\",\"website\":\"https://actual.example.invalid\",\"commercialRefs\":{\"companyIdentityAnchor\":\"company:actual\",\"establishmentIdentityAnchor\":\"site:actual:getafe\"}},{\"id\":\"lead-other\",\"company\":\"Otra Empresa SL\",\"address\":\"Calle Tres 3\",\"phone\":\"910000000\",\"website\":\"https://actual.example.invalid\",\"commercialRefs\":{\"companyIdentityAnchor\":\"company:other\",\"establishmentIdentityAnchor\":\"site:other:madrid\"}}]",
+    "gordi_email_history": "[{\"id\":\"message-old\",\"leadId\":\"lead-old\",\"companyIdentityAnchor\":\"company:actual\",\"contactIdentityAnchor\":\"contact:a\",\"purpose\":\"sales\",\"commercialState\":\"SENT_CONFIRMED\",\"sendConfirmation\":{\"method\":\"manual_explicit\",\"confirmedBy\":\"owner\",\"confirmationId\":\"evidence-old\",\"confirmedAt\":\"2026-09-10T10:00:00.000Z\"}},{\"id\":\"message-ambiguous\",\"leadId\":\"lead-old\",\"commercialState\":\"SENT_CONFIRMED\",\"confirmation\":{} } ]",
+    "gordi_commercial_exclusions": "[{\"id\":\"exclude-2\",\"recipient\":\"stop@example.invalid\",\"reason\":\"opposition\"}]",
+    "gordi_gemini_key": "SYNTHETIC_IMPORTED_KEY",
+    "gordi_zero_cost_ai_gemini_authorized": "true",
+    "gordi_unknown_imported": "preserve-imported"
+  },
+  "legacyExtension": {"retain": true}
+}

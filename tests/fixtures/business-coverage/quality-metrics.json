@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "corpusRelease": "coverage-pilot-e2.1",
+  "measuredAt": "2026-10-15T15:08:54.343Z",
+  "methodology": "Deterministic measurements over the committed bounded E2 corpus; no external requests.",
+  "caveat": "Relevance labels are source-evidence rules, not an independent human ground truth. Precision of the future search engine is not measured in E2.",
+  "totals": {
+    "observations": 236,
+    "uniqueSourceEstablishments": 199,
+    "deduplicatedOutputs": 199,
+    "cities": 2,
+    "sectors": 8
+  },
+  "distribution": {
+    "byCity": {
+      "Barcelona": 103,
+      "Madrid": 133
+    },
+    "byCityAndSector": {
+      "Barcelona/accounting-advisory": 5,
+      "Barcelona/architects": 18,
+      "Barcelona/dental": 16,
+      "Barcelona/hotels-hospitality": 18,
+      "Barcelona/industry": 5,
+      "Barcelona/property-management": 18,
+      "Barcelona/real-estate-agencies": 18,
+      "Barcelona/retail": 5,
+      "Madrid/accounting-advisory": 18,
+      "Madrid/architects": 4,
+      "Madrid/dental": 18,
+      "Madrid/hotels-hospitality": 18,
+      "Madrid/industry": 18,
+      "Madrid/property-management": 21,
+      "Madrid/real-estate-agencies": 18,
+      "Madrid/retail": 18
+    },
+    "bySource": {
+      "barcelona_open_data_ground_floor_2024": 103,
+      "madrid_open_data_activities": 133
+    },
+    "relevance": {
+      "false": 28,
+      "true": 199,
+      "uncertain": 9
+    },
+    "samplingRole": {
+      "cross-sector-negative": 28,
+      "source-query": 208
+    }
+  },
+  "sourceEvidenceLabelBalance": {
+    "classifiedRows": 227,
+    "positive": 199,
+    "negative": 28,
+    "uncertain": 9,
+    "positivePercentOfClassified": 87.67
+  },
+  "identity": {
+    "repeatedObservations": 37,
+    "falseAutomaticMerges": 0,
+    "falseMergeDetails": [],
+    "residualDuplicateGroups": 0,
+    "branchGroups": 9,
+    "collapsedBranchGroups": 0
+  },
+  "geography": {
+    "errors": 0,
+    "verifiedPercent": 100,
+    "dibaDiagnostic": {
+      "available": true,
+      "sourceId": "diba_gia",
+      "records": 10,
+      "license": "https://creativecommons.org/licenses/by/4.0/deed.ca",
+      "sourceUpdatedAt": "2026-10-14 20:42:24",
+      "distinctAuthorityMunicipalities": [
+        "08033",
+        "08038",
+        "08180",
+        "08197",
+        "08215",
+        "08264",
+        "08283",
+        "08285"
+      ],
+      "misleadingAddressMunicipalityRows": 10,
+      "eligibleForBarcelonaCityCorpus": false,
+      "decision": "diagnostic_only_not_in_scored_corpus"
+    }
+  },
+  "contacts": {
+    "phoneRecords": 0,
+    "phonePercent": 0,
+    "websiteRecords": 0,
+    "websitePercent": 0,
+    "emailRecords": 0,
+    "emailPercent": 0,
+    "note": "The selected official resources do not publish these contact fields; no values were invented or enriched."
+  },
+  "completeness": {
+    "incompleteRecords": 236,
+    "incompletePercent": 100
+  },
+  "provenance": {
+    "errors": 0,
+    "verifiedPercent": 100
+  },
+  "budgets": {
+    "corpusBytes": 745143,
+    "maxCorpusBytes": 1048576,
+    "withinLimit": true
+  },
+  "acceptance": {
+    "falseAutomaticMergesZero": true,
+    "collapsedBranchGroupsZero": true,
+    "geographyErrorsZero": true,
+    "provenanceComplete": true,
+    "memoryBudgetMet": true,
+    "minimumCitySampleMet": true,
+    "ready": true
+  }
+}

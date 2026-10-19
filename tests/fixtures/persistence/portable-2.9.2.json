@@ -1,0 +1,11 @@
+{
+  "type": "voltflow-portable",
+  "_voltflow_version": "2.9.2",
+  "_exported": "2026-10-13T01:00:00.000Z",
+  "snapshot": {
+    "gordi_leads": "[{\"id\":\"portable-lead-1\",\"name\":\"Empresa Portatil\"}]",
+    "gordi_api_key": "SYNTHETIC_GEMINI_KEY_NEVER_REAL",
+    "gordi_do_not_contact": "[{\"recipient\":\"blocked@example.invalid\"}]",
+    "gordi_unknown_future_flag": "keep-me"
+  }
+}

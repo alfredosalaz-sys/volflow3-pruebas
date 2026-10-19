@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "corpusRelease": "coverage-pilot-e2.1",
+  "generatedAt": "2026-10-15T15:08:54.343Z",
+  "corpus": {
+    "file": "tests/fixtures/business-coverage/corpus.v1.json",
+    "sha256": "fca183475a6e7159bf2eba408673bfbb72b36ffceaa1733fc27b6cddcb0e5ce5",
+    "bytes": 745143,
+    "observations": 236,
+    "cities": [
+      {
+        "city": "Madrid",
+        "observations": 133
+      },
+      {
+        "city": "Barcelona",
+        "observations": 103
+      }
+    ],
+    "branchGroups": 9
+  },
+  "sourceManifest": {
+    "file": "tests/fixtures/business-coverage/source-manifest.json",
+    "sha256": "3f28ef2da923847a24677e58379f6495dfb26872767ee485ac03c6b4785a7cad"
+  },
+  "limits": {
+    "maxCorpusBytes": 1048576,
+    "maxObservationsPerCity": 250
+  }
+}

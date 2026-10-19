@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1001,
+    "leadId": "legacy-lead-1",
+    "company": "Empresa Legacy Uno",
+    "email": "contacto@example.test",
+    "segment": "Oficinas",
+    "date": "2026-10-10T10:00:00.000Z",
+    "status": "Enviado",
+    "subject": "Registro historico ambiguo"
+  },
+  {
+    "id": 1002,
+    "leadId": "legacy-lead-2",
+    "company": "Empresa Legacy Dos",
+    "email": "contacto2@example.test",
+    "segment": "Arquitectos",
+    "date": "2026-10-11T11:00:00.000Z",
+    "status": "Enviado (IA)",
+    "subject": "Registro IA historico ambiguo"
+  },
+  {
+    "id": 1003,
+    "leadId": "legacy-lead-1",
+    "company": "Empresa Legacy Uno",
+    "email": "contacto@example.test",
+    "segment": "Oficinas",
+    "date": "2026-10-12T12:00:00.000Z",
+    "status": "Respuesta recibida",
+    "direction": "inbound",
+    "subject": "Re: Registro historico"
+  }
+]

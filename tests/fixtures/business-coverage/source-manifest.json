@@ -1,0 +1,439 @@
+{
+  "schemaVersion": 1,
+  "corpusRelease": "coverage-pilot-e2.1",
+  "capture": {
+    "acquiredAt": null,
+    "acquiredOn": "2026-10-15",
+    "timeStatus": "exact_time_unknown"
+  },
+  "reindexedAt": "2026-10-15T15:08:53.343Z",
+  "corpusGeneratedAt": "2026-10-15T15:08:54.343Z",
+  "zeroCost": true,
+  "authenticatedRequests": 0,
+  "maxRecordsPerRequest": 30,
+  "sources": [
+    {
+      "id": "madrid_open_data_activities",
+      "datasetUrl": "https://datos.madrid.es/egob/catalogo/200085-0-censo-locales",
+      "resourceId": "200085-5-censo-locales",
+      "licenseId": "madrid-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ayuntamiento de Madrid"
+    },
+    {
+      "id": "barcelona_open_data_ground_floor_2024",
+      "datasetUrl": "https://opendata-ajuntament.barcelona.cat/data/es/dataset/cens-locals-planta-baixa-act-economica",
+      "resourceId": "38babeec-5c47-43d3-84e7-b13a4b89004f",
+      "licenseId": "barcelona-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ajuntament de Barcelona"
+    }
+  ],
+  "deferredSources": [
+    {
+      "id": "diba_gia",
+      "reason": "Geographic semantics require review; retained as diagnostic only in E2."
+    },
+    {
+      "id": "overture_places_static",
+      "reason": "Offline pilot belongs to E3."
+    },
+    {
+      "id": "geofabrik_osm_static",
+      "reason": "Offline pilot belongs to E4."
+    }
+  ],
+  "files": [
+    {
+      "file": "tests/fixtures/business-coverage/raw/madrid-dental.json",
+      "sha256": "08b6da3852482c7a20f8c6bde9a19e111a6932ac8e0fbd71277b5e68662ea04f",
+      "bytes": 44237,
+      "sourceId": "madrid_open_data_activities",
+      "resourceId": "200085-5-censo-locales",
+      "city": "Madrid",
+      "sectorId": "dental",
+      "query": "DENTAL",
+      "requestUrl": "https://datos.madrid.es/api/3/action/datastore_search?resource_id=200085-5-censo-locales&limit=30&q=DENTAL",
+      "returnedRecords": 30,
+      "availableRecords": 1738,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "madrid-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ayuntamiento de Madrid"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/madrid-accounting-advisory.json",
+      "sha256": "075d10d5605eb05455dece9add5222a57a622c7134e565754947bf2bfb82a156",
+      "bytes": 44075,
+      "sourceId": "madrid_open_data_activities",
+      "resourceId": "200085-5-censo-locales",
+      "city": "Madrid",
+      "sectorId": "accounting-advisory",
+      "query": "GESTOR",
+      "requestUrl": "https://datos.madrid.es/api/3/action/datastore_search?resource_id=200085-5-censo-locales&limit=30&q=GESTOR",
+      "returnedRecords": 29,
+      "availableRecords": 29,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "madrid-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ayuntamiento de Madrid"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/madrid-real-estate-agencies.json",
+      "sha256": "21e31e96ac930e40864d894c7cf044760fe65f0e1944bd205e0199494a4347d7",
+      "bytes": 44424,
+      "sourceId": "madrid_open_data_activities",
+      "resourceId": "200085-5-censo-locales",
+      "city": "Madrid",
+      "sectorId": "real-estate-agencies",
+      "query": "INMOBILIARIA",
+      "requestUrl": "https://datos.madrid.es/api/3/action/datastore_search?resource_id=200085-5-censo-locales&limit=30&q=INMOBILIARIA",
+      "returnedRecords": 30,
+      "availableRecords": 3178,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "madrid-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ayuntamiento de Madrid"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/madrid-retail.json",
+      "sha256": "e29ec6c635f281d50a9add5c322663fc658afda775c4c3f1254141ef3827fdee",
+      "bytes": 47920,
+      "sourceId": "madrid_open_data_activities",
+      "resourceId": "200085-5-censo-locales",
+      "city": "Madrid",
+      "sectorId": "retail",
+      "query": "COMERCIO AL POR MENOR",
+      "requestUrl": "https://datos.madrid.es/api/3/action/datastore_search?resource_id=200085-5-censo-locales&limit=30&q=COMERCIO+AL+POR+MENOR",
+      "returnedRecords": 30,
+      "availableRecords": 53706,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "madrid-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ayuntamiento de Madrid"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/madrid-industry.json",
+      "sha256": "6bea4adcb3ea26cea23baa2be6812f700bf19c9045214b7e8e7f6d4c1ee354e0",
+      "bytes": 44485,
+      "sourceId": "madrid_open_data_activities",
+      "resourceId": "200085-5-censo-locales",
+      "city": "Madrid",
+      "sectorId": "industry",
+      "query": "INDUSTRIA",
+      "requestUrl": "https://datos.madrid.es/api/3/action/datastore_search?resource_id=200085-5-censo-locales&limit=30&q=INDUSTRIA",
+      "returnedRecords": 30,
+      "availableRecords": 4486,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "madrid-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ayuntamiento de Madrid"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/madrid-hotels-hospitality.json",
+      "sha256": "1c8f4369826bf0a3078e060a9aea5b4f920058a57f3876550e47d33a075654b3",
+      "bytes": 42475,
+      "sourceId": "madrid_open_data_activities",
+      "resourceId": "200085-5-censo-locales",
+      "city": "Madrid",
+      "sectorId": "hotels-hospitality",
+      "query": "HOTEL",
+      "requestUrl": "https://datos.madrid.es/api/3/action/datastore_search?resource_id=200085-5-censo-locales&limit=30&q=HOTEL",
+      "returnedRecords": 30,
+      "availableRecords": 980,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "madrid-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ayuntamiento de Madrid"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/madrid-architects.json",
+      "sha256": "3a11569c06ddc6e520d63b94d7e757c9dec283492792c6af81d84725e2f256f5",
+      "bytes": 5514,
+      "sourceId": "madrid_open_data_activities",
+      "resourceId": "200085-5-censo-locales",
+      "city": "Madrid",
+      "sectorId": "architects",
+      "query": "ARQUITECT",
+      "requestUrl": "https://datos.madrid.es/api/3/action/datastore_search?resource_id=200085-5-censo-locales&limit=30&q=ARQUITECT",
+      "returnedRecords": 2,
+      "availableRecords": 2,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "madrid-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ayuntamiento de Madrid"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/madrid-property-management.json",
+      "sha256": "fe58e3b3551c805f22f192393841adcf2f0447a7b1360f12768d20c5519cbfb6",
+      "bytes": 45452,
+      "sourceId": "madrid_open_data_activities",
+      "resourceId": "200085-5-censo-locales",
+      "city": "Madrid",
+      "sectorId": "property-management",
+      "query": "FINCAS",
+      "requestUrl": "https://datos.madrid.es/api/3/action/datastore_search?resource_id=200085-5-censo-locales&limit=30&q=FINCAS",
+      "returnedRecords": 30,
+      "availableRecords": 240,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "madrid-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ayuntamiento de Madrid"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/barcelona-dental.json",
+      "sha256": "29033fab193b2ac5c1aa80207d9e07e2d3f6e7c5c1f764d17522db7aabe556dc",
+      "bytes": 44948,
+      "sourceId": "barcelona_open_data_ground_floor_2024",
+      "resourceId": "38babeec-5c47-43d3-84e7-b13a4b89004f",
+      "city": "Barcelona",
+      "sectorId": "dental",
+      "query": "DENTAL",
+      "requestUrl": "https://opendata-ajuntament.barcelona.cat/data/api/action/datastore_search?resource_id=38babeec-5c47-43d3-84e7-b13a4b89004f&limit=30&q=DENTAL",
+      "returnedRecords": 30,
+      "availableRecords": 241,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "barcelona-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ajuntament de Barcelona"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/barcelona-accounting-advisory.json",
+      "sha256": "957142c671d37e644e7a4084a033cbebae7b7f2d8c8d775e1e83ca289fb5c8f8",
+      "bytes": 9642,
+      "sourceId": "barcelona_open_data_ground_floor_2024",
+      "resourceId": "38babeec-5c47-43d3-84e7-b13a4b89004f",
+      "city": "Barcelona",
+      "sectorId": "accounting-advisory",
+      "query": "GESTOR",
+      "requestUrl": "https://opendata-ajuntament.barcelona.cat/data/api/action/datastore_search?resource_id=38babeec-5c47-43d3-84e7-b13a4b89004f&limit=30&q=GESTOR",
+      "returnedRecords": 5,
+      "availableRecords": 5,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "barcelona-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ajuntament de Barcelona"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/barcelona-real-estate-agencies.json",
+      "sha256": "494fc54756c51078cc94d6559aa8ac09929e104c53f3ca1d6e30c0dd56aaf45f",
+      "bytes": 44854,
+      "sourceId": "barcelona_open_data_ground_floor_2024",
+      "resourceId": "38babeec-5c47-43d3-84e7-b13a4b89004f",
+      "city": "Barcelona",
+      "sectorId": "real-estate-agencies",
+      "query": "IMMOBILIÀRIES",
+      "requestUrl": "https://opendata-ajuntament.barcelona.cat/data/api/action/datastore_search?resource_id=38babeec-5c47-43d3-84e7-b13a4b89004f&limit=30&q=IMMOBILI%C3%80RIES",
+      "returnedRecords": 30,
+      "availableRecords": 608,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "barcelona-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ajuntament de Barcelona"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/barcelona-retail.json",
+      "sha256": "b2a7ebe7fa72d9fe2d05c93bf79141fe588f74251627eff0aa777086c7c3514b",
+      "bytes": 44988,
+      "sourceId": "barcelona_open_data_ground_floor_2024",
+      "resourceId": "38babeec-5c47-43d3-84e7-b13a4b89004f",
+      "city": "Barcelona",
+      "sectorId": "retail",
+      "query": "COMERÇ",
+      "requestUrl": "https://opendata-ajuntament.barcelona.cat/data/api/action/datastore_search?resource_id=38babeec-5c47-43d3-84e7-b13a4b89004f&limit=30&q=COMER%C3%87",
+      "returnedRecords": 30,
+      "availableRecords": 13398,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "barcelona-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ajuntament de Barcelona"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/barcelona-industry.json",
+      "sha256": "e437d46a9f31ac04da5a6872bad975b67cfb0fc72d17b801d646f214fa0d75e8",
+      "bytes": 44873,
+      "sourceId": "barcelona_open_data_ground_floor_2024",
+      "resourceId": "38babeec-5c47-43d3-84e7-b13a4b89004f",
+      "city": "Barcelona",
+      "sectorId": "industry",
+      "query": "INDÚSTRIA",
+      "requestUrl": "https://opendata-ajuntament.barcelona.cat/data/api/action/datastore_search?resource_id=38babeec-5c47-43d3-84e7-b13a4b89004f&limit=30&q=IND%C3%9ASTRIA",
+      "returnedRecords": 30,
+      "availableRecords": 203,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "barcelona-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ajuntament de Barcelona"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/barcelona-hotels-hospitality.json",
+      "sha256": "8bf801c0066a1e4a969773d58f3685b4e152ceba045cecd00bdca92e70fcccf1",
+      "bytes": 45704,
+      "sourceId": "barcelona_open_data_ground_floor_2024",
+      "resourceId": "38babeec-5c47-43d3-84e7-b13a4b89004f",
+      "city": "Barcelona",
+      "sectorId": "hotels-hospitality",
+      "query": "HOTEL",
+      "requestUrl": "https://opendata-ajuntament.barcelona.cat/data/api/action/datastore_search?resource_id=38babeec-5c47-43d3-84e7-b13a4b89004f&limit=30&q=HOTEL",
+      "returnedRecords": 30,
+      "availableRecords": 7738,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "barcelona-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ajuntament de Barcelona"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/barcelona-architects.json",
+      "sha256": "f771dc52bd50739af59445a180fc6927ddca39c3dd453f3419408a75f6993c7d",
+      "bytes": 44908,
+      "sourceId": "barcelona_open_data_ground_floor_2024",
+      "resourceId": "38babeec-5c47-43d3-84e7-b13a4b89004f",
+      "city": "Barcelona",
+      "sectorId": "architects",
+      "query": "ARQUITECT",
+      "requestUrl": "https://opendata-ajuntament.barcelona.cat/data/api/action/datastore_search?resource_id=38babeec-5c47-43d3-84e7-b13a4b89004f&limit=30&q=ARQUITECT",
+      "returnedRecords": 30,
+      "availableRecords": 55,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "barcelona-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ajuntament de Barcelona"
+    },
+    {
+      "file": "tests/fixtures/business-coverage/raw/barcelona-property-management.json",
+      "sha256": "58d2943e10de99dc06235006f322c1f4daec51679f0de2c21fe02d74baa2690e",
+      "bytes": 44974,
+      "sourceId": "barcelona_open_data_ground_floor_2024",
+      "resourceId": "38babeec-5c47-43d3-84e7-b13a4b89004f",
+      "city": "Barcelona",
+      "sectorId": "property-management",
+      "query": "FINQUES",
+      "requestUrl": "https://opendata-ajuntament.barcelona.cat/data/api/action/datastore_search?resource_id=38babeec-5c47-43d3-84e7-b13a4b89004f&limit=30&q=FINQUES",
+      "returnedRecords": 30,
+      "availableRecords": 73,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "barcelona-cc-by-4-0",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "Ajuntament de Barcelona"
+    }
+  ],
+  "diagnostics": [
+    {
+      "file": "tests/fixtures/business-coverage/raw/diba-geography-diagnostic.json",
+      "sha256": "4d03735ffcc7e388f3362e3c4372214bea43c413bb58b0e5768abcdb0b5a334d",
+      "bytes": 10289,
+      "sourceId": "diba_gia",
+      "purpose": "geography-scope-diagnostic-only",
+      "requestUrl": "https://do.diba.cat/api/dataset/establiments/camp-nom_municipi/BARCELONA/pag-fi/10",
+      "returnedRecords": 10,
+      "capture": {
+        "acquiredAt": null,
+        "acquiredOn": "2026-10-15",
+        "timeStatus": "exact_time_unknown"
+      },
+      "reindexedAt": "2026-10-15T15:08:53.343Z",
+      "licenseId": "CC-BY-4.0",
+      "license": "https://creativecommons.org/licenses/by/4.0/deed.ca",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "includedInScoredCorpus": false
+    }
+  ]
+}
