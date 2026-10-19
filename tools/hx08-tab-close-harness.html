@@ -1,0 +1,32 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><title>HX08 tab close</title></head>
+<body><pre id="result">RUNNING</pre><script src="../modules/write-coordinator.js"></script><script>
+'use strict';
+const channel=new BroadcastChannel('voltflow-hx08-close-test');
+const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const finish=value=>{document.getElementById('result').textContent='RESULT:'+btoa(unescape(encodeURIComponent(JSON.stringify(value))));};
+async function importer(){
+  localStorage.clear();
+  const writerReady=new Promise(resolve=>{channel.onmessage=event=>{if(event.data?.type==='writer-ready')resolve();};});
+  channel.postMessage({type:'importer-ready'});
+  await writerReady;
+  const token=await VoltflowWriteCoordinator.acquireExclusive('hx08-browser-close');
+  const journaled=new Promise(resolve=>{channel.onmessage=event=>{if(event.data?.type==='journaled')resolve();};});
+  channel.postMessage({type:'write-now'});
+  await journaled;
+  document.getElementById('result').textContent='JOURNALED';
+  await wait(900);
+  VoltflowWriteCoordinator.release(token);
+  await wait(150);
+  const value=localStorage.getItem('gordi_hx08_closed_tab');
+  const journals=VoltflowWriteCoordinator._internals.journalKeys();
+  finish({ok:value==='lead-created-before-tab-close'&&journals.length===0&&!VoltflowWriteCoordinator.getFence(),value,journals,fence:VoltflowWriteCoordinator.getFence()});
+}
+async function writer(){
+  channel.onmessage=event=>{
+    if(event.data?.type==='importer-ready')channel.postMessage({type:'writer-ready'});
+    if(event.data?.type==='write-now'){localStorage.setItem('gordi_hx08_closed_tab','lead-created-before-tab-close');channel.postMessage({type:'journaled'});document.getElementById('result').textContent='JOURNALED';}
+  };
+}
+const role=new URLSearchParams(location.search).get('role');
+(role==='writer'?writer():importer()).catch(error=>finish({ok:false,error:error.message,stack:error.stack}));
+</script></body></html>

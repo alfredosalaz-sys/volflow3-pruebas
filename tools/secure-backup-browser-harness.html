@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Voltflow secure backup harness</title></head>
+<body><pre id="result">RUNNING</pre>
+<script>window.BroadcastChannel=undefined;</script>
+<script src="../modules/storage.js"></script><script src="../modules/secure-backup.js"></script>
+<script>
+(async function () {
+  const output = document.getElementById('result');
+  const phase = new URLSearchParams(location.search).get('phase');
+  const password = 'Synthetic-Browser-Password-2026!';
+  const synthetic = {
+    gordi_leads: JSON.stringify([{ id:'browser-lead-1', name:'Empresa navegador', commercialRefs:{ companyId:'company-browser', establishmentId:'site-browser' } }]),
+    gordi_email_history: JSON.stringify([{ id:'browser-message-1', sequenceCanonicalKey:'company-browser:contact-browser:email:sales', status:'SENT_CONFIRMED', confirmation:{ method:'manual', evidenceId:'browser-evidence-1' } }]),
+    gordi_commercial_exclusions: JSON.stringify([{ recipient:'blocked-browser@example.invalid', reason:'opposition' }]),
+    gordi_api_key:'SYNTHETIC_BROWSER_GEMINI_NEVER_REAL', gordi_gmail_token:'SYNTHETIC_BROWSER_GMAIL_NEVER_REAL',
+    gordi_sheets_token:'SYNTHETIC_BROWSER_SHEETS_NEVER_REAL', gordi_gh_token:'SYNTHETIC_BROWSER_GITHUB_NEVER_REAL',
+    gordi_jsonbin_key:'SYNTHETIC_BROWSER_JSONBIN_NEVER_REAL', gordi_unknown_browser_field:'preserve-browser'
+  };
+  function emit(value) { output.textContent='RESULT:'+btoa(unescape(encodeURIComponent(JSON.stringify(value)))); document.title=value.ok?'PASS':'FAIL'; }
+  try {
+    if (phase === 'create') {
+      localStorage.clear(); sessionStorage.clear();
+      Object.entries(synthetic).forEach(([key,value])=>localStorage.setItem(key,value));
+      await VoltflowStorage.migrateFromLocalStorage({source:'synthetic-browser-test'});
+      const started=performance.now();
+      const result=await VoltflowSecureBackup.createBrowserBackup(password,{includeSessionSecrets:false});
+      emit({ok:true,phase,ms:performance.now()-started,container:result.container}); return;
+    }
+    if (phase === 'restore') {
+      const before={lead:localStorage.getItem('gordi_leads'),secret:localStorage.getItem('gordi_api_key')};
+      const container=await (await fetch('/tests/artifacts/secure-backup/browser-synthetic.vfbackup',{cache:'no-store'})).json();
+      const payload=await VoltflowSecureBackup.decryptContainer(container,password);
+      const started=performance.now();
+      const restored=await VoltflowSecureBackup.restoreBrowserPayload(payload,password,{restoreSession:false,restorePersistentSecrets:true});
+      const raw=await VoltflowStorage.exportRawDatabase();
+      const result={ok:restored.ok,phase,ms:performance.now()-started,cleanBefore:before.secret===null&&before.lead===null,
+        lead:JSON.parse(localStorage.getItem('gordi_leads')||'[]')[0]?.id||null,
+        exclusion:JSON.parse(localStorage.getItem('gordi_commercial_exclusions')||'[]')[0]?.recipient||null,
+        secretPresence:['gordi_api_key','gordi_gmail_token','gordi_sheets_token','gordi_gh_token','gordi_jsonbin_key'].map(key=>!!localStorage.getItem(key)),
+        unknown:localStorage.getItem('gordi_unknown_browser_field'),idbLead:!!(raw.stores.leads.records||[]).find(row=>row.id==='browser-lead-1'),
+        restoreMarker:localStorage.getItem('_voltflow_restore_transaction')};
+      result.ok=result.ok&&result.cleanBefore&&result.lead==='browser-lead-1'&&result.exclusion==='blocked-browser@example.invalid'&&result.secretPresence.every(Boolean)&&result.unknown==='preserve-browser'&&result.idbLead&&result.restoreMarker===null;
+      emit(result); return;
+    }
+    if (phase === 'verify') {
+      const result={ok:true,phase,lead:JSON.parse(localStorage.getItem('gordi_leads')||'[]')[0]?.id||null,
+        exclusion:JSON.parse(localStorage.getItem('gordi_commercial_exclusions')||'[]')[0]?.recipient||null,
+        secretPresent:localStorage.getItem('gordi_api_key')===synthetic.gordi_api_key,ready:localStorage.getItem('gordi_indexeddb_ready')};
+      result.ok=result.lead==='browser-lead-1'&&result.exclusion==='blocked-browser@example.invalid'&&result.secretPresent; emit(result); return;
+    }
+    if (phase === 'rollback') {
+      localStorage.setItem('gordi_unknown_browser_field','rollback-sentinel');
+      const container=await (await fetch('/tests/artifacts/secure-backup/browser-synthetic.vfbackup',{cache:'no-store'})).json();
+      const payload=await VoltflowSecureBackup.decryptContainer(container,password);
+      let rejected=false;
+      try { await VoltflowSecureBackup.restoreBrowserPayload(payload,password,{failAfterIdb:true}); } catch { rejected=true; }
+      emit({ok:rejected&&localStorage.getItem('gordi_unknown_browser_field')==='rollback-sentinel'&&localStorage.getItem('_voltflow_restore_transaction')===null,phase,rejected,marker:localStorage.getItem('_voltflow_restore_transaction')}); return;
+    }
+    throw new Error('Fase no reconocida');
+  } catch(error) { emit({ok:false,phase,error:String(error&&error.stack||error)}); }
+})();
+</script></body></html>

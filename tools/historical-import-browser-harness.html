@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>Voltflow historical import harness</title></head>
+<body><pre id="result">RUNNING</pre>
+<script src="../modules/write-coordinator.js"></script>
+<script src="../modules/storage.js"></script>
+<script src="../modules/secure-backup.js"></script>
+<script src="../modules/commercial-communications.js"></script>
+<script src="../modules/historical-import.js"></script>
+<script>
+'use strict';
+const PASSWORD = 'Synthetic-Browser-Historical-2026!';
+const current = {
+  gordi_leads: JSON.stringify([{ id:'browser-current', company:'Current SL', commercialRefs:{ companyIdentityAnchor:'company:browser', establishmentIdentityAnchor:'site:browser:madrid' }, contacts:[{contactId:'c1',email:'one@example.invalid'}] }]),
+  gordi_email_history: '[]',
+  gordi_commercial_exclusions: JSON.stringify([{id:'x1',recipient:'stop@example.invalid',reason:'opposition'}]),
+  gordi_gemini_key: 'SYNTHETIC_BROWSER_KEY',
+  gordi_zero_cost_ai_gemini_authorized: 'false'
+};
+function finish(value){document.getElementById('result').textContent='RESULT:'+btoa(unescape(encodeURIComponent(JSON.stringify(value))));}
+function counts(){return {leads:JSON.parse(localStorage.getItem('gordi_leads')||'[]').length,messages:JSON.parse(localStorage.getItem('gordi_email_history')||'[]').length,exclusions:JSON.parse(localStorage.getItem('gordi_commercial_exclusions')||'[]').length};}
+function completeContent(){
+  const files=VoltflowSecureBackup._internals.decodeBinary(JSON.parse(localStorage.getItem('gordi_incorporated_files_archive')||'[]'));
+  const quarantine=JSON.parse(localStorage.getItem('gordi_historical_indexeddb_quarantine')||'[]');
+  const leads=JSON.parse(localStorage.getItem('gordi_leads')||'[]');
+  const mails=JSON.parse(localStorage.getItem('gordi_email_history')||'[]');
+  return {contact:leads.find(x=>x.id==='browser-current')?.contacts?.some(x=>x.contactId==='c2')===true,relation:mails.find(x=>x.id==='browser-draft')?.leadId==='browser-current',custom:quarantine.some(x=>x.storeName==='custom'&&x.records?.some(r=>r.id==='custom-browser'&&r.value==='preserved')),file:files.some(x=>x.name==='document.bin'&&Array.from(x.bytes||[]).join(',')==='0,1,2,127,255'),reference:JSON.parse(localStorage.getItem('gordi_referenced_files_archive')||'[]').some(x=>x.name==='external.pdf'&&x.included===false)};
+}
+async function reset(){await new Promise(resolve=>{const r=indexedDB.deleteDatabase('VoltiumCRM');r.onsuccess=r.onerror=r.onblocked=resolve;});localStorage.clear();sessionStorage.clear();}
+async function run(){
+  const phase=new URLSearchParams(location.search).get('phase')||'merge';
+  if(phase==='merge'){
+    await reset();Object.entries(current).forEach(([k,v])=>localStorage.setItem(k,v));
+    await VoltflowStorage.migrateFromLocalStorage({source:'historical-browser-test'});
+    const before=await VoltflowSecureBackup.captureBrowserPayload({includeSessionSecrets:true,tabsCoordinated:false});
+    const safetyContainer=await VoltflowSecureBackup.encryptPayload(before,PASSWORD,{iterations:100000});
+    const proof=await VoltflowHistoricalImport.verifySafetyBackupFile(new File([JSON.stringify(safetyContainer)],'safety.vfbackup'),PASSWORD,{secure:VoltflowSecureBackup,currentPayload:before});
+    const sourcePayload=await VoltflowSecureBackup.buildPayload({
+      localStorage:{gordi_commercial_exclusions:JSON.stringify([{id:'x2',recipient:'never@example.invalid',reason:'opposition'}]),gordi_gemini_key:'SYNTHETIC_OLDER_KEY',gordi_zero_cost_ai_gemini_authorized:'true',gordi_unknown_legacy:'preserved'},
+      sessionStorage:{},indexedDB:{database:'VoltiumCRM',version:1,stores:{
+        leads:{keyPath:'_id',autoIncrement:false,records:[{_id:'browser-old',id:'browser-old',company:'Current SL',phone:'910000000',commercialRefs:{companyIdentityAnchor:'company:browser',establishmentIdentityAnchor:'site:browser:madrid'},contacts:[{contactId:'c2',email:'two@example.invalid'}]},{_id:'browser-branch',id:'browser-branch',company:'Current SL',phone:'910000000',commercialRefs:{companyIdentityAnchor:'company:browser',establishmentIdentityAnchor:'site:browser:getafe'}}]},
+        emailHistory:{keyPath:'_id',autoIncrement:false,records:[{_id:'browser-draft',id:'browser-draft',leadId:'browser-old',commercialState:'DRAFT_APPROVED'}]},
+        custom:{keyPath:'id',autoIncrement:false,records:[{id:'custom-browser',value:'preserved'}]},kv:{keyPath:'key',autoIncrement:false,records:[]}
+      }},incorporatedFiles:[{name:'document.bin',bytes:new Uint8Array([0,1,2,127,255])}],referencedFiles:[{name:'external.pdf',included:false}],version:'2.9.4',build:'2026.10.15.0300',origin:location.origin,consistency:{pendingWritesDrained:true,tabsCoordinated:true}
+    });
+    const source=await VoltflowSecureBackup.encryptPayload(sourcePayload,PASSWORD,{iterations:100000});
+    const plan=await VoltflowHistoricalImport.analyze(before.data.localStorage,source,{secure:VoltflowSecureBackup,commercial:CommercialCommunications,sourcePassword:PASSWORD,secretResolutions:{gordi_gemini_key:'keep_current'},currentPayload:before});
+    await VoltflowHistoricalImport.commit(plan,PASSWORD,proof,{secure:VoltflowSecureBackup,currentPayload:before});
+    localStorage.setItem('historical_browser_expected',JSON.stringify(counts()));
+    const merged=await VoltflowSecureBackup.createBrowserBackup(PASSWORD,{includeSessionSecrets:true});
+    const content=completeContent();finish({ok:Object.values(content).every(Boolean),counts:counts(),content,keyPreserved:localStorage.getItem('gordi_gemini_key')==='SYNTHETIC_BROWSER_KEY',permissionBlocked:localStorage.getItem('gordi_zero_cost_ai_gemini_authorized')==='false',unknownPreserved:localStorage.getItem('gordi_unknown_legacy')==='preserved',container:merged.container});return;
+  }
+  if(phase==='verify'){
+    const expected=JSON.parse(localStorage.getItem('historical_browser_expected')||'null');
+    const content=completeContent();finish({ok:!!expected&&JSON.stringify(expected)===JSON.stringify(counts())&&Object.values(content).every(Boolean),counts:counts(),content,keyPresent:!!localStorage.getItem('gordi_gemini_key')});return;
+  }
+  if(phase==='restore'){
+    await reset();const container=await(await fetch('../tests/artifacts/historical-import/merged-synthetic.vfbackup',{cache:'no-store'})).json();
+    const payload=await VoltflowSecureBackup.decryptContainer(container,PASSWORD);
+    await VoltflowSecureBackup.restoreBrowserPayload(payload,PASSWORD,{restorePersistentSecrets:true});
+    const content=completeContent();finish({ok:counts().leads===2&&counts().messages===1&&counts().exclusions===2&&Object.values(content).every(Boolean),counts:counts(),content,keyPresent:localStorage.getItem('gordi_gemini_key')==='SYNTHETIC_BROWSER_KEY'});return;
+  }
+  if(phase==='rollback'){
+    const before=JSON.stringify(counts());const payload=await VoltflowSecureBackup.captureBrowserPayload({includeSessionSecrets:true,tabsCoordinated:false});
+    const proof={verifiedFromDisk:true,currentFingerprint:await VoltflowHistoricalImport._internals.currentFingerprint(payload,VoltflowSecureBackup)};
+    const plan=await VoltflowHistoricalImport.analyze(payload.data.localStorage,{type:'voltflow-portable',snapshot:{gordi_leads:JSON.stringify([{id:'must-rollback',company:'Rollback SL'}])}},{secure:VoltflowSecureBackup,commercial:CommercialCommunications,secretResolutions:{},currentPayload:payload});
+    const preCommitPayload=await VoltflowSecureBackup.captureBrowserPayload({includeSessionSecrets:true,tabsCoordinated:false});
+    const preCommitFingerprint=await VoltflowHistoricalImport._internals.currentFingerprint(preCommitPayload,VoltflowSecureBackup);
+    let failed=false,outcome=null,error=null;try{outcome=await VoltflowHistoricalImport.commit(plan,PASSWORD,proof,{secure:VoltflowSecureBackup,currentPayload:payload,failAfterIdb:true});}catch(caught){failed=true;error=caught.message;}
+    finish({ok:failed&&before===JSON.stringify(counts()),failed,outcome,error,planFingerprint:plan.analyzedState.fingerprint,preCommitFingerprint,counts:counts()});return;
+  }
+}
+run().catch(error=>finish({ok:false,error:error.message,stack:error.stack}));
+</script></body></html>

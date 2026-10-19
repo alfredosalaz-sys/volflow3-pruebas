@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<title>Voltflow3 provider browser smoke</title>
+<body>
+<pre id="out">RUNNING</pre>
+<script src="../modules/business-providers.js?v=2026.10.14.0200"></script>
+<script>
+(async function() {
+  const out = document.getElementById('out');
+  try {
+    const api = window.VoltflowBusinessProviders;
+    if (!api) throw new Error('provider module not loaded');
+    const staticResult = await api.searchStaticIndexes({
+      segment: 'Dental',
+      location: '28015',
+      maxResults: 10
+    });
+    const dibaRes = await fetch('https://do.diba.cat/api/dataset/establiments/format/json/camp-codi_postal/08251/pag-fi/3', {
+      cache: 'no-store'
+    });
+    if (!dibaRes.ok) throw new Error('DIBA HTTP ' + dibaRes.status);
+    const diba = await dibaRes.json();
+    const dibaRecords = Array.isArray(diba.elements) ? diba.elements : [];
+    out.textContent = JSON.stringify({
+      status: 'SMOKE_OK',
+      staticMadridDental28015: staticResult.records.length,
+      staticMadridFirst: staticResult.records[0] && staticResult.records[0].name,
+      dibaCount: dibaRecords.length,
+      dibaFirst: dibaRecords[0] && dibaRecords[0].nom_comercial,
+      dibaLicense: diba.llicencia || '',
+      build: '2026.10.14.0200'
+    }, null, 2);
+  } catch (err) {
+    out.textContent = JSON.stringify({
+      status: 'SMOKE_FAIL',
+      message: err && err.message ? err.message : String(err)
+    }, null, 2);
+  }
+})();
+</script>
+</body>
+</html>
+

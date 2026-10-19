@@ -85,6 +85,37 @@ const sameStreetDifferentNumbers = api.deduplicateMultisource([
 });
 assert.strictEqual(sameStreetDifferentNumbers.length, 2, 'different street numbers must not merge');
 
+const sameBuildingDifferentUnits = api.deduplicateMultisource([
+  { id: 'unit-a', name: 'Asesoria Centro', address: 'Calle Ejemplo, 8, 1DR, Madrid', postalCode: '', locality: 'Madrid', externalIds: { official: 'location-a' }, matchedSectors: ['Gestorias'] },
+  { id: 'unit-b', name: 'Asesoria Centro', address: 'Calle Ejemplo, 8, local 30, Madrid', postalCode: '', locality: 'Madrid', externalIds: { official: 'location-b' }, matchedSectors: ['Gestorias'] },
+]);
+assert.strictEqual(sameBuildingDifferentUnits.length, 2, 'explicitly different official units must not merge');
+assert.deepStrictEqual(Array.from(api.extractAddressUnits('Calle Ejemplo, 8, 1DR, Madrid')), ['1', 'right']);
+assert.deepStrictEqual(Array.from(api.extractAddressUnits('Calle Ejemplo, 8, local 30, Madrid')), ['30']);
+
+const equivalentUnits = api.deduplicateMultisource([
+  { id: 'unit-c', name: 'Asesoria Centro', address: 'Calle Ejemplo, 8, local 30, Madrid', postalCode: '', locality: 'Madrid', externalIds: { sourceA: 'a' }, matchedSectors: ['Gestorias'] },
+  { id: 'unit-d', name: 'Asesoria Centro', address: 'Calle Ejemplo, 8, LOC. 30, Madrid', postalCode: '', locality: 'Madrid', externalIds: { sourceB: 'b' }, matchedSectors: ['Gestorias'] },
+]);
+assert.strictEqual(equivalentUnits.length, 1, 'equivalent unit notation should retain normal deduplication');
+
+assert.strictEqual(api.hasConflictingAddressUnits(
+  { address: 'Calle Ejemplo 8, planta 1, puerta A, Madrid' },
+  { address: 'Calle Ejemplo 8, planta 2, puerta A, Madrid' },
+), true, 'different floors conflict even when the door label is equal');
+
+const equivalentAbbreviatedUnits = api.deduplicateMultisource([
+  { id: 'unit-e', name: 'Asesoria Centro', address: 'Calle Ejemplo 8, 1DR', postalCode: '28013', externalIds: { sourceA: 'e' }, matchedSectors: ['Gestorias'] },
+  { id: 'unit-f', name: 'Asesoria Centro', address: 'Calle Ejemplo 8, 1º D', postalCode: '28013', externalIds: { sourceB: 'f' }, matchedSectors: ['Gestorias'] },
+]);
+assert.strictEqual(equivalentAbbreviatedUnits.length, 1, '1DR and 1st-floor right-door notation identify the same unit');
+
+const exactOfficialIdentity = api.deduplicateMultisource([
+  { id: 'official-a', name: 'Asesoria Centro', address: 'Calle Ejemplo 8, bajo derecha', postalCode: '28013', externalIds: { official: 'same-location' }, matchedSectors: ['Gestorias'] },
+  { id: 'official-b', name: 'Asesoria Centro', address: 'Calle Ejemplo 8, BJ D', postalCode: '28013', externalIds: { official: 'same-location' }, matchedSectors: ['Gestorias'] },
+]);
+assert.strictEqual(exactOfficialIdentity.length, 1, 'an identical authoritative external identity remains mergeable');
+
 const genericNamesDifferentAddresses = api.deduplicateMultisource([
   api.normalizeStaticRecord({
     id: 'mad-gestoria-1',

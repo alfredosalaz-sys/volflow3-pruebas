@@ -1,0 +1,28 @@
+{
+  "recordSchemaVersion": 2,
+  "provider": "synthetic_static",
+  "records": [
+    {
+      "entityKind": "establishment",
+      "sourceId": "synthetic_static",
+      "sourceRecordId": "madrid-dental-001",
+      "name": "Clinica Ejemplo Centro",
+      "country": "ES",
+      "provinceCode": "28",
+      "municipalityCode": "28079",
+      "postalCode": "28001",
+      "sectorIds": ["dental"]
+    },
+    {
+      "entityKind": "establishment",
+      "sourceId": "synthetic_static",
+      "sourceRecordId": "madrid-office-001",
+      "name": "Consultora Ejemplo Norte",
+      "country": "ES",
+      "provinceCode": "28",
+      "municipalityCode": "28079",
+      "postalCode": "28002",
+      "sectorIds": ["offices"]
+    }
+  ]
+}

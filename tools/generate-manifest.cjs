@@ -34,7 +34,20 @@ function addTree(relativeDirectory) {
 }
 
 if (allFiles) addTree('.');
-else addTree('data/business-indexes');
+else {
+  addTree('data/business-indexes');
+  const catalogManifestPath = path.join(root, 'data/business-indexes/manifest.json');
+  if (fs.existsSync(catalogManifestPath)) {
+    const catalogManifest = JSON.parse(fs.readFileSync(catalogManifestPath, 'utf8'));
+    for (const reference of [catalogManifest.schema, catalogManifest.taxonomy, catalogManifest.geography]) {
+      const relative = String(reference?.file || '').replace(/\\/g, '/');
+      const resolved = path.resolve(root, relative);
+      if (relative && resolved.startsWith(root + path.sep) && fs.existsSync(resolved) && fs.statSync(resolved).isFile()) {
+        files.add(relative);
+      }
+    }
+  }
+}
 const lines = [...files].sort().map(relative => {
   const hash = crypto.createHash('sha256').update(fs.readFileSync(path.join(root, relative))).digest('hex');
   return `${hash}  ${relative}`;

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>HX07 two-tab harness</title></head>
+<body><pre id="result">RUNNING</pre>
+<script src="../modules/write-coordinator.js"></script>
+<script src="../modules/storage.js"></script>
+<script src="../modules/secure-backup.js"></script>
+<script src="../modules/commercial-communications.js"></script>
+<script src="../modules/historical-import.js"></script>
+<script>
+'use strict';
+const PASSWORD='HX07-SYNTHETIC-PASSWORD';
+const lead=id=>({id,name:`Empresa ${id}`,address:`Calle ${id}, Madrid`,city:'Madrid'});
+const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const channel=new BroadcastChannel('voltflow-hx07-browser-test');
+const finish=value=>{document.getElementById('result').textContent='RESULT:'+btoa(unescape(encodeURIComponent(JSON.stringify(value))));};
+async function reset(){await new Promise(resolve=>{const r=indexedDB.deleteDatabase('VoltiumCRM');r.onsuccess=r.onerror=r.onblocked=resolve;});localStorage.clear();sessionStorage.clear();}
+async function writer(){
+  while(localStorage.getItem('hx07_setup_ready')!=='yes')await wait(20);
+  channel.postMessage({type:'writer-ready'});
+  channel.onmessage=async event=>{
+    if(event.data?.type!=='commit-window')return;
+    const rows=JSON.parse(localStorage.getItem('gordi_leads')||'[]');
+    rows.push(lead('created-in-another-tab'));
+    localStorage.setItem('gordi_leads',JSON.stringify(rows));
+    const pending=VoltflowStorage.persistCriticalData('gordi_leads',rows,{label:'synthetic concurrent autosave'});
+    channel.postMessage({type:'writer-attempted'});
+    await pending;
+    channel.postMessage({type:'writer-persisted'});
+  };
+}
+async function importer(){
+  await reset();
+  localStorage.setItem('gordi_leads',JSON.stringify([lead('original')]));
+  await VoltflowStorage.migrateFromLocalStorage({source:'hx07-browser'});
+  const writerReady=new Promise(resolve=>{const handler=event=>{if(event.data?.type==='writer-ready'){channel.removeEventListener('message',handler);resolve();}};channel.addEventListener('message',handler);});
+  localStorage.setItem('hx07_setup_ready','yes');
+  await writerReady;
+  const before=await VoltflowSecureBackup.captureBrowserPayload({includeSessionSecrets:true,tabsCoordinated:false});
+  const plan=await VoltflowHistoricalImport.analyze(before.data.localStorage,{type:'voltflow-portable',snapshot:{gordi_leads:JSON.stringify([lead('historic')])}},{secure:VoltflowSecureBackup,currentPayload:before});
+  const proof={verifiedFromDisk:true,currentFingerprint:await VoltflowHistoricalImport._internals.currentFingerprint(before,VoltflowSecureBackup)};
+  let attempted=false;
+  const attemptedPromise=new Promise(resolve=>{const handler=event=>{if(event.data?.type==='writer-attempted'){attempted=true;channel.removeEventListener('message',handler);resolve();}};channel.addEventListener('message',handler);});
+  const persistedPromise=new Promise(resolve=>{const handler=event=>{if(event.data?.type==='writer-persisted'){channel.removeEventListener('message',handler);resolve();}};channel.addEventListener('message',handler);});
+  const wrapped=Object.assign({},VoltflowSecureBackup,{buildPayload:async input=>{const built=await VoltflowSecureBackup.buildPayload(input);channel.postMessage({type:'commit-window'});await attemptedPromise;await wait(120);return built;}});
+  const result=await VoltflowHistoricalImport.commit(plan,PASSWORD,proof,{secure:wrapped});
+  await Promise.race([persistedPromise,wait(3000)]);
+  await VoltflowStorage.waitForIdle();
+  const localIds=JSON.parse(localStorage.getItem('gordi_leads')||'[]').map(row=>row.id).sort();
+  const snapshot=await VoltflowStorage.exportSnapshot();
+  const idbIds=JSON.parse(snapshot.gordi_leads||'[]').map(row=>row.id).sort();
+  finish({ok:result.ok===false&&attempted&&localIds.includes('created-in-another-tab')&&idbIds.includes('created-in-another-tab')&&!localIds.includes('historic'),result,attempted,localIds,idbIds,fence:VoltflowWriteCoordinator.getFence()});
+}
+const role=new URLSearchParams(location.search).get('role');
+(role==='writer'?writer():importer()).catch(error=>finish({ok:false,error:error.message,stack:error.stack}));
+</script></body></html>

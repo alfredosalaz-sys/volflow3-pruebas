@@ -1,0 +1,55 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><title>HX09 replay fence</title></head>
+<body><pre id="result">RUNNING</pre><script src="../modules/write-coordinator.js"></script><script>
+'use strict';
+const role=new URLSearchParams(location.search).get('role');
+const channel=new BroadcastChannel('voltflow-hx09-browser-test');
+const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const result=document.getElementById('result');
+const finish=value=>{result.textContent='RESULT:'+btoa(unescape(encodeURIComponent(JSON.stringify(value))));};
+const waitMessage=type=>new Promise(resolve=>{const handler=event=>{if(event.data?.type===type){channel.removeEventListener('message',handler);resolve(event.data);}};channel.addEventListener('message',handler);});
+async function controller(){
+  localStorage.clear();
+  const journal='__voltflow_coord_journal_hx09-browser-writer';
+  const pending=[{id:'hx09-browser-event',operation:'set',key:'gordi_hx09_browser',value:'preserved-and-applied',createdAt:new Date().toISOString()}];
+  localStorage.setItem(journal,JSON.stringify(pending));
+  localStorage.setItem(VoltflowWriteCoordinator.JOURNAL_REGISTRY_KEY,JSON.stringify([journal]));
+  const acquiredPromise=waitMessage('fence-acquired');
+  channel.postMessage({type:'acquire-fence'});
+  const acquired=await acquiredPromise;
+  const blockedReplay=VoltflowWriteCoordinator._internals.replayQueued();
+  const preservedWhileFenced=VoltflowWriteCoordinator._internals.journalKeys().some(key=>JSON.parse(localStorage.getItem(key)||'[]').some(event=>event.id==='hx09-browser-event'));
+  channel.postMessage({type:'release-fence'});
+  await wait(250);
+  const appliedAfterRelease=localStorage.getItem('gordi_hx09_browser')==='preserved-and-applied';
+  const journalsAfterRelease=VoltflowWriteCoordinator._internals.journalKeys();
+  const raceJournal='__voltflow_coord_journal_hx09-browser-race';
+  const raceEvents=Array.from({length:20},(_,index)=>({id:`hx09-race-${index}`,operation:'set',key:`gordi_hx09_race_${index}`,value:`value-${index}`,createdAt:new Date(Date.now()+index).toISOString()}));
+  localStorage.setItem(raceJournal,JSON.stringify(raceEvents));
+  localStorage.setItem(VoltflowWriteCoordinator.JOURNAL_REGISTRY_KEY,JSON.stringify([raceJournal]));
+  const contentionPromise=waitMessage('replay-contention');
+  localStorage.setItem('__voltflow_coord_replay',JSON.stringify({id:'hx09-browser-active-replay',expiresAt:Date.now()+10000}));
+  channel.postMessage({type:'attempt-during-replay-lock'});
+  const contention=await Promise.race([contentionPromise,wait(3000).then(()=>({ok:false,error:'contention-timeout'}))]);
+  localStorage.removeItem('__voltflow_coord_replay');
+  const raceReplayed=VoltflowWriteCoordinator._internals.replayQueued();
+  const raceApplied=raceEvents.every(event=>localStorage.getItem(event.key)===event.value);
+  const finalJournals=VoltflowWriteCoordinator._internals.journalKeys();
+  finish({ok:acquired.ok&&blockedReplay===0&&preservedWhileFenced&&appliedAfterRelease&&journalsAfterRelease.length===0&&raceReplayed===raceEvents.length&&raceApplied&&finalJournals.length===0&&contention.error==='PERSISTENCE_REPLAY_IN_PROGRESS',acquired,blockedReplay,preservedWhileFenced,appliedAfterRelease,journalsAfterRelease,raceReplayed,raceApplied,finalJournals,contention});
+}
+async function contender(){
+  let token=null;
+  channel.onmessage=async event=>{
+    if(event.data?.type==='acquire-fence'){
+      try{token=await VoltflowWriteCoordinator.acquireExclusive('hx09-browser-reacquired');channel.postMessage({type:'fence-acquired',ok:true,id:token.id});}
+      catch(error){channel.postMessage({type:'fence-acquired',ok:false,error:error.message});}
+    }
+    if(event.data?.type==='release-fence'&&token){VoltflowWriteCoordinator.release(token);token=null;}
+    if(event.data?.type==='attempt-during-replay-lock'){
+      try{const raceToken=await VoltflowWriteCoordinator.acquireExclusive('hx09-during-replay');VoltflowWriteCoordinator.release(raceToken);channel.postMessage({type:'replay-contention',ok:true,error:null});}
+      catch(error){channel.postMessage({type:'replay-contention',ok:false,error:error.message});}
+    }
+  };
+  channel.postMessage({type:'contender-ready'});
+}
+(role==='contender'?contender():controller()).catch(error=>finish({ok:false,error:error.message,stack:error.stack}));
+</script></body></html>
