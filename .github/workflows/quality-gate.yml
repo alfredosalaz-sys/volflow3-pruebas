@@ -1,0 +1,109 @@
+name: Voltflow3 basic quality gate
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  static-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          find modules -type f -name '*.js' -print0 | xargs -0 -r -n1 node --check
+          if [ -d workers ]; then find workers -type f -name '*.js' -print0 | xargs -0 -r -n1 node --check; fi
+          find tools -type f \( -name '*.js' -o -name '*.cjs' \) -print0 | xargs -0 -r -n1 node --check
+      - name: Check release consistency
+        run: node tools/check-release-integrity.cjs
+      - name: Test Places search states
+        run: node tools/places-search-mock-test.cjs
+      - name: Test business provider engine
+        run: node tools/business-providers-mock-test.cjs
+      - name: Test real static provider indexes
+        run: node tools/real-provider-index-test.cjs
+      - name: Provider performance smoke
+        run: node tools/provider-performance-smoke.cjs
+      - name: Independent search regression audit
+        run: node voltflow-regression-tests.cjs "$GITHUB_WORKSPACE"
+      - name: Verify strict zero-cost AI gateway
+        run: node tools/ai-zero-cost-gate-test.cjs "$GITHUB_WORKSPACE"
+      - name: Verify free AI email personalization
+        run: node tools/ai-email-free-personalization-test.cjs "$GITHUB_WORKSPACE"
+      - name: Verify AI credential and output security
+        run: node tools/ai-security-test.cjs "$GITHUB_WORKSPACE"
+      - name: Build persistence inventory without secret values
+        run: node tools/build-persistence-inventory.cjs "$GITHUB_WORKSPACE"
+      - name: Test encrypted backup and restore contracts B01-B20
+        run: node tools/secure-backup-b01-b20-test.cjs "$GITHUB_WORKSPACE"
+      - name: Test non-destructive historical import contracts H01-H20
+        run: node tools/historical-import-test.cjs "$GITHUB_WORKSPACE"
+      - name: Independent historical import safety regressions HX01-HX04
+        run: node VOLTFLOW_HISTORICA_REGRESIONES_INDEPENDIENTES_20261016.cjs "$GITHUB_WORKSPACE"
+      - name: Independent historical import stale-plan and preview regressions HX05-HX06
+        run: node VOLTFLOW_IMPORTACION_PRUEBAS_EXTRA_20261016.cjs "$GITHUB_WORKSPACE"
+      - name: Extended full-state and safe-preview regressions HX05-HX06
+        run: node tools/historical-import-hx05-hx06-test.cjs "$GITHUB_WORKSPACE"
+      - name: Independent concurrent-write regression HX07
+        run: node HX07_CARRERA_ESCRITURA_CONCURRENTE_20261016.cjs "$GITHUB_WORKSPACE"
+      - name: Enforce shared write-coordination contract HX07
+        run: node tools/write-coordinator-contract-test.cjs "$GITHUB_WORKSPACE"
+      - name: Independent durable pending-write regression HX08
+        run: node HX08_REGRESION_COLA_VOLATIL_20261016.cjs "$GITHUB_WORKSPACE"
+      - name: Test HX08 interrupted lease and journal rejection
+        run: node tools/write-coordinator-hx08-test.cjs "$GITHUB_WORKSPACE"
+      - name: Independent concurrent journal replay regression HX09
+        run: node HX09_REGRESION_REPLAY_JOURNAL_CONCURRENTE_20261016.cjs "$GITHUB_WORKSPACE"
+      - name: Test HX09 partial replay and per-event acknowledgement
+        run: node tools/write-coordinator-hx09-test.cjs "$GITHUB_WORKSPACE"
+      - name: Check visible text encoding
+        run: node tools/quality-check.js
+      - name: Verify release SHA256 manifest
+        run: node tools/verify-manifest.cjs
+      - name: Validate business catalog v2
+        run: node tools/validate-business-catalog.cjs
+      - name: Test business catalog contract
+        run: node tools/business-catalog-contract-test.cjs
+      - name: Validate priority prospecting profiles
+        run: node tools/validate-prospecting-priorities.cjs
+      - name: Test priority prospecting contract
+        run: node tools/prospecting-priorities-contract-test.cjs
+      - name: Validate commercial communications contract
+        run: node tools/validate-commercial-communications.cjs
+      - name: Test commercial communications state machine
+        run: node tools/commercial-communications-contract-test.cjs
+      - name: Test commercial communication route regressions
+        run: node tools/commercial-communications-regression-test.cjs
+      - name: Test external client flow with browser mocks
+        run: node tools/commercial-communications-browser-mock-test.cjs
+      - name: Independent C1.1 audit regressions
+        run: node C01_PRUEBAS_INDEPENDIENTES_20261015.cjs "$GITHUB_WORKSPACE"
+      - name: Test C1.1 authorization sequence and evidence controls
+        run: node tools/commercial-communications-c11-test.cjs "$GITHUB_WORKSPACE"
+      - name: Independent C1.2 identity and event regressions
+        run: node C11_REGRESIONES_IDENTIDAD_EVENTO_20261016.cjs "$GITHUB_WORKSPACE"
+      - name: Test C1.2 persistent identity and unique evidence controls
+        run: node tools/commercial-communications-c12-test.cjs "$GITHUB_WORKSPACE"
+      - name: Validate E2 pilot coverage corpus
+        run: node tools/validate-business-coverage-corpus.cjs
+      - name: Test E2 pilot coverage corpus contract
+        run: node tools/business-coverage-corpus-test.cjs
+      - name: Enforce E2.1 pilot quality criteria
+        run: node tools/business-coverage-quality.cjs
+      - name: Independent E2.1 regressions
+        run: node E2_PRUEBAS_ADICIONALES_20261015.cjs "$GITHUB_WORKSPACE"
+      - name: Independent E2.2 address regressions
+        run: node E21_PRUEBAS_DIRECCIONES_ADICIONALES_20261015.cjs "$GITHUB_WORKSPACE"
+      - name: Verify no whitespace errors in last commit
+        shell: bash
+        run: |
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            git diff --check HEAD^ HEAD
+          fi
