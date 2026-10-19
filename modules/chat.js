@@ -23,7 +23,8 @@ function chatShowDailyBriefing() {
 
   // Emails enviados esta semana
   const weekStart = new Date(today); weekStart.setDate(today.getDate() - today.getDay() + 1);
-  const emailsWeek = emailHistory.filter(e => e.date && new Date(e.date) >= weekStart).length;
+  const sentHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
+  const emailsWeek = sentHistory.filter(e => e.date && new Date(e.date) >= weekStart).length;
 
   // Objetivos
   const obj = (() => { try { return JSON.parse(localStorage.getItem('gordi_objectives') || '{}'); } catch { return {}; } })();
@@ -121,10 +122,11 @@ function chatExecute(action, param) {
     case 'weekStats': {
       const today = new Date(); today.setHours(0,0,0,0);
       const weekStart = new Date(today); weekStart.setDate(today.getDate() - today.getDay() + 1);
-      const emailsW = emailHistory.filter(e => e.date && new Date(e.date) >= weekStart).length;
+      const sentHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
+      const emailsW = sentHistory.filter(e => e.date && new Date(e.date) >= weekStart).length;
       const newLeadsW = leads.filter(l => l.date && new Date(l.date) >= weekStart).length;
       const closedW = leads.filter(l => l.status_date && new Date(l.status_date) >= weekStart && l.status === 'Cerrado').length;
-      const contacted = [...new Set(emailHistory.filter(e => e.date && new Date(e.date) >= weekStart).map(e => e.email))].length;
+      const contacted = [...new Set(sentHistory.filter(e => e.date && new Date(e.date) >= weekStart).map(e => e.email))].length;
       const html = `📊 <strong>Resumen de esta semana:</strong><br><br>
         📧 Emails enviados: <strong>${emailsW}</strong><br>
         👤 Empresas contactadas: <strong>${contacted}</strong><br>
@@ -157,9 +159,10 @@ function buildRichAppContext() {
   });
 
   // Email stats
-  const emailsTotal = emailHistory.length;
-  const emailsWeek = emailHistory.filter(e => e.date && new Date(e.date) >= weekStart).length;
-  const contactedCompanies = [...new Set(emailHistory.map(e => e.email?.toLowerCase()))].length;
+  const sentHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
+  const emailsTotal = sentHistory.length;
+  const emailsWeek = sentHistory.filter(e => e.date && new Date(e.date) >= weekStart).length;
+  const contactedCompanies = [...new Set(sentHistory.map(e => e.email?.toLowerCase()))].length;
 
   // Seguimientos vencidos
   const overdue = leads.filter(l => {
@@ -222,7 +225,8 @@ function buildSalesCoachContext(text) {
 
   let ctx = '';
   if (mentionedLead) {
-    const history = emailHistory.filter(e => e.leadId == mentionedLead.id || e.email === mentionedLead.email).slice(0, 3);
+    const sentHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
+    const history = sentHistory.filter(e => e.leadId == mentionedLead.id || e.email === mentionedLead.email).slice(0, 3);
     ctx = `
 
 CONTEXTO DEL LEAD MENCIONADO:
@@ -572,7 +576,7 @@ Responde SOLO en JSON válido:
 }`;
 
     const res = await aiGatewayGeminiFetch(
-      'gemini-2.0-flash', claudeKey,
+      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -819,7 +823,8 @@ async function runAgentScan() {
   const followupLeads = leads.filter(l => {
     if (l.archived) return false;
     if (['Cerrado','No interesa'].includes(l.status)) return false;
-    const lastEmail = emailHistory.filter(e => e.leadId == l.id || e.email === l.email)
+    const sentHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
+    const lastEmail = sentHistory.filter(e => e.leadId == l.id || e.email === l.email)
       .sort((a,b) => new Date(b.date) - new Date(a.date))[0];
     if (!lastEmail) {
       // Never contacted — if added >3 days ago and score > 40
@@ -856,7 +861,8 @@ async function runAgentScan() {
   if (followupLeads.length) {
     html += `<div style="font-size:.72rem;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem">📬 Seguimientos pendientes</div>`;
     followupLeads.forEach(l => {
-      const lastEmail = emailHistory.filter(e => e.leadId == l.id || e.email === l.email)
+      const sentHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
+      const lastEmail = sentHistory.filter(e => e.leadId == l.id || e.email === l.email)
         .sort((a,b) => new Date(b.date) - new Date(a.date))[0];
       const daysSince = lastEmail
         ? Math.floor((Date.now() - new Date(lastEmail.date)) / 86400000)
@@ -953,7 +959,8 @@ async function generateLeadProfile(leadId) {
   const profileEl = document.getElementById(`psych-profile-${leadId}`);
   if (profileEl) profileEl.innerHTML = '<div style="font-size:.75rem;color:var(--text-dim)">🧬 Analizando perfil...</div>';
 
-  const prevEmails = emailHistory.filter(e => e.leadId == leadId || e.email === lead.email);
+  const sentHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
+  const prevEmails = sentHistory.filter(e => e.leadId == leadId || e.email === lead.email);
   const emailSummary = prevEmails.slice(0,5).map(e =>
     `- ${new Date(e.date).toLocaleDateString('es-ES')}: "${e.subject||'Sin asunto'}" (${e.status})`
   ).join('\n') || 'Sin emails enviados aún';
@@ -986,7 +993,7 @@ Responde SOLO en JSON válido:
 
   try {
     const res = await aiGatewayGeminiFetch(
-      'gemini-2.0-flash', claudeKey,
+      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
       { method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.4,maxOutputTokens:600} }) },
       { purpose: 'chat_lead_profile' }
@@ -1069,7 +1076,7 @@ Genera 3-4 oportunidades para las empresas con más potencial.`;
 
   try {
     const res = await aiGatewayGeminiFetch(
-      'gemini-2.0-flash', claudeKey,
+      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
       { method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.7,maxOutputTokens:800} }) },
       { purpose: 'chat_opportunity_analysis' }
@@ -1132,7 +1139,7 @@ async function agentHandleObjection(leadId) {
 LEAD: ${lead.company} (${lead.segment})
 OBJECIÓN DETECTADA: "${objection}"
 ESTADO: ${lead.status}
-HISTORIAL: ${emailHistory.filter(e => e.leadId == leadId || e.email === lead.email).length} emails enviados
+HISTORIAL: ${(typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : []).filter(e => e.leadId == leadId || e.email === lead.email).length} emails enviados
 
 Genera 3 estrategias de respuesta distintas a esta objeción.
 
@@ -1152,7 +1159,7 @@ Responde SOLO JSON:
 
   try {
     const res = await aiGatewayGeminiFetch(
-      'gemini-2.0-flash', claudeKey,
+      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
       { method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.65,maxOutputTokens:900} }) },
       { purpose: 'chat_objection_strategy' }
@@ -1167,15 +1174,15 @@ Responde SOLO JSON:
     const panel = document.createElement('div');
     panel.className = 'agent-panel';
     const approachColors = { rebate:'var(--danger)', siembra:'var(--primary)', cierra:'var(--success)' };
-    panel.innerHTML = `<div class="agent-panel-header"><h3>🥊 Estrategias para rebatir — ${lead.company}</h3></div>` +
+    panel.innerHTML = `<div class="agent-panel-header"><h3>🥊 Estrategias para rebatir — ${escapeAIText(lead.company)}</h3></div>` +
       (result.strategies||[]).map((s,i) => `
         <div class="agent-task-row" style="${s.recommended ? 'border-color:rgba(16,217,124,.4)' : ''}">
           <div class="agent-task-info">
-            <div class="agent-task-name">${s.recommended ? '⭐ ' : ''}${s.name}
+            <div class="agent-task-name">${s.recommended ? '⭐ ' : ''}${escapeAIText(s.name)}
               <span style="font-size:.65rem;background:rgba(99,102,241,.1);color:${approachColors[s.approach]||'var(--primary)'};border-radius:5px;padding:.1rem .35rem;margin-left:.3rem">${s.approach}</span>
             </div>
-            <div class="agent-task-sub">Riesgo: ${s.risk} · Asunto: "${s.subject}"</div>
-            <div style="font-size:.72rem;color:var(--text-dim);margin-top:.2rem;line-height:1.5">${s.body.slice(0,120)}...</div>
+            <div class="agent-task-sub">Riesgo: ${escapeAIText(s.risk)} · Asunto: "${escapeAIText(s.subject)}"</div>
+            <div style="font-size:.72rem;color:var(--text-dim);margin-top:.2rem;line-height:1.5">${escapeAIText(String(s.body || '').slice(0,120))}...</div>
           </div>
           <button onclick="agentUseStrategy(${lead.id}, ${i}, ${JSON.stringify(JSON.stringify(result.strategies))})"
             class="btn-${s.recommended ? 'primary' : 'outline'}" style="font-size:.7rem;padding:.2rem .55rem;flex-shrink:0">Usar</button>
@@ -1201,7 +1208,7 @@ function agentUseStrategy(leadId, stratIdx, strategiesJson) {
     setTimeout(() => {
       const editor = document.getElementById('ai-body-editor');
       const subjEl = document.getElementById('ai-subject-display');
-      if (editor) editor.innerHTML = s.body.replace(/\n/g,'<br>');
+      if (editor) editor.innerHTML = sanitizeAIHTML(String(s.body || '').replace(/\n/g,'<br>'));
       if (subjEl) subjEl.textContent = s.subject;
       document.getElementById('ai-loading').style.display = 'none';
       document.getElementById('ai-result').style.display = 'block';
@@ -1234,7 +1241,7 @@ async function agentBatchPrepare(criteria) {
   } else {
     // Default: hot leads without contact
     targetLeads = leads.filter(l => !l.archived && (l.score||0) >= 65 &&
-      !emailHistory.find(e => e.leadId == l.id || e.email === l.email));
+      !(typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : []).find(e => e.leadId == l.id || e.email === l.email));
   }
 
   if (!targetLeads.length) {
@@ -1517,7 +1524,7 @@ async function schedulerSendWeeklySummary() {
   const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
   const items = [
     { company: 'Leads activos', badge: leads.filter(l=>!l.archived).length, detail: `${leads.filter(l=>new Date(l.date)>=weekAgo).length} nuevos esta semana` },
-    { company: 'Emails enviados', badge: emailHistory.length, detail: 'Total histórico' },
+    { company: 'Emails enviados', badge: (typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : []).length, detail: 'Total confirmado' },
     { company: 'Leads calientes (70+)', badge: leads.filter(l=>!l.archived&&(l.score||0)>=70).length, detail: 'Score alto' },
     { company: 'Cerrados', badge: leads.filter(l=>!l.archived&&l.status==='Cerrado').length, detail: 'En pipeline' },
   ];
@@ -1715,21 +1722,28 @@ function saveGithubConfig() {
   localStorage.setItem('gordi_gh_token', token);
   localStorage.setItem('gordi_gh_user',  user);
   localStorage.setItem('gordi_gh_repo',  repo);
-  setGithubStatus('Probando conexión...', 'var(--text-muted)');
-  githubPush(true).then(() => {
-    document.getElementById('github-badge').style.display = 'inline-block';
-    updateCloudPill();
-  });
+  localStorage.setItem('gordi_gh_auto', 'false');
+  setGithubStatus('Bloqueado: los snapshots no se suben sin cifrado de extremo a extremo.', 'var(--warning)');
+  const autoEl = document.getElementById('github-auto-sync');
+  if (autoEl) autoEl.checked = false;
+  updateCloudPill();
 }
 
 function toggleGithubAuto(enabled) {
-  localStorage.setItem('gordi_gh_auto', enabled ? 'true' : 'false');
-  showToast(enabled ? '🐙 GitHub auto-sync activado' : '🐙 Auto-sync desactivado');
+  localStorage.setItem('gordi_gh_auto', 'false');
+  const autoEl = document.getElementById('github-auto-sync');
+  if (autoEl) autoEl.checked = false;
+  showToast(enabled ? 'Sincronización GitHub bloqueada por seguridad' : 'Sincronización GitHub desactivada');
   updateCloudPill();
 }
 
 // ── Push: write voltflow-data.json to repo ────────────────────────────────
 async function githubPush(showFeedback) {
+  localStorage.setItem('gordi_gh_auto', 'false');
+  if (showFeedback) setGithubStatus('Bloqueado: no se transmiten snapshots sin cifrado.', 'var(--warning)');
+  console.warn('GitHub snapshot sync blocked by secure-backup policy.');
+  return false;
+  /* istanbul ignore next: retained only to document the disabled legacy protocol */
   const { token, user, repo } = getGithubConfig();
   if (!token || !user || !repo) {
     if (showFeedback) setGithubStatus('⚠️ Configura GitHub primero', 'var(--danger)');
@@ -1812,6 +1826,11 @@ async function githubGetRemoteFile(token, user, repo) {
 
 // ── Pull: read voltflow-data.json from repo ───────────────────────────────
 async function githubPull(showFeedback) {
+  localStorage.setItem('gordi_gh_auto', 'false');
+  if (showFeedback) setGithubStatus('Bloqueado: la sincronización histórica no ofrece cifrado de extremo a extremo.', 'var(--warning)');
+  console.warn('GitHub snapshot sync blocked by secure-backup policy.');
+  return false;
+  /* istanbul ignore next: retained only for backwards-format documentation */
   const { token, user, repo } = getGithubConfig();
   if (!token || !user || !repo) return false;
   if (showFeedback) setGithubStatus('⬇ Descargando...', 'var(--text-muted)');
@@ -1886,14 +1905,15 @@ function initGithubSync() {
   if (tokenEl && token) tokenEl.value = token;
   if (userEl  && user)  userEl.value  = user;
   if (repoEl  && repo)  repoEl.value  = repo;
-  if (autoEl)  autoEl.checked = localStorage.getItem('gordi_gh_auto') === 'true';
+  localStorage.setItem('gordi_gh_auto', 'false');
+  if (autoEl)  autoEl.checked = false;
   if (badge && token)   badge.style.display = 'inline-block';
 
   // GitHub auto-sync writes local work to the repo. Pull stays manual except on a clean first run.
   // This avoids an older repository snapshot replacing scraping/leads stored in this browser.
   // First-run on new device: no local data but GitHub configured
   const hasLocal = !!(localStorage.getItem('gordi_leads') || localStorage.getItem('gordi_api_key'));
-  if (!hasLocal && token && user && repo) {
+  if (false && !hasLocal && token && user && repo) {
     setTimeout(async () => {
       showToast('🔄 Nuevo dispositivo — restaurando desde GitHub...');
       await githubPull(false);
@@ -2569,13 +2589,13 @@ async function chatSend() {
     ];
 
     const res = await aiGatewayGeminiFetch(
-      'gemini-2.5-flash', geminiKey,
+      AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: messages,
-          generationConfig: { temperature: 0.4, maxOutputTokens: 6000 }
+          generationConfig: { temperature: 0.4, maxOutputTokens: 2000 }
         })
       },
       { purpose: 'chat_conversation' }

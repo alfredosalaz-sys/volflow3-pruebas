@@ -596,11 +596,11 @@
       <div class="ops-command-grid">
         <div class="ops-card">
           <strong>Ultimo backup inteligente</strong>
-          <span>${lastPoint ? `${new Date(lastPoint.at).toLocaleString('es-ES')} Â· ${esc(lastPoint.reason)}` : 'Aun no hay backups workflow'}</span>
+          <span>${lastPoint ? `${new Date(lastPoint.at).toLocaleString('es-ES')} · ${esc(lastPoint.reason)}` : 'Aun no hay backups workflow'}</span>
         </div>
         <div class="ops-card">
           <strong>Auditoria reciente</strong>
-          <span>${audit[0] ? `${esc(audit[0].type)} Â· ${new Date(audit[0].at).toLocaleString('es-ES')}` : 'Sin eventos registrados'}</span>
+          <span>${audit[0] ? `${esc(audit[0].type)} · ${new Date(audit[0].at).toLocaleString('es-ES')}` : 'Sin eventos registrados'}</span>
         </div>
       </div>`;
   }
@@ -622,7 +622,7 @@
         ${points.length ? points.map(point => `<div class="ops-restore-row">
           <div>
             <strong>${esc(point.reason)}</strong>
-            <span>${new Date(point.at).toLocaleString('es-ES')} Â· ${Number(point.summary?.leads || 0)} leads Â· ${Number(point.summary?.keys || 0)} claves</span>
+            <span>${new Date(point.at).toLocaleString('es-ES')} · ${Number(point.summary?.leads || 0)} leads · ${Number(point.summary?.keys || 0)} claves</span>
           </div>
           <button class="btn-outline btn-sm" onclick="workflowRestorePoint('${esc(point.id)}')">Restaurar</button>
         </div>`).join('') : '<div class="ops-empty">Sin puntos workflow todavia. Crea uno antes de cambios importantes.</div>'}

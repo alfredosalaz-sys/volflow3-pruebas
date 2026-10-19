@@ -21,6 +21,21 @@
 
   const DEFAULT_INDEX_MANIFEST_URL = 'data/business-indexes/manifest.json';
 
+  function getManifestSchemaVersion(manifest = {}) {
+    const version = Number(manifest.schemaVersion || 1);
+    return Number.isInteger(version) && version > 0 ? version : 1;
+  }
+
+  function getPartitionRecordCount(partition = {}) {
+    return Number.isInteger(partition.recordCount) ? partition.recordCount : (partition.count || 0);
+  }
+
+  function getPartitionLegacySectors(partition = {}) {
+    if (Array.isArray(partition.sectors)) return partition.sectors;
+    if (Array.isArray(partition.legacySectors)) return partition.legacySectors;
+    return [];
+  }
+
   const SOURCE_CATALOG = {
     osm_overpass: {
       id: 'osm_overpass',
@@ -167,6 +182,75 @@
     return numbers.length ? numbers[0].toLowerCase() : '';
   }
 
+  function extractAddressUnitMap(value = '') {
+    const text = String(value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const units = new Map();
+    const patterns = [
+      ['unit', /\b(?:local|loc)\.?\s*(?:n(?:um(?:ero)?)?\.?\s*)?([a-z0-9ºª°-]+)/g],
+      ['door', /\b(?:puerta|pta)\.?\s*([a-z0-9ºª°-]+)/g],
+      ['floor', /\b(?:piso|planta)\.?\s*([a-z0-9ºª°-]+)/g],
+      ['stair', /\b(?:escalera|escala|esc)\.?\s*([a-z0-9ºª°-]+)/g],
+      ['building', /\b(?:portal|bloque)\.?\s*([a-z0-9ºª°-]+)/g],
+    ];
+    const canonical = (type, value) => {
+      const token = String(value || '').replace(/[.\s_-]+/g, '').replace(/[ºª°]$/g, '');
+      if (type === 'floor' && /^(?:bajo|bajos|baix|baixos|bj|bjo)$/.test(token)) return 'ground-floor';
+      if (type === 'door') {
+        if (/^(?:d|dr|dcha|derecha|dreta)$/.test(token)) return 'right';
+        if (/^(?:i|iz|izq|izda|izquierda|esquerra)$/.test(token)) return 'left';
+      }
+      return token;
+    };
+    const add = (type, token) => {
+      const normalized = canonical(type, token);
+      if (!normalized) return;
+      if (!units.has(type)) units.set(type, new Set());
+      units.get(type).add(normalized);
+    };
+    for (const [type, pattern] of patterns) {
+      for (const match of text.matchAll(pattern)) add(type, match[1]);
+    }
+    const ground = text.match(/\b(?:bajo|bajos|baix|baixos|bj|bjo)\.?\s*(derecha|dcha|dr|dreta|izquierda|izda|izq|iz|esquerra|[a-z])?\b/);
+    if (ground) {
+      add('floor', 'ground-floor');
+      if (ground[1]) add('door', ground[1]);
+    }
+    for (const segment of text.split(',').slice(1)) {
+      const token = segment.trim().replace(/\s+/g, '');
+      const ordinal = token.match(/^(\d{1,2})(?:º|ª|°|o)(dr|dcha|derecha|iz|izq|izda|izquierda|[a-z])?$/);
+      if (ordinal) {
+        add('floor', ordinal[1]);
+        if (ordinal[2]) add('door', ordinal[2]);
+        continue;
+      }
+      const compact = token.match(/^(\d{1,2})(dr|dcha|derecha|iz|izq|izda|izquierda|[a-z])$/);
+      if (compact) {
+        add('floor', compact[1]);
+        add('door', compact[2]);
+        continue;
+      }
+      if (/^(?:dr|dcha|derecha|iz|izq|izda|izquierda|[a-z])$/.test(token)) add('door', token);
+    }
+    return units;
+  }
+
+  function extractAddressUnits(value = '') {
+    return [...new Set([...extractAddressUnitMap(value).values()].flatMap(values => [...values]))].sort();
+  }
+
+  function hasConflictingAddressUnits(a = {}, b = {}) {
+    const mapA = extractAddressUnitMap(a.address || '');
+    const mapB = extractAddressUnitMap(b.address || '');
+    if (!mapA.size || !mapB.size) return false;
+    for (const [type, valuesA] of mapA) {
+      const valuesB = mapB.get(type);
+      if (valuesB && ![...valuesA].some(value => valuesB.has(value))) return true;
+    }
+    const unitsA = extractAddressUnits(a.address || '');
+    const unitsB = extractAddressUnits(b.address || '');
+    return !unitsA.some(unit => unitsB.includes(unit));
+  }
+
   function makeRecordId(providerId, externalId, name, address) {
     return `${providerId}:${externalId || normalizeText(`${name}|${address}`).slice(0, 80)}`;
   }
@@ -299,6 +383,7 @@
   function isLikelyDuplicate(a = {}, b = {}) {
     const sameExternal = Object.entries(a.externalIds || {}).some(([k, v]) => v && b.externalIds?.[k] === v);
     if (sameExternal) return true;
+    if (hasConflictingAddressUnits(a, b)) return false;
     const domainA = extractDomainSafe(a.website || '');
     const domainB = extractDomainSafe(b.website || '');
     const phoneA = normalizePhone(a.phone || a.phones?.[0] || '');
@@ -457,11 +542,12 @@
         const locationIsPostcode = /^\d{5}$/.test(String(params.location || '').trim());
         if (locationIsPostcode && part.postalPrefix && !String(params.location || '').startsWith(String(part.postalPrefix))) continue;
         if (!locationIsPostcode && part.locality && normalizeText(params.location) && !normalizeText(part.locality).includes(normalizeText(params.location))) continue;
-        if (part.sectors && params.segment && !part.sectors.includes(params.segment)) continue;
+        const legacySectors = getPartitionLegacySectors(part);
+        if (legacySectors.length && params.segment && !legacySectors.includes(params.segment)) continue;
         try {
           const data = await loadJson(part.file, fetchImpl);
           const rows = Array.isArray(data.records) ? data.records : Array.isArray(data) ? data : [];
-          loaded.push({ providerId, file: part.file, count: rows.length });
+          loaded.push({ providerId, file: part.file, count: rows.length, declaredCount: getPartitionRecordCount(part) });
           rows
             .map(row => normalizeStaticRecord(row, providerId, { segment: params.segment }))
             .filter(row => locationMatches(row, params.location))
@@ -479,7 +565,11 @@
     return {
       status: candidates.length ? PROVIDER_STATUS.AVAILABLE : PROVIDER_STATUS.UNAVAILABLE,
       records: candidates.slice(0, params.maxResults || 50),
-      diagnostics: { loaded, manifestVersion: manifest.version || '' },
+      diagnostics: {
+        loaded,
+        manifestSchemaVersion: getManifestSchemaVersion(manifest),
+        manifestVersion: manifest.datasetRelease || manifest.version || '',
+      },
       licenseMetadata: manifest.licenseMetadata || {},
     };
   }
@@ -489,11 +579,16 @@
     PROVIDER_STATUS,
     SOURCE_CATALOG,
     CATEGORY_RULES,
+    getManifestSchemaVersion,
+    getPartitionRecordCount,
+    getPartitionLegacySectors,
     normalizeText,
     similarityRatio,
     normalizePhone,
     extractDomainSafe,
     extractStreetNumber,
+    extractAddressUnits,
+    hasConflictingAddressUnits,
     normalizeDibaElement,
     normalizeStaticRecord,
     classifyRecord,

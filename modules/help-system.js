@@ -645,6 +645,13 @@ MANUAL OPERATIVO ACTUAL DE LA APP, BUILD ${HELP_BUILD}:
       title: 'Mapa: cobertura por colores',
       text: 'El modo Cobertura muestra CP buscados, parciales, pendientes o con errores para decidir la siguiente zona.',
       manual: 'map'
+    },
+    {
+      view: 'settings',
+      selector: '#ai-router-status',
+      title: 'Inteligencia artificial gratuita',
+      text: 'La IA solo se activa para proveedores y modelos permitidos despues de confirmar en cada sesion el plan gratuito, la ausencia de facturacion y la politica de privacidad.',
+      manual: 'settings'
     }
   ];
 

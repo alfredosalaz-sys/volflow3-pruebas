@@ -1113,7 +1113,8 @@ function bfLastActivityDays(lead) {
 }
 
 function bfSentEmailsForLead(lead) {
-  return (emailHistory || []).filter(e => e.leadId == lead.id || (lead.email && e.email === lead.email));
+  const sentHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
+  return sentHistory.filter(e => e.leadId == lead.id || (lead.email && e.email === lead.email));
 }
 
 function bfLeadPainSignals(lead) {

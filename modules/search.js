@@ -1,31 +1,31 @@
 // ============================================================
-// MOTOR DE BÃšSQUEDA â€” 3 CAPAS + SCRAPING AVANZADO
-// Capa 1: Google Places API  -> nombre, direcciÃ³n, rating, web, telÃ©fono, horario
-// Capa 2: Web Scraping PRO   -> emails, redes, decisor, descripciÃ³n, JSON-LD, Schema.org
-// Capa 3: Hunter.io          -> verificaciÃ³n y bÃºsqueda de emails corporativos
+// MOTOR DE BÚSQUEDA — 3 CAPAS + SCRAPING AVANZADO
+// Capa 1: Google Places API  -> nombre, dirección, rating, web, teléfono, horario
+// Capa 2: Web Scraping PRO   -> emails, redes, decisor, descripción, JSON-LD, Schema.org
+// Capa 3: Hunter.io          -> verificación y búsqueda de emails corporativos
 // ============================================================
 
-// â”€â”€ Proxies CORS (se prueban en orden, primer Ã©xito gana) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// â”€â”€ Lista de proxies CORS â€” actualizada 2026 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Se intentan en orden; el sistema aprende cuÃ¡les funcionan mejor en la sesiÃ³n
-// y los sube en el ranking automÃ¡ticamente.
+// ── Proxies CORS (se prueban en orden, primer éxito gana) ────────────────────
+// ── Lista de proxies CORS — actualizada 2026 ─────────────────────────────────
+// Se intentan en orden; el sistema aprende cuáles funcionan mejor en la sesión
+// y los sube en el ranking automáticamente.
 
 
 // --------------------------------------------------------------------------
-// â–ˆâ–ˆ  MÃ“DULO: SCRAPING
-// â”€â”€  Motor de scraping y enriquecimiento web de empresas
-// â”€â”€  Funciones: CORS_PROXIES, _proxyStats, _getSortedProxies, fetchWithProxy, enrichFromWeb,
+// ██  MÓDULO: SCRAPING
+// ──  Motor de scraping y enriquecimiento web de empresas
+// ──  Funciones: CORS_PROXIES, _proxyStats, _getSortedProxies, fetchWithProxy, enrichFromWeb,
   //          enrichFromHunter, enrichFromApollo, enrichFromWhois, enrichFromOpenCorporates,
   //          enrichFromNews, enrichFromStreetView, enrichFromBorme,
   //          enrichFromEmpressite, enrichFromExperian, extractEmailWithAI
 // --------------------------------------------------------------------------
 
 const CORS_PROXIES = [
-  // â”€â”€ Tier 1: alta fiabilidad â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Tier 1: alta fiabilidad ─────────────────────────────────────────────
   { url: 'https://api.allorigins.win/get?url=',           mode: 'allorigins' },
   { url: 'https://corsproxy.io/?',                        mode: 'raw' },
   { url: 'https://api.allorigins.win/raw?url=',           mode: 'raw' },
-  // â”€â”€ Tier 2: alternativos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Tier 2: alternativos ────────────────────────────────────────────────
   { url: 'https://cors-anywhere.hexlet.io/',              mode: 'raw' },
   { url: 'https://proxy.cors.sh/',                        mode: 'raw' },
   { url: 'https://cors.eu.org/',                          mode: 'raw' },
@@ -426,7 +426,7 @@ function renderMultiSectorResultsPanel() {
     <div style="display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;flex-wrap:wrap">
       <div>
         <div style="font-weight:800;color:var(--text)">CP/zona ${multiSectorSearchState.location}</div>
-        <div style="font-size:.8rem;color:var(--text-muted);margin-top:.2rem">${sectors.length} sectores Â· ${tempSearchResults.length} empresas unicas Â· ${newCount} nuevas Â· ${duplicates} duplicados fusionados</div>
+        <div style="font-size:.8rem;color:var(--text-muted);margin-top:.2rem">${sectors.length} sectores · ${tempSearchResults.length} empresas unicas · ${newCount} nuevas · ${duplicates} duplicados fusionados</div>
       </div>
       <div style="display:flex;gap:.45rem;flex-wrap:wrap">
         <button class="btn-primary btn-sm" onclick="currentMultiSectorFilter='all';createProspectingCampaignFromSearch()">Campana multi-sector</button>
@@ -445,7 +445,7 @@ function renderMultiSectorResultsPanel() {
         const s = stats[seg];
         return `<div style="padding:.65rem;border:1px solid var(--glass-border);border-radius:10px;background:rgba(255,255,255,.035)">
           <div style="font-weight:700;font-size:.82rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${getSegmentLabel(seg)}</div>
-          <div style="font-size:.7rem;color:var(--text-muted);margin-top:.25rem">${s.email} email Â· ${s.ready} listos Â· ${s.pain} dolores Â· score ${s.avg}</div>
+          <div style="font-size:.7rem;color:var(--text-muted);margin-top:.25rem">${s.email} email · ${s.ready} listos · ${s.pain} dolores · score ${s.avg}</div>
           <button class="btn-outline btn-sm" style="margin-top:.45rem;width:100%" onclick="filterMultiSectorResults('${seg}');createProspectingCampaignFromSearch()">Campana sector</button>
         </div>`;
       }).join('')}
@@ -518,7 +518,7 @@ function getDataTrust(c) {
   decorateContactQuality(c);
   const items = [];
   if (c.email) {
-    const src = c.contactEmailRole ? `${c.contactEmailRole} Â· ${c.contactEmailReason || 'email validado'}` : (c.emailCandidates?.[0]?.reason || (c.emailQuality ? `calidad ${c.emailQuality}` : 'email validado'));
+    const src = c.contactEmailRole ? `${c.contactEmailRole} · ${c.contactEmailReason || 'email validado'}` : (c.emailCandidates?.[0]?.reason || (c.emailQuality ? `calidad ${c.emailQuality}` : 'email validado'));
     items.push({ label: 'Email', value: c.email, confidence: c.contactEmailScore || (c.emailQuality === 'alta' ? 92 : c.emailQuality === 'media' ? 72 : 55), source: src });
   }
   if (c.decision_maker) {
@@ -612,11 +612,11 @@ function buildResultExplanation(c = {}) {
   const sector = (c.matchedSectors || [c.sourceSector || c.segment]).filter(Boolean);
   if (sector.length) items.push({ label: 'Sector', value: sector.map(getSegmentLabel).join(', '), ok: true });
   if (c.querySource) items.push({ label: 'Query', value: c.querySource, ok: true });
-  if (c.searchPoint || c.radiusUsed) items.push({ label: 'Zona', value: [c.searchPoint, c.radiusUsed ? `${c.radiusUsed}km` : ''].filter(Boolean).join(' Â· '), ok: true });
+  if (c.searchPoint || c.radiusUsed) items.push({ label: 'Zona', value: [c.searchPoint, c.radiusUsed ? `${c.radiusUsed}km` : ''].filter(Boolean).join(' · '), ok: true });
   if (c.distKm !== null && c.distKm !== undefined) items.push({ label: 'Distancia', value: `${c.distKm}km`, ok: c.distKm <= 10 });
   items.push({ label: 'Fuente', value: (c.enrichSource || []).length ? c.enrichSource.join(', ') : (c.foundBy || 'Google Places'), ok: true });
   items.push({ label: 'Web', value: c.website ? 'web valida' : 'sin web', ok: !!c.website });
-  items.push({ label: 'Email', value: c.email ? `${c.contactEmailRole || 'email'} Â· ${c.contactQuality}` : 'sin email', ok: !!c.email });
+  items.push({ label: 'Email', value: c.email ? `${c.contactEmailRole || 'email'} · ${c.contactQuality}` : 'sin email', ok: !!c.email });
   if (c.decision_maker) items.push({ label: 'Decisor', value: c.decision_maker, ok: true });
   if (c.duplicateCount) items.push({ label: 'Duplicados', value: `${c.duplicateCount} fusionados${c.duplicateReasons?.length ? ': ' + c.duplicateReasons.join(', ') : ''}`, ok: true });
   if ((c.scrapeDiagnostics || []).length) items.push({ label: 'Diagnostico', value: c.scrapeDiagnostics.join(', '), ok: false });
@@ -856,13 +856,13 @@ function filterUXStatus(status) {
   applyAdvancedFilters();
 }
 
-// â”€â”€ Cache de Enriquecimiento (Idea 5) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Evita re-scrapear empresas en la misma sesiÃ³n/dÃ­as para ahorrar tiempo y APIs
+// ── Cache de Enriquecimiento (Idea 5) ────────────────────────────────────────
+// Evita re-scrapear empresas en la misma sesión/días para ahorrar tiempo y APIs
 const _enrichCache = {
   get: (id) => {
     try {
       const entry = JSON.parse(localStorage.getItem('gordi_enrich_cache') || '{}')[id];
-      if (entry && (Date.now() - entry.ts < 1000 * 60 * 60 * 24 * 7)) return entry.data; // 7 dÃ­as
+      if (entry && (Date.now() - entry.ts < 1000 * 60 * 60 * 24 * 7)) return entry.data; // 7 días
     } catch(e) {}
     return null;
   },
@@ -870,7 +870,7 @@ const _enrichCache = {
     try {
       const cache = JSON.parse(localStorage.getItem('gordi_enrich_cache') || '{}');
       cache[id] = { ts: Date.now(), data };
-      // Mantener tamaÃ±o razonable (< 2MB)
+      // Mantener tamaño razonable (< 2MB)
       const keys = Object.keys(cache);
       if (keys.length > 500) delete cache[keys[0]];
       localStorage.setItem('gordi_enrich_cache', JSON.stringify(cache));
@@ -890,8 +890,8 @@ const _enrichCache = {
   }
 };
 
-// â”€â”€ Cache de rendimiento de proxies (sesiÃ³n) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Aprendemos quÃ© proxies funcionan y los priorizamos durante la sesiÃ³n
+// ── Cache de rendimiento de proxies (sesión) ─────────────────────────────────
+// Aprendemos qué proxies funcionan y los priorizamos durante la sesión
 const _proxyStats = {};
 CORS_PROXIES.forEach((p, i) => { _proxyStats[i] = { ok: 0, fail: 0, ms: 999 }; });
 
@@ -909,7 +909,7 @@ function _getSortedProxies() {
     .map(x => ({ ...x.proxy, _idx: x.idx }));
 
   if (customProxyUrl) {
-    // El proxy personalizado ocupa la posiciÃ³n 0 siempre, con modo raw
+    // El proxy personalizado ocupa la posición 0 siempre, con modo raw
     return [{ url: customProxyUrl, mode: 'raw', _idx: -1 }, ...base];
   }
   return base;
@@ -925,7 +925,7 @@ function isScrapeableHtml(content = '', expected = 'html') {
   return /<html|<head|<body|<title|<meta|<script|<a\s|mailto:|schema\.org|application\/ld\+json/i.test(sample);
 }
 
-// â”€â”€ DiagnÃ³stico de proxies â€” exportado para el botÃ³n de configuraciÃ³n â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Diagnóstico de proxies — exportado para el botón de configuración ─────────
 async function testAllProxies() {
   if (isZeroCostMode()) {
     return CORS_PROXIES.map(p => ({
@@ -939,7 +939,7 @@ async function testAllProxies() {
   const results = [];
   const customProxyUrl = localStorage.getItem('gordi_custom_proxy')?.trim();
   const proxiesToTest = [
-    ...(customProxyUrl ? [{ url: customProxyUrl, mode: 'raw', label: 'â­ Tu proxy' }] : []),
+    ...(customProxyUrl ? [{ url: customProxyUrl, mode: 'raw', label: '⭐ Tu proxy' }] : []),
     ...CORS_PROXIES.map(p => ({ ...p, label: p.url.split('/')[2] })),
   ];
   for (const proxy of proxiesToTest) {
@@ -960,7 +960,7 @@ async function testAllProxies() {
 }
 
 async function fetchWithProxy(targetUrl, timeoutMs = 9000, options = {}) {
-  // FIX-SCRAPING 2026: DetecciÃ³n activa de proxies saturados (429/503)
+  // FIX-SCRAPING 2026: Detección activa de proxies saturados (429/503)
   const expected = options.expected || 'html';
   const maxProxies = options.maxProxies || 3;
   const deadlineMs = options.deadlineMs || timeoutMs;
@@ -994,7 +994,7 @@ async function fetchWithProxy(targetUrl, timeoutMs = 9000, options = {}) {
         headers: { 'Cache-Control': 'no-cache' } 
       });
 
-      // Si el proxy responde que estÃ¡ saturado, penalizarlo fuertemente en esta sesiÃ³n
+      // Si el proxy responde que está saturado, penalizarlo fuertemente en esta sesión
       if (res.status === 429 || res.status === 503 || res.status === 403) {
         if (proxy._idx >= 0) _proxyStats[proxy._idx].fail += 5; 
         continue;
@@ -1018,7 +1018,7 @@ async function fetchWithProxy(targetUrl, timeoutMs = 9000, options = {}) {
         const ms = Date.now() - t0;
         if (proxy._idx >= 0) {
           _proxyStats[proxy._idx].ok++;
-          // Media mÃ³vil ponderada para el tiempo de respuesta
+          // Media móvil ponderada para el tiempo de respuesta
           _proxyStats[proxy._idx].ms = Math.round((_proxyStats[proxy._idx].ms * 0.6) + (ms * 0.4));
         }
         return content;
@@ -1027,7 +1027,7 @@ async function fetchWithProxy(targetUrl, timeoutMs = 9000, options = {}) {
       if (proxy._idx >= 0) _proxyStats[proxy._idx].fail++;
     } catch (err) {
       if (proxy._idx >= 0) _proxyStats[proxy._idx].fail++;
-      // Si el error es timeout, es una seÃ±al de que el proxy es lento
+      // Si el error es timeout, es una señal de que el proxy es lento
       if (err.name === 'TimeoutError' && proxy._idx >= 0) _proxyStats[proxy._idx].ms = Math.max(_proxyStats[proxy._idx].ms, timeoutMs);
     }
   }
@@ -1046,7 +1046,7 @@ async function fetchWithProxy(targetUrl, timeoutMs = 9000, options = {}) {
     } catch {}
   }
 
-  // â”€â”€ Ãšltimo recurso: fetch directo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Último recurso: fetch directo ──────────────────────────────────────────
   const remaining = deadlineMs - (Date.now() - startedAt);
   if (remaining <= 250) return '';
   try {
@@ -1065,7 +1065,7 @@ async function fetchWithProxy(targetUrl, timeoutMs = 9000, options = {}) {
 
 
 
-// â”€â”€ Palabras clave de roles decisores (ES + EN) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Palabras clave de roles decisores (ES + EN) ──────────────────────────────
 const ROLE_KEYWORDS = [
   'gerente general','director general','director ejecutivo','director de operaciones',
   'director','gerente','propietario','propietaria','ceo','coo','cfo','cio',
@@ -1075,7 +1075,7 @@ const ROLE_KEYWORDS = [
   'director de compras','director de obra','project manager'
 ];
 
-// â”€â”€ Dominios a ignorar en emails â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Dominios a ignorar en emails ─────────────────────────────────────────────
 const EMAIL_BLACKLIST = new Set([
   'example.com','test.com','domain.com','email.com','mail.com',
   'wixpress.com','wix.com','squarespace.com','wordpress.com','shopify.com',
@@ -1088,7 +1088,7 @@ const EMAIL_BLACKLIST = new Set([
   'gravatar.com','akismet.com','yoast.com','elementor.com',
 ]);
 
-// â”€â”€ Prefijos de email prioritarios (mÃ¡s probables que sean del decisor) â”€â”€â”€â”€â”€â”€
+// ── Prefijos de email prioritarios (más probables que sean del decisor) ──────
 const EMAIL_PRIORITY_PREFIXES = [
   'info','contacto','contact','hola','hello','direccion','director','gerencia',
   'gerente','administracion','admin','ventas','comercial','gestion',
@@ -1103,7 +1103,7 @@ function getRoleRegexSource() {
   return `\\b(?:${ROLE_KEYWORDS.map(escapeRegex).join('|')})\\b`;
 }
 
-// â”€â”€ Patrones redes sociales (mÃ¡s robustos, capturan URL completa limpia) â”€â”€â”€â”€â”€
+// ── Patrones redes sociales (más robustos, capturan URL completa limpia) ─────
 const SOCIAL_REGEXES = {
   instagram: [
     /https?:\/\/(?:www\.)?instagram\.com\/([A-Za-z0-9_.]{1,30})\/?(?:[^"'\s<>])?/gi,
@@ -1125,14 +1125,14 @@ const SOCIAL_REGEXES = {
   ],
 };
 
-// Cuentas genÃ©ricas de redes a ignorar
+// Cuentas genéricas de redes a ignorar
 const SOCIAL_BLACKLIST = new Set([
   'sharer','share','login','signup','intent','hashtag',
   'home','feed','search','explore','reels','stories',
   'pages','groups','events','marketplace','watch','shorts',
 ]);
 
-// â”€â”€ Helper: extraer URL social limpia â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Helper: extraer URL social limpia ────────────────────────────────────────
 function extractSocialUrl(html, network) {
   const regexes = SOCIAL_REGEXES[network] || [];
   const candidates = new Set();
@@ -1150,12 +1150,12 @@ function extractSocialUrl(html, network) {
   return [...candidates][0] || '';
 }
 
-// â”€â”€ Helper: limpiar texto HTML â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Helper: limpiar texto HTML ────────────────────────────────────────────────
 function stripHtml(str) {
   return str.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
-// â”€â”€â”€ CAPA 1: Google Places â€” Multi-query con dedup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CAPA 1: Google Places — Multi-query con dedup ──────────────────────────
 // Radio center coordinates (set when geocoding location)
 let radiusCenterCoords = null;
 
@@ -1168,9 +1168,9 @@ function clearRadiusCenter() {
 
 
 // --------------------------------------------------------------------------
-// â–ˆâ–ˆ  MÃ“DULO: SEARCH
-// â”€â”€  BÃºsqueda de empresas via Google Places API
-// â”€â”€  Funciones: geocodeLocation, buildSearchGrid, fetchPlaces, searchBusinesses
+// ██  MÓDULO: SEARCH
+// ──  Búsqueda de empresas via Google Places API
+// ──  Funciones: geocodeLocation, buildSearchGrid, fetchPlaces, searchBusinesses
 // --------------------------------------------------------------------------
 
 const GEO_CACHE_TTL = 30 * 24 * 60 * 60 * 1000;
@@ -1229,7 +1229,7 @@ async function geocodeLocation(locationStr) {
   return null;
 }
 
-// â”€â”€â”€ Haversine â€” distancia real en km entre dos coordenadas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Haversine — distancia real en km entre dos coordenadas ──────────────────
 function haversineKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -1240,7 +1240,7 @@ function haversineKm(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
-// â”€â”€â”€ Enriquecer distancias reales desde el centro de bÃºsqueda â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Enriquecer distancias reales desde el centro de búsqueda ────────────────
 async function enrichDistances(companies, locationStr) {
   try {
     const center = await geocodeLocation(locationStr);
@@ -1255,12 +1255,12 @@ async function enrichDistances(companies, locationStr) {
   } catch { return companies; }
 }
 
-// â”€â”€â”€ HELPERS GRID SEARCH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Geocodifica una direcciÃ³n y devuelve {lat, lng}
-// â”€â”€ Esperar a que el SDK de Google Maps estÃ© disponible â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Race condition: loadGoogleMapsScript inyecta un <script> asÃ­ncrono.
+// ─── HELPERS GRID SEARCH ────────────────────────────────────────────────────
+// Geocodifica una dirección y devuelve {lat, lng}
+// ── Esperar a que el SDK de Google Maps esté disponible ──────────────────────
+// Race condition: loadGoogleMapsScript inyecta un <script> asíncrono.
 // Si el usuario pulsa "Buscar" antes de que cargue, google es undefined -> crash.
-// Esta funciÃ³n espera hasta 15 segundos antes de lanzar un error claro.
+// Esta función espera hasta 15 segundos antes de lanzar un error claro.
 async function waitForGoogleMaps(timeoutMs = 15000) {
   if (isZeroCostMode()) throw createZeroCostBlockedError('google_maps_sdk', 'billing_risk_not_allowed');
   const apiKey = localStorage.getItem('gordi_api_key');
@@ -1330,44 +1330,44 @@ async function geocodeSearch(locationStr) {
 }
 
 // FIX 5: Mapa de distritos reales por ciudad
-// Las ciudades tienen formas irregulares â€” un grid cuadrado cubre mal las zonas perifÃ©ricas.
-// Usar distritos reales garantiza cobertura uniforme y mÃ¡s resultados Ãºnicos.
+// Las ciudades tienen formas irregulares — un grid cuadrado cubre mal las zonas periféricas.
+// Usar distritos reales garantiza cobertura uniforme y más resultados únicos.
 const CITY_DISTRICTS = {
   'madrid': [
-    'Salamanca Madrid','ChamberÃ­ Madrid','Retiro Madrid','Centro Madrid',
-    'TetuÃ¡n Madrid','Carabanchel Madrid','Vallecas Madrid','Hortaleza Madrid',
-    'Alcobendas Madrid','Pozuelo de AlarcÃ³n','Getafe Madrid','LeganÃ©s Madrid',
-    'Las Rozas Madrid','Majadahonda Madrid','AlcorcÃ³n Madrid'
+    'Salamanca Madrid','Chamberí Madrid','Retiro Madrid','Centro Madrid',
+    'Tetuán Madrid','Carabanchel Madrid','Vallecas Madrid','Hortaleza Madrid',
+    'Alcobendas Madrid','Pozuelo de Alarcón','Getafe Madrid','Leganés Madrid',
+    'Las Rozas Madrid','Majadahonda Madrid','Alcorcón Madrid'
   ],
   'barcelona': [
-    'Eixample Barcelona','GrÃ cia Barcelona','Sants Barcelona','Sant MartÃ­ Barcelona',
-    'SarriÃ  Sant Gervasi Barcelona','Nou Barris Barcelona','Sant Andreu Barcelona',
-    'Horta GuinardÃ³ Barcelona','Les Corts Barcelona','Hospitalet de Llobregat'
+    'Eixample Barcelona','Gràcia Barcelona','Sants Barcelona','Sant Martí Barcelona',
+    'Sarrià Sant Gervasi Barcelona','Nou Barris Barcelona','Sant Andreu Barcelona',
+    'Horta Guinardó Barcelona','Les Corts Barcelona','Hospitalet de Llobregat'
   ],
   'valencia': [
     'Eixample Valencia','Campanar Valencia','Rascanya Valencia',
-    'Benicalap Valencia','Poblats MarÃ­tims Valencia','Quatre Carreres Valencia',
-    'JesÃºs Valencia','Patraix Valencia','L\'Olivereta Valencia'
+    'Benicalap Valencia','Poblats Marítims Valencia','Quatre Carreres Valencia',
+    'Jesús Valencia','Patraix Valencia','L\'Olivereta Valencia'
   ],
   'sevilla': [
-    'Centro Sevilla','Triana Sevilla','NerviÃ³n Sevilla','Los Remedios Sevilla',
+    'Centro Sevilla','Triana Sevilla','Nervión Sevilla','Los Remedios Sevilla',
     'Macarena Sevilla','Cerro Amate Sevilla','San Pablo Santa Justa Sevilla'
   ],
   'bilbao': [
-    'Abando Bilbao','Deusto Bilbao','BegoÃ±a Bilbao','Uribarri Bilbao',
+    'Abando Bilbao','Deusto Bilbao','Begoña Bilbao','Uribarri Bilbao',
     'Basurto Bilbao','Getxo Bilbao','Barakaldo Bilbao'
   ],
   'zaragoza': [
     'Centro Zaragoza','Delicias Zaragoza','Universidad Zaragoza',
     'Oliver Valdefierro Zaragoza','La Almozara Zaragoza'
   ],
-  'mÃ¡laga': [
-    'Centro MÃ¡laga','Cruz de Humilladero MÃ¡laga','Campanillas MÃ¡laga',
-    'Palma Palmilla MÃ¡laga','Martiricos La Trinidad MÃ¡laga'
+  'málaga': [
+    'Centro Málaga','Cruz de Humilladero Málaga','Campanillas Málaga',
+    'Palma Palmilla Málaga','Martiricos La Trinidad Málaga'
   ],
 };
 
-// Devuelve distritos adicionales si la ciudad estÃ¡ en el mapa
+// Devuelve distritos adicionales si la ciudad está en el mapa
 function getCityDistricts(locationStr) {
   const loc = locationStr.toLowerCase().trim();
   for (const [city, districts] of Object.entries(CITY_DISTRICTS)) {
@@ -1376,7 +1376,7 @@ function getCityDistricts(locationStr) {
   return [];
 }
 
-// â”€â”€â”€ HELPER CENTRALIZADO: locationBias para Google Places API v3 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── HELPER CENTRALIZADO: locationBias para Google Places API v3 ──────────────
 // La API JS actual acepta CircleLiteral como locationBias. Usar circulo evita
 // sesgos demasiado estrechos en codigos postales y cambios de forma de barrios.
 // Esta funcion es el unico lugar donde se construye locationBias.
@@ -1567,11 +1567,11 @@ function buildPlacesBudgetNotice(plan, fields) {
   };
 }
 
-// Genera una cuadrÃ­cula de puntos dentro del radio dado (en km)
-// gridSize = nÃºmero de celdas por lado (2=4 puntos, 3=9 puntos, 4=16 puntos...)
+// Genera una cuadrícula de puntos dentro del radio dado (en km)
+// gridSize = número de celdas por lado (2=4 puntos, 3=9 puntos, 4=16 puntos...)
 function buildSearchGrid(centerLat, centerLng, radiusKm, gridSize) {
   const points = [];
-  // 1Â° lat â‰ˆ 111 km; 1Â° lng â‰ˆ 111 km * cos(lat)
+  // 1° lat ≈ 111 km; 1° lng ≈ 111 km * cos(lat)
   const latDeg = radiusKm / 111;
   const lngDeg = radiusKm / (111 * Math.cos(centerLat * Math.PI / 180));
   const step = 2 / (gridSize - 1 || 1);
@@ -1579,7 +1579,7 @@ function buildSearchGrid(centerLat, centerLng, radiusKm, gridSize) {
     for (let j = 0; j < gridSize; j++) {
       const lat = centerLat + latDeg * (-1 + i * step);
       const lng = centerLng + lngDeg * (-1 + j * step);
-      // Solo incluir puntos dentro del cÃ­rculo (distancia al centro <= radio)
+      // Solo incluir puntos dentro del círculo (distancia al centro <= radio)
       const dLat = (lat - centerLat) * 111;
       const dLng = (lng - centerLng) * 111 * Math.cos(centerLat * Math.PI / 180);
       if (Math.sqrt(dLat*dLat + dLng*dLng) <= radiusKm * 1.1) {
@@ -1803,7 +1803,7 @@ async function buildSearchPlan(segment, location, maxResults, opts = {}) {
     points,
     queryBatches,
     targetBeforeExpansion,
-    summary: `${kind} Â· ${points.length} zonas Â· ${allQueries.length} queries${isMulti ? ' Â· multi-sector' : ''}`,
+    summary: `${kind} · ${points.length} zonas · ${allQueries.length} queries${isMulti ? ' · multi-sector' : ''}`,
   };
 }
 
@@ -2366,7 +2366,7 @@ async function fetchPlaces(segment, location, maxResults, opts = {}) {
   }
 
   const apiKey = localStorage.getItem('gordi_api_key');
-  if (!apiKey) throw new Error('API Key de Google no configurada. Ve a ConfiguraciÃ³n.');
+  if (!apiKey) throw new Error('API Key de Google no configurada. Ve a Configuración.');
 
   await waitForGoogleMaps();
   const { Place } = await google.maps.importLibrary('places');
@@ -2382,7 +2382,7 @@ async function fetchPlaces(segment, location, maxResults, opts = {}) {
     logEnrich(`  Coste Places: hasta ${budget.maxTextSearchCalls} consultas Text Search (New), modo campos "${budget.fieldMode}" (${placesFields.join(', ')}). Sin diagnosticos automaticos de control.`, 'warn');
   }
 
-  // Iterar sobre puntos del grid Ã— queries del segmento
+  // Iterar sobre puntos del grid × queries del segmento
   let queryAttempts = 0;
   let failedQueries = 0;
   let successfulSearchResponses = 0;
@@ -2414,11 +2414,11 @@ async function fetchPlaces(segment, location, maxResults, opts = {}) {
             fields: placesFields,
             language: 'es',
             region: 'es',
-            maxResultCount: 20, // MÃ¡ximo que permite la API por llamada
+            maxResultCount: 20, // Máximo que permite la API por llamada
             pureServiceAreaBusinessesIncluded: true,
           };
 
-          // AÃ±adir bias geogrÃ¡fico â€” usar SIEMPRE buildLocationBias(), nunca construir aquÃ­
+          // Añadir bias geográfico — usar SIEMPRE buildLocationBias(), nunca construir aquí
           if (point.lat) {
             const cellRadiusM = Math.max(500, (point.radiusKm || plan.requestedRadiusKm || 10) * 1000);
             request.locationBias = buildLocationBias(point.lat, point.lng, cellRadiusM);
@@ -2502,7 +2502,7 @@ async function fetchPlaces(segment, location, maxResults, opts = {}) {
 
           // Log de progreso en modo exhaustivo
           if (exhaustive || effectiveMax > 100) {
-            logEnrich(`  -> ${allPlaces.length} empresas Ãºnicas encontradas...`);
+            logEnrich(`  -> ${allPlaces.length} empresas únicas encontradas...`);
           }
 
           await sleep(250); // Pausa entre llamadas API
@@ -2569,17 +2569,17 @@ async function fetchPlaces(segment, location, maxResults, opts = {}) {
   return allPlaces;
 }
 
-// â”€â”€â”€ CACHÃ‰ DE ENRIQUECIMIENTO â€” TTL ADAPTATIVO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// MEJORA 5: TTL adaptativo segÃºn calidad:
-//   Â· Con email confirmado -> 30 dÃ­as (dato fiable, raramente cambia)
-//   Â· Enriquecido pero sin email -> 7 dÃ­as (igual que antes)
-//   Â· Sin enriquecer / fallÃ³ -> 2 dÃ­as (vale la pena reintentar pronto)
-const ENRICH_CACHE_TTL = 7 * 24 * 60 * 60 * 1000; // fallback base (7 dÃ­as)
+// ─── CACHÉ DE ENRIQUECIMIENTO — TTL ADAPTATIVO ────────────────────────────────
+// MEJORA 5: TTL adaptativo según calidad:
+//   · Con email confirmado -> 30 días (dato fiable, raramente cambia)
+//   · Enriquecido pero sin email -> 7 días (igual que antes)
+//   · Sin enriquecer / falló -> 2 días (vale la pena reintentar pronto)
+const ENRICH_CACHE_TTL = 7 * 24 * 60 * 60 * 1000; // fallback base (7 días)
 
 function getEnrichTTL(data) {
-  if (data && data.email) return 30 * 24 * 60 * 60 * 1000;  // 30 dÃ­as â€” email confirmado
-  if (data && data.enriched) return 7 * 24 * 60 * 60 * 1000; // 7 dÃ­as â€” enriquecido sin email
-  return 2 * 24 * 60 * 60 * 1000;                            // 2 dÃ­as â€” fallÃ³ / sin datos
+  if (data && data.email) return 30 * 24 * 60 * 60 * 1000;  // 30 días — email confirmado
+  if (data && data.enriched) return 7 * 24 * 60 * 60 * 1000; // 7 días — enriquecido sin email
+  return 2 * 24 * 60 * 60 * 1000;                            // 2 días — falló / sin datos
 }
 
 function getCachedEnrich(domain) {
@@ -2619,7 +2619,7 @@ function setCachedEnrich(domain, data) {
       scrapeMemoryUsed: data.scrapeMemoryUsed,
       deepPagesVisited: data.deepPagesVisited,
     };
-    // MEJORA 5: TTL adaptativo segÃºn calidad del resultado
+    // MEJORA 5: TTL adaptativo según calidad del resultado
     const ttl = getEnrichTTL(toCache);
     localStorage.setItem(key, JSON.stringify({ ts: Date.now(), ttl, data: toCache }));
   } catch { /* localStorage lleno, ignorar */ }
@@ -2811,10 +2811,10 @@ function applyEmailCandidates(company, candidates, source = 'Web-email') {
 function extractDecisionMakerAdvanced(html = '', sourceUrl = '') {
   const clean = stripHtml(normalizeObfuscatedEmails(html)).replace(/\s+/g, ' ');
   const roleStr = getRoleRegexSource();
-  const namePattern = '([A-ZÃÃ‰ÃÃ“ÃšÃ‘][a-zÃ¡Ã©Ã­Ã³ÃºÃ±A-ZÃÃ‰ÃÃ“ÃšÃ‘]+(?:\s+[A-ZÃÃ‰ÃÃ“ÃšÃ‘][a-zÃ¡Ã©Ã­Ã³ÃºÃ±A-ZÃÃ‰ÃÃ“ÃšÃ‘]+){1,3})';
+  const namePattern = '([A-ZÁÉÍÓÚÑ][a-záéíóúñA-ZÁÉÍÓÚÑ]+(?:\s+[A-ZÁÉÍÓÚÑ][a-záéíóúñA-ZÁÉÍÓÚÑ]+){1,3})';
   const patterns = [
-    { re: new RegExp(`(${roleStr})[^a-zÃ¡Ã©Ã­Ã³ÃºÃ±]{0,45}${namePattern}`, 'i'), roleIdx: 1, nameIdx: 2, conf: 86 },
-    { re: new RegExp(`${namePattern}[^a-zÃ¡Ã©Ã­Ã³ÃºÃ±]{0,55}(${roleStr})`, 'i'), nameIdx: 1, roleIdx: 2, conf: 82 },
+    { re: new RegExp(`(${roleStr})[^a-záéíóúñ]{0,45}${namePattern}`, 'i'), roleIdx: 1, nameIdx: 2, conf: 86 },
+    { re: new RegExp(`${namePattern}[^a-záéíóúñ]{0,55}(${roleStr})`, 'i'), nameIdx: 1, roleIdx: 2, conf: 82 },
     { re: /(?:fundador|fundadora|ceo|gerente|director(?:a)?)[^<]{0,80}/i, conf: 55 },
   ];
   for (const p of patterns) {
@@ -2876,7 +2876,7 @@ function buildDeepScrapePlan(company, html = '', domain = '', memory = {}) {
     .slice(0, 3);
 }
 
-// â”€â”€â”€ CAPA 2: Web Scraping PRO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CAPA 2: Web Scraping PRO ─────────────────────────────────────────────────
 async function enrichFromWeb(company) {
   company = normalizeSearchCompany(company);
   if (!company.website) {
@@ -2884,7 +2884,7 @@ async function enrichFromWeb(company) {
     return company;
   }
 
-  // â”€â”€ Comprobar cachÃ© â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Comprobar caché ──────────────────────────────────────────────────────
   const domainKey = extractDomain(company.website) || company.website;
   const scrapeMemory = loadScrapeMemory(domainKey);
   company.scrapeDiagnostics = [];
@@ -2902,13 +2902,13 @@ async function enrichFromWeb(company) {
         }
       }
     });
-    if (!company.enrichSource.includes('CachÃ©')) company.enrichSource.push('CachÃ©');
+    if (!company.enrichSource.includes('Caché')) company.enrichSource.push('Caché');
     return company;
   }
 
   let html = '';
-  // FIX 1: Medir el tiempo del fetch original â€” antes se hacÃ­a un 2Âº fetch idÃ©ntico
-  // solo para medir velocidad (lÃ­nea ~3892), duplicando todas las peticiones al proxy.
+  // FIX 1: Medir el tiempo del fetch original — antes se hacía un 2º fetch idéntico
+  // solo para medir velocidad (línea ~3892), duplicando todas las peticiones al proxy.
   // Ahora medimos el tiempo del fetch que ya necesitamos hacer de todas formas.
   const t0Fetch = Date.now();
   try {
@@ -2921,7 +2921,7 @@ async function enrichFromWeb(company) {
   }
   company.webLoadMs = Date.now() - t0Fetch;
   if (!html || html.length < 200) {
-    // Todos los proxies fallaron â€” marcar como intento fallido para no reintentar desde cachÃ©
+    // Todos los proxies fallaron — marcar como intento fallido para no reintentar desde caché
     const reason = diagnoseScrapeFailure({ url: company.website, html, ms: company.webLoadMs });
     company.scrapeDiagnostics = [reason];
     recordScrapePage(domainKey, company.website, { ok: false, reason, ms: company.webLoadMs });
@@ -2932,7 +2932,7 @@ async function enrichFromWeb(company) {
   detectCommercialScrapeSignals(company, html);
   annotateIncrementalScrape(company);
 
-  // â”€â”€â”€ 0. SSL / HTTPS check â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 0. SSL / HTTPS check ────────────────────────────────────────────────
   {
     const reason = diagnoseScrapeFailure({ url: company.website, html, ms: company.webLoadMs });
     if (reason !== 'desconocido') company.scrapeDiagnostics.push(reason);
@@ -2943,12 +2943,12 @@ async function enrichFromWeb(company) {
     const url = company.website;
     if (/^http:\/\//i.test(url)) {
       company.sslValid = false;
-      company.signals.push('ðŸ”“ Sin HTTPS â€” web sin cifrar, seÃ±al de abandono tecnolÃ³gico');
+      company.signals.push('🔓 Sin HTTPS — web sin cifrar, señal de abandono tecnológico');
       if (!company.enrichSource.includes('SSL:HTTP')) company.enrichSource.push('SSL:HTTP');
     } else if (/^https:\/\//i.test(url)) {
       if (/certificate|ssl.*error|expired.*cert|cert.*expired|ssl_error/i.test(html)) {
         company.sslValid = false;
-        company.signals.push('âš ï¸ SSL caducado detectado â€” web con certificado expirado');
+        company.signals.push('⚠️ SSL caducado detectado — web con certificado expirado');
       } else {
         company.sslValid = true;
       }
@@ -2958,7 +2958,7 @@ async function enrichFromWeb(company) {
   const domain = extractDomain(company.website) || '';
   const domainRoot = domain.split('.')[0] || '';
 
-  // â”€â”€â”€ 1. JSON-LD / Schema.org (fuente mÃ¡s fiable) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 1. JSON-LD / Schema.org (fuente más fiable) ─────────────────────────
   const jsonLdBlocks = [...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
   for (const block of jsonLdBlocks) {
     try {
@@ -2971,9 +2971,9 @@ async function enrichFromWeb(company) {
           const e = item.email.replace('mailto:','').trim().toLowerCase();
           if (isValidEmail(e)) { company.email = e; company.enrichSource.push('JSON-LD'); }
         }
-        // TelÃ©fono
+        // Teléfono
         if (item.telephone && !company.phone) company.phone = item.telephone.trim();
-        // DescripciÃ³n
+        // Descripción
         if (item.description && !company.description)
           company.description = stripHtml(item.description).slice(0, 220);
         // Nombre alternativo
@@ -3000,7 +3000,7 @@ async function enrichFromWeb(company) {
     } catch { /* JSON malformado, ignorar */ }
   }
 
-  // â”€â”€â”€ 2. Meta tags â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 2. Meta tags ────────────────────────────────────────────────────────
   if (!company.description) {
     const metaDesc = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']{20,300})["']/i)
                   || html.match(/<meta[^>]+content=["']([^"']{20,300})["'][^>]+name=["']description["']/i);
@@ -3012,13 +3012,13 @@ async function enrichFromWeb(company) {
     if (og) company.description = og[1].trim();
   }
 
-  // â”€â”€â”€ 3. ExtracciÃ³n de emails â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  // Deshabilitar obfuscaciÃ³n tipo "info [at] empresa [dot] com"
+  // ─── 3. Extracción de emails ─────────────────────────────────────────────
+  // Deshabilitar obfuscación tipo "info [at] empresa [dot] com"
   const deobfHtml = html
     .replace(/\[at\]/gi, '@').replace(/\(at\)/gi, '@').replace(/ at /gi, '@')
     .replace(/\[dot\]/gi, '.').replace(/\(dot\)/gi, '.').replace(/ dot /gi, '.');
 
-  // Buscar tambiÃ©n en atributos href="mailto:..."
+  // Buscar también en atributos href="mailto:..."
   const mailtoEmails = [...deobfHtml.matchAll(/href=["']mailto:([^"'?\s]+)/gi)]
     .map(m => m[1].toLowerCase().trim());
 
@@ -3063,7 +3063,7 @@ async function enrichFromWeb(company) {
     company.enrichSource.push('Web-email');
   }
 
-  // â”€â”€â”€ 3b. Emails ocultos en atributos HTML (alt, title, data-*) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 3b. Emails ocultos en atributos HTML (alt, title, data-*) ───────────
   if (!company.email) {
     const attrEmailRegex = /(?:alt|title|data-email|data-mail|data-mailto|aria-label)=["']([^"']{5,80}@[^"']{3,40}\.[a-z]{2,8})["']/gi;
     const attrMatches = [...deobfHtml.matchAll(attrEmailRegex)].map(m => m[1].toLowerCase().trim());
@@ -3075,7 +3075,7 @@ async function enrichFromWeb(company) {
     }
   }
 
-  // â”€â”€â”€ 3c. Emails en comentarios HTML â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 3c. Emails en comentarios HTML ──────────────────────────────────────
   if (!company.email) {
     const commentMatches = [...deobfHtml.matchAll(/<!--[\s\S]*?([a-zA-Z0-9._%+\-]{2,64}@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,10})[\s\S]*?-->/g)]
       .map(m => m[1].toLowerCase()).filter(isValidEmail);
@@ -3085,7 +3085,7 @@ async function enrichFromWeb(company) {
     }
   }
 
-  // â”€â”€â”€ 4. TelÃ©fonos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 4. Teléfonos ────────────────────────────────────────────────────────
   // 3d. Validador real: ranking por dominio, rol y descartes no comerciales.
   applyEmailCandidates(company, extractEmailsAdvanced(html, company), 'Email-validado');
 
@@ -3095,14 +3095,14 @@ async function enrichFromWeb(company) {
     if (telHref) {
       company.phone = telHref[1].trim();
     } else {
-      // Patrones ES: mÃ³viles 6xx/7xx, fijos 8xx/9xx, con o sin +34
+      // Patrones ES: móviles 6xx/7xx, fijos 8xx/9xx, con o sin +34
       const phoneRegex = /(?:\+34|0034)?[\s.-]?(?:6\d{2}|7[0-9]\d|8\d{2}|9\d{2})[\s.-]?\d{3}[\s.-]?\d{3}/g;
       const phones = deobfHtml.match(phoneRegex);
       if (phones?.length) company.phone = phones[0].replace(/[\s.-]/g, '');
     }
   }
 
-  // â”€â”€â”€ 4b. TelÃ©fonos adicionales y WhatsApp â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 4b. Teléfonos adicionales y WhatsApp ────────────────────────────────
   {
     const phoneRegexAll = /(?:\+34|0034)?[\s.-]?(?:6\d{2}|7[0-9]\d|8\d{2}|9\d{2})[\s.-]?\d{3}[\s.-]?\d{3}/g;
     const allRawPhones = (deobfHtml.match(phoneRegexAll) || [])
@@ -3120,39 +3120,39 @@ async function enrichFromWeb(company) {
     }
   }
 
-  // â”€â”€â”€ 5. Redes sociales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 5. Redes sociales ───────────────────────────────────────────────────
   if (!company.instagram) company.instagram = extractSocialUrl(html, 'instagram');
   if (!company.facebook)  company.facebook  = extractSocialUrl(html, 'facebook');
   if (!company.linkedin)  company.linkedin  = extractSocialUrl(html, 'linkedin');
   if (!company.twitter)   company.twitter   = extractSocialUrl(html, 'twitter');
   if (!company.youtube)   company.youtube   = extractSocialUrl(html, 'youtube');
 
-  // â”€â”€â”€ 6. Decisor â€” detecciÃ³n avanzada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 6. Decisor — detección avanzada ────────────────────────────────────
   if (!company.decision_maker) {
-    // PatrÃ³n: "Cargo: Nombre Apellido" o "Nombre Apellido, Cargo"
-    const namePattern = /([A-ZÃÃ‰ÃÃ“ÃšÃ‘][a-zÃ¡Ã©Ã­Ã³ÃºÃ±]{1,20}(?:\s+[A-ZÃÃ‰ÃÃ“ÃšÃ‘][a-zÃ¡Ã©Ã­Ã³ÃºÃ±]{1,20}){1,2})/
+    // Patrón: "Cargo: Nombre Apellido" o "Nombre Apellido, Cargo"
+    const namePattern = /([A-ZÁÉÍÓÚÑ][a-záéíóúñ]{1,20}(?:\s+[A-ZÁÉÍÓÚÑ][a-záéíóúñ]{1,20}){1,2})/
     const roleStr = getRoleRegexSource();
 
-    // PatrÃ³n 1: Cargo seguido de nombre
-    const p1 = new RegExp(`(${roleStr})[^a-zÃ¡Ã©Ã­Ã³ÃºÃ±]{0,30}(?:[:â€“|]\\s*)${namePattern.source}`, 'i');
+    // Patrón 1: Cargo seguido de nombre
+    const p1 = new RegExp(`(${roleStr})[^a-záéíóúñ]{0,30}(?:[:–|]\\s*)${namePattern.source}`, 'i');
     const m1 = html.match(p1);
     if (m1) { company.decision_maker = `${m1[2]} (${m1[1]})`; }
 
-    // PatrÃ³n 2: Nombre seguido de cargo (tÃ­pico en pÃ¡ginas de equipo)
+    // Patrón 2: Nombre seguido de cargo (típico en páginas de equipo)
     if (!company.decision_maker) {
-      const p2 = new RegExp(`${namePattern.source}[^a-zÃ¡Ã©Ã­Ã³ÃºÃ±]{0,40}(${roleStr})`, 'i');
+      const p2 = new RegExp(`${namePattern.source}[^a-záéíóúñ]{0,40}(${roleStr})`, 'i');
       const m2 = html.match(p2);
       if (m2) { company.decision_maker = `${m2[1]} (${m2[2]})`; }
     }
 
-    // PatrÃ³n 3: Buscar en meta "author"
+    // Patrón 3: Buscar en meta "author"
     if (!company.decision_maker) {
       const author = html.match(/<meta[^>]+name=["']author["'][^>]+content=["']([^"']{3,60})["']/i);
       if (author) company.decision_maker = `${author[1].trim()} (Autor/a web)`;
     }
   }
 
-  // â”€â”€â”€ 7. DescripciÃ³n fallback: primer pÃ¡rrafo relevante â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 7. Descripción fallback: primer párrafo relevante ──────────────────
   {
     const dm = extractDecisionMakerAdvanced(html, company.website);
     if (dm && (!company.decision_maker || dm.confidence > (company.decision_maker_confidence || 0))) {
@@ -3178,8 +3178,8 @@ async function enrichFromWeb(company) {
     }
   }
 
-  // â”€â”€â”€ 8. Scraping profundo: equipo, nosotros, contacto â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  // OPTIMIZACIÃ“N v2.1.1: Procesamos en paralelo para mayor velocidad
+  // ─── 8. Scraping profundo: equipo, nosotros, contacto ───────────────────
+  // OPTIMIZACIÓN v2.1.1: Procesamos en paralelo para mayor velocidad
   const useLegacyDeepScrape = false;
   if (useLegacyDeepScrape && (!company.email || !company.decision_maker)) {
     const baseUrl = company.website.replace(/\/$/, '');
@@ -3195,7 +3195,7 @@ async function enrichFromWeb(company) {
         } catch(e) {}
         
         if (pageHtml && pageHtml.length > 200) {
-          // ExtracciÃ³n de emails
+          // Extracción de emails
           if (!company.email) {
             const deobf = pageHtml.replace(/\[at\]/gi,'@').replace(/\(at\)/gi,'@').replace(/ at /gi,'@')
               .replace(/\[dot\]/gi,'.').replace(/\(dot\)/gi,'.').replace(/ dot /gi,'.');
@@ -3205,14 +3205,14 @@ async function enrichFromWeb(company) {
             if (validCtEmails.length) {
               company.email = validCtEmails[0];
               company.emails = [...new Set([...company.emails, ...validCtEmails])].slice(0, 6);
-              if (!company.enrichSource.includes('PÃ¡g-profunda')) company.enrichSource.push('PÃ¡g-profunda');
+              if (!company.enrichSource.includes('Pág-profunda')) company.enrichSource.push('Pág-profunda');
             }
           }
-          // ExtracciÃ³n de decisor
+          // Extracción de decisor
           if (!company.decision_maker && /equipo|team|nosotros|about/i.test(path)) {
             const roleStr = getRoleRegexSource();
-            const namePattern = /([A-ZÃÃ‰ÃÃ“ÃšÃ‘][a-zÃ¡Ã©Ã­Ã³ÃºÃ±]{1,20}\s+(?:[A-ZÃÃ‰ÃÃ“ÃšÃ‘][a-zÃ¡Ã©Ã­Ã³ÃºÃ±]{1,20}\s+)?[A-ZÃÃ‰ÃÃ“ÃšÃ‘][a-zÃ¡Ã©Ã­Ã³ÃºÃ±]{1,25})/;
-            const p1 = new RegExp(`(${roleStr})[^a-z]{0,30}[:â€“|]?\\s*${namePattern.source}`, 'i');
+            const namePattern = /([A-ZÁÉÍÓÚÑ][a-záéíóúñ]{1,20}\s+(?:[A-ZÁÉÍÓÚÑ][a-záéíóúñ]{1,20}\s+)?[A-ZÁÉÍÓÚÑ][a-záéíóúñ]{1,25})/;
+            const p1 = new RegExp(`(${roleStr})[^a-z]{0,30}[:–|]?\\s*${namePattern.source}`, 'i');
             const p2 = new RegExp(`${namePattern.source}[^a-z]{0,40}(${roleStr})`, 'i');
             const m1 = pageHtml.match(p1);
             const m2 = pageHtml.match(p2);
@@ -3223,7 +3223,7 @@ async function enrichFromWeb(company) {
       }
     } catch {}
   }
-  // â”€â”€â”€ 8b. Tech Stack Detection (Idea 5) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 8b. Tech Stack Detection (Idea 5) ─────────────────────────────────
   // 8c. Scraping profundo inteligente: usa enlaces reales + memoria local por dominio.
   if (!company.email || !company.decision_maker) {
     const deepUrls = buildDeepScrapePlan(company, html, domain, scrapeMemory);
@@ -3273,37 +3273,37 @@ async function enrichFromWeb(company) {
   if (/google-analytics|ga4|googletagmanager/i.test(html)) company.techStack.push('Google Analytics');
   if (/facebook-jssdk|fbevents\.js/i.test(html)) company.techStack.push('Facebook Pixel');
   if (company.techStack.length > 0) {
-    company.signals.push(`ðŸ› ï¸ Stack: ${company.techStack.join(', ')}`);
+    company.signals.push(`🛠️ Stack: ${company.techStack.join(', ')}`);
   } else {
-    company.signals.push('ðŸ•¸ï¸ Web bÃ¡sica o personalizada (sin CMS detectado)');
+    company.signals.push('🕸️ Web básica o personalizada (sin CMS detectado)');
   }
-  // DetecciÃ³n de web antigua
+  // Detección de web antigua
   if (/<meta[^>]+name=["']generator["'][^>]+content=["'](?:frontpage|dreamweaver|adobe)/i.test(html) || /<table[^>]+border=["']0["'][^>]*>\s*<tr>\s*<td>/i.test(html)) {
-    company.signals.push('ðŸ¦– TecnologÃ­a web obsoleta detectada â€” urgente modernizaciÃ³n');
+    company.signals.push('🦖 Tecnología web obsoleta detectada — urgente modernización');
     company.techStack.push('Legacy');
   }
 
-  // â”€â”€â”€ 9. DetecciÃ³n de seÃ±ales de oportunidad â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 9. Detección de señales de oportunidad ──────────────────────────────
   if (!company.signals) company.signals = [];
   detectCommercialScrapeSignals(company, html);
 
-  // SeÃ±al: rating bajo (oportunidad de mejora)
+  // Señal: rating bajo (oportunidad de mejora)
   if (company.rating && company.rating < 3.8 && company.ratingCount > 5)
-    company.signals.push(`âš ï¸ Rating bajo (${company.rating}â˜…) â€” oportunidad de mejora`);
+    company.signals.push(`⚠️ Rating bajo (${company.rating}★) — oportunidad de mejora`);
 
-  // SeÃ±al: muchas reseÃ±as -> negocio activo
+  // Señal: muchas reseñas -> negocio activo
   if (company.ratingCount > 100)
-    company.signals.push(`ðŸ”¥ Negocio activo (${company.ratingCount} reseÃ±as)`);
+    company.signals.push(`🔥 Negocio activo (${company.ratingCount} reseñas)`);
 
-  // SeÃ±al: sin web -> potencial de digitalizaciÃ³n
+  // Señal: sin web -> potencial de digitalización
   if (!company.website)
-    company.signals.push('ðŸŒ Sin web detectada â€” alta necesidad de digitalizaciÃ³n');
+    company.signals.push('🌐 Sin web detectada — alta necesidad de digitalización');
 
-  // SeÃ±al: keywords de reforma/obras en descripciÃ³n
-  if (company.description && /reforma|renovac|ampliaciÃ³n|traslado|nueva sede|obra|apertura/i.test(company.description))
-    company.signals.push('ðŸ—ï¸ SeÃ±al de obra/reforma detectada en descripciÃ³n');
+  // Señal: keywords de reforma/obras en descripción
+  if (company.description && /reforma|renovac|ampliación|traslado|nueva sede|obra|apertura/i.test(company.description))
+    company.signals.push('🏗️ Señal de obra/reforma detectada en descripción');
 
-  // â”€â”€â”€ 10. DetecciÃ³n de tecnologÃ­a web ampliada (CMS + PMS + Reservas) â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 10. Detección de tecnología web ampliada (CMS + PMS + Reservas) ────────
   if (html) {
     if (!company.techStack) company.techStack = [];
     // CMS
@@ -3320,26 +3320,26 @@ async function enrichFromWeb(company) {
     else if (/opera.*pms|oracle.*hospitality/i.test(html)) company.techStack.push('PMS:Opera');
     else if (/siteminder/i.test(html))            company.techStack.push('PMS:SiteMinder');
     else if (/booking\.com.*widget|bwidget/i.test(html)) company.techStack.push('Reservas:Booking-Widget');
-    // AnalÃ­tica
+    // Analítica
     if (/gtag|google-analytics|G-[A-Z0-9]+/i.test(html)) company.techStack.push('GA4');
     if (/fbq|facebook.*pixel/i.test(html))         company.techStack.push('MetaPixel');
-    // Sin sistema de reservas online = seÃ±al de digitalizaciÃ³n baja
+    // Sin sistema de reservas online = señal de digitalización baja
     if (company.techStack.length === 0 || company.techStack.every(t => /WordPress|Wix|Joomla|Squarespace/.test(t)))
-      company.signals.push('ðŸ“± Sin sistema de reservas digital detectado');
+      company.signals.push('📱 Sin sistema de reservas digital detectado');
     if (company.techStack.length) company.enrichSource.push('Tech:' + company.techStack[0]);
   }
 
-  // â”€â”€â”€ 11. Sitemap.xml â€” detecciÃ³n de pÃ¡ginas clave â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  // MEJORA â€” Early-exit de sitemap:
-  // El sitemap solo aporta valor en dos casos: (a) encontrar decisor vÃ­a teamUrl,
-  // (b) detectar URLs con aÃ±o reciente como seÃ±al de actividad.
-  // Si ya tenemos email + decisor desde una fuente fiable (JSON-LD / Hunter / Apollo / cachÃ©)
+  // ─── 11. Sitemap.xml — detección de páginas clave ──────────────────────────
+  // MEJORA — Early-exit de sitemap:
+  // El sitemap solo aporta valor en dos casos: (a) encontrar decisor vía teamUrl,
+  // (b) detectar URLs con año reciente como señal de actividad.
+  // Si ya tenemos email + decisor desde una fuente fiable (JSON-LD / Hunter / Apollo / caché)
   // nos ahorramos el fetch de 5000ms por empresa -> en un batch de 3 = hasta 15s ganados.
   const _sitemapSources = company.enrichSource || [];
   const _skipSitemap = !!(
     company.email &&
     company.decision_maker &&
-    _sitemapSources.some(s => /JSON-LD|Hunter|Apollo|CachÃ©/.test(s))
+    _sitemapSources.some(s => /JSON-LD|Hunter|Apollo|Caché/.test(s))
   );
   try {
     if (_skipSitemap) { /* early-exit: datos completos, no merece el fetch */ }
@@ -3352,18 +3352,18 @@ async function enrichFromWeb(company) {
       // Buscar URLs de equipo, blog reciente, inauguraciones
       const teamUrl   = urls.find(u => /equipo|team|nosotros|about|staff/i.test(u));
       const blogUrls  = urls.filter(u => /blog|noticias|news|post/i.test(u)).slice(0, 3);
-      const freshUrls = urls.filter(u => /202[34]|202[56]/i.test(u)).slice(0, 3); // URLs con aÃ±o reciente
+      const freshUrls = urls.filter(u => /202[34]|202[56]/i.test(u)).slice(0, 3); // URLs con año reciente
 
-      if (freshUrls.length) company.signals.push(`ðŸ“° ${freshUrls.length} pÃ¡ginas de contenido reciente (${new Date().getFullYear()-1}-${new Date().getFullYear()})`);
+      if (freshUrls.length) company.signals.push(`📰 ${freshUrls.length} páginas de contenido reciente (${new Date().getFullYear()-1}-${new Date().getFullYear()})`);
 
-      // Scraping de pÃ¡gina de equipo desde sitemap
+      // Scraping de página de equipo desde sitemap
       if (teamUrl && !company.decision_maker) {
         try {
           const teamHtml = await fetchWithProxy(teamUrl, 5000, { deadlineMs: 5500, maxProxies: 2 });
           if (teamHtml) {
             const roleStr = getRoleRegexSource();
-            const namePattern = /([A-ZÃÃ‰ÃÃ“ÃšÃ‘][a-zÃ¡Ã©Ã­Ã³ÃºÃ±]{1,20}\s+(?:[A-ZÃÃ‰ÃÃ“ÃšÃ‘][a-zÃ¡Ã©Ã­Ã³ÃºÃ±]{1,20}\s+)?[A-ZÃÃ‰ÃÃ“ÃšÃ‘][a-zÃ¡Ã©Ã­Ã³ÃºÃ±]{1,25})/;
-            const p1 = new RegExp(`(${roleStr})[^a-z]{0,30}[:â€“|]?\s*${namePattern.source}`, 'i');
+            const namePattern = /([A-ZÁÉÍÓÚÑ][a-záéíóúñ]{1,20}\s+(?:[A-ZÁÉÍÓÚÑ][a-záéíóúñ]{1,20}\s+)?[A-ZÁÉÍÓÚÑ][a-záéíóúñ]{1,25})/;
+            const p1 = new RegExp(`(${roleStr})[^a-z]{0,30}[:–|]?\s*${namePattern.source}`, 'i');
             const m1 = teamHtml.match(p1);
             if (m1) { company.decision_maker = `${m1[2]} (${m1[1]})`; company.enrichSource.push('Sitemap'); }
           }
@@ -3373,25 +3373,25 @@ async function enrichFromWeb(company) {
     } // end else (!_skipSitemap)
   } catch {}
 
-  // â”€â”€â”€ 12. Velocidad web como seÃ±al de abandono tecnolÃ³gico â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  // FIX 1: webLoadMs ya fue medido en el fetch inicial (sin peticiÃ³n extra)
+  // ─── 12. Velocidad web como señal de abandono tecnológico ───────────────────
+  // FIX 1: webLoadMs ya fue medido en el fetch inicial (sin petición extra)
   {
     const loadMs = company.webLoadMs || 0;
     if (loadMs > 4000) {
-      company.signals.push(`ðŸ¢ Web muy lenta (${(loadMs/1000).toFixed(1)}s) â€” posible abandono tecnolÃ³gico`);
+      company.signals.push(`🐢 Web muy lenta (${(loadMs/1000).toFixed(1)}s) — posible abandono tecnológico`);
     } else if (loadMs > 2000) {
-      company.signals.push(`â±ï¸ Web lenta (${(loadMs/1000).toFixed(1)}s)`);
+      company.signals.push(`⏱️ Web lenta (${(loadMs/1000).toFixed(1)}s)`);
     }
   }
 
-  // â”€â”€â”€ 13. PriceLevel Ã— Rating â€” seÃ±al de oportunidad cruzada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ─── 13. PriceLevel × Rating — señal de oportunidad cruzada ────────────────
   if (company.priceLevel !== null && company.rating) {
-    // Hotel caro con rating bajo = en riesgo, mÃ¡xima urgencia
+    // Hotel caro con rating bajo = en riesgo, máxima urgencia
     if (company.priceLevel >= 3 && company.rating < 4.0)
-      company.signals.push(`âš¡ Precio alto + rating bajo (${company.rating}â˜…) â€” riesgo de pÃ©rdida de clientes`);
-    // Hotel barato con muchas reseÃ±as = potencial sin explotar
+      company.signals.push(`⚡ Precio alto + rating bajo (${company.rating}★) — riesgo de pérdida de clientes`);
+    // Hotel barato con muchas reseñas = potencial sin explotar
     if (company.priceLevel <= 2 && company.ratingCount > 80 && company.rating >= 4.2)
-      company.signals.push(`ðŸ’Ž Buena reputaciÃ³n a precio bajo â€” potencial de subida de categorÃ­a`);
+      company.signals.push(`💎 Buena reputación a precio bajo — potencial de subida de categoría`);
   }
 
   company.enriched = true;
@@ -3416,13 +3416,13 @@ async function enrichFromWeb(company) {
     });
   }
 
-  // â”€â”€ Guardar en cachÃ© â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Guardar en caché ─────────────────────────────────────────────────────
   setCachedEnrich(domainKey, company);
 
   return company;
 }
 
-// â”€â”€ Validador de email â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Validador de email ────────────────────────────────────────────────────────
 function isValidEmail(e) {
   if (!e || !e.includes('@')) return false;
   const [local, dom] = e.split('@');
@@ -3433,7 +3433,7 @@ function isValidEmail(e) {
   return true;
 }
 
-// â”€â”€â”€ CAPA 3: Hunter.io â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CAPA 3: Hunter.io ────────────────────────────────────────────────────────
 async function enrichFromHunter(company) {
   const hunterKey = localStorage.getItem('gordi_hunter_key');
   if (!hunterKey || !company.website) return company;
@@ -3473,12 +3473,12 @@ async function enrichFromHunter(company) {
         company.decision_maker = pos ? `${full} (${pos})` : full;
       }
 
-      // AÃ±adir todos los emails de Hunter (sin duplicados)
+      // Añadir todos los emails de Hunter (sin duplicados)
       const newEmails = hunterEmails.map(e => e.value).filter(Boolean);
       company.emails = [...new Set([...company.emails, ...newEmails])].slice(0, 6);
     }
 
-    // DescripciÃ³n de Hunter (tipo empresa)
+    // Descripción de Hunter (tipo empresa)
     if (data.data?.organization && !company.description)
       company.description = data.data.organization;
 
@@ -3494,7 +3494,7 @@ async function enrichFromHunter(company) {
 }
 
 
-// â”€â”€â”€ CAPA 4: Apollo.io (gratuito, 50 crÃ©ditos/mes) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CAPA 4: Apollo.io (gratuito, 50 créditos/mes) ────────────────────────────
 async function enrichFromApollo(company) {
   const apolloKey = localStorage.getItem('gordi_apollo_key');
   if (!apolloKey || !company.website) return company;
@@ -3508,7 +3508,7 @@ async function enrichFromApollo(company) {
     const domain = extractDomain(company.website);
     if (!domain) return company;
 
-    // Apollo People Search por dominio â€” endpoint pÃºblico
+    // Apollo People Search por dominio — endpoint público
     const res = await fetch('https://api.apollo.io/v1/mixed_people/search', {
       method: 'POST',
       headers: {
@@ -3539,7 +3539,7 @@ async function enrichFromApollo(company) {
         return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
       })[0];
 
-      // Email (Apollo lo devuelve si estÃ¡ verificado)
+      // Email (Apollo lo devuelve si está verificado)
       if (!company.email && best.email) {
         company.email = best.email;
         company.enrichSource.push('Apollo.io');
@@ -3557,18 +3557,18 @@ async function enrichFromApollo(company) {
         company.linkedin = best.linkedin_url;
       }
 
-      // AÃ±adir todos los emails encontrados
+      // Añadir todos los emails encontrados
       const apolloEmails = people.map(p => p.email).filter(Boolean);
       company.emails = [...new Set([...company.emails, ...apolloEmails])].slice(0, 8);
 
-      // SeÃ±al: tamaÃ±o de empresa
+      // Señal: tamaño de empresa
       const orgSize = best.organization?.estimated_num_employees;
       if (orgSize && !company.signals.find(s => s.includes('empleados'))) {
-        company.signals.push(`ðŸ‘¥ ~${orgSize} empleados (Apollo)`);
+        company.signals.push(`👥 ~${orgSize} empleados (Apollo)`);
       }
     }
 
-    // Datos de la organizaciÃ³n
+    // Datos de la organización
     if (data.organizations?.length) {
       const org = data.organizations[0];
       if (!company.description && org.short_description)
@@ -3585,13 +3585,13 @@ async function enrichFromApollo(company) {
 }
 
 
-// â”€â”€â”€ CAPA 5: WHOIS / RDAP (sin key, gratis total) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CAPA 5: WHOIS / RDAP (sin key, gratis total) ────────────────────────────
 async function enrichFromWhois(company) {
   if (!company.website) return company;
   try {
     const domain = extractDomain(company.website);
     if (!domain) return company;
-    // RDAP es el sucesor oficial de WHOIS, API pÃºblica sin autenticaciÃ³n
+    // RDAP es el sucesor oficial de WHOIS, API pública sin autenticación
     const res = await fetch(`https://rdap.org/domain/${domain}`, {
       signal: AbortSignal.timeout(6000),
       headers: { 'Accept': 'application/json' }
@@ -3609,9 +3609,9 @@ async function enrichFromWhois(company) {
       company.domainAge = age;
       company.domainYear = regYear;
       if (age <= 2) {
-        company.signals.push(`ðŸ†• Dominio muy reciente (${regYear}) â€” empresa nueva`);
+        company.signals.push(`🆕 Dominio muy reciente (${regYear}) — empresa nueva`);
       } else if (age >= 15) {
-        company.signals.push(`ðŸ›ï¸ Empresa consolidada (web desde ${regYear})`);
+        company.signals.push(`🏛️ Empresa consolidada (web desde ${regYear})`);
       }
     }
 
@@ -3637,7 +3637,7 @@ async function enrichFromWhois(company) {
   return company;
 }
 
-// â”€â”€â”€ CAPA 6: OpenCorporates (sin key para bÃºsquedas bÃ¡sicas) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CAPA 6: OpenCorporates (sin key para búsquedas básicas) ─────────────────
 async function enrichFromOpenCorporates(company) {
   if (isZeroCostMode()) return markZeroCostSkipped(company, 'opencorporates', 'not_verified_for_automatic_zero_cost');
   if (!company.name) return company;
@@ -3652,7 +3652,7 @@ async function enrichFromOpenCorporates(company) {
     const companies = data.results?.companies || [];
     if (!companies.length) return company;
 
-    // Buscar el match mÃ¡s probable por nombre similar
+    // Buscar el match más probable por nombre similar
     const best = companies.find(r => {
       const ocName = (r.company?.name || '').toLowerCase();
       const ourName = company.name.toLowerCase();
@@ -3662,20 +3662,20 @@ async function enrichFromOpenCorporates(company) {
     const corp = best?.company;
     if (!corp) return company;
 
-    // AÃ±o de incorporaciÃ³n
+    // Año de incorporación
     if (corp.incorporation_date) {
       const yr = new Date(corp.incorporation_date).getFullYear();
       company.incorporationYear = yr;
       const age = new Date().getFullYear() - yr;
-      if (!company.signals.find(s => s.includes('aÃ±os')))
-        company.signals.push(`ðŸ¢ Empresa de ${age} aÃ±os (fundada ${yr})`);
+      if (!company.signals.find(s => s.includes('años')))
+        company.signals.push(`🏢 Empresa de ${age} años (fundada ${yr})`);
     }
 
     // Estado legal
     if (corp.current_status) {
       company.legalStatus = corp.current_status;
       if (/dissolv|liquidat|struck/i.test(corp.current_status)) {
-        company.signals.push('âš ï¸ Empresa en proceso de disoluciÃ³n');
+        company.signals.push('⚠️ Empresa en proceso de disolución');
       } else if (/active|activa/i.test(corp.current_status)) {
         if (!company.enrichSource.includes('OpenCorporates'))
           company.enrichSource.push('OpenCorporates');
@@ -3685,7 +3685,7 @@ async function enrichFromOpenCorporates(company) {
     // Tipo de empresa
     if (corp.company_type) company.companyType = corp.company_type;
 
-    // NÃºmero de registro
+    // Número de registro
     if (corp.company_number) company.regNumber = corp.company_number;
 
   } catch(e) {
@@ -3694,7 +3694,7 @@ async function enrichFromOpenCorporates(company) {
   return company;
 }
 
-// â”€â”€â”€ CAPA 7: Clearbit Logo (sin key, gratis) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CAPA 7: Clearbit Logo (sin key, gratis) ──────────────────────────────────
 function getClearbitLogo(website) {
   if (!website) return '';
   try {
@@ -3704,17 +3704,17 @@ function getClearbitLogo(website) {
   } catch { return ''; }
 }
 
-// â”€â”€â”€ DEDUPLICACIÃ“N por nombre similar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// â”€â”€â”€ CAPA 7: IA Email Rescue (Gemini Flash) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── DEDUPLICACIÓN por nombre similar ────────────────────────────────────────
+// ─── CAPA 7: IA Email Rescue (Gemini Flash) ─────────────────────────────────
 async function extractEmailWithAI(websiteUrl, companyName, geminiKey) {
   if (isZeroCostMode()) return null;
   if (!geminiKey || !websiteUrl) return null;
   try {
-    // Obtener HTML de la pÃ¡gina web usando el proxy existente
+    // Obtener HTML de la página web usando el proxy existente
     const html = await fetchWithProxy(websiteUrl, 10000);
     if (!html || html.length < 200) return null;
 
-    // Limpiar HTML -> solo texto visible (mÃ¡ximo 3000 chars para no gastar tokens)
+    // Limpiar HTML -> solo texto visible (máximo 3000 chars para no gastar tokens)
     const textSnippet = html
       .replace(/<script[\s\S]*?<\/script>/gi, '')
       .replace(/<style[\s\S]*?<\/style>/gi, '')
@@ -3725,10 +3725,10 @@ async function extractEmailWithAI(websiteUrl, companyName, geminiKey) {
 
     if (textSnippet.length < 100) return null;
 
-    const prompt = `Eres un experto extrayendo emails de contacto de webs de empresas. Busca el email de contacto de la empresa "${companyName}" en este texto extraÃ­do de su web. Responde ÃšNICAMENTE con el email encontrado, o con la palabra "null" si no hay ninguno. No aÃ±adas explicaciones ni texto adicional.\n\nTexto:\n${textSnippet}`;
+    const prompt = `Eres un experto extrayendo emails de contacto de webs de empresas. Busca el email de contacto de la empresa "${companyName}" en este texto extraído de su web. Responde ÚNICAMENTE con el email encontrado, o con la palabra "null" si no hay ninguno. No añadas explicaciones ni texto adicional.\n\nTexto:\n${textSnippet}`;
 
     const res = await aiGatewayGeminiFetch(
-      'gemini-2.0-flash', geminiKey,
+      AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -3745,7 +3745,7 @@ async function extractEmailWithAI(websiteUrl, companyName, geminiKey) {
     if (answer === 'null' || !answer.includes('@')) return null;
     const emailMatch = answer.match(/[a-zA-Z0-9._%+\-]{1,64}@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,10}/);
     if (emailMatch && isValidEmail(emailMatch[0])) return emailMatch[0];
-  } catch { /* Gemini fallÃ³, continuar */ }
+  } catch { /* Gemini falló, continuar */ }
   return null;
 }
 
@@ -3835,37 +3835,37 @@ function deduplicateResults(results) {
 }
 
 
-// --- CAPA SOCIAL: LinkedIn + Instagram + Facebook Ads + Name Change â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// --- CAPA SOCIAL: LinkedIn + Instagram + Facebook Ads + Name Change ───────────
 async function enrichFromSocial(company) {
   if (isZeroCostMode()) return markZeroCostSkipped(company, 'social_scraping', 'social_network_scraping_not_allowed');
-  // â”€â”€ 3. LinkedIn Company Page (pÃºblico, sin key) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── 3. LinkedIn Company Page (público, sin key) ──────────────────────────
   if (company.linkedin && !company.decision_maker) {
     try {
       const liHtml = await fetchWithProxy(company.linkedin, 8000);
       if (liHtml) {
-        // Buscar "Recently hired" o cargos directivos en la pÃ¡gina pÃºblica
+        // Buscar "Recently hired" o cargos directivos en la página pública
         const expansionSignals = [];
         if (/hiring|contratando|we.re growing|estamos creciendo/i.test(liHtml))
-          expansionSignals.push('ðŸš€ Empresa en contrataciÃ³n activa (LinkedIn)');
+          expansionSignals.push('🚀 Empresa en contratación activa (LinkedIn)');
         if (/new office|nueva oficina|nueva sede|new location/i.test(liHtml))
-          expansionSignals.push('ðŸ¢ Apertura de nueva sede detectada (LinkedIn)');
+          expansionSignals.push('🏢 Apertura de nueva sede detectada (LinkedIn)');
         if (/award|premio|reconocimiento|certified/i.test(liHtml))
-          expansionSignals.push('ðŸ† Premio o certificaciÃ³n reciente (LinkedIn)');
+          expansionSignals.push('🏆 Premio o certificación reciente (LinkedIn)');
         expansionSignals.forEach(s => {
           if (!company.signals.includes(s)) company.signals.push(s);
         });
-        // TamaÃ±o de empresa desde LinkedIn
+        // Tamaño de empresa desde LinkedIn
         const sizeMatch = liHtml.match(/(\d[\d,]+)\s*(?:employee|empleado)/i);
         if (sizeMatch && !company.signals.find(s => s.includes('empleados'))) {
           const n = parseInt(sizeMatch[1].replace(',',''));
-          if (n > 0) company.signals.push(`ðŸ‘¥ ~${n} empleados (LinkedIn)`);
+          if (n > 0) company.signals.push(`👥 ~${n} empleados (LinkedIn)`);
         }
         if (expansionSignals.length) company.enrichSource.push('LinkedIn');
       }
     } catch {}
   }
 
-  // â”€â”€ 4. Instagram bio â€” email directo y seÃ±ales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── 4. Instagram bio — email directo y señales ───────────────────────────
   if (company.instagram && !company.email) {
     try {
       const igUrl = company.instagram.replace(/\/$/, '') + '/';
@@ -3880,24 +3880,24 @@ async function enrichFromSocial(company) {
             company.email = bioEmail[0].toLowerCase();
             company.enrichSource.push('Instagram-bio');
           }
-          // SeÃ±ales en bio
+          // Señales en bio
           if (/nuevo|nueva|abrimos|apertura|inauguramos/i.test(bio))
-            company.signals.push('ðŸ“¸ Apertura o novedad detectada en bio de Instagram');
+            company.signals.push('📸 Apertura o novedad detectada en bio de Instagram');
           if (/reforma|renovaci|obras/i.test(bio))
-            company.signals.push('ðŸ—ï¸ Reforma mencionada en Instagram bio');
+            company.signals.push('🏗️ Reforma mencionada en Instagram bio');
         }
-        // NÃºmero de posts como indicador de actividad
+        // Número de posts como indicador de actividad
         const postsMatch = igHtml.match(/"edge_owner_to_timeline_media":\{"count":(\d+)/);
         if (postsMatch) {
           const posts = parseInt(postsMatch[1]);
-          if (posts < 10) company.signals.push('ðŸ“± Instagram poco activo (< 10 publicaciones)');
-          else if (posts > 500) company.signals.push('ðŸ“¸ Instagram muy activo (+500 posts) â€” negocio con presencia digital');
+          if (posts < 10) company.signals.push('📱 Instagram poco activo (< 10 publicaciones)');
+          else if (posts > 500) company.signals.push('📸 Instagram muy activo (+500 posts) — negocio con presencia digital');
         }
       }
     } catch {}
   }
 
-  // â”€â”€ 7. Facebook Ads Library â€” detectar si invierte en publicidad â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── 7. Facebook Ads Library — detectar si invierte en publicidad ──────────
   if (company.name) {
     try {
       const q = encodeURIComponent(company.name.split(' ').slice(0,3).join(' '));
@@ -3909,14 +3909,14 @@ async function enrichFromSocial(company) {
         const adData = await adRes.json();
         const ads = adData.data || [];
         if (ads.length > 0) {
-          company.signals.push(`ðŸ’° ${ads.length} anuncio(s) activo(s) en Facebook/Instagram â€” empresa con presupuesto de marketing`);
+          company.signals.push(`💰 ${ads.length} anuncio(s) activo(s) en Facebook/Instagram — empresa con presupuesto de marketing`);
           company.enrichSource.push('FB-Ads');
         }
       }
     } catch {}
   }
 
-  // â”€â”€ 10. DetecciÃ³n de cambio de nombre â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── 10. Detección de cambio de nombre ────────────────────────────────────
   if (company.website && company.name) {
     try {
       const domain = extractDomain(company.website) || '';
@@ -3932,7 +3932,7 @@ async function enrichFromSocial(company) {
         const overlap = [...domainName].filter(c => companyNorm.includes(c)).length;
         const similarity = overlap / Math.max(domainName.length, companyNorm.length);
         if (similarity < 0.35) {
-          company.signals.push(`ðŸ”„ Posible cambio de nombre reciente (Maps: "${company.name}" vs dominio: "${domain}") â€” nueva gestiÃ³n`);
+          company.signals.push(`🔄 Posible cambio de nombre reciente (Maps: "${company.name}" vs dominio: "${domain}") — nueva gestión`);
         }
       }
     } catch {}
@@ -3942,28 +3942,28 @@ async function enrichFromSocial(company) {
 }
 
 
-// â”€â”€â”€ CAPA REVIEWS: AnÃ¡lisis de reseÃ±as Google para detectar dolor real â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CAPA REVIEWS: Análisis de reseñas Google para detectar dolor real ────────
 async function enrichFromReviews(company) {
   if (isZeroCostMode()) return markZeroCostSkipped(company, 'google_reviews', 'places_details_billing_risk_not_allowed');
   const apiKey = localStorage.getItem('gordi_api_key');
   if (!apiKey || !company.placeId) return company;
   try {
     // Usar fetchGoogleReviews para aprovechar la doble fuente (Places New + legacy)
-    // y el anÃ¡lisis estadÃ­stico cuando hay 8+ reseÃ±as
+    // y el análisis estadístico cuando hay 8+ reseñas
     const reviews = await fetchGoogleReviews(company.placeId);
     if (!reviews.length) return company;
 
     const PAIN_KEYWORDS = {
-      instalaciones: /instalaci[oÃ³]n(?:es)?|cableado|enchufes|luz|iluminaci[oÃ³]n|electricidad|cuadro el[eÃ©]ctrico/i,
-      temperatura:   /fr[iÃ­]o|calor(?:es)?|temperatura|aire acondicionado|calefacci[oÃ³]n|t[eÃ©]rmico/i,
+      instalaciones: /instalaci[oó]n(?:es)?|cableado|enchufes|luz|iluminaci[oó]n|electricidad|cuadro el[eé]ctrico/i,
+      temperatura:   /fr[ií]o|calor(?:es)?|temperatura|aire acondicionado|calefacci[oó]n|t[eé]rmico/i,
       deterioro:     /viejo|antiguo|deteriorado|descuidado|sucio|roto|desperfecto|anticuado|desgastado/i,
-      obras:         /obra|reforma|renovaci[oÃ³]n|remodelado|remodelaci[oÃ³]n|construcci[oÃ³]n/i,
-      ruido:         /ruido|ac[uÃº]stica|aisla(?:miento)?|paredes finas|se escucha todo/i,
-      humedad:       /humedad|gotera|grieta|hongos|moho|h[uÃº]medo/i,
-      banos:         /ba[Ã±n]o|aseo|ducha|vÃ¡ter|inodoro|grifo/i,
+      obras:         /obra|reforma|renovaci[oó]n|remodelado|remodelaci[oó]n|construcci[oó]n/i,
+      ruido:         /ruido|ac[uú]stica|aisla(?:miento)?|paredes finas|se escucha todo/i,
+      humedad:       /humedad|gotera|grieta|hongos|moho|h[uú]medo/i,
+      banos:         /ba[ñn]o|aseo|ducha|váter|inodoro|grifo/i,
     };
 
-    // Analizar TODAS las reseÃ±as negativas disponibles (no solo las primeras 5)
+    // Analizar TODAS las reseñas negativas disponibles (no solo las primeras 5)
     const negativeReviews = reviews.filter(r => r.rating <= 3);
     const painCounts = {}; // {tipo: [{snippet, rating}]}
 
@@ -3977,12 +3977,12 @@ async function enrichFromReviews(company) {
             rating: review.rating,
             time: review.time || '',
           });
-          break; // una reseÃ±a = un tipo de dolor (el primero que coincide)
+          break; // una reseña = un tipo de dolor (el primero que coincide)
         }
       }
     }
 
-    // Ordenar tipos de dolor por frecuencia (el mÃ¡s mencionado primero)
+    // Ordenar tipos de dolor por frecuencia (el más mencionado primero)
     const painFound = Object.entries(painCounts)
       .sort((a, b) => b[1].length - a[1].length)
       .map(([type, instances]) => ({
@@ -3995,25 +3995,25 @@ async function enrichFromReviews(company) {
 
     if (painFound.length) {
       const top = painFound[0];
-      // SeÃ±al con temporalidad real si hay stats disponibles
+      // Señal con temporalidad real si hay stats disponibles
       const isActive   = reviews._stats?.topPains?.find(p => p.label?.includes(top.type))?.isActive;
       const isHistoric = reviews._stats?.topPains?.find(p => p.label?.includes(top.type))?.isHistorical;
-      const freqNote = top.count >= 3 ? ` Â· ${top.count}x mencionado` : '';
-      const timeNote = isActive ? ' Â· ACTIVO (reciente)' : isHistoric ? ' Â· histÃ³rico (puede estar resuelto)' : '';
+      const freqNote = top.count >= 3 ? ` · ${top.count}x mencionado` : '';
+      const timeNote = isActive ? ' · ACTIVO (reciente)' : isHistoric ? ' · histórico (puede estar resuelto)' : '';
       company.signals.push(
-        `ðŸ”¥ Problema recurrente: ${top.type}${freqNote}${timeNote} â€” "${top.snippet.slice(0, 60)}..."`
+        `🔥 Problema recurrente: ${top.type}${freqNote}${timeNote} — "${top.snippet.slice(0, 60)}..."`
       );
       company.reviewPain = painFound;
       if (!company.enrichSource.includes('Reviews-Pain')) company.enrichSource.push('Reviews-Pain');
     }
 
-    // SeÃ±al de trending si estÃ¡ disponible
+    // Señal de trending si está disponible
     if (reviews._stats?.ratingTrend) {
       const { avgRecent, avgOld, delta } = reviews._stats.ratingTrend;
       if (delta <= -0.4)
-        company.signals.push(`ðŸ“‰ Rating cayendo: ${avgOld}â˜… -> ${avgRecent}â˜… en Ãºltimos meses â€” urgencia alta`);
+        company.signals.push(`📉 Rating cayendo: ${avgOld}★ -> ${avgRecent}★ en últimos meses — urgencia alta`);
       else if (delta >= 0.4)
-        company.signals.push(`ðŸ“ˆ Rating mejorando: ${avgOld}â˜… -> ${avgRecent}â˜… â€” puede estar recuperÃ¡ndose`);
+        company.signals.push(`📈 Rating mejorando: ${avgOld}★ -> ${avgRecent}★ — puede estar recuperándose`);
     }
 
     // reviewSummary usa el conjunto completo ahora disponible
@@ -4023,7 +4023,7 @@ async function enrichFromReviews(company) {
       .map(r => `[${r.rating}\u2605${r.time ? ' \u00B7 ' + r.time : ''}] ${r.text.slice(0, 120)}`)
       .join('\n');
 
-    // Guardar estadÃ­sticas si estÃ¡n disponibles (8+ reseÃ±as)
+    // Guardar estadísticas si están disponibles (8+ reseñas)
     if (reviews._stats) company.reviewStats = reviews._stats;
 
   } catch(e) {
@@ -4032,7 +4032,7 @@ async function enrichFromReviews(company) {
   return company;
 }
 
-// â”€â”€â”€ CAPA COMPETENCIA: Detectar competidores directos con mejor rating â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CAPA COMPETENCIA: Detectar competidores directos con mejor rating ────────
 async function enrichCompetitivePressure(company, location) {
   if (isZeroCostMode()) return markZeroCostSkipped(company, 'google_places_competitors', 'billing_risk_not_allowed');
   const apiKey = localStorage.getItem('gordi_api_key');
@@ -4056,7 +4056,7 @@ async function enrichCompetitivePressure(company, location) {
       const best = competitors[0];
       const diff = (best.rating - company.rating).toFixed(1);
       company.signals.push(
-        `\u2694\uFE0F "${best.displayName}" (competidor) tiene +${diff}\u2605 \u00B7 ${best.rating}\u2605 vs ${company.rating}\u2605 â€” presiÃ³n competitiva`
+        `\u2694\uFE0F "${best.displayName}" (competidor) tiene +${diff}\u2605 \u00B7 ${best.rating}\u2605 vs ${company.rating}\u2605 — presión competitiva`
       );
       company.competitorBetter = { name: best.displayName, rating: best.rating, diff: parseFloat(diff) };
       if (!company.enrichSource.includes('Competencia')) company.enrichSource.push('Competencia');
@@ -4067,7 +4067,7 @@ async function enrichCompetitivePressure(company, location) {
   return company;
 }
 
-// â”€â”€â”€ CAPA NEWS: Google News RSS (sin key, gratis) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CAPA NEWS: Google News RSS (sin key, gratis) ────────────────────────────
 async function enrichFromNews(company) {
   if (isZeroCostMode()) return markZeroCostSkipped(company, 'google_news_rss', 'not_verified_for_automatic_zero_cost');
   if (!company.name) return company;
@@ -4078,7 +4078,7 @@ async function enrichFromNews(company) {
     );
     if (!rss || rss.length < 100) return company;
 
-    // Extraer tÃ­tulos y fechas de publicaciÃ³n
+    // Extraer títulos y fechas de publicación
     const titles   = [...rss.matchAll(/<title><!\[CDATA\[([^\]]{10,200})\]\]><\/title>/gi)].slice(1, 6);
     const titles2  = titles.length ? titles : [...rss.matchAll(/<title>([^<]{10,200})<\/title>/gi)].slice(1, 6);
     const pubDates = [...rss.matchAll(/<pubDate>([^<]+)<\/pubDate>/gi)];
@@ -4091,59 +4091,59 @@ async function enrichFromNews(company) {
       if (daysAgo <= 60) {
         let signal = '';
         if (/inaugura|abre|apertura|nuevo local|nueva sede|abierto/i.test(title))
-          signal = `ðŸ“° Apertura reciente (hace ${daysAgo}d): "${title.slice(0, 60)}"`;
-        else if (/contrato|adjudicac|licitac|concurso pÃºblico/i.test(title))
-          signal = `ðŸ“‹ Contrato/licitaciÃ³n (hace ${daysAgo}d): "${title.slice(0, 60)}"`;
-        else if (/venta|adquiere|compra|fusiÃ³n|nuevo propietario/i.test(title))
-          signal = `ðŸ”„ OperaciÃ³n corporativa (hace ${daysAgo}d): "${title.slice(0, 60)}"`;
-        else if (/reforma|renovac|obra|ampliaciÃ³n/i.test(title))
-          signal = `ðŸ—ï¸ Obra/reforma en prensa (hace ${daysAgo}d): "${title.slice(0, 60)}"`;
+          signal = `📰 Apertura reciente (hace ${daysAgo}d): "${title.slice(0, 60)}"`;
+        else if (/contrato|adjudicac|licitac|concurso público/i.test(title))
+          signal = `📋 Contrato/licitación (hace ${daysAgo}d): "${title.slice(0, 60)}"`;
+        else if (/venta|adquiere|compra|fusión|nuevo propietario/i.test(title))
+          signal = `🔄 Operación corporativa (hace ${daysAgo}d): "${title.slice(0, 60)}"`;
+        else if (/reforma|renovac|obra|ampliación/i.test(title))
+          signal = `🏗️ Obra/reforma en prensa (hace ${daysAgo}d): "${title.slice(0, 60)}"`;
         else if (daysAgo <= 14)
-          signal = `ðŸ—žï¸ En prensa esta semana (hace ${daysAgo}d): "${title.slice(0, 60)}"`;
+          signal = `🗞️ En prensa esta semana (hace ${daysAgo}d): "${title.slice(0, 60)}"`;
 
         if (signal && !company.signals.some(s => s.includes(title.slice(0, 20)))) {
           company.signals.push(signal);
           if (!company.enrichSource.includes('Google-News')) company.enrichSource.push('Google-News');
-          break; // Solo la noticia mÃ¡s reciente relevante
+          break; // Solo la noticia más reciente relevante
         }
       }
     }
-  } catch { /* Google News fallÃ³, ignorar */ }
+  } catch { /* Google News falló, ignorar */ }
   return company;
 }
 
 
-// â”€â”€â”€ VENTANA DE CONTACTO Ã“PTIMA (sÃ­ncrona, sin API extra) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── VENTANA DE CONTACTO ÓPTIMA (síncrona, sin API extra) ────────────────────
 function detectOptimalContactWindow(company) {
   const type = (company.types || '').toLowerCase();
   let w = null;
   if (/restaurant|bar|cafe|cafeter|bakery|food/.test(type))
-    w = { slot: 'Lunâ€“MiÃ© 10:00â€“11:30', reason: 'Antes del servicio de comidas' };
+    w = { slot: 'Lun–Mié 10:00–11:30', reason: 'Antes del servicio de comidas' };
   else if (/hotel|hostel|lodging|aparthotel/.test(type))
-    w = { slot: 'Marâ€“Jue 09:00â€“10:00', reason: 'Antes del check-in matinal' };
+    w = { slot: 'Mar–Jue 09:00–10:00', reason: 'Antes del check-in matinal' };
   else if (/gym|fitness|sports_complex/.test(type))
-    w = { slot: 'Lunâ€“MiÃ© 14:00â€“16:00', reason: 'Hueco entre turno maÃ±ana y tarde' };
+    w = { slot: 'Lun–Mié 14:00–16:00', reason: 'Hueco entre turno mañana y tarde' };
   else if (/school|university|education|training/.test(type))
-    w = { slot: 'Marâ€“Jue 08:30â€“09:30', reason: 'Antes de la jornada lectiva' };
+    w = { slot: 'Mar–Jue 08:30–09:30', reason: 'Antes de la jornada lectiva' };
   else if (/hospital|clinic|doctor|health|medical/.test(type))
-    w = { slot: 'Lunâ€“MiÃ© 13:00â€“14:00', reason: 'Pausa entre consultas' };
+    w = { slot: 'Lun–Mié 13:00–14:00', reason: 'Pausa entre consultas' };
   else if (/store|shop|retail|supermarket/.test(type))
-    w = { slot: 'Marâ€“Jue 09:30â€“10:30', reason: 'Apertura antes de la afluencia' };
+    w = { slot: 'Mar–Jue 09:30–10:30', reason: 'Apertura antes de la afluencia' };
   else
-    w = { slot: 'Marâ€“MiÃ© 08:30â€“09:30', reason: 'Primera hora antes del trabajo operativo' };
+    w = { slot: 'Mar–Mié 08:30–09:30', reason: 'Primera hora antes del trabajo operativo' };
   if (company.decision_maker) {
     const dm = (company.decision_maker || '').toLowerCase();
-    if (/director|gerente|ceo|propietario|dueÃ±o|owner/.test(dm))
-      w = { slot: 'Marâ€“MiÃ© 07:30â€“08:30', reason: 'Directivos revisan email antes del dÃ­a operativo' };
+    if (/director|gerente|ceo|propietario|dueño|owner/.test(dm))
+      w = { slot: 'Mar–Mié 07:30–08:30', reason: 'Directivos revisan email antes del día operativo' };
     else if (/manager|jefe|responsable/.test(dm))
-      w = { slot: 'Marâ€“Jue 08:30â€“09:30', reason: 'Managers activos en primera hora' };
+      w = { slot: 'Mar–Jue 08:30–09:30', reason: 'Managers activos en primera hora' };
   }
   company.optimalContact = w;
-  if (w) company.signals.push('ðŸ• Mejor contacto: ' + w.slot + ' Â· ' + w.reason);
+  if (w) company.signals.push('🕐 Mejor contacto: ' + w.slot + ' · ' + w.reason);
   return company;
 }
 
-// â”€â”€â”€ GOLDEN PROFILE + LOOKALIKE SCORE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── GOLDEN PROFILE + LOOKALIKE SCORE ────────────────────────────────────────
 function buildGoldenProfile() {
   const converted = leads.filter(l =>
     (l.status === 'Cliente' || l.status === 'Convertido' || l.status === 'Cerrado ganado') && !l.archived
@@ -4179,7 +4179,7 @@ function getLookalikeSimilarity(company) {
   return Math.min(100, Math.round(sim));
 }
 
-// â”€â”€â”€ CAPA STREETVIEW: AnÃ¡lisis visual de fachada con Gemini Vision â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CAPA STREETVIEW: Análisis visual de fachada con Gemini Vision ────────────
 async function enrichFromStreetView(company) {
   if (isZeroCostMode()) return markZeroCostSkipped(company, 'google_street_view', 'billing_risk_not_allowed');
   const apiKey    = localStorage.getItem('gordi_api_key');
@@ -4199,11 +4199,11 @@ async function enrichFromStreetView(company) {
     });
     if (!base64 || base64.length < 500) return company;
     const gemRes = await aiGatewayGeminiFetch(
-      'gemini-2.0-flash', geminiKey,
+      AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey,
       { method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ parts: [
           { inline_data: { mime_type: 'image/jpeg', data: base64 } },
-          { text: 'Analiza esta fachada. Â¿Ves signos de deterioro (pintura, Ã³xido, cables sueltos, iluminaciÃ³n vieja)? Â¿Parece un local vacÃ­o o en obras? Responde en una frase corta enfocada en necesidades de reforma.' }
+          { text: 'Analiza esta fachada. ¿Ves signos de deterioro (pintura, óxido, cables sueltos, iluminación vieja)? ¿Parece un local vacío o en obras? Responde en una frase corta enfocada en necesidades de reforma.' }
         ]}]}),
         signal: AbortSignal.timeout(14000) },
       { purpose: 'search_facade_analysis' }
@@ -4212,13 +4212,13 @@ async function enrichFromStreetView(company) {
     const analysis = gemData.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
     if (!analysis) return company;
     company.fachadaAnalysis = analysis;
-    company.signals.push('ðŸ“¸ Fachada: ' + analysis.slice(0, 100));
+    company.signals.push('📸 Fachada: ' + analysis.slice(0, 100));
     if (!company.enrichSource.includes('StreetView')) company.enrichSource.push('StreetView');
   } catch(e) { console.warn('enrichFromStreetView:', e.message); }
   return company;
 }
 
-// â”€â”€â”€ CAPA BORME: TrÃ¡mites y cambios societarios recientes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CAPA BORME: Trámites y cambios societarios recientes ─────────────────────
 async function enrichFromBorme(company) {
   if (isZeroCostMode()) return markZeroCostSkipped(company, 'borme', 'not_verified_for_automatic_zero_cost');
   if (!company.name) return company;
@@ -4237,39 +4237,39 @@ async function enrichFromBorme(company) {
       const nombre = (acto.razon_social || acto.nombre || '').toLowerCase();
       if (firstWord.length > 3 && !nombre.includes(firstWord)) continue;
       if (/constituci.n|nueva sociedad/.test(texto))
-        { company.signals.push('ðŸŽ‰ Empresa reciÃ©n constituida (BORME)'); company.enrichSource.push('BORME'); break; }
+        { company.signals.push('🎉 Empresa recién constituida (BORME)'); company.enrichSource.push('BORME'); break; }
       else if (/ampliaci.n de capital/.test(texto))
-        { company.signals.push('ðŸ’° AmpliaciÃ³n de capital (BORME) â€” presupuesto disponible'); company.enrichSource.push('BORME'); break; }
+        { company.signals.push('💰 Ampliación de capital (BORME) — presupuesto disponible'); company.enrichSource.push('BORME'); break; }
       else if (/cambio de domicilio|traslado/.test(texto))
-        { company.signals.push('ðŸ“ Cambio domicilio (BORME) â€” mudanza/obra probable'); company.enrichSource.push('BORME'); break; }
+        { company.signals.push('📍 Cambio domicilio (BORME) — mudanza/obra probable'); company.enrichSource.push('BORME'); break; }
       else if (/disoluci.n|liquidaci.n/.test(texto))
-        { company.signals.push('âš ï¸ En disoluciÃ³n (BORME) â€” descartar'); company.enrichSource.push('BORME'); break; }
+        { company.signals.push('⚠️ En disolución (BORME) — descartar'); company.enrichSource.push('BORME'); break; }
       else if (/nombramiento|nuevo administrador/.test(texto))
-        { company.signals.push('ðŸ‘¤ Nuevo administrador (BORME) â€” cambio de gestiÃ³n'); company.enrichSource.push('BORME'); break; }
+        { company.signals.push('👤 Nuevo administrador (BORME) — cambio de gestión'); company.enrichSource.push('BORME'); break; }
     }
   } catch(e) {}
   return company;
 }
 
-// â”€â”€â”€ CAPA LINKEDIN DORKING: Encontrar decisores reales (Idea 3 - Gratis) â”€â”€â”€â”€â”€â”€
+// ─── CAPA LINKEDIN DORKING: Encontrar decisores reales (Idea 3 - Gratis) ──────
 async function enrichFromLinkedInDorking(company) {
   if (isZeroCostMode()) return markZeroCostSkipped(company, 'linkedin_dorking', 'proxy_search_not_allowed');
   if (!company.name || company.decision_maker) return company;
   try {
-    // Buscamos Gerentes/Directores de la empresa en LinkedIn via proxy de bÃºsqueda
+    // Buscamos Gerentes/Directores de la empresa en LinkedIn via proxy de búsqueda
     const q = encodeURIComponent(`site:linkedin.com/in "Gerente" OR "Director" OR "CEO" "${company.name}"`);
     const searchUrl = `https://api.allorigins.win/get?url=${encodeURIComponent('https://www.google.com/search?q=' + q)}`;
     const res = await fetch(searchUrl);
     const j = await res.json();
     const html = j.contents || '';
     
-    // Extraer nombres probables de los tÃ­tulos de LinkedIn
+    // Extraer nombres probables de los títulos de LinkedIn
     const names = html.match(/>([^<|]+)\s*-\s*[^<]*LinkedIn</gi);
     if (names && names.length > 0) {
       const bestMatch = names[0].replace(/>/,'').split('-')[0].trim();
       if (bestMatch.length > 5 && bestMatch.length < 40) {
         company.decision_maker = bestMatch;
-        company.signals.push(`ðŸ‘¤ Decisor probable (LinkedIn Dorking): ${bestMatch}`);
+        company.signals.push(`👤 Decisor probable (LinkedIn Dorking): ${bestMatch}`);
         company.enrichSource.push('LinkedIn-Dork');
       }
     }
@@ -4277,9 +4277,9 @@ async function enrichFromLinkedInDorking(company) {
   return company;
 }
 
-// â”€â”€â”€ CAPA EMPRESITE: Directorio empresarial espaÃ±ol (gratis, sin key) â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── CAPA EMPRESITE: Directorio empresarial español (gratis, sin key) ─────────
 // Fuente: empresite.eleconomista.es
-// Datos: NIF/CIF, CNAE, empleados, facturaciÃ³n estimada, aÃ±o fundaciÃ³n, actividad
+// Datos: NIF/CIF, CNAE, empleados, facturación estimada, año fundación, actividad
 async function enrichFromEmpressite(company) {
   if (isZeroCostMode()) return markZeroCostSkipped(company, 'empresite', 'not_verified_for_automatic_zero_cost');
   if (!company.name) return company;
@@ -4294,15 +4294,15 @@ async function enrichFromEmpressite(company) {
         .join(' ')
     );
 
-    // Empresite tiene una pÃ¡gina por empresa en formato slug
-    // tambiÃ©n tiene bÃºsqueda por nombre
+    // Empresite tiene una página por empresa en formato slug
+    // también tiene búsqueda por nombre
     const searchUrl = `https://empresite.eleconomista.es/${encodeURIComponent(
       company.name.split(' ').slice(0, 3).join('-').toUpperCase()
     )}/`;
 
     const html = await fetchWithProxy(searchUrl, 8000);
     if (!html || html.length < 500) {
-      // Fallback: bÃºsqueda general
+      // Fallback: búsqueda general
       const searchFallback = `https://empresite.eleconomista.es/busqueda/?q=${q}`;
       const searchHtml = await fetchWithProxy(searchFallback, 8000);
       if (!searchHtml) return company;
@@ -4317,69 +4317,69 @@ async function enrichFromEmpressite(company) {
 
 function _parseEmpressiteHtml(company, html, isSearch) {
   try {
-    // â”€â”€ NIF / CIF â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── NIF / CIF ────────────────────────────────────────────────────────────
     const nifMatch = html.match(/\b([A-Z]\d{7}[A-Z0-9]|\d{8}[A-Z])\b/);
     if (nifMatch && !company.nif) {
       company.nif = nifMatch[1];
     }
 
-    // â”€â”€ CNAE / Actividad â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── CNAE / Actividad ─────────────────────────────────────────────────────
     const cnaeMatch = html.match(/CNAE[:\s-]+(\d{4})/i) ||
                       html.match(/actividad[^<]{0,80}?(\d{4})/i);
     if (cnaeMatch && !company.cnae) {
       company.cnae = cnaeMatch[1];
     }
 
-    // â”€â”€ NÃºmero de empleados â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Número de empleados ──────────────────────────────────────────────────
     const empMatch = html.match(/(\d[\d.]+)\s*(?:empleados?|trabajadores?|personas?)/i) ||
                      html.match(/empleados?[^<]{0,30}?(\d[\d.]+)/i);
     if (empMatch && !company.signals.find(s => s.includes('empleados'))) {
       const n = parseInt(empMatch[1].replace(/\./g, ''));
       if (n > 0 && n < 500000) {
         company.employeeCount = n;
-        company.signals.push(`ðŸ‘¥ ${n.toLocaleString('es-ES')} empleados (Empresite)`);
+        company.signals.push(`👥 ${n.toLocaleString('es-ES')} empleados (Empresite)`);
       }
     }
 
-    // â”€â”€ FacturaciÃ³n / Ingresos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    const revMatch = html.match(/facturaci[oÃ³]n[^<]{0,60}?([\d,.]+)\s*(?:M|millones?|â‚¬|euros?|K)/i) ||
-                     html.match(/([\d,.]+)\s*(?:M|millones?)\s*(?:de\s*)?â‚¬/i) ||
+    // ── Facturación / Ingresos ───────────────────────────────────────────────
+    const revMatch = html.match(/facturaci[oó]n[^<]{0,60}?([\d,.]+)\s*(?:M|millones?|€|euros?|K)/i) ||
+                     html.match(/([\d,.]+)\s*(?:M|millones?)\s*(?:de\s*)?€/i) ||
                      html.match(/ingresos?[^<]{0,60}?([\d,.]+)/i);
     if (revMatch && !company.revenue) {
       const rawNum = revMatch[1].replace(/\./g, '').replace(',', '.');
       const val = parseFloat(rawNum);
       if (!isNaN(val) && val > 0) {
         company.revenue = val;
-        const label = val >= 1 ? `${val}M â‚¬` : `${Math.round(val * 1000)}K â‚¬`;
-        company.signals.push(`ðŸ’¶ FacturaciÃ³n ~${label} (Empresite)`);
+        const label = val >= 1 ? `${val}M €` : `${Math.round(val * 1000)}K €`;
+        company.signals.push(`💶 Facturación ~${label} (Empresite)`);
       }
     }
 
-    // â”€â”€ AÃ±o de fundaciÃ³n â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    const yearMatch = html.match(/(?:fundada?|constituida?|a[Ã±n]o\s+de\s+(?:creaci[oÃ³]n|fundaci[oÃ³]n))[^<]{0,30}?(\d{4})/i) ||
+    // ── Año de fundación ─────────────────────────────────────────────────────
+    const yearMatch = html.match(/(?:fundada?|constituida?|a[ñn]o\s+de\s+(?:creaci[oó]n|fundaci[oó]n))[^<]{0,30}?(\d{4})/i) ||
                       html.match(/\b(19[5-9]\d|20[0-2]\d)\b/);
     if (yearMatch && !company.incorporationYear) {
       const yr = parseInt(yearMatch[1]);
       if (yr >= 1950 && yr <= new Date().getFullYear()) {
         company.incorporationYear = yr;
         const age = new Date().getFullYear() - yr;
-        if (!company.signals.find(s => s.includes('aÃ±os') || s.includes('fundada'))) {
-          company.signals.push(`ðŸ¢ Fundada en ${yr} (${age} aÃ±os) â€” Empresite`);
+        if (!company.signals.find(s => s.includes('años') || s.includes('fundada'))) {
+          company.signals.push(`🏢 Fundada en ${yr} (${age} años) — Empresite`);
         }
       }
     }
 
-    // â”€â”€ DirecciÃ³n / municipio â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Dirección / municipio ────────────────────────────────────────────────
     if (!company.address) {
-      const addrMatch = html.match(/(?:direcci[oÃ³]n|domicilio)[^<]{0,10}?<[^>]+>([^<]{10,80})</i) ||
-                        html.match(/C\/?\.?\s+[A-ZÃÃ‰ÃÃ“Ãš][a-zÃ¡Ã©Ã­Ã³Ãº]+[^<]{5,50},\s*\d{5}/);
+      const addrMatch = html.match(/(?:direcci[oó]n|domicilio)[^<]{0,10}?<[^>]+>([^<]{10,80})</i) ||
+                        html.match(/C\/?\.?\s+[A-ZÁÉÍÓÚ][a-záéíóú]+[^<]{5,50},\s*\d{5}/);
       if (addrMatch) {
         const addr = addrMatch[1].trim().replace(/\s+/g, ' ');
         if (addr.length > 8 && addr.length < 100) company.address = addr;
       }
     }
 
-    // â”€â”€ SeÃ±al: empresa destacada o activa â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Señal: empresa destacada o activa ────────────────────────────────────
     if (/destacada|premium|verificada|activa/i.test(html)) {
       if (!company.enrichSource.includes('Empresite'))
         company.enrichSource.push('Empresite');
@@ -4393,14 +4393,14 @@ function _parseEmpressiteHtml(company, html, isSearch) {
   return company;
 }
 
-// â”€â”€â”€ CAPA EXPERIAN: Riesgo crediticio y seÃ±ales financieras (gratis) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Fuente: www.experian.es/empresas (parte pÃºblica, sin registro)
-// Datos: score de riesgo, morosidades, cambios recientes, tamaÃ±o estimado
+// ─── CAPA EXPERIAN: Riesgo crediticio y señales financieras (gratis) ──────────
+// Fuente: www.experian.es/empresas (parte pública, sin registro)
+// Datos: score de riesgo, morosidades, cambios recientes, tamaño estimado
 async function enrichFromExperian(company) {
   if (isZeroCostMode()) return markZeroCostSkipped(company, 'experian', 'not_verified_for_automatic_zero_cost');
   if (!company.name) return company;
   try {
-    // Experian EspaÃ±a permite bÃºsqueda pÃºblica de empresas por nombre/NIF
+    // Experian España permite búsqueda pública de empresas por nombre/NIF
     const q = encodeURIComponent(
       company.name
         .replace(/\b(SL|SA|SLU|SLL|SLP|SC|CB|AIE|S\.L\.|S\.A\.)\b\.?/gi, '')
@@ -4410,7 +4410,7 @@ async function enrichFromExperian(company) {
         .join(' ')
     );
 
-    // Endpoint pÃºblico de bÃºsqueda de Experian EspaÃ±a
+    // Endpoint público de búsqueda de Experian España
     const url = `https://www.experian.es/empresas/informe-empresas?nombre=${q}${company.nif ? '&nif=' + encodeURIComponent(company.nif) : ''}`;
     const html = await fetchWithProxy(url, 9000);
     if (!html || html.length < 300) return company;
@@ -4424,76 +4424,76 @@ async function enrichFromExperian(company) {
 
 function _parseExperianHtml(company, html) {
   try {
-    // â”€â”€ Score / Rating de riesgo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    // Experian muestra un semÃ¡foro o puntuaciÃ³n pÃºblica de riesgo
-    const riskMatch = html.match(/(?:riesgo|score|puntuaci[oÃ³]n)[^<]{0,50}?(\d{1,3})\s*(?:\/\s*100)?/i) ||
-                      html.match(/\b(muy\s+(?:bajo|alto)|bajo|medio|alto|m[iÃ­]nimo|m[aÃ¡]ximo)\s+riesgo/i);
+    // ── Score / Rating de riesgo ──────────────────────────────────────────────
+    // Experian muestra un semáforo o puntuación pública de riesgo
+    const riskMatch = html.match(/(?:riesgo|score|puntuaci[oó]n)[^<]{0,50}?(\d{1,3})\s*(?:\/\s*100)?/i) ||
+                      html.match(/\b(muy\s+(?:bajo|alto)|bajo|medio|alto|m[ií]nimo|m[aá]ximo)\s+riesgo/i);
     if (riskMatch) {
       const raw = riskMatch[1].toLowerCase();
       if (!isNaN(parseInt(raw))) {
         const score = parseInt(raw);
         company.creditScore = score;
         if (score >= 70) {
-          company.signals.push(`âœ… Riesgo financiero bajo (${score}/100) â€” Experian`);
+          company.signals.push(`✅ Riesgo financiero bajo (${score}/100) — Experian`);
         } else if (score >= 40) {
-          company.signals.push(`âš ï¸ Riesgo financiero medio (${score}/100) â€” Experian`);
+          company.signals.push(`⚠️ Riesgo financiero medio (${score}/100) — Experian`);
         } else {
-          company.signals.push(`ðŸ”´ Riesgo financiero alto (${score}/100) â€” Experian`);
+          company.signals.push(`🔴 Riesgo financiero alto (${score}/100) — Experian`);
         }
       } else {
         const label = raw.includes('bajo') ? 'bajo' : raw.includes('alto') ? 'alto' : 'medio';
         if (label === 'alto') {
-          company.signals.push('ðŸ”´ Riesgo financiero alto detectado â€” Experian');
+          company.signals.push('🔴 Riesgo financiero alto detectado — Experian');
         } else if (label === 'bajo') {
-          company.signals.push('âœ… Empresa con riesgo financiero bajo â€” Experian');
+          company.signals.push('✅ Empresa con riesgo financiero bajo — Experian');
         }
       }
     }
 
-    // â”€â”€ Incidencias / Morosidad â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Incidencias / Morosidad ───────────────────────────────────────────────
     const moraMatch = html.match(/(\d+)\s*(?:incidencia[s]?|morosidad|impagos?|deuda[s]?)/i) ||
                       html.match(/(?:incidencia[s]?|morosidad)[^<]{0,40}?(\d+)/i);
     if (moraMatch) {
       const n = parseInt(moraMatch[1]);
       if (n > 0) {
-        company.signals.push(`âš ï¸ ${n} incidencia(s) de morosidad registradas â€” Experian`);
+        company.signals.push(`⚠️ ${n} incidencia(s) de morosidad registradas — Experian`);
       }
     }
 
-    // â”€â”€ Sin incidencias (seÃ±al positiva) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Sin incidencias (señal positiva) ─────────────────────────────────────
     if (/sin\s+incidencias?|0\s+incidencias?|no\s+(?:constan|hay)\s+incidencias?/i.test(html)) {
       if (!company.signals.find(s => s.includes('morosidad') || s.includes('incidencia'))) {
-        company.signals.push('âœ… Sin incidencias de morosidad â€” Experian');
+        company.signals.push('✅ Sin incidencias de morosidad — Experian');
       }
     }
 
-    // â”€â”€ TamaÃ±o / ClasificaciÃ³n â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    const sizeMatch = html.match(/(?:tama[Ã±n]o|clasificaci[oÃ³]n)[^<]{0,40}?(microempresa|peque[Ã±n]a|mediana|grande)/i);
+    // ── Tamaño / Clasificación ────────────────────────────────────────────────
+    const sizeMatch = html.match(/(?:tama[ñn]o|clasificaci[oó]n)[^<]{0,40}?(microempresa|peque[ñn]a|mediana|grande)/i);
     if (sizeMatch && !company.companySize) {
       company.companySize = sizeMatch[1].toLowerCase();
     }
 
-    // â”€â”€ Cambios recientes (nuevo administrador, cambio domicilio) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Cambios recientes (nuevo administrador, cambio domicilio) ────────────
     if (/nuevo\s+administrador|cambio\s+(?:de\s+)?(?:administrador|titular)/i.test(html)) {
       if (!company.signals.find(s => s.includes('administrador'))) {
-        company.signals.push('ðŸ‘¤ Cambio de administrador reciente â€” Experian (nueva gestiÃ³n = oportunidad)');
+        company.signals.push('👤 Cambio de administrador reciente — Experian (nueva gestión = oportunidad)');
       }
     }
     if (/cambio\s+(?:de\s+)?domicilio|traslado|nueva\s+sede/i.test(html)) {
       if (!company.signals.find(s => s.includes('domicilio') || s.includes('traslado'))) {
-        company.signals.push('ðŸ“ Cambio de domicilio reciente â€” Experian (obra probable)');
+        company.signals.push('📍 Cambio de domicilio reciente — Experian (obra probable)');
       }
     }
 
-    // â”€â”€ NIF si no lo tenÃ­amos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── NIF si no lo teníamos ─────────────────────────────────────────────────
     if (!company.nif) {
       const nifMatch = html.match(/\b([A-Z]\d{7}[A-Z0-9]|\d{8}[A-Z])\b/);
       if (nifMatch) company.nif = nifMatch[1];
     }
 
-    // â”€â”€ AÃ±o de constituciÃ³n â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Año de constitución ───────────────────────────────────────────────────
     if (!company.incorporationYear) {
-      const yrMatch = html.match(/(?:constituci[oÃ³]n|fundaci[oÃ³]n|alta)[^<]{0,30}?(\d{4})/i);
+      const yrMatch = html.match(/(?:constituci[oó]n|fundaci[oó]n|alta)[^<]{0,30}?(\d{4})/i);
       if (yrMatch) {
         const yr = parseInt(yrMatch[1]);
         if (yr >= 1950 && yr <= new Date().getFullYear()) {
@@ -4502,7 +4502,7 @@ function _parseExperianHtml(company, html) {
       }
     }
 
-    // â”€â”€ Marcar fuente â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Marcar fuente ─────────────────────────────────────────────────────────
     if (riskMatch || moraMatch || sizeMatch ||
         html.includes('Experian') || html.length > 1000) {
       company.enrichSource.push('Experian');
@@ -4514,9 +4514,9 @@ function _parseExperianHtml(company, html) {
   return company;
 }
 
-// â”€â”€â”€ SINCRONIZACIÃ“N GOOGLE SHEETS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-const SHEETS_HEADERS = ['ID','Empresa','Nombre','Email','TelÃ©fono','Estado','Score',
-  'Segmento','DirecciÃ³n','Web','Rating','ReseÃ±as','Decisor','SeÃ±ales','Fuentes','Fecha','Notas','PrÃ³ximo contacto'];
+// ─── SINCRONIZACIÓN GOOGLE SHEETS ─────────────────────────────────────────────
+const SHEETS_HEADERS = ['ID','Empresa','Nombre','Email','Teléfono','Estado','Score',
+  'Segmento','Dirección','Web','Rating','Reseñas','Decisor','Señales','Fuentes','Fecha','Notas','Próximo contacto'];
 
 async function syncToSheets(leadsToSync) {
   const sheetsId = localStorage.getItem('gordi_sheets_id');
@@ -4539,21 +4539,21 @@ async function syncToSheets(leadsToSync) {
         body: JSON.stringify({ values: [SHEETS_HEADERS, ...rows] }),
         signal: AbortSignal.timeout(10000) }
     );
-    if (res.ok) showToast('âœ… Sheets sincronizado (' + rows.length + ' leads)');
-    else showToast('âš ï¸ Error Sheets ' + res.status + ' â€” verifica el token');
+    if (res.ok) showToast('✅ Sheets sincronizado (' + rows.length + ' leads)');
+    else showToast('⚠️ Error Sheets ' + res.status + ' — verifica el token');
   } catch(e) { console.warn('Sheets sync:', e.message); }
 }
 
 function initSheetsOAuth(silent) {
   const cid = localStorage.getItem('gordi_sheets_client_id');
-  if (!cid) { if (!silent) showToast('âš ï¸ Configura tu Client ID de Google en Ajustes'); return; }
+  if (!cid) { if (!silent) showToast('⚠️ Configura tu Client ID de Google en Ajustes'); return; }
   const sc = encodeURIComponent('https://www.googleapis.com/auth/spreadsheets');
   const redirectUri = location.href.split('?')[0].replace(/\/$/, '');
   const popup = window.open('https://accounts.google.com/o/oauth2/v2/auth?client_id=' + cid
     + '&redirect_uri=' + encodeURIComponent(redirectUri)
     + '&response_type=token&scope=' + sc
     + '&prompt=none', '_blank', 'width=500,height=600');
-  if (!silent) showToast('ðŸ”‘ Autorizando con Google...');
+  if (!silent) showToast('🔑 Autorizando con Google...');
   const timer = setInterval(() => {
     try {
       if (popup && popup.location && popup.location.href && popup.location.href.includes('access_token')) {
@@ -4568,7 +4568,7 @@ function initSheetsOAuth(silent) {
           if (el) el.value = token;
           popup.close();
           clearInterval(timer);
-          if (!silent) showToast('âœ… Token renovado. Â¡Ya puedes sincronizar!');
+          if (!silent) showToast('✅ Token renovado. ¡Ya puedes sincronizar!');
           scheduleTokenRenewal();
         }
       }
@@ -4588,7 +4588,7 @@ function scheduleTokenRenewal() {
   const msUntilRenew = expiry - Date.now();
   if (msUntilRenew > 0) {
     setTimeout(() => {
-      showToast('ðŸ”„ Renovando token de Google automÃ¡ticamente...');
+      showToast('🔄 Renovando token de Google automáticamente...');
       initSheetsOAuth(true);
     }, msUntilRenew);
   }
@@ -4601,7 +4601,7 @@ function saveSheetsConfig() {
   if (id)  localStorage.setItem('gordi_sheets_id', id);
   if (cid) localStorage.setItem('gordi_sheets_client_id', cid);
   if (tok) localStorage.setItem('gordi_sheets_token', tok);
-  showToast('âœ… ConfiguraciÃ³n de Sheets guardada');
+  showToast('✅ Configuración de Sheets guardada');
 }
 
 (function detectOAuthToken() {
@@ -4613,12 +4613,12 @@ function saveSheetsConfig() {
     localStorage.setItem('gordi_sheets_token', mToken[1]);
     localStorage.setItem('gordi_sheets_token_expiry', Date.now() + (expiresIn - 120) * 1000);
     history.replaceState(null, '', location.pathname);
-    showToast('âœ… Token de Google Sheets guardado');
+    showToast('✅ Token de Google Sheets guardado');
     scheduleTokenRenewal();
   }
 })();
 
-// â”€â”€â”€ MOTOR PRINCIPAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── MOTOR PRINCIPAL ─────────────────────────────────────────────────────────
 function setStep(step, state, msg) {
   const el = document.getElementById(`step-${step}`);
   const st = document.getElementById(`st-${step}`);
@@ -4926,14 +4926,14 @@ async function searchBusinessesSingle(options = {}) {
 
   if (!location) { alert('Introduce una ciudad o zona.'); return; }
 
-  // WRAPPER: Verificar inicializaciÃ³n de Google Maps antes de iniciar la UI de bÃºsqueda
+  // WRAPPER: Verificar inicialización de Google Maps antes de iniciar la UI de búsqueda
   if (!isZeroCostMode() && (typeof google === 'undefined' || !google.maps)) {
-    document.getElementById('btn-search').textContent = 'â³ Iniciando Maps...';
+    document.getElementById('btn-search').textContent = '⏳ Iniciando Maps...';
     try {
       await waitForGoogleMaps(12000);
     } catch (err) {
-      alert('Error al inicializar Google Maps. Revisa tu API Key en ConfiguraciÃ³n.\n' + err.message);
-      if (!isMultiChild) document.getElementById('btn-search').textContent = 'ðŸ” Buscar y Enriquecer';
+      alert('Error al inicializar Google Maps. Revisa tu API Key en Configuración.\n' + err.message);
+      if (!isMultiChild) document.getElementById('btn-search').textContent = '🔍 Buscar y Enriquecer';
       return;
     }
   }
@@ -4954,15 +4954,15 @@ async function searchBusinessesSingle(options = {}) {
   const sqBox = document.getElementById('scraping-quality-panel');
   if (sqBox) sqBox.style.display = 'none';
   document.getElementById('btn-search').disabled = true;
-  document.getElementById('btn-search').textContent = 'â³ Buscando...';
+  document.getElementById('btn-search').textContent = '⏳ Buscando...';
   tempSearchResults = [];
   resetSearchRuntimeFilters();
   setProgress(0);
   logEnrich('', 'clear');
 
-  // â”€â”€ Capa 1 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Capa 1 ───────────────────────────────────────────────
   setStep('places','active','Buscando...');
-  logEnrich((isZeroCostMode() ? 'Proveedor gratuito: buscando empresas en ' : 'ðŸ” Google Places: buscando empresas en ') + location);
+  logEnrich((isZeroCostMode() ? 'Proveedor gratuito: buscando empresas en ' : '🔍 Google Places: buscando empresas en ') + location);
 
   let places = [];
   try {
@@ -4977,16 +4977,16 @@ async function searchBusinessesSingle(options = {}) {
         setStep('places', 'active', `${progressive.length} locales`);
       },
     });
-    // Calcular distancias reales con Haversine desde el centro de bÃºsqueda
+    // Calcular distancias reales con Haversine desde el centro de búsqueda
     places = await enrichDistances(places, location);
-    // Ventana de contacto Ã³ptima (sÃ­ncrona, datos de Places ya disponibles)
+    // Ventana de contacto óptima (síncrona, datos de Places ya disponibles)
     places = places.map(c => detectOptimalContactWindow(c));
     setStep('places','done', places.length + ' encontradas');
-    logEnrich(`âœ… ${places.length} empresas encontradas`, 'ok');
+    logEnrich(`✅ ${places.length} empresas encontradas`, 'ok');
     setProgress(20);
   } catch (err) {
     setStep('places','error','Error');
-    logEnrich('âŒ ' + err.message, 'err');
+    logEnrich('❌ ' + err.message, 'err');
     if (!isMultiChild) resetSearchBtn();
     return;
   }
@@ -5006,12 +5006,12 @@ async function searchBusinessesSingle(options = {}) {
 
   tempSearchResults = places.map(c => normalizeSearchCompany(applySectorClassification(c, segment)));
 
-  // Renderizar resultado rÃ¡pido de Places mientras enriquecemos
+  // Renderizar resultado rápido de Places mientras enriquecemos
   renderSearchCards();
   showResultsPanel();
   updateEnrichStats();
 
-  // â”€â”€ MEJORA 3: Pre-cachÃ© de logos + dominios en paralelo (capa 0) â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── MEJORA 3: Pre-caché de logos + dominios en paralelo (capa 0) ─────────
   // Los primeros 20 resultados reciben logos y dominios inmediatamente,
   // sin esperar al batch de enriquecimiento completo
   places.slice(0, 20).forEach(c => {
@@ -5020,17 +5020,17 @@ async function searchBusinessesSingle(options = {}) {
   });
   renderSearchCards(); // re-render con logos ya listos
 
-  // â”€â”€ Modo Turbo: Solo Places â€” salida instantÃ¡nea sin enriquecimiento â”€â”€â”€â”€â”€â”€
+  // ── Modo Turbo: Solo Places — salida instantánea sin enriquecimiento ──────
   if (enrichMode === 'none') {
     setStep('places','done', places.length + ' listas');
     // Marcar todos los steps restantes como omitidos para UI limpia
     ['web','hunter','apollo','social','whois','opencorp'].forEach(s => setStep(s,'done','Omitido'));
-    setStep('done','done', places.length + ' listas âš¡');
+    setStep('done','done', places.length + ' listas ⚡');
     setProgress(100);
     document.getElementById('result-filters').style.display = 'flex';
     const sfb1 = document.getElementById('search-sf-wrap'); if(sfb1) sfb1.style.display='block';
-    logEnrich(`âš¡ Modo Turbo: ${places.length} empresas en segundos. Pulsa âœ¨ en cada card para enriquecer individualmente.`, 'ok');
-    // AÃ±adir logos Clearbit tambiÃ©n en modo turbo
+    logEnrich(`⚡ Modo Turbo: ${places.length} empresas en segundos. Pulsa ✨ en cada card para enriquecer individualmente.`, 'ok');
+    // Añadir logos Clearbit también en modo turbo
     tempSearchResults.forEach(c => { if (!c.logo) c.logo = getClearbitLogo(c.website); });
     renderSearchCards();
     updateEnrichStats();
@@ -5041,7 +5041,7 @@ async function searchBusinessesSingle(options = {}) {
     return;
   }
 
-  // â”€â”€ Capa 2: Web Scraping (paralelo, batches de 8 con retry) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Capa 2: Web Scraping (paralelo, batches de 8 con retry) ─────────────
   if (enrichMode === 'all' || enrichMode === 'web') {
     setStep('web','active','Procesando...');
     if (isMultiChild) setMultiSectorProgress(segment, 'web scraping', 35);
@@ -5051,14 +5051,14 @@ async function searchBusinessesSingle(options = {}) {
     // FIX-SCRAPING: BATCH_SIZE reducido a 3 para no saturar los proxies CORS gratuitos.
     const BATCH_SIZE = PERF.webBatch;
 
-    // Reordenar por potencial â€” mejores leads se enriquecen primero
+    // Reordenar por potencial — mejores leads se enriquecen primero
     const enrichOrder = [...tempSearchResults.keys()].sort((a, b) => {
       const ca = tempSearchResults[a], cb = tempSearchResults[b];
       const scoreA = (ca.rating||0)*20 + Math.min(ca.ratingCount||0,200)/10 + (ca.website?15:0);
       const scoreB = (cb.rating||0)*20 + Math.min(cb.ratingCount||0,200)/10 + (cb.website?15:0);
       return scoreB - scoreA;
     });
-    logEnrich(`  -> Procesando en orden de potencial (rating + reseÃ±as + web)`);
+    logEnrich(`  -> Procesando en orden de potencial (rating + reseñas + web)`);
 
     for (let b = 0; b < enrichOrder.length; b += BATCH_SIZE) {
       const batchIndices = enrichOrder.slice(b, b + BATCH_SIZE);
@@ -5066,14 +5066,14 @@ async function searchBusinessesSingle(options = {}) {
       // Marcar todas las cards del batch como "enriqueciendo"
       batchIndices.forEach(i => { if (tempSearchResults[i].website) markCardEnriching(i, true); });
 
-      // Procesar batch en paralelo con RETRY automÃ¡tico
+      // Procesar batch en paralelo con RETRY automático
       await Promise.all(batchIndices.map(async i => {
         const company = tempSearchResults[i];
         if (!company.website) { done++; return; }
         try {
           tempSearchResults[i] = await enrichFromWeb(company);
         } catch (e1) {
-          // Retry automÃ¡tico con proxy alternativo tras pausa corta
+          // Retry automático con proxy alternativo tras pausa corta
           try {
             await sleep(1500); 
             tempSearchResults[i] = await enrichFromWeb(company);
@@ -5085,13 +5085,13 @@ async function searchBusinessesSingle(options = {}) {
       }));
 
       // Actualizar UI y deduplicar PROGRESIVAMENTE
-      // (Si detectamos duplicados por website o email que Places no pillÃ³)
+      // (Si detectamos duplicados por website o email que Places no pilló)
       batchIndices.forEach(i => {
         markCardEnriching(i, false);
         updateCard(i);
         const c = tempSearchResults[i];
         const proxyFail = (c.enrichSource||[]).includes('Proxy-fallo');
-        logEnrich(`  -> ${c.name}: ${c.email ? 'âœ‰ï¸ ' + c.email : 'â€”'}${proxyFail ? ' âš ï¸retry-needed' : ''}`);
+        logEnrich(`  -> ${c.name}: ${c.email ? '✉️ ' + c.email : '—'}${proxyFail ? ' ⚠️retry-needed' : ''}`);
       });
 
       setProgress(20 + Math.round(done / tempSearchResults.length * 40));
@@ -5114,7 +5114,7 @@ async function searchBusinessesSingle(options = {}) {
     const originalLen = tempSearchResults.length;
     tempSearchResults = deduplicateResults(tempSearchResults).map(c => normalizeSearchCompany(applySectorClassification(c, segment)));
     if (tempSearchResults.length < originalLen) {
-      logEnrich(`âœ¨ DeduplicaciÃ³n inteligente: eliminadas ${originalLen - tempSearchResults.length} sucursales duplicadas detectadas por web/email`, 'ok');
+      logEnrich(`✨ Deduplicación inteligente: eliminadas ${originalLen - tempSearchResults.length} sucursales duplicadas detectadas por web/email`, 'ok');
       renderSearchCards();
       updateEnrichStats();
     }
@@ -5123,7 +5123,7 @@ async function searchBusinessesSingle(options = {}) {
     setProgress(60);
   }
 
-  // â”€â”€ Capa 3: Hunter & Apollo (Pipeline Priorizado) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Capa 3: Hunter & Apollo (Pipeline Priorizado) ──────────────────────────
   // Agrupamos Hunter y Apollo para evitar loops redundantes y priorizar leads sin email
   const hunterKey = localStorage.getItem('gordi_hunter_key');
   const apolloKey = localStorage.getItem('gordi_apollo_key');
@@ -5135,7 +5135,7 @@ async function searchBusinessesSingle(options = {}) {
       .sort((a, b) => getLayerPriority(b.c) - getLayerPriority(a.c));
 
     if (externalCandidates.length > 0) {
-      logEnrich(`ðŸ” Capas Externas (Hunter/Apollo): procesando ${externalCandidates.length} candidatos...`);
+      logEnrich(`🔍 Capas Externas (Hunter/Apollo): procesando ${externalCandidates.length} candidatos...`);
       setStep('hunter', hunterKey ? 'active' : 'done', hunterKey ? 'Buscando...' : 'Omitido');
       setStep('apollo', apolloKey ? 'active' : 'done', apolloKey ? 'Buscando...' : 'Omitido');
 
@@ -5149,7 +5149,7 @@ async function searchBusinessesSingle(options = {}) {
             tempSearchResults[i] = await enrichFromHunter(tempSearchResults[i]);
           }
           
-          // Apollo.io (si no hay decisor o email despuÃ©s de Hunter)
+          // Apollo.io (si no hay decisor o email después de Hunter)
           if (apolloKey && (!tempSearchResults[i].email || !tempSearchResults[i].decision_maker)) {
             tempSearchResults[i] = await enrichFromApollo(tempSearchResults[i]);
           }
@@ -5168,13 +5168,13 @@ async function searchBusinessesSingle(options = {}) {
     }
   }
 
-  // â”€â”€ Capa Social & SeÃ±ales (Pipeline de AnÃ¡lisis de Bajo Coste) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Capa Social & Señales (Pipeline de Análisis de Bajo Coste) ─────────────
   // Consolidamos News, Social, Whois, OpenCorp y Reviews en un solo flujo eficiente
   if (enrichMode === 'all') {
-    setStep('social','active','Pipeline SeÃ±ales...');
-    logEnrich('ðŸ§  Pipeline de SeÃ±ales: ejecutando anÃ¡lisis multicapa...');
+    setStep('social','active','Pipeline Señales...');
+    logEnrich('🧠 Pipeline de Señales: ejecutando análisis multicapa...');
     
-    // Procesar en pequeÃ±os grupos para mantener la UI fluida pero rÃ¡pida
+    // Procesar en pequeños grupos para mantener la UI fluida pero rápida
     const SIGNAL_BATCH = PERF.signalBatch; 
     for (let i = 0; i < tempSearchResults.length; i += SIGNAL_BATCH) {
       const batch = tempSearchResults.slice(i, i + SIGNAL_BATCH);
@@ -5183,7 +5183,7 @@ async function searchBusinessesSingle(options = {}) {
         try {
           // 1. Social & Web Signals
           tempSearchResults[realIdx] = await enrichFromSocial(tempSearchResults[realIdx]);
-          // 2. Google News (solo si no tenemos muchas seÃ±ales aÃºn)
+          // 2. Google News (solo si no tenemos muchas señales aún)
           if (tempSearchResults[realIdx].signals.length < 3) {
             tempSearchResults[realIdx] = await enrichFromNews(tempSearchResults[realIdx]);
           }
@@ -5193,7 +5193,7 @@ async function searchBusinessesSingle(options = {}) {
           }
           // 4. OpenCorporates (registro legal)
           tempSearchResults[realIdx] = await enrichFromOpenCorporates(tempSearchResults[realIdx]);
-          // 5. AnÃ¡lisis de ReseÃ±as (dolor del cliente)
+          // 5. Análisis de Reseñas (dolor del cliente)
           tempSearchResults[realIdx] = await enrichFromReviews(tempSearchResults[realIdx]);
         } catch (err) {
           tempSearchResults[realIdx].scrapeDiagnostics = [...new Set([...(tempSearchResults[realIdx].scrapeDiagnostics || []), 'senales-fallo'])];
@@ -5214,10 +5214,10 @@ async function searchBusinessesSingle(options = {}) {
     });
   }
 
-  // â”€â”€ Capa Especial Avanzada (Borme + Street View + LinkedIn + IA Rescue) â”€â”€â”€â”€
+  // ── Capa Especial Avanzada (Borme + Street View + LinkedIn + IA Rescue) ────
   const geminiKey = getGeminiKey();
   if (enrichMode === 'all') {
-    logEnrich('ðŸ’Ž Capas Avanzadas: ejecutando anÃ¡lisis de alto valor...');
+    logEnrich('💎 Capas Avanzadas: ejecutando análisis de alto valor...');
     setStep('empresite', 'active', 'Consultando...');
     setStep('experian', 'active', 'Consultando...');
     
@@ -5233,10 +5233,10 @@ async function searchBusinessesSingle(options = {}) {
         // 1. LinkedIn Dorking (Idea 3 - Decisor probable)
         tempSearchResults[i] = await enrichFromLinkedInDorking(tempSearchResults[i]);
 
-        // 2. BORME (TrÃ¡mites legales reales)
+        // 2. BORME (Trámites legales reales)
         tempSearchResults[i] = await enrichFromBorme(tempSearchResults[i]);
         
-        // 3. Empresite (NIF, empleados, facturaciÃ³n)
+        // 3. Empresite (NIF, empleados, facturación)
         tempSearchResults[i] = await enrichFromEmpressite(tempSearchResults[i]);
         if (tempSearchResults[i].enrichSource.includes('Empresite')) empresiteOk++;
 
@@ -5244,12 +5244,12 @@ async function searchBusinessesSingle(options = {}) {
         tempSearchResults[i] = await enrichFromExperian(tempSearchResults[i]);
         if (tempSearchResults[i].enrichSource.includes('Experian')) experianOk++;
 
-        // 5. Street View Vision (Idea 4 - AnÃ¡lisis necesidades reforma)
+        // 5. Street View Vision (Idea 4 - Análisis necesidades reforma)
         if (geminiKey && tempSearchResults[i].address) {
           tempSearchResults[i] = await enrichFromStreetView(tempSearchResults[i]);
         }
         
-        // 6. IA Email Rescue (Ãšltimo recurso con Gemini)
+        // 6. IA Email Rescue (Último recurso con Gemini)
         if (geminiKey && !tempSearchResults[i].email && tempSearchResults[i].website) {
           const rescued = await extractEmailWithAI(tempSearchResults[i].website, tempSearchResults[i].name, geminiKey);
           if (rescued) {
@@ -5270,7 +5270,7 @@ async function searchBusinessesSingle(options = {}) {
     setStep('experian',  'done', experianOk  + ' con datos');
   }
 
-  // â”€â”€ Mostrar info de duplicados â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Mostrar info de duplicados ──────────────────────────────────────────────
   const normN = n => (n||'').toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,25);
   const dupCount = tempSearchResults.filter(c =>
     leads.find(l => !l.archived && isSameBusiness({ ...c, company: c.name }, l))
@@ -5279,7 +5279,7 @@ async function searchBusinessesSingle(options = {}) {
     const dupBar = document.createElement('div');
     dupBar.id = 'search-dup-info';
     dupBar.style.cssText = 'margin-bottom:.75rem;padding:.6rem 1rem;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:10px;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;font-size:.82rem';
-    dupBar.innerHTML = `<span>ðŸ“‹ <strong>${dupCount}</strong> empresa${dupCount>1?'s':''} de los resultados ya ${dupCount>1?'estÃ¡n':'estÃ¡'} en tu CRM</span>
+    dupBar.innerHTML = `<span>📋 <strong>${dupCount}</strong> empresa${dupCount>1?'s':''} de los resultados ya ${dupCount>1?'están':'está'} en tu CRM</span>
       <label style="display:flex;align-items:center;gap:.4rem;cursor:pointer;color:var(--text-muted)">
         <input type="checkbox" id="filter-no-leads-auto" onchange="document.getElementById('filter-no-leads').checked=this.checked;applyAdvancedFilters()" checked style="cursor:pointer">
         Mostrando solo nuevas (clic para ver todas)
@@ -5288,19 +5288,19 @@ async function searchBusinessesSingle(options = {}) {
     if (statsBar && statsBar.parentNode) {
       statsBar.parentNode.insertBefore(dupBar, statsBar.nextSibling);
     }
-    // Aplicar filtro automÃ¡ticamente â€” ocultar duplicados por defecto
+    // Aplicar filtro automáticamente — ocultar duplicados por defecto
     const staticNoLeads = document.getElementById('filter-no-leads');
     if (staticNoLeads) staticNoLeads.checked = true;
     setTimeout(() => applyAdvancedFilters(), 50);
   }
 
-  // â”€â”€ DeduplicaciÃ³n final por nombre similar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Deduplicación final por nombre similar ───────────────
   const before = tempSearchResults.length;
   tempSearchResults = deduplicateResults(tempSearchResults).map(c => normalizeSearchCompany(applySectorClassification(c, segment)));
   const removed = before - tempSearchResults.length;
-  if (removed > 0) logEnrich(`ðŸ” ${removed} duplicados eliminados por nombre similar`, 'warn');
+  if (removed > 0) logEnrich(`🔁 ${removed} duplicados eliminados por nombre similar`, 'warn');
 
-  // â”€â”€ AÃ±adir logos Clearbit a los resultados â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Añadir logos Clearbit a los resultados ───────────────
   tempSearchResults.forEach(c => { if (!c.logo) c.logo = getClearbitLogo(c.website); });
   decorateAllOpportunities();
   sortSearchResultsLive();
@@ -5312,11 +5312,11 @@ async function searchBusinessesSingle(options = {}) {
     hasDecisionMaker: !!c.decision_maker
   }));
 
-  // â”€â”€ Finalizar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Finalizar ─────────────────────────────────────────────
   setProgress(100);
   const withEmail = tempSearchResults.filter(c => c.email).length;
   setStep('done','done', `${withEmail} con email`);
-  logEnrich(`âœ… Enriquecimiento completado. ${withEmail}/${tempSearchResults.length} empresas con email.`, 'ok');
+  logEnrich(`✅ Enriquecimiento completado. ${withEmail}/${tempSearchResults.length} empresas con email.`, 'ok');
   renderSearchCards();
   applyAdvancedFilters();
   scheduleSearchTableRender();
@@ -5324,12 +5324,12 @@ async function searchBusinessesSingle(options = {}) {
   const sfb2 = document.getElementById('search-sf-wrap'); if(sfb2) sfb2.style.display='block';
   updateEnrichStats();
   
-  // â”€â”€ Guardar todo en cache (Final) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Guardar todo en cache (Final) ──────────────────────────
   _enrichCache.setMany(tempSearchResults.filter(c => !c.fromCache));
 
   if (!isMultiChild) resetSearchBtn();
 
-  // â”€â”€ Inteligencia de sesiÃ³n (asÃ­ncrona, no bloquea el pipeline) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Inteligencia de sesión (asíncrona, no bloquea el pipeline) ────────────
   // La inteligencia de sesion solo se genera bajo una accion explicita del usuario.
   } catch (err) {
     console.error('searchBusinessesSingle failed:', err);
@@ -5345,19 +5345,19 @@ async function searchBusinessesSingle(options = {}) {
   }
 }
 
-// â”€â”€â”€ UI HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── UI HELPERS ──────────────────────────────────────────────────────────────
 
 function resetSearchBtn() {
   const btn = document.getElementById('btn-search');
   btn.disabled = false;
-  btn.textContent = 'ðŸ” Buscar y Enriquecer';
+  btn.textContent = '🔍 Buscar y Enriquecer';
 }
 
-// â”€â”€ Enriquecimiento individual bajo demanda (para Modo Turbo) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Enriquecimiento individual bajo demanda (para Modo Turbo) ─────────────────
 async function enrichSingleCard(idx) {
   if (idx < 0 || idx >= tempSearchResults.length) return;
   const btn = document.getElementById(`rebtn-${idx}`);
-  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="reenrich-icon">â³</span> Buscando...'; }
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="reenrich-icon">⏳</span> Buscando...'; }
   markCardEnriching(idx, true);
 
   const hunterKey  = localStorage.getItem('gordi_hunter_key');
@@ -5396,21 +5396,21 @@ async function enrichSingleCard(idx) {
     const c = tempSearchResults[idx];
     if (btn) {
       btn.disabled = false;
-      btn.innerHTML = `<span class="reenrich-icon">${c.enriched ? 'ðŸ”„' : 'âœ¨'}</span> ${!c.email ? (c.enriched ? 'Buscar email' : 'Enriquecer') : 'Buscar decisor'}`;
+      btn.innerHTML = `<span class="reenrich-icon">${c.enriched ? '🔄' : '✨'}</span> ${!c.email ? (c.enriched ? 'Buscar email' : 'Enriquecer') : 'Buscar decisor'}`;
     }
-    if (!hadError) showToast(`${c.name}: ${c.email ? 'âœ‰ï¸ ' + c.email : 'sin email'} ${c.decision_maker ? 'Â· ðŸ‘¤ ' + c.decision_maker.split('(')[0] : ''} âœ“`);
+    if (!hadError) showToast(`${c.name}: ${c.email ? '✉️ ' + c.email : 'sin email'} ${c.decision_maker ? '· 👤 ' + c.decision_maker.split('(')[0] : ''} ✓`);
   }
 }
 
-// â”€â”€ Panel de Inteligencia de SesiÃ³n (Gemini) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Panel de Inteligencia de Sesión (Gemini) ───────────────────────────────────
 async function generateSessionIntel(results, segment, location) {
   const geminiKey = getGeminiKey();
   const el = document.getElementById('session-intel-box');
   if (!geminiKey || !results.length || !el) return;
 
-  // Ocultar si ya habÃ­a inteligencia de sesiÃ³n previa
+  // Ocultar si ya había inteligencia de sesión previa
   el.style.display = 'block';
-  el.innerHTML = '<div style="font-size:.78rem;color:var(--text-muted);display:flex;align-items:center;gap:.5rem"><span style="animation:spin 1s linear infinite;display:inline-block">â³</span> Generando inteligencia de sesiÃ³n con IA...</div>';
+  el.innerHTML = '<div style="font-size:.78rem;color:var(--text-muted);display:flex;align-items:center;gap:.5rem"><span style="animation:spin 1s linear infinite;display:inline-block">⏳</span> Generando inteligencia de sesión con IA...</div>';
 
   // Top 5 leads por score
   const top = [...results]
@@ -5420,16 +5420,16 @@ async function generateSessionIntel(results, segment, location) {
 
   const summary = top.map((c, i) => {
     const painSnippet = c.reviewPain?.length ? ` | Dolor detectado: "${c.reviewPain[0].snippet.slice(0, 60)}"` : '';
-    const compSnippet = c.competitorBetter ? ` | Competidor: ${c.competitorBetter.name} (+${c.competitorBetter.diff}â˜…)` : '';
+    const compSnippet = c.competitorBetter ? ` | Competidor: ${c.competitorBetter.name} (+${c.competitorBetter.diff}★)` : '';
     const newsSnippet = (c.signals || []).find(s => s.includes('prensa') || s.includes('Apertura') || s.includes('Contrato')) || '';
-    return `${i+1}. ${c.name} | ${c.rating ? c.rating + 'â˜… (' + c.ratingCount + ' reseÃ±as)' : 'Sin rating'} | Email:${c.email ? 'SÃ' : 'NO'} | Decisor:${c.decision_maker ? 'SÃ' : 'NO'}${painSnippet}${compSnippet}${newsSnippet ? ' | Prensa: ' + newsSnippet.slice(0, 60) : ''}`;
+    return `${i+1}. ${c.name} | ${c.rating ? c.rating + '★ (' + c.ratingCount + ' reseñas)' : 'Sin rating'} | Email:${c.email ? 'SÍ' : 'NO'} | Decisor:${c.decision_maker ? 'SÍ' : 'NO'}${painSnippet}${compSnippet}${newsSnippet ? ' | Prensa: ' + newsSnippet.slice(0, 60) : ''}`;
   }).join('\n');
 
-  const prompt = `Eres un experto en ventas B2B para Voltium Madrid, empresa de instalaciones elÃ©ctricas y reformas integrales. Analiza los ${top.length} mejores leads encontrados en "${location}" (sector: ${segment}) y crea un briefing ejecutivo CONCISO. Para cada lead: una frase de por quÃ© es prioritario y una frase con el mejor Ã¡ngulo de primer contacto. Sin listas con guiones, sin markdown, texto en prosa con saltos de lÃ­nea entre leads. MÃ¡ximo 220 palabras.\n\nLeads:\n${summary}`;
+  const prompt = `Eres un experto en ventas B2B para Voltium Madrid, empresa de instalaciones eléctricas y reformas integrales. Analiza los ${top.length} mejores leads encontrados en "${location}" (sector: ${segment}) y crea un briefing ejecutivo CONCISO. Para cada lead: una frase de por qué es prioritario y una frase con el mejor ángulo de primer contacto. Sin listas con guiones, sin markdown, texto en prosa con saltos de línea entre leads. Máximo 220 palabras.\n\nLeads:\n${summary}`;
 
   try {
     const res = await aiGatewayGeminiFetch(
-      'gemini-2.0-flash', geminiKey,
+      AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -5444,8 +5444,8 @@ async function generateSessionIntel(results, segment, location) {
 
     el.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem">
-        <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);font-weight:700">ðŸ§  Inteligencia de sesiÃ³n â€” Top ${top.length} leads</div>
-        <button onclick="document.getElementById('session-intel-box').style.display='none'" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.85rem;padding:0">âœ•</button>
+        <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);font-weight:700">🧠 Inteligencia de sesión — Top ${top.length} leads</div>
+        <button onclick="document.getElementById('session-intel-box').style.display='none'" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.85rem;padding:0">✕</button>
       </div>
       <div style="font-size:.8rem;line-height:1.65;color:var(--text)">${intel.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>')}</div>`;
   } catch {
@@ -5660,7 +5660,7 @@ function renderScrapingQualityPanel(forceShow = true) {
         ['Contacto alto', s.highContact + '%'], ['Fallos proxy', s.proxyFail], ['Score medio', s.avgOpp]
       ].map(([k,v]) => `<div style="padding:.6rem;border:1px solid var(--glass-border);border-radius:10px;background:rgba(255,255,255,.03)"><div style="font-size:1rem;font-weight:700">${v}</div><div style="font-size:.68rem;color:var(--text-dim)">${k}</div></div>`).join('')}
     </div>
-    ${s.diagnostics.length ? `<div style="margin-top:.65rem;font-size:.74rem;color:var(--text-muted)">Diagnosticos: ${s.diagnostics.map(([k,v]) => `${k} (${v})`).join(' Â· ')}</div>` : ''}`;
+    ${s.diagnostics.length ? `<div style="margin-top:.65rem;font-size:.74rem;color:var(--text-muted)">Diagnosticos: ${s.diagnostics.map(([k,v]) => `${k} (${v})`).join(' · ')}</div>` : ''}`;
 }
 
 function toggleScrapingQualityPanel(show = null) {
@@ -5794,25 +5794,25 @@ function updateCard(idx) {
 
 function buildCardHTML(c, i) {
   const initials = (c.name || '?').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
-  const ratingStr = c.rating ? `â­ ${c.rating} (${c.ratingCount})` : '';
+  const ratingStr = c.rating ? `⭐ ${c.rating} (${c.ratingCount})` : '';
   const enrichStatus = c.email
-    ? `<span class="sc-enrich-status enriched">â— Enriquecida</span>`
+    ? `<span class="sc-enrich-status enriched">● Enriquecida</span>`
     : c.enriched
-    ? `<span class="sc-enrich-status partial">â— Parcial</span>`
-    : `<span class="sc-enrich-status pending">â—‹ Sin enriquecer</span>`;
+    ? `<span class="sc-enrich-status partial">◐ Parcial</span>`
+    : `<span class="sc-enrich-status pending">○ Sin enriquecer</span>`;
 
-  // Check if already in leads â€” por placeId (fiable) o nombre normalizado (fallback)
+  // Check if already in leads — por placeId (fiable) o nombre normalizado (fallback)
   const normName = n => (n||'').toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,25);
   const alreadyIn = leads.find(l => !l.archived && (
     (c.placeId && l.placeId && l.placeId === c.placeId) ||
     normName(l.company) === normName(c.name)
   ));
 
-  // Color y texto segÃºn estado del lead existente
+  // Color y texto según estado del lead existente
   const statusColors = {
     'Pendiente':      'rgba(245,158,11,.15)',
     'Contactado':     'rgba(10,132,255,.15)',
-    'En negociaciÃ³n': 'rgba(94,92,230,.15)',
+    'En negociación': 'rgba(94,92,230,.15)',
     'Cliente':        'rgba(16,217,124,.15)',
     'Convertido':     'rgba(16,217,124,.15)',
     'Descartado':     'rgba(239,68,68,.12)',
@@ -5821,7 +5821,7 @@ function buildCardHTML(c, i) {
   const statusTextColors = {
     'Pendiente':      'var(--warning)',
     'Contactado':     'var(--primary)',
-    'En negociaciÃ³n': 'var(--secondary)',
+    'En negociación': 'var(--secondary)',
     'Cliente':        'var(--success)',
     'Convertido':     'var(--success)',
     'Descartado':     'var(--danger)',
@@ -5832,24 +5832,24 @@ function buildCardHTML(c, i) {
   const daysSinceAdded = alreadyIn ? Math.floor((Date.now() - new Date(alreadyIn.date)) / 86400000) : 0;
   const addedAgo = daysSinceAdded === 0 ? 'hoy' : daysSinceAdded === 1 ? 'ayer' : `hace ${daysSinceAdded}d`;
   const alreadyBadge = alreadyIn
-    ? `<span style="font-size:.65rem;background:${sBg};color:${sTxt};padding:2px 8px;border-radius:10px;border:1px solid ${sBg.replace(',.15','.4').replace(',.12','.35')};cursor:pointer" onclick="openLeadDetail('${alreadyIn.id}')" title="Ver lead Â· aÃ±adido ${addedAgo}">
-        ðŸ“‹ Ya en CRM Â· <strong>${alreadyIn.status}</strong> Â· ${addedAgo}
-        ${alreadyIn.email ? ' Â· âœ‰ï¸' : ''}${alreadyIn.phone ? ' Â· ðŸ“ž' : ''}
+    ? `<span style="font-size:.65rem;background:${sBg};color:${sTxt};padding:2px 8px;border-radius:10px;border:1px solid ${sBg.replace(',.15','.4').replace(',.12','.35')};cursor:pointer" onclick="openLeadDetail('${alreadyIn.id}')" title="Ver lead · añadido ${addedAgo}">
+        📋 Ya en CRM · <strong>${alreadyIn.status}</strong> · ${addedAgo}
+        ${alreadyIn.email ? ' · ✉️' : ''}${alreadyIn.phone ? ' · 📞' : ''}
       </span>`
     : '';
 
   // Keyword detection in description
   const oppKeywords = ['reforma','renovaci','instalaci','obra','ampliac','traslado','apertura','nuevo local','nueva sede','abierto recientemente'];
   const hasOpp = oppKeywords.some(k => (c.description||'').toLowerCase().includes(k));
-  const oppBadge = hasOpp ? `<span style="font-size:.65rem;background:rgba(245,158,11,.15);color:var(--warning);padding:1px 7px;border-radius:10px;border:1px solid rgba(245,158,11,.3)">ðŸ”¥ SeÃ±al de oportunidad</span>` : '';
+  const oppBadge = hasOpp ? `<span style="font-size:.65rem;background:rgba(245,158,11,.15);color:var(--warning);padding:1px 7px;border-radius:10px;border:1px solid rgba(245,158,11,.3)">🔥 Señal de oportunidad</span>` : '';
 
   // Possible chain/franchise detection
   const chainLeads = tempSearchResults.filter(r => r !== c && r.name === c.name);
-  const chainBadge = chainLeads.length ? `<span style="font-size:.65rem;background:rgba(94,92,230,.15);color:var(--secondary);padding:1px 7px;border-radius:10px">â›“ï¸ Posible cadena</span>` : '';
+  const chainBadge = chainLeads.length ? `<span style="font-size:.65rem;background:rgba(94,92,230,.15);color:var(--secondary);padding:1px 7px;border-radius:10px">⛓️ Posible cadena</span>` : '';
 
   const _ll = getLookalikeSimilarity(c);
   const llBadge = (_ll >= 70 && _goldenProfile)
-    ? `<span style="font-size:.65rem;background:rgba(16,217,124,.15);color:var(--success);padding:1px 7px;border-radius:10px;border:1px solid rgba(16,217,124,.3)">ðŸŽ¯ ${_ll}% lookalike</span>`
+    ? `<span style="font-size:.65rem;background:rgba(16,217,124,.15);color:var(--success);padding:1px 7px;border-radius:10px;border:1px solid rgba(16,217,124,.3)">🎯 ${_ll}% lookalike</span>`
     : '';
 
   // MEJORA 1: Temperatura del Lead
@@ -5872,15 +5872,15 @@ function buildCardHTML(c, i) {
     : '';
 
   const socials = [
-    c.instagram ? `<a href="${c.instagram}" target="_blank" class="sc-social-badge instagram">ðŸ“¸ IG</a>` : '',
-    c.facebook  ? `<a href="${c.facebook}"  target="_blank" class="sc-social-badge facebook">ðŸ‘ FB</a>` : '',
-    c.linkedin  ? `<a href="${c.linkedin}"  target="_blank" class="sc-social-badge linkedin">ðŸ’¼ LI</a>` : '',
-    c.twitter   ? `<a href="${c.twitter}"   target="_blank" class="sc-social-badge twitter">ðŸ¦ TW</a>` : '',
-    c.youtube   ? `<a href="${c.youtube}"   target="_blank" class="sc-social-badge youtube">â–¶ï¸ YT</a>` : '',
+    c.instagram ? `<a href="${c.instagram}" target="_blank" class="sc-social-badge instagram">📸 IG</a>` : '',
+    c.facebook  ? `<a href="${c.facebook}"  target="_blank" class="sc-social-badge facebook">👍 FB</a>` : '',
+    c.linkedin  ? `<a href="${c.linkedin}"  target="_blank" class="sc-social-badge linkedin">💼 LI</a>` : '',
+    c.twitter   ? `<a href="${c.twitter}"   target="_blank" class="sc-social-badge twitter">🐦 TW</a>` : '',
+    c.youtube   ? `<a href="${c.youtube}"   target="_blank" class="sc-social-badge youtube">▶️ YT</a>` : '',
   ].filter(Boolean).join('');
 
   const sources = c.enrichSource?.length
-    ? `<span style="font-size:.65rem;color:var(--text-dim);margin-left:auto">${c.enrichSource.join(' Â· ')}</span>`
+    ? `<span style="font-size:.65rem;color:var(--text-dim);margin-left:auto">${c.enrichSource.join(' · ')}</span>`
     : '';
 
   const signalBadges = (c.signals && c.signals.length)
@@ -5927,36 +5927,36 @@ function buildCardHTML(c, i) {
       </div>
       <div>
         <div class="sc-name">${c.name}</div>
-        <div class="sc-addr">${c.address}${c.distKm !== null && c.distKm !== undefined ? ` <span style="font-size:.62rem;background:rgba(10,132,255,.1);color:var(--primary);padding:1px 5px;border-radius:4px;margin-left:3px">ðŸ“ ${c.distKm}km</span>` : ''}</div>
+        <div class="sc-addr">${c.address}${c.distKm !== null && c.distKm !== undefined ? ` <span style="font-size:.62rem;background:rgba(10,132,255,.1);color:var(--primary);padding:1px 5px;border-radius:4px;margin-left:3px">📍 ${c.distKm}km</span>` : ''}</div>
         ${ratingStr ? `<div class="sc-rating">${ratingStr}</div>` : ''}
-        ${c.domainAge !== undefined ? `<div style="font-size:.65rem;color:var(--text-dim)">ðŸŒ Dominio: ${c.domainYear} (${c.domainAge} aÃ±os)</div>` : ''}
-        ${c.incorporationYear ? `<div style="font-size:.65rem;color:var(--text-dim)">ðŸ¢ Fundada: ${c.incorporationYear}${c.legalStatus ? ' Â· ' + c.legalStatus : ''}</div>` : ''}
-        ${c.techStack && c.techStack.length ? `<div style="font-size:.63rem;color:var(--text-dim)">âš™ï¸ ${c.techStack.join(' Â· ')}</div>` : ''}
-        ${c.webLoadMs && c.webLoadMs > 2000 ? `<div style="font-size:.63rem;color:${c.webLoadMs > 4000 ? 'var(--danger)' : 'var(--warning)'}">â±ï¸ Web: ${(c.webLoadMs/1000).toFixed(1)}s</div>` : ''}
+        ${c.domainAge !== undefined ? `<div style="font-size:.65rem;color:var(--text-dim)">🌐 Dominio: ${c.domainYear} (${c.domainAge} años)</div>` : ''}
+        ${c.incorporationYear ? `<div style="font-size:.65rem;color:var(--text-dim)">🏢 Fundada: ${c.incorporationYear}${c.legalStatus ? ' · ' + c.legalStatus : ''}</div>` : ''}
+        ${c.techStack && c.techStack.length ? `<div style="font-size:.63rem;color:var(--text-dim)">⚙️ ${c.techStack.join(' · ')}</div>` : ''}
+        ${c.webLoadMs && c.webLoadMs > 2000 ? `<div style="font-size:.63rem;color:${c.webLoadMs > 4000 ? 'var(--danger)' : 'var(--warning)'}">⏱️ Web: ${(c.webLoadMs/1000).toFixed(1)}s</div>` : ''}
         ${scrapeBadges ? `<div style="display:flex;gap:.25rem;flex-wrap:wrap;margin-top:.2rem">${scrapeBadges}</div>` : ''}
       </div>
     </div>
     ${whyLine}
     <div class="sc-data">
       <div class="sc-row">
-        <span class="sc-icon">âœ‰ï¸</span>
+        <span class="sc-icon">✉️</span>
         <div class="sc-val ${c.email ? '' : 'empty'}">
           ${c.email
-            ? `<span style="display:flex;align-items:center;gap:.3rem;flex-wrap:wrap">${c.email}${emailsExtra ? '<br>' + emailsExtra : ''}<button onclick="event.stopPropagation(); copyToClipboard('${c.email.split('<br>')[0]}', 'Email: ${c.email.split('<br>')[0]}')" title="Copiar email al portapapeles" class="sc-copy-email-btn">ðŸ“‹ Copiar</button></span>`
-            : `<input type="email" placeholder="AÃ±adir email..." onchange="tempSearchResults[${i}].email=this.value;updateEnrichStats()" style="background:none;border:none;border-bottom:1px solid var(--glass-border);padding:.15rem 0;color:var(--text);font-size:.78rem;outline:none;width:100%">`
+            ? `<span style="display:flex;align-items:center;gap:.3rem;flex-wrap:wrap">${c.email}${emailsExtra ? '<br>' + emailsExtra : ''}<button onclick="event.stopPropagation(); copyToClipboard('${c.email.split('<br>')[0]}', 'Email: ${c.email.split('<br>')[0]}')" title="Copiar email al portapapeles" class="sc-copy-email-btn">📋 Copiar</button></span>`
+            : `<input type="email" placeholder="Añadir email..." onchange="tempSearchResults[${i}].email=this.value;updateEnrichStats()" style="background:none;border:none;border-bottom:1px solid var(--glass-border);padding:.15rem 0;color:var(--text);font-size:.78rem;outline:none;width:100%">`
           }
         </div>
       </div>
       <div class="sc-row">
-        <span class="sc-icon">ðŸ“ž</span>
+        <span class="sc-icon">📞</span>
         <div class="sc-val ${c.phone ? '' : 'empty'}">
-          ${c.phone || `<input type="text" placeholder="AÃ±adir telÃ©fono..." onchange="tempSearchResults[${i}].phone=this.value" style="background:none;border:none;border-bottom:1px solid var(--glass-border);padding:.15rem 0;color:var(--text);font-size:.78rem;outline:none;width:100%">`}
-          ${c.whatsapp ? `<a href="https://wa.me/${c.whatsapp.replace(/[^0-9]/g,'')}" target="_blank" style="margin-left:6px;font-size:.68rem;color:#25d366;background:rgba(37,211,102,.1);padding:1px 6px;border-radius:8px;text-decoration:none">ðŸ’¬ WA</a>` : ''}
+          ${c.phone || `<input type="text" placeholder="Añadir teléfono..." onchange="tempSearchResults[${i}].phone=this.value" style="background:none;border:none;border-bottom:1px solid var(--glass-border);padding:.15rem 0;color:var(--text);font-size:.78rem;outline:none;width:100%">`}
+          ${c.whatsapp ? `<a href="https://wa.me/${c.whatsapp.replace(/[^0-9]/g,'')}" target="_blank" style="margin-left:6px;font-size:.68rem;color:#25d366;background:rgba(37,211,102,.1);padding:1px 6px;border-radius:8px;text-decoration:none">💬 WA</a>` : ''}
         </div>
       </div>
-      ${c.decision_maker ? `<div class="sc-row"><span class="sc-icon">ðŸ‘¤</span><div class="sc-val">${c.decision_maker}</div></div>` : ''}
-      ${c.description ? `<div class="sc-row"><span class="sc-icon">â„¹ï¸</span><div class="sc-val" style="font-size:.78rem;color:var(--text-muted)">${c.description.slice(0,120)}...</div></div>` : ''}
-      ${c.website ? `<div class="sc-row"><span class="sc-icon">ðŸŒ</span><div class="sc-val"><a href="${c.website}" target="_blank">${c.website.replace(/^https?:\/\//,'').slice(0,40)}</a></div></div>` : ''}
+      ${c.decision_maker ? `<div class="sc-row"><span class="sc-icon">👤</span><div class="sc-val">${c.decision_maker}</div></div>` : ''}
+      ${c.description ? `<div class="sc-row"><span class="sc-icon">ℹ️</span><div class="sc-val" style="font-size:.78rem;color:var(--text-muted)">${c.description.slice(0,120)}...</div></div>` : ''}
+      ${c.website ? `<div class="sc-row"><span class="sc-icon">🌐</span><div class="sc-val"><a href="${c.website}" target="_blank">${c.website.replace(/^https?:\/\//,'').slice(0,40)}</a></div></div>` : ''}
     </div>
     ${socials ? `<div class="sc-socials">${socials}</div>` : ''}
     <div class="sc-footer">
@@ -5967,12 +5967,12 @@ function buildCardHTML(c, i) {
       <div class="reenrich-log-mini" id="rel-${i}"></div>
       <div style="display:flex;gap:.4rem;margin-top:.4rem;align-items:center;flex-wrap:wrap">
         ${!c.email || !c.decision_maker ? `<button class="btn-reenrich" id="rebtn-${i}" onclick="${c.enriched ? 'reEnrichOne' : 'enrichSingleCard'}(${i})" title="${c.enriched ? 'Reintentar scraping' : 'Enriquecer esta empresa'}">
-          <span class="reenrich-icon">${c.enriched ? 'ðŸ”„' : 'âœ¨'}</span> ${!c.email ? (c.enriched ? 'Buscar email' : 'Enriquecer') : 'Buscar decisor'}
-        </button>` : `<span style="font-size:.65rem;color:var(--success)">âœ… Completo</span>`}
+          <span class="reenrich-icon">${c.enriched ? '🔄' : '✨'}</span> ${!c.email ? (c.enriched ? 'Buscar email' : 'Enriquecer') : 'Buscar decisor'}
+        </button>` : `<span style="font-size:.65rem;color:var(--success)">✅ Completo</span>`}
         ${c.email ? `<button class="btn-action" style="font-size:.7rem;margin-left:auto" onclick="quickImportOne(${i})">Volcar -></button>` : ''}
         <button class="btn-action secondary" style="padding:0 8px;font-size:.7rem" onclick="showCommercialAudit(${i})" title="Auditoria comercial">Score</button>
-        <button class="btn-action secondary" style="padding:0 8px;font-size:.7rem" onclick="showMicroAudit(${i})" title="Ver AuditorÃ­a">ðŸ“‹</button>
-        <button class="btn-action secondary" style="padding:0 8px;font-size:.7rem" onclick="findSimilarLeads(${i})" title="Buscar Similares">ðŸ”</button>
+        <button class="btn-action secondary" style="padding:0 8px;font-size:.7rem" onclick="showMicroAudit(${i})" title="Ver Auditoría">📋</button>
+        <button class="btn-action secondary" style="padding:0 8px;font-size:.7rem" onclick="findSimilarLeads(${i})" title="Buscar Similares">🔍</button>
       </div>
     </div>
   </div>`;
@@ -6008,22 +6008,22 @@ function renderSearchTable() {
         <div class="lead-company">${c.address}</div>
         <div style="font-size:.67rem;color:${contactColor};margin-top:.15rem">Contacto ${c.contactQuality || 'pendiente'} ${c.contactQualityScore || 0}/100</div>
         ${why ? `<div style="font-size:.66rem;color:var(--text-dim);margin-top:.15rem">${why.slice(0, 140)}</div>` : ''}
-        ${c.website ? `<a href="${c.website}" target="_blank" style="color:var(--primary);font-size:.7rem">ðŸ”— web</a>` : ''}
+        ${c.website ? `<a href="${c.website}" target="_blank" style="color:var(--primary);font-size:.7rem">🔗 web</a>` : ''}
       </td>
-      <td style="font-size:.8rem">${c.phone || 'â€”'}</td>
+      <td style="font-size:.8rem">${c.phone || '—'}</td>
       <td style="font-size:.78rem;color:${c.email ? 'var(--success)' : 'var(--text-dim)'}">
-        ${c.email ? `<span style="display:inline-flex;align-items:center;gap:.3rem">${c.email}<button onclick="event.stopPropagation(); copyToClipboard('${c.email}', 'Email: ${c.email}')" title="Copiar email" style="background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:.8rem;padding:2px;line-height:1">â§‰</button></span>` : `<input type="email" placeholder="aÃ±adir..." onchange="tempSearchResults[${i}].email=this.value;updateEnrichStats()" style="background:none;border:none;border-bottom:1px solid var(--glass-border);color:var(--text);font-size:.78rem;outline:none;width:130px">`}
+        ${c.email ? `<span style="display:inline-flex;align-items:center;gap:.3rem">${c.email}<button onclick="event.stopPropagation(); copyToClipboard('${c.email}', 'Email: ${c.email}')" title="Copiar email" style="background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:.8rem;padding:2px;line-height:1">⧉</button></span>` : `<input type="email" placeholder="añadir..." onchange="tempSearchResults[${i}].email=this.value;updateEnrichStats()" style="background:none;border:none;border-bottom:1px solid var(--glass-border);color:var(--text);font-size:.78rem;outline:none;width:130px">`}
       </td>
-      <td style="font-size:.78rem;color:var(--text-muted)">${c.decision_maker || 'â€”'}</td>
-      <td>${socLinks || 'â€”'}</td>
+      <td style="font-size:.78rem;color:var(--text-muted)">${c.decision_maker || '—'}</td>
+      <td>${socLinks || '—'}</td>
       <td style="color:${c.rating ? 'var(--warning)' : 'var(--text-dim)'}">
-        ${c.rating ? 'â­ ' + c.rating : 'â€”'}
+        ${c.rating ? '⭐ ' + c.rating : '—'}
       </td>
       <td>
         <button class="btn-action" style="font-size:.72rem" onclick="quickImportOne(${i})">Volcar</button>
         <button class="btn-action secondary" style="font-size:.72rem;padding:2px 5px" onclick="showCommercialAudit(${i})">Score</button>
-        <button class="btn-action secondary" style="font-size:.72rem;padding:2px 5px" onclick="showMicroAudit(${i})">ðŸ“‹</button>
-        <button class="btn-action secondary" style="font-size:.72rem;padding:2px 5px" onclick="findSimilarLeads(${i})">ðŸ”</button>
+        <button class="btn-action secondary" style="font-size:.72rem;padding:2px 5px" onclick="showMicroAudit(${i})">📋</button>
+        <button class="btn-action secondary" style="font-size:.72rem;padding:2px 5px" onclick="findSimilarLeads(${i})">🔍</button>
       </td>
     </tr>`;
   }).join('');
@@ -6181,7 +6181,7 @@ function applyAdvancedFilters() {
   const cntEl = document.getElementById('search-results-count');
   if (cntEl) cntEl.textContent = `${visibleCount} resultados`;
 
-  // Actualizar tabla tambiÃ©n si estÃ¡ visible
+  // Actualizar tabla también si está visible
   scheduleSearchTableRender();
 }
 
@@ -6229,18 +6229,18 @@ function getVisibleSearchChecks() {
   return [...document.querySelectorAll('.search-check')];
 }
 
-// â”€â”€â”€ VOLCAR A LEADS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── VOLCAR A LEADS ───────────────────────────────────────────────────────────
 async function importSelectedSearch() {
   // Safe fallbacks for segment/location (may be empty in some search modes)
   const segEl  = document.getElementById('plan-segment');
   const locEl  = document.getElementById('plan-location');
   const segment  = segEl?.value  || 'Otros';
-  const location = locEl?.value?.trim() || 'bÃºsqueda';
+  const location = locEl?.value?.trim() || 'búsqueda';
   const checked = getVisibleSearchChecks().filter(c => c.checked);
   const indices = [...new Set([...checked].map(c => parseInt(c.getAttribute('data-index'))))]
     .filter(i => searchResultPassesFilters(tempSearchResults[i]));
 
-  if (!indices.length) { showToast('âš ï¸ Selecciona al menos una empresa'); return; }
+  if (!indices.length) { showToast('⚠️ Selecciona al menos una empresa'); return; }
 
   let imported = 0;
   let skippedDuplicates = 0;
@@ -6272,7 +6272,7 @@ async function importSelectedSearch() {
   renderDashboardCharts();
   if (typeof renderTracking === 'function') renderTracking();
   updateStreakData();
-  showToast(`âœ… ${imported} empresas volcadas a Leads${skippedDuplicates ? ` (${skippedDuplicates} duplicadas omitidas)` : ''}`);
+  showToast(`✅ ${imported} empresas volcadas a Leads${skippedDuplicates ? ` (${skippedDuplicates} duplicadas omitidas)` : ''}`);
 }
 
 function getProspectingMinScore() {
@@ -6457,11 +6457,11 @@ function exportSearchCSV() {
   if (!tempSearchResults.length) { showToast('No hay resultados que exportar'); return; }
 
   const headers = [
-    'Empresa','DirecciÃ³n','Rating','ReseÃ±as','Email','TelÃ©fono','Web',
+    'Empresa','Dirección','Rating','Reseñas','Email','Teléfono','Web',
     'Decisor','LinkedIn','Instagram','Facebook','Twitter','WhatsApp',
-    'DescripciÃ³n','SeÃ±ales','Fuentes','TechStack','CMS',
-    'AÃ±o dominio','Edad dominio','AÃ±o fundaciÃ³n','Estado legal',
-    'Velocidad web (ms)','Emails adicionales','TelÃ©fonos adicionales',
+    'Descripción','Señales','Fuentes','TechStack','CMS',
+    'Año dominio','Edad dominio','Año fundación','Estado legal',
+    'Velocidad web (ms)','Emails adicionales','Teléfonos adicionales',
     'Calidad contacto','Score contacto','Tipo email','Query origen','Plan busqueda','Por que aparece'
   ];
 
@@ -6487,7 +6487,7 @@ function exportSearchCSV() {
     (c.techStack || []).join(', '),
     (c.techStack || []).find(t => /WordPress|Wix|Shopify|Squarespace|Webflow|PrestaShop|Joomla/i.test(t)) || '',
     c.domainYear || '',
-    c.domainAge !== undefined ? c.domainAge + ' aÃ±os' : '',
+    c.domainAge !== undefined ? c.domainAge + ' años' : '',
     c.incorporationYear || '',
     c.legalStatus || '',
     c.webLoadMs || '',
@@ -6514,15 +6514,15 @@ function exportSearchCSV() {
   a.download = `voltflow_${document.getElementById('plan-segment').value}_${document.getElementById('plan-location').value}_${new Date().toISOString().slice(0,10)}.csv`;
   a.click();
   URL.revokeObjectURL(url);
-  showToast(`CSV exportado: ${tempSearchResults.length} empresas con ${headers.length} columnas âœ“`);
+  showToast(`CSV exportado: ${tempSearchResults.length} empresas con ${headers.length} columnas ✓`);
 }
 
 
 
 // --------------------------------------------------------------------------
-// â–ˆâ–ˆ  MÃ“DULO: UTILS
-// â”€â”€  Utilidades generales (sleep, formateo, validaciÃ³n, helpers)
-// â”€â”€  Funciones: sleep, stripHtml, extractDomain, isValidEmail, formatPhone, normalizeText,
+// ██  MÓDULO: UTILS
+// ──  Utilidades generales (sleep, formateo, validación, helpers)
+// ──  Funciones: sleep, stripHtml, extractDomain, isValidEmail, formatPhone, normalizeText,
   //          scoreEmail, buildSignalCorrelation, applyContactWindow
 // --------------------------------------------------------------------------
 
@@ -6564,92 +6564,92 @@ function loadGoogleMapsScript(apiKey) {
 
 
 // --------------------------------------------------------------------------
-// â–ˆâ–ˆ  MÃ“DULO: SEGMENT QUERIES
-// â”€â”€  segmentQueries y getSegmentQueries estÃ¡n definidas en email-templates.js
-// â”€â”€  (cargado antes que este mÃ³dulo) â€” no redeclarar aquÃ­.
+// ██  MÓDULO: SEGMENT QUERIES
+// ──  segmentQueries y getSegmentQueries están definidas en email-templates.js
+// ──  (cargado antes que este módulo) — no redeclarar aquí.
 // --------------------------------------------------------------------------
 
-// â”€â”€ Parche: aÃ±adir sectores extendidos a getSegmentQueries â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Extiende la funciÃ³n original de email-templates.js sin modificar ese archivo.
-// Sectores aÃ±adidos: Residencias, Dental, Medico, Estetico, Deportivo
+// ── Parche: añadir sectores extendidos a getSegmentQueries ───────────────
+// Extiende la función original de email-templates.js sin modificar ese archivo.
+// Sectores añadidos: Residencias, Dental, Medico, Estetico, Deportivo
 (function patchExtendedSegmentQueries() {
   const _originalGetSegmentQueries = (typeof getSegmentQueries === 'function')
     ? getSegmentQueries
     : null;
 
-  // â”€â”€ Mapa de queries por sector â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  // Cada array combina tÃ©rminos generales + especÃ­ficos para maximizar cobertura
-  // en Google Places API (textQuery). Orden: mÃ¡s probable -> menos probable.
+  // ── Mapa de queries por sector ────────────────────────────────────────────
+  // Cada array combina términos generales + específicos para maximizar cobertura
+  // en Google Places API (textQuery). Orden: más probable -> menos probable.
   const EXTENDED_QUERIES = {
 
-    // â”€â”€ Residencias de Ancianos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Residencias de Ancianos ────────────────────────────────────────────
     'Residencias': [
       'residencia de ancianos',
       'residencia de mayores',
       'centro de mayores',
-      'centro geriÃ¡trico',
-      'geriÃ¡trico',
+      'centro geriátrico',
+      'geriátrico',
       'residencia tercera edad',
-      'centro dÃ­a mayores',
+      'centro día mayores',
     ],
 
-    // â”€â”€ ClÃ­nicas Dentales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    // Captura desde clÃ­nicas premium hasta dentistas de barrio y ortodoncias
+    // ── Clínicas Dentales ─────────────────────────────────────────────────
+    // Captura desde clínicas premium hasta dentistas de barrio y ortodoncias
     'Dental': [
-      'clÃ­nica dental',
+      'clínica dental',
       'dentista',
-      'clÃ­nica odontolÃ³gica',
-      'odontÃ³logo',
+      'clínica odontológica',
+      'odontólogo',
       'ortodoncia',
-      'implantes dentales clÃ­nica',
-      'clÃ­nica de odontologÃ­a',
-      'dental clÃ­nica',
-      'clÃ­nica estomatolÃ³gica',
-      'estomatÃ³logo',
+      'implantes dentales clínica',
+      'clínica de odontología',
+      'dental clínica',
+      'clínica estomatológica',
+      'estomatólogo',
       'ortopedia dental',
-      'clÃ­nica dental infantil',
+      'clínica dental infantil',
     ],
 
-    // â”€â”€ Centros MÃ©dicos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    // Captura clÃ­nicas generales, policlÃ­nicas, especialidades y centros privados
+    // ── Centros Médicos ───────────────────────────────────────────────────
+    // Captura clínicas generales, policlínicas, especialidades y centros privados
     'Medico': [
-      'centro mÃ©dico',
-      'clÃ­nica mÃ©dica',
-      'policlÃ­nica',
-      'clÃ­nica privada',
-      'consulta mÃ©dica',
-      'mÃ©dico especialista',
+      'centro médico',
+      'clínica médica',
+      'policlínica',
+      'clínica privada',
+      'consulta médica',
+      'médico especialista',
       'centro de salud privado',
-      'clÃ­nica especialidades mÃ©dicas',
-      'clÃ­nica traumatologÃ­a',
-      'clÃ­nica dermatologÃ­a',
-      'clÃ­nica ginecologÃ­a',
-      'clÃ­nica oftalmologÃ­a',
-      'clÃ­nica psicologÃ­a',
-      'clÃ­nica fisioterapia',
-      'unidad mÃ©dica',
+      'clínica especialidades médicas',
+      'clínica traumatología',
+      'clínica dermatología',
+      'clínica ginecología',
+      'clínica oftalmología',
+      'clínica psicología',
+      'clínica fisioterapia',
+      'unidad médica',
     ],
 
-    // â”€â”€ Centros EstÃ©ticos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    // Captura centros de belleza, medicina estÃ©tica, peluquerÃ­as premium y spas
+    // ── Centros Estéticos ─────────────────────────────────────────────────
+    // Captura centros de belleza, medicina estética, peluquerías premium y spas
     'Estetico': [
-      'centro estÃ©tico',
-      'clÃ­nica de estÃ©tica',
-      'medicina estÃ©tica',
+      'centro estético',
+      'clínica de estética',
+      'medicina estética',
       'centro de belleza',
       'spa',
-      'salÃ³n de belleza',
-      'peluquerÃ­a y estÃ©tica',
-      'micropigmentaciÃ³n',
-      'depilaciÃ³n lÃ¡ser centro',
+      'salón de belleza',
+      'peluquería y estética',
+      'micropigmentación',
+      'depilación láser centro',
       'tratamientos faciales centro',
       'centro estetica corporal',
       'instituto de belleza',
-      'centro de depilaciÃ³n',
-      'clÃ­nica estÃ©tica corporal',
+      'centro de depilación',
+      'clínica estética corporal',
     ],
 
-    // â”€â”€ Centros Deportivos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Centros Deportivos ────────────────────────────────────────────────
     // Captura gimnasios, clubs deportivos, centros de fitness y piscinas
     'Deportivo': [
       'gimnasio',
@@ -6659,14 +6659,14 @@ function loadGoogleMapsScript(apiKey) {
       'fitness center',
       'centro de fitness',
       'piscina municipal',
-      'pÃ¡del club',
+      'pádel club',
       'club de tenis',
       'yoga studio',
       'pilates centro',
       'crossfit box',
       'box fitness',
       'academia de artes marciales',
-      'club de nataciÃ³n',
+      'club de natación',
       'instalaciones deportivas',
     ],
   };
@@ -6683,7 +6683,7 @@ function loadGoogleMapsScript(apiKey) {
 })();
 
 
-// â”€â”€ MEJORA: Panel Lateral de Vista RÃ¡pida (Side Panel) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── MEJORA: Panel Lateral de Vista Rápida (Side Panel) ──────────────────────
 function openQuickView(lead, index) {
   let panel = document.getElementById('gordi-side-panel');
   if (!panel) {
@@ -6700,18 +6700,18 @@ function openQuickView(lead, index) {
   }
 
   const socials = [
-    lead.instagram ? `<a href="${lead.instagram}" target="_blank">ðŸ“¸ IG</a>` : '',
-    lead.facebook ? `<a href="${lead.facebook}" target="_blank">ðŸ“˜ FB</a>` : '',
-    lead.linkedin ? `<a href="${lead.linkedin}" target="_blank">ðŸ’¼ LI</a>` : '',
-  ].filter(Boolean).join(' Â· ');
+    lead.instagram ? `<a href="${lead.instagram}" target="_blank">📸 IG</a>` : '',
+    lead.facebook ? `<a href="${lead.facebook}" target="_blank">📘 FB</a>` : '',
+    lead.linkedin ? `<a href="${lead.linkedin}" target="_blank">💼 LI</a>` : '',
+  ].filter(Boolean).join(' · ');
 
   panel.innerHTML = `
     <div style="padding:25px; border-bottom:1px solid var(--glass-border); background:linear-gradient(to bottom right, rgba(255,255,255,0.05), transparent)">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:15px">
-        <button onclick="closeQuickView()" style="background:none; border:none; color:var(--text-dim); font-size:20px; cursor:pointer">âœ•</button>
+        <button onclick="closeQuickView()" style="background:none; border:none; color:var(--text-dim); font-size:20px; cursor:pointer">✕</button>
         <div style="display:flex; gap:10px">
-          <button class="btn-action" onclick="quickImportOne(${index}); closeQuickView()">ðŸ“¥ Importar</button>
-          <button class="btn-action" onclick="showMicroAudit(${index})">ðŸ“‹ AuditorÃ­a</button>
+          <button class="btn-action" onclick="quickImportOne(${index}); closeQuickView()">📥 Importar</button>
+          <button class="btn-action" onclick="showMicroAudit(${index})">📋 Auditoría</button>
         </div>
       </div>
       <h2 style="margin:0; font-size:22px; color:var(--text)">${lead.name}</h2>
@@ -6721,34 +6721,34 @@ function openQuickView(lead, index) {
     <div style="flex:1; overflow-y:auto; padding:25px">
       <div style="display:grid; gap:20px">
         <section>
-          <h3 style="font-size:12px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px">InformaciÃ³n de Contacto</h3>
+          <h3 style="font-size:12px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px">Información de Contacto</h3>
           <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:12px; border:1px solid rgba(255,255,255,0.05)">
-            <div style="margin-bottom:8px">âœ‰ï¸ <a href="mailto:${lead.email}" style="color:var(--text)">${lead.email || 'No disponible'}</a></div>
-            <div style="margin-bottom:8px">ðŸ“ž ${lead.phone || 'No disponible'}</div>
-            <div style="margin-bottom:8px">ðŸŒ <a href="${lead.website}" target="_blank" style="color:var(--text)">${lead.website || 'No disponible'}</a></div>
+            <div style="margin-bottom:8px">✉️ <a href="mailto:${lead.email}" style="color:var(--text)">${lead.email || 'No disponible'}</a></div>
+            <div style="margin-bottom:8px">📞 ${lead.phone || 'No disponible'}</div>
+            <div style="margin-bottom:8px">🌐 <a href="${lead.website}" target="_blank" style="color:var(--text)">${lead.website || 'No disponible'}</a></div>
             <div style="margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.05)">${socials || 'Sin redes detectadas'}</div>
           </div>
         </section>
 
         <section>
-          <h3 style="font-size:12px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px">AnÃ¡lisis de Oportunidad</h3>
+          <h3 style="font-size:12px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px">Análisis de Oportunidad</h3>
           <div style="display:flex; gap:10px; margin-bottom:15px">
              <div style="flex:1; text-align:center; padding:10px; background:rgba(255,255,255,0.03); border-radius:10px">
-                <div style="font-size:18px; font-weight:bold">${lead.rating || 'â€”'}</div>
+                <div style="font-size:18px; font-weight:bold">${lead.rating || '—'}</div>
                 <div style="font-size:10px; color:var(--text-dim)">RATING</div>
              </div>
              <div style="flex:1; text-align:center; padding:10px; background:rgba(255,255,255,0.03); border-radius:10px">
                 <div style="font-size:18px; font-weight:bold">${lead.ratingCount || '0'}</div>
-                <div style="font-size:10px; color:var(--text-dim)">RESEÃ‘AS</div>
+                <div style="font-size:10px; color:var(--text-dim)">RESEÑAS</div>
              </div>
           </div>
           <div style="background:rgba(255,255,255,0.03); padding:15px; border-radius:12px; border:1px solid rgba(255,255,255,0.05)">
-            <p style="margin:0; font-size:13px; line-height:1.5; color:var(--text-dim)">${lead.description || 'Sin descripciÃ³n disponible.'}</p>
+            <p style="margin:0; font-size:13px; line-height:1.5; color:var(--text-dim)">${lead.description || 'Sin descripción disponible.'}</p>
           </div>
         </section>
 
         <section>
-          <h3 style="font-size:12px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px">SeÃ±ales de Ventas</h3>
+          <h3 style="font-size:12px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px">Señales de Ventas</h3>
           <div style="display:flex; flex-wrap:wrap; gap:8px">
             ${(lead.signals || []).map(s => `<span style="font-size:11px; background:rgba(10, 132, 255, 0.1); color:var(--primary); padding:4px 10px; border-radius:20px; border:1px solid rgba(10, 132, 255, 0.2)">${s}</span>`).join('')}
             ${(lead.techStack || []).slice(0,5).map(t => `<span style="font-size:11px; background:rgba(255,255,255,0.05); color:var(--text-dim); padding:4px 10px; border-radius:20px">${t}</span>`).join('')}
@@ -6758,8 +6758,8 @@ function openQuickView(lead, index) {
     </div>
 
     <div style="padding:20px; border-top:1px solid var(--glass-border); display:flex; gap:10px">
-       <button class="btn-primary" style="flex:1" onclick="quickImportOne(${index}); closeQuickView()">AÃ±adir a mi Pipeline</button>
-       <button class="btn-outline" onclick="findSimilarLeads(${index})">ðŸ” Similares</button>
+       <button class="btn-primary" style="flex:1" onclick="quickImportOne(${index}); closeQuickView()">Añadir a mi Pipeline</button>
+       <button class="btn-outline" onclick="findSimilarLeads(${index})">🔍 Similares</button>
     </div>
   `;
 
@@ -6771,7 +6771,7 @@ function closeQuickView() {
   if (panel) panel.style.right = '-450px';
 }
 
-// â”€â”€ MEJORA: Filtros Inteligentes de Un Clic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── MEJORA: Filtros Inteligentes de Un Clic ──────────────────────────────
 function injectQuickFilters() {
   const container = document.querySelector('.search-results-header');
   if (!container || document.getElementById('gordi-quick-filters')) return;
@@ -6780,10 +6780,10 @@ function injectQuickFilters() {
   filters.id = 'gordi-quick-filters';
   filters.style = "display:flex; gap:10px; margin:15px 0; overflow-x:auto; padding-bottom:5px; scrollbar-width:none";
   filters.innerHTML = `
-    <button class="btn-outline btn-sm q-filt" onclick="applyQuickFilter('hot')" style="border-radius:20px; white-space:nowrap">ðŸ”¥ Muy Caliente</button>
-    <button class="btn-outline btn-sm q-filt" onclick="applyQuickFilter('old')" style="border-radius:20px; white-space:nowrap">ðŸ¦– Web Obsoleta</button>
-    <button class="btn-outline btn-sm q-filt" onclick="applyQuickFilter('low_rating')" style="border-radius:20px; white-space:nowrap">â­ Rating Bajo</button>
-    <button class="btn-outline btn-sm q-filt" onclick="applyQuickFilter('no_web')" style="border-radius:20px; white-space:nowrap">ðŸŒ Sin Web</button>
+    <button class="btn-outline btn-sm q-filt" onclick="applyQuickFilter('hot')" style="border-radius:20px; white-space:nowrap">🔥 Muy Caliente</button>
+    <button class="btn-outline btn-sm q-filt" onclick="applyQuickFilter('old')" style="border-radius:20px; white-space:nowrap">🦖 Web Obsoleta</button>
+    <button class="btn-outline btn-sm q-filt" onclick="applyQuickFilter('low_rating')" style="border-radius:20px; white-space:nowrap">⭐ Rating Bajo</button>
+    <button class="btn-outline btn-sm q-filt" onclick="applyQuickFilter('no_web')" style="border-radius:20px; white-space:nowrap">🌐 Sin Web</button>
     <button class="btn-outline btn-sm q-filt" onclick="applyQuickFilter('all')" style="border-radius:20px; white-space:nowrap; background:var(--glass)">Todos</button>
   `;
   container.after(filters);
@@ -6802,26 +6802,26 @@ function applyQuickFilter(type) {
   } else if (type === 'old') {
     srTextEl.value = 'obsoleta';
   } else if (type === 'low_rating') {
-    // Para rating bajo, usamos el filtro de texto o invertimos la lÃ³gica (custom)
-    // AquÃ­ simplificamos usando una seÃ±al especÃ­fica
+    // Para rating bajo, usamos el filtro de texto o invertimos la lógica (custom)
+    // Aquí simplificamos usando una señal específica
     srTextEl.value = 'rating bajo';
   } else if (type === 'no_web') {
-    // Este requerirÃ­a un filtro "Does NOT have web" que no existe, lo simulamos
+    // Este requeriría un filtro "Does NOT have web" que no existe, lo simulamos
     // Pero para no romper, usamos un trigger que applyAdvancedFilters entienda
   }
 
-  // EstÃ©tica de botones
+  // Estética de botones
   document.querySelectorAll('.q-filt').forEach(b => b.style.background = 'none');
   event.target.style.background = 'var(--glass)';
 
   applyAdvancedFilters();
 }
 
-// â”€â”€ MEJORA: Sugerencias de BÃºsqueda Predictiva â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── MEJORA: Sugerencias de Búsqueda Predictiva ──────────────────────────
 const GORDI_SUGGESTIONS = [
   'Clinica Dental', 'Reforma Viviendas', 'Gimnasio Crossfit', 
-  'Residencia Mayores', 'Centro EstÃ©tica', 'Abogados Laborales',
-  'Taller MecÃ¡nico', 'Restaurante con Terraza', 'Escuela Infantil'
+  'Residencia Mayores', 'Centro Estética', 'Abogados Laborales',
+  'Taller Mecánico', 'Restaurante con Terraza', 'Escuela Infantil'
 ];
 
 function initPredictiveSearch() {
@@ -6845,7 +6845,7 @@ setTimeout(() => {
   initPredictiveSearch();
 }, 2000);
 
-// â”€â”€â”€ MEJORAS DE USABILIDAD (Side Panel, Temperature, Audit) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── MEJORAS DE USABILIDAD (Side Panel, Temperature, Audit) ──────────────────
 
 function calculateLeadTemperature(c) {
   let score = 0;
@@ -6856,9 +6856,9 @@ function calculateLeadTemperature(c) {
   if (c.ratingCount && c.ratingCount > 50) score += 10; // Empresa establecida
   if (c.signals && c.signals.length > 0) score += 15;
 
-  if (score >= 70) return { label: 'Hirviendo', icon: 'ðŸ”¥', color: '#ff4d4d', desc: 'Lead de alta prioridad con mÃºltiples seÃ±ales de cierre.' };
-  if (score >= 40) return { label: 'Templado', icon: 'â›…', color: '#ffa500', desc: 'Lead interesado con datos de contacto verificados.' };
-  return { label: 'GÃ©lido', icon: 'â„ï¸', color: '#00ccff', desc: 'Lead frÃ­o, requiere mÃ¡s investigaciÃ³n o primer contacto.' };
+  if (score >= 70) return { label: 'Hirviendo', icon: '🔥', color: '#ff4d4d', desc: 'Lead de alta prioridad con múltiples señales de cierre.' };
+  if (score >= 40) return { label: 'Templado', icon: '⛅', color: '#ffa500', desc: 'Lead interesado con datos de contacto verificados.' };
+  return { label: 'Gélido', icon: '❄️', color: '#00ccff', desc: 'Lead frío, requiere más investigación o primer contacto.' };
 }
 
 function openSidePanelLegacy(idx) {
@@ -6880,7 +6880,7 @@ function openSidePanelLegacy(idx) {
   panel.innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem">
       <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted)">Ficha del Lead</div>
-      <button onclick="closeSidePanel()" style="background:none;border:none;color:var(--text);cursor:pointer;font-size:1.5rem">Ã—</button>
+      <button onclick="closeSidePanel()" style="background:none;border:none;color:var(--text);cursor:pointer;font-size:1.5rem">×</button>
     </div>
 
     <div style="display:flex;gap:1.5rem;align-items:center;margin-bottom:2rem">
@@ -6891,43 +6891,43 @@ function openSidePanelLegacy(idx) {
         <h2 style="margin:0;font-size:1.4rem">${c.name}</h2>
         <div style="display:flex;gap:0.5rem;margin-top:0.5rem">
            <span style="background:${temp.color}22;color:${temp.color};padding:2px 10px;border-radius:12px;font-size:0.75rem;border:1px solid ${temp.color}44">${temp.icon} ${temp.label}</span>
-           ${c.rating ? `<span style="background:rgba(255,215,0,0.1);color:#ffd700;padding:2px 10px;border-radius:12px;font-size:0.75rem;border:1px solid rgba(255,215,0,0.3)">â­ ${c.rating}</span>` : ''}
+           ${c.rating ? `<span style="background:rgba(255,215,0,0.1);color:#ffd700;padding:2px 10px;border-radius:12px;font-size:0.75rem;border:1px solid rgba(255,215,0,0.3)">⭐ ${c.rating}</span>` : ''}
         </div>
       </div>
     </div>
 
     <div class="panel-section" style="margin-bottom:2rem">
-      <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem">DescripciÃ³n</div>
-      <div style="font-size:0.9rem;line-height:1.6">${c.description || 'Sin descripciÃ³n detallada.'}</div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem">Descripción</div>
+      <div style="font-size:0.9rem;line-height:1.6">${c.description || 'Sin descripción detallada.'}</div>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem">
       <div class="info-box" style="background:rgba(255,255,255,0.03);padding:1rem;border-radius:12px;border:1px solid var(--glass-border)">
         <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.3rem">Email</div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem">
-          <div style="font-size:0.85rem;word-break:break-all">${c.email || 'â€”'}</div>
-          ${c.email ? `<button onclick="copyToClipboard('${c.email}', 'Email: ${c.email}')" title="Copiar email" style="background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:.9rem;padding:2px">â§‰</button>` : ''}
+          <div style="font-size:0.85rem;word-break:break-all">${c.email || '—'}</div>
+          ${c.email ? `<button onclick="copyToClipboard('${c.email}', 'Email: ${c.email}')" title="Copiar email" style="background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:.9rem;padding:2px">⧉</button>` : ''}
         </div>
       </div>
       <div class="info-box" style="background:rgba(255,255,255,0.03);padding:1rem;border-radius:12px;border:1px solid var(--glass-border)">
-        <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.3rem">TelÃ©fono</div>
-        <div style="font-size:0.85rem">${c.phone || 'â€”'}</div>
+        <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.3rem">Teléfono</div>
+        <div style="font-size:0.85rem">${c.phone || '—'}</div>
       </div>
       <div class="info-box" style="background:rgba(255,255,255,0.03);padding:1rem;border-radius:12px;border:1px solid var(--glass-border)">
         <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.3rem">Web</div>
-        <div style="font-size:0.85rem">${c.website ? `<a href="${c.website}" target="_blank" style="color:var(--primary)">${c.website.replace(/^https?:\/\/(www\.)?/,'').split('/')[0]}</a>` : 'â€”'}</div>
+        <div style="font-size:0.85rem">${c.website ? `<a href="${c.website}" target="_blank" style="color:var(--primary)">${c.website.replace(/^https?:\/\/(www\.)?/,'').split('/')[0]}</a>` : '—'}</div>
       </div>
       <div class="info-box" style="background:rgba(255,255,255,0.03);padding:1rem;border-radius:12px;border:1px solid var(--glass-border)">
         <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.3rem">Decisor</div>
-        <div style="font-size:0.85rem">${c.decision_maker || 'â€”'}</div>
+        <div style="font-size:0.85rem">${c.decision_maker || '—'}</div>
       </div>
     </div>
 
     <div style="margin-top:auto;display:flex;flex-direction:column;gap:0.75rem">
       <button class="btn-action" style="width:100%;padding:1rem" onclick="quickImportOne(${idx})">Volcar al CRM</button>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
-        <button class="btn-action secondary" onclick="showMicroAudit(${idx})">ðŸ“‹ AuditorÃ­a</button>
-        <button class="btn-action secondary" onclick="findSimilarLeads(${idx})">ðŸ” Similares</button>
+        <button class="btn-action secondary" onclick="showMicroAudit(${idx})">📋 Auditoría</button>
+        <button class="btn-action secondary" onclick="findSimilarLeads(${idx})">🔍 Similares</button>
       </div>
     </div>
   `;
@@ -7050,9 +7050,9 @@ function showMicroAudit(idx) {
   const temp = calculateLeadTemperature(c);
   
   content.innerHTML = `
-    <button onclick="this.closest('.modal-overlay').remove()" style="position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem">Ã—</button>
+    <button onclick="this.closest('.modal-overlay').remove()" style="position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem">×</button>
     <div style="text-align:center;margin-bottom:2rem">
-      <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.2em;color:var(--primary);margin-bottom:0.5rem">Micro-AuditorÃ­a de Lead</div>
+      <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.2em;color:var(--primary);margin-bottom:0.5rem">Micro-Auditoría de Lead</div>
       <h2 style="margin:0">${c.name}</h2>
     </div>
 
@@ -7071,15 +7071,15 @@ function showMicroAudit(idx) {
         <h4 style="margin:0 0 1rem 0">Puntos Fuertes</h4>
         <ul style="margin:0;padding-left:1.2rem;font-size:0.85rem;line-height:1.8;color:var(--text-muted)">
           ${c.email ? '<li>Email verificado y listo para outreach</li>' : ''}
-          ${c.phone ? '<li>TelÃ©fono de contacto directo disponible</li>' : ''}
-          ${c.decision_maker ? '<li>Persona de decisiÃ³n identificada</li>' : ''}
-          ${c.rating && c.rating > 4.5 ? '<li>ReputaciÃ³n excelente en el mercado</li>' : ''}
-          ${c.signals?.length ? c.signals.map(s => `<li>SeÃ±al detectada: ${s}</li>`).join('') : '<li>Empresa establecida en la zona</li>'}
+          ${c.phone ? '<li>Teléfono de contacto directo disponible</li>' : ''}
+          ${c.decision_maker ? '<li>Persona de decisión identificada</li>' : ''}
+          ${c.rating && c.rating > 4.5 ? '<li>Reputación excelente en el mercado</li>' : ''}
+          ${c.signals?.length ? c.signals.map(s => `<li>Señal detectada: ${s}</li>`).join('') : '<li>Empresa establecida en la zona</li>'}
         </ul>
       </div>
 
       <div style="background:rgba(245,158,11,0.05);padding:1.5rem;border-radius:15px;border:1px solid rgba(245,158,11,0.2)">
-        <h4 style="margin:0 0 1rem 0;color:var(--warning)">Ãngulo de Venta Recomendado</h4>
+        <h4 style="margin:0 0 1rem 0;color:var(--warning)">Ángulo de Venta Recomendado</h4>
         <p style="margin:0;font-size:0.85rem;line-height:1.6">${getAngleRecommendation(c)}</p>
       </div>
     </div>
@@ -7092,10 +7092,10 @@ function showMicroAudit(idx) {
 }
 
 function getAngleRecommendation(c) {
-  if (c.rating && c.rating < 3.5) return "Tienen una puntuaciÃ³n baja. El Ã¡ngulo ideal es ofrecerles una mejora estÃ©tica o de infraestructura que mejore la experiencia percibida de sus clientes.";
-  if (c.signals?.some(s => s.toLowerCase().includes('apertura'))) return "SeÃ±al de local nuevo. El Ã¡ngulo es ofrecer servicios de mantenimiento preventivo y puesta a punto de instalaciones para asegurar que el arranque sea perfecto.";
-  if (c.decision_maker) return `Contacto directo con ${c.decision_maker.split('(')[0]}. El Ã¡ngulo debe ser profesional y centrado en la eficiencia operativa y ahorro energÃ©tico de sus instalaciones.`;
-  return "Empresa consolidada. El Ã¡ngulo es la modernizaciÃ³n de sistemas elÃ©ctricos para mejorar la eficiencia y cumplir con normativas actuales.";
+  if (c.rating && c.rating < 3.5) return "Tienen una puntuación baja. El ángulo ideal es ofrecerles una mejora estética o de infraestructura que mejore la experiencia percibida de sus clientes.";
+  if (c.signals?.some(s => s.toLowerCase().includes('apertura'))) return "Señal de local nuevo. El ángulo es ofrecer servicios de mantenimiento preventivo y puesta a punto de instalaciones para asegurar que el arranque sea perfecto.";
+  if (c.decision_maker) return `Contacto directo con ${c.decision_maker.split('(')[0]}. El ángulo debe ser profesional y centrado en la eficiencia operativa y ahorro energético de sus instalaciones.`;
+  return "Empresa consolidada. El ángulo es la modernización de sistemas eléctricos para mejorar la eficiencia y cumplir con normativas actuales.";
 }
 
 function findSimilarLeads(idx) {
@@ -7103,7 +7103,7 @@ function findSimilarLeads(idx) {
   if (!c) return;
   
   const query = c.name + " " + (c.segment || "");
-  showToast(`ðŸ” Buscando empresas similares a ${c.name}...`);
+  showToast(`🔍 Buscando empresas similares a ${c.name}...`);
   
   // Pre-rellenar buscador y disparar
   const input = document.getElementById('search-input');

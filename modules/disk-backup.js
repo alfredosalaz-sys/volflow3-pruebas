@@ -12,6 +12,7 @@
   const LAST_STATUS_KEY = 'gordi_disk_backup_last_status';
   const LAST_FILE_KEY = 'gordi_disk_backup_last_file';
   const LAST_ERROR_KEY = 'gordi_disk_backup_last_error';
+  let sessionBackupPassword = '';
 
   function todayKey() {
     return new Date().toISOString().slice(0, 10);
@@ -78,35 +79,6 @@
     return false;
   }
 
-  function parseArray(key) {
-    try {
-      const raw = localStorage.getItem(key) || '[]';
-      const value = JSON.parse(raw);
-      return Array.isArray(value) ? value : [];
-    } catch {
-      return [];
-    }
-  }
-
-  async function buildBackupPayload() {
-    const snapshot = typeof exportCurrentDataSnapshot === 'function'
-      ? await exportCurrentDataSnapshot()
-      : (typeof exportDataSnapshot === 'function' ? exportDataSnapshot() : {});
-    const summary = typeof getSnapshotSummary === 'function'
-      ? getSnapshotSummary(snapshot)
-      : { keys: Object.keys(snapshot || {}).length };
-    return {
-      version: '2.0',
-      backupType: 'auto_disk_daily',
-      date: new Date().toISOString(),
-      appVersion: typeof VOLTFLOW_VERSION !== 'undefined' ? VOLTFLOW_VERSION : '',
-      build: window.GORDI_APP_BUILD || '',
-      origin: location.href,
-      portableSnapshot: snapshot,
-      integrity: summary
-    };
-  }
-
   function setStatus(status, detail) {
     const payload = {
       status,
@@ -126,16 +98,30 @@
     await writable.close();
   }
 
-  async function backupFileExists(dirHandle, fileName) {
-    try {
-      await dirHandle.getFileHandle(fileName, { create: false });
-      return true;
-    } catch {
+  function unlockBackupPassword() {
+    const password = prompt('Contraseña maestra para cifrar las copias de esta sesión (mínimo 12 caracteres):');
+    if (password === null) return false;
+    if (password.length < 12) {
+      alert('La contraseña debe tener al menos 12 caracteres y no se guardará en el navegador.');
       return false;
     }
+    sessionBackupPassword = password;
+    return true;
   }
 
   async function runDiskBackupNow(showFeedback = true, options = {}) {
+    if (!window.VoltflowSecureBackup) {
+      setStatus('error', 'El módulo de copia cifrada no está disponible. No se escribió ningún archivo.');
+      return false;
+    }
+    if (!sessionBackupPassword && showFeedback && !unlockBackupPassword()) {
+      setStatus('locked', 'Introduce la contraseña maestra para crear una copia cifrada.');
+      return false;
+    }
+    if (!sessionBackupPassword) {
+      setStatus('locked', 'La copia diaria está pendiente hasta desbloquear el cifrado en esta sesión.');
+      return false;
+    }
     if (!isSupported()) {
       setStatus('unsupported', 'Tu navegador no permite guardar backups directos en una carpeta.');
       if (showFeedback && typeof showToast === 'function') showToast('Este navegador no permite backup automatico a carpeta');
@@ -158,23 +144,38 @@
       }
 
       const date = todayKey();
-      const fileName = `gordi_backup_auto_${date}.json`;
-      if (!options.force && await backupFileExists(dirHandle, fileName)) {
+      if (!options.force && localStorage.getItem(LAST_DATE_KEY) === date) {
         localStorage.setItem(LAST_DATE_KEY, date);
-        localStorage.setItem(LAST_FILE_KEY, fileName);
-        setStatus('already_exists', `Ya existe el backup de hoy: ${fileName}`);
+        setStatus('already_exists', `Ya existe una copia cifrada verificada de hoy.`);
         return true;
       }
 
-      const payload = await buildBackupPayload();
-      await writeBackupFile(dirHandle, fileName, payload);
+      const result = await VoltflowSecureBackup.createBrowserBackup(sessionBackupPassword, {
+        includeSessionSecrets: false,
+        tabsCoordinated: document.visibilityState === 'visible'
+      });
+      const fileName = result.filename;
+      await writeBackupFile(dirHandle, fileName, result.container);
+      const writtenHandle = await dirHandle.getFileHandle(fileName, { create: false });
+      const writtenFile = await writtenHandle.getFile();
+      const verification = await VoltflowSecureBackup.verifyBackupFile(writtenFile, sessionBackupPassword);
+      if (!verification.ok) throw new Error('La copia escrita no superó la verificación');
       localStorage.setItem(ENABLED_KEY, 'true');
       localStorage.setItem(LAST_DATE_KEY, date);
       localStorage.setItem(LAST_FILE_KEY, fileName);
-      setStatus('ok', `Backup diario creado: ${fileName}`);
+      localStorage.setItem('gordi_last_external_backup_verified', JSON.stringify({
+        verifiedAt: new Date().toISOString(),
+        createdAt: verification.createdAt,
+        filename: fileName,
+        bytes: writtenFile.size,
+        secretsEncrypted: verification.secrets,
+        build: verification.build,
+        location: 'authorized_directory',
+        verifiedFromDisk: true
+      }));
+      setStatus('ok', `Copia cifrada escrita y verificada: ${fileName}`);
       if (showFeedback && typeof showToast === 'function') {
-        const leadsCount = payload.integrity && payload.integrity.leads != null ? payload.integrity.leads : payload.leads.length;
-        showToast(`Backup en disco creado: ${leadsCount} leads y ${payload.integrity.keys || 0} claves`);
+        showToast(`Copia cifrada verificada: ${Math.round(writtenFile.size / 1024)} KB`);
       }
       return true;
     } catch (err) {
@@ -203,6 +204,7 @@
       return;
     }
     try {
+      if (!sessionBackupPassword && !unlockBackupPassword()) return;
       const dirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
       const canWrite = await hasWritePermission(dirHandle, true);
       if (!canWrite) {
@@ -232,6 +234,7 @@
       not_configured: 'Sin carpeta',
       permission_needed: 'Permiso necesario',
       unsupported: 'No compatible',
+      locked: 'Cifrado bloqueado',
       error: 'Error'
     };
     return labels[status] || 'Pendiente';
@@ -260,7 +263,7 @@
         <div style="display:flex;gap:1rem;flex-wrap:wrap;color:var(--text-dim);font-size:.74rem">
           <span>Ultimo dia: <strong style="color:var(--text-muted)">${lastDate}</strong></span>
           <span>Archivo: <strong style="color:var(--text-muted)">${lastFile}</strong></span>
-          <span>Incluye: leads, API keys, cobertura, scraping, campanas, historial y configuracion</span>
+          <span>Formato: AES-256-GCM; la contraseña solo permanece en memoria durante esta sesión</span>
         </div>
       </div>`;
   }

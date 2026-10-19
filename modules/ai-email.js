@@ -19,9 +19,13 @@ function openAiEmailModal(id) {
   const lead = leads.find(l => l.id == id);
   if (!lead) return;
 
-  const claudeKey = getGeminiKey();
-  if (!claudeKey) {
-    alert('Necesitas configurar una API Key de Gemini. ZERO_COST_MODE solo permitira usarla cuando exista un control externo de facturacion verificable.');
+  const aiStatus = AI_ROUTER.getStatus();
+  const configured = Object.values(aiStatus).some(item => item.configured);
+  const approved = Object.values(aiStatus).some(item => item.ok && !item.limited);
+  if (!configured || !approved) {
+    alert(configured
+      ? 'Confirma en Configuracion que al menos una cuenta sigue en su plan gratuito y sin facturacion habilitada.'
+      : 'Configura al menos una clave de Gemini Free, Groq Free u OpenRouter Free.');
     showView('settings');
     return;
   }
@@ -40,7 +44,8 @@ function openAiEmailModal(id) {
 
   document.getElementById('ai-email-modal').style.display = 'flex';
   // Show pain picker first — analyze weak points, then let user choose
-  showPainPicker(lead);
+  if (aiStatus.gemini.ok) showPainPicker(lead);
+  else runAiEmailGeneration(lead, null);
 }
 
 // ── ─ NUEVAS FUNCIONES ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ─
@@ -82,7 +87,7 @@ async function showPainPicker(lead) {
 
     const prompt = `Eres un experto en ventas B2B. Analiza esta empresa y dame EXACTAMENTE 3 posibles ángulos de ataque para un primer email de prospección de Voltium Madrid (empresa de reformas/instalaciones).
 
-EMPRESA: ${lead.company} | Sector: ${lead.segment} | Ciudad: ${lead.address || 'Madrid'}
+EMPRESA: ${lead.company} | Sector: ${lead.segment} | Ciudad: ${lead.address || 'No disponible'}
 Rating Google: ${lead.rating ? lead.rating + '/5 (' + lead.ratingCount + ' reseñas)' : 'sin datos'}
 Descripción: ${lead.description || 'N/A'}
 ${signals ? 'Señales detectadas:\n' + signals : ''}
@@ -102,7 +107,7 @@ Responde SOLO JSON válido (sin markdown):
 ]}`;
 
     const res = await aiGatewayGeminiFetch(
-      'gemini-2.0-flash', claudeKey,
+      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -124,10 +129,10 @@ Responde SOLO JSON válido (sin markdown):
         background:var(--glass);transition:all .15s" class="pain-opt-card">
         <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem">
           <span style="font-size:.85rem">${hookEmoji[opt.hook] || '🎯'}</span>
-          <span style="font-weight:700;font-size:.85rem;color:var(--text)">${opt.title}</span>
+          <span style="font-weight:700;font-size:.85rem;color:var(--text)">${escapeAIText(opt.title)}</span>
           ${opt.priority === 1 ? '<span style="font-size:.65rem;background:rgba(99,102,241,.15);color:#a78bfa;padding:.1rem .4rem;border-radius:5px;font-weight:600">⭐ Top pick</span>' : ''}
         </div>
-        <div style="font-size:.75rem;color:var(--text-dim);line-height:1.45">${opt.why}</div>
+        <div style="font-size:.75rem;color:var(--text-dim);line-height:1.45">${escapeAIText(opt.why)}</div>
       </div>`).join('');
     document.getElementById('btn-confirm-pain').disabled = true;
 
@@ -170,7 +175,7 @@ Genera EXACTAMENTE 3 asuntos de email B2B para este ángulo. Cortos, sin spam, d
 Responde SOLO JSON: {"subjects":["asunto1","asunto2","asunto3"]}`;
 
     const res = await aiGatewayGeminiFetch(
-      'gemini-2.0-flash', claudeKey,
+      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
       { method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.7,maxOutputTokens:200} }) },
       { purpose: 'email_subject_generation' }
@@ -187,16 +192,16 @@ Responde SOLO JSON: {"subjects":["asunto1","asunto2","asunto3"]}`;
     const subjectList = document.getElementById('ai-subjects-list');
     if (subjectList) {
       subjectList.innerHTML = subjects.map((s, i) => `
-        <div onclick="selectAiSubject(this,'${s.replace(/'/g,"&#39;")}')"
+        <div onclick="selectAiSubject(this,decodeURIComponent('${encodeAIInlineValue(s)}'))"
           style="cursor:pointer;padding:.5rem .75rem;border-radius:8px;border:1px solid var(--glass-border);
           background:var(--glass);font-size:.82rem;display:flex;gap:.5rem;align-items:center;justify-content:space-between;
           transition:border-color .15s,background .15s"
           class="subject-option${i===0?' selected-subject':''}">
           <div style="display:flex;gap:.5rem;align-items:flex-start;flex:1">
             <span style="font-size:.7rem;color:var(--text-muted);white-space:nowrap;padding-top:1px">${subjectLabels[i]||'✏️'}</span>
-            <span>${s}</span>
+            <span>${escapeAIText(s)}</span>
           </div>
-          <button onclick="event.stopPropagation();copySubjectOption('${s.replace(/'/g,"&#39;")}');" title="Copiar asunto"
+          <button onclick="event.stopPropagation();copySubjectOption(decodeURIComponent('${encodeAIInlineValue(s)}'));" title="Copiar asunto"
             style="background:none;border:none;cursor:pointer;font-size:.75rem;color:var(--text-dim);padding:.1rem .3rem;border-radius:4px;flex-shrink:0"
             onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-dim)'">📋</button>
         </div>`).join('');
@@ -267,7 +272,7 @@ Responde SOLO JSON válido:
 ]}`;
 
     const res = await aiGatewayGeminiFetch(
-      'gemini-2.0-flash', claudeKey,
+      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -402,18 +407,18 @@ function closeWaModal() {
 async function generateWhatsAppMessage(lead) {
   const claudeKey = getGeminiKey();
   const phone = lead.whatsapp || lead.phone;
-  const phoneClean = phone.replace(/[^0-9+]/g, '');
   const waBody = document.getElementById('wa-body');
 
   try {
     const segT = (typeof SEGMENT_TONE !== 'undefined' && SEGMENT_TONE[lead.segment]) || {};
-    const prevEmails = emailHistory.filter(e => e.leadId == lead.id || e.email === lead.email).length;
+    const sentHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
+    const prevEmails = sentHistory.filter(e => e.leadId == lead.id || e.email === lead.email).length;
     const p = getProfile();
 
     const prompt = `Eres un experto en ventas B2B. Escribe un mensaje de WhatsApp de prospección para ${lead.company}.
 
 CONTEXTO:
-- Empresa: ${lead.company} | Sector: ${lead.segment} | Ciudad: ${lead.address || 'Madrid'}
+- Empresa: ${lead.company} | Sector: ${lead.segment} | Ciudad: ${lead.address || 'No disponible'}
 - Emails previos enviados: ${prevEmails}
 - Rating Google: ${lead.rating ? lead.rating + '/5' : 'sin datos'}
 ${(lead.signals || []).slice(0, 3).map(s => '- Señal: ' + s).join('\n')}
@@ -434,7 +439,7 @@ REGLAS DEL WHATSAPP:
 Responde SOLO JSON: {"message":"texto del WA","opener":"frase de apertura resumida en 5 palabras"}`;
 
     const res = await aiGatewayGeminiFetch(
-      'gemini-2.0-flash', claudeKey,
+      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -448,8 +453,6 @@ Responde SOLO JSON: {"message":"texto del WA","opener":"frase de apertura resumi
     raw = raw.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(raw);
     const msg = parsed.message || '';
-    const waUrl = `https://wa.me/${phoneClean.startsWith('+') ? phoneClean.slice(1) : phoneClean}?text=${encodeURIComponent(msg)}`;
-
     waBody.innerHTML = `
       <div style="margin-bottom:1rem">
         <label style="font-size:.75rem;color:var(--text-dim);display:block;margin-bottom:.4rem">Mensaje generado — edita si lo necesitas</label>
@@ -463,12 +466,11 @@ Responde SOLO JSON: {"message":"texto del WA","opener":"frase de apertura resumi
         📱 Se enviará a: <strong style="color:#25D366">${phone}</strong>
       </div>
       <div style="display:flex;gap:.6rem;flex-wrap:wrap">
-        <a id="wa-send-btn" href="${waUrl}" target="_blank"
-          onclick="registerWaSent()"
+        <button id="wa-send-btn" type="button" onclick="openWaExternalClient()"
           style="display:inline-flex;align-items:center;gap:.4rem;background:#25D366;color:#fff;
           padding:.5rem 1.1rem;border-radius:8px;font-weight:600;font-size:.82rem;text-decoration:none;border:none;cursor:pointer">
           💬 Abrir en WhatsApp
-        </a>
+        </button>
         <button onclick="copyWaMessage()" class="btn-outline" style="font-size:.8rem">📋 Copiar mensaje</button>
         <button onclick="regenerateWaMessage()" class="btn-outline" style="font-size:.8rem">🔄 Regenerar</button>
       </div>`;
@@ -478,7 +480,7 @@ Responde SOLO JSON: {"message":"texto del WA","opener":"frase de apertura resumi
     const phone2 = lead.whatsapp || lead.phone;
     const phoneClean2 = phone2.replace(/[^0-9+]/g, '');
     waBody.innerHTML = `
-      <div style="color:var(--danger);font-size:.8rem;margin-bottom:1rem">⚠️ No se pudo generar el mensaje con IA (comprueba la API key de Gemini).</div>
+      <div style="color:var(--danger);font-size:.8rem;margin-bottom:1rem">⚠️ No se pudo generar el mensaje con IA (comprueba la clave, la confirmacion Free de la sesion y los limites del proveedor).</div>
       <textarea id="wa-text-editor" rows="5" placeholder="Escribe tu mensaje de WhatsApp aquí..."
         style="width:100%;background:var(--bg3);border:1px solid var(--glass-border);border-radius:10px;
         padding:.85rem;font-size:.82rem;color:var(--text);resize:vertical;font-family:'Inter',sans-serif"></textarea>
@@ -490,14 +492,50 @@ Responde SOLO JSON: {"message":"texto del WA","opener":"frase de apertura resumi
   }
 }
 
-function sendWaManual() {
+async function sendWaManual() {
+  return openWaExternalClient();
+}
+
+function reserveCommercialExternalWindow() {
+  return window.open('about:blank', '_blank');
+}
+
+async function openWaExternalClient() {
   const lead = _waLead; if (!lead) return;
   const phone = lead.whatsapp || lead.phone; if (!phone) return;
   const msg = document.getElementById('wa-text-editor')?.value || '';
   const phoneClean = phone.replace(/[^0-9+]/g, '');
   const url = `https://wa.me/${phoneClean.startsWith('+') ? phoneClean.slice(1) : phoneClean}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
-  registerWaSent();
+  if (typeof prepareCommercialMessageAndOpen !== 'function') {
+    showToast('El control de comunicaciones no esta disponible. No se ha abierto WhatsApp.');
+    return;
+  }
+  const reservedWindow = reserveCommercialExternalWindow();
+  if (!reservedWindow) {
+    showToast('El navegador bloqueo la ventana de WhatsApp. Permite popups para Voltflow y vuelve a intentarlo.');
+    return;
+  }
+  try {
+    const result = await prepareCommercialMessageAndOpen({
+      lead,
+      channel: 'whatsapp',
+      target: phone,
+      subject: 'WhatsApp comercial',
+      body: msg,
+      purpose: 'b2b_prospecting',
+      generatedBy: 'ai',
+      externalClient: 'whatsapp_web',
+      openExternal: () => {
+        reservedWindow.location.href = url;
+        return reservedWindow;
+      }
+    });
+    if (!result?.opened && !reservedWindow.closed) reservedWindow.close();
+    if (result?.opened) setTimeout(() => closeWaModal(), 800);
+  } catch (error) {
+    if (!reservedWindow.closed) reservedWindow.close();
+    throw error;
+  }
 }
 
 function regenerateWaMessage() {
@@ -512,38 +550,12 @@ function regenerateWaMessage() {
 function copyWaMessage() {
   const msg = document.getElementById('wa-text-editor')?.value || '';
   if (!msg) return;
-  // Update wa-send-btn href with edited message
-  const lead = _waLead; if (!lead) return;
-  const phone = lead.whatsapp || lead.phone;
-  const phoneClean = phone.replace(/[^0-9+]/g, '');
-  const btn = document.getElementById('wa-send-btn');
-  if (btn) btn.href = `https://wa.me/${phoneClean.startsWith('+') ? phoneClean.slice(1) : phoneClean}?text=${encodeURIComponent(msg)}`;
   copyToClipboard(msg, 'Mensaje copiado');
 }
 
-async function registerWaSent() {
-  const lead = _waLead; if (!lead) return;
-  const msg = document.getElementById('wa-text-editor')?.value || '';
-  addActivityLog(lead.id, `💬 WhatsApp enviado a ${lead.whatsapp || lead.phone}`);
-  emailHistory.unshift({
-    id: Date.now(), leadId: lead.id, company: lead.company,
-    email: lead.whatsapp || lead.phone, segment: lead.segment,
-    date: new Date().toISOString(), status: 'Enviado', subject: 'WhatsApp IA',
-    channel: 'whatsapp', body: msg.slice(0, 200)
-  });
-  try {
-    await persistEmailHistory('historial de WhatsApp');
-  } catch {
-    showToast('No se pudo confirmar el historial de WhatsApp.');
-    return;
-  }
-  if (!lead.first_contact_date) {
-    lead.first_contact_date = new Date().toISOString();
-    lead.ttfc_hours = Math.round((Date.now() - new Date(lead.date)) / 3600000);
-  }
-  try { await saveLeads(); } catch { return; }
-  updateStats();
-  setTimeout(() => closeWaModal(), 800);
+async function registerWaSent(recordId) {
+  if (!recordId || typeof confirmCommercialSend !== 'function') return;
+  return confirmCommercialSend(recordId, { method: 'manual_explicit' });
 }
 
 function closeAiModal() {
@@ -655,12 +667,12 @@ async function runAiEmailGeneration(lead, painContext) {
   }
 
   // PASO 3: Búsqueda de noticias recientes via Gemini con grounding
-  setAiStep('news', 'active');
+  setAiStep('news', 'done');
   let newsContext = '';
   try {
-    if (lead.company && claudeKey) {
+    if (false && lead.company && claudeKey) {
       const newsRes = await aiGatewayGeminiFetch(
-        'gemini-2.5-flash', claudeKey,
+        AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -718,16 +730,16 @@ Responde en máximo 3 frases concretas, sin inventar nada.` }] }],
     const subjectList = document.getElementById('ai-subjects-list');
     if (subjectList) {
       subjectList.innerHTML = subjects.map((s, i) => `
-        <div onclick="selectAiSubject(this, '${s.replace(/'/g,"&#39;")}')"
+        <div onclick="selectAiSubject(this, decodeURIComponent('${encodeAIInlineValue(s)}'))"
           style="cursor:pointer;padding:.5rem .75rem;border-radius:8px;border:1px solid var(--glass-border);
           background:var(--glass);font-size:.82rem;display:flex;gap:.5rem;align-items:center;justify-content:space-between;
           transition:border-color .15s,background .15s"
           class="subject-option${i===0?' selected-subject':''}">
           <div style="display:flex;gap:.5rem;align-items:flex-start;flex:1">
             <span style="font-size:.7rem;color:var(--text-muted);white-space:nowrap;padding-top:1px">${subjectLabels[i]||'✏️ Opción '+(i+1)}</span>
-            <span>${s}</span>
+            <span>${escapeAIText(s)}</span>
           </div>
-          <button onclick="event.stopPropagation();copySubjectOption('${s.replace(/'/g,"&#39;")}')" title="Copiar asunto"
+          <button onclick="event.stopPropagation();copySubjectOption(decodeURIComponent('${encodeAIInlineValue(s)}'))" title="Copiar asunto"
             style="background:none;border:none;cursor:pointer;font-size:.75rem;color:var(--text-dim);padding:.1rem .3rem;border-radius:4px;flex-shrink:0;transition:color .15s"
             onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-dim)'">📋</button>
         </div>`).join('');
@@ -752,7 +764,8 @@ Responde en máximo 3 frases concretas, sin inventar nada.` }] }],
     checkSpam(result.subject);
 
     // Check if previous email was sent to this company
-    const prevEmails = emailHistory.filter(e => e.leadId == lead.id || e.email === lead.email);
+    const sentHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
+    const prevEmails = sentHistory.filter(e => e.leadId == lead.id || e.email === lead.email);
     if (prevEmails.length > 0) {
       const lastEmail = prevEmails[0];
       const daysAgo = Math.floor((Date.now() - new Date(lastEmail.date)) / 86400000);
@@ -768,7 +781,7 @@ Responde en máximo 3 frases concretas, sin inventar nada.` }] }],
 
     if (result.insight) {
       document.getElementById('ai-reviews-insight').innerHTML =
-        `<strong style="color:var(--primary)">📊 Lo que dicen las reseñas de ${lead.company}:</strong><br>${result.insight}`;
+        `<strong style="color:var(--primary)">📊 Lo que dicen las reseñas de ${escapeAIText(lead.company)}:</strong><br>${escapeAIText(result.insight)}`;
       document.getElementById('ai-reviews-insight').style.display = 'block';
     } else {
       document.getElementById('ai-reviews-insight').style.display = 'none';
@@ -781,7 +794,7 @@ Responde en máximo 3 frases concretas, sin inventar nada.` }] }],
     document.getElementById('ai-error').style.display = 'block';
     document.getElementById('ai-error-msg').innerHTML =
       `<strong>Error al generar el email:</strong><br>${e.message}<br><br>` +
-      `Verifica que tu <a href="#" onclick="showView('settings');closeAiModal()" style="color:var(--primary)">API Key de Gemini</a> está correctamente configurada.<br><small style="color:var(--text-muted)">Obtén una gratis en aistudio.google.com/apikey</small>`;
+      `Verifica en <a href="#" onclick="showView('settings');closeAiModal()" style="color:var(--primary)">Configuracion de IA</a> que haya una clave y una confirmacion Free vigente para esta sesion.<br><small style="color:var(--text-muted)">La aplicacion no activa proveedores solo por encontrar una clave guardada.</small>`;
     logApiError(`Email IA error: ${e.message}`);
   }
 }
@@ -1024,7 +1037,7 @@ async function fetchGoogleReviews(placeId) {
   return finalReviews;
 }
 
-// ──  Llamada a Gemini API (100% gratuito) ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ─
+// Llamada centralizada a un proveedor gratuito confirmado para la sesion.
 async function generateEmailWithClaude(lead, reviewsData, claudeKey, liveWebData = {}, newsContext = '') {
   const p = getProfile();
   const firma = buildFirmaText();
@@ -1106,6 +1119,8 @@ POSITIVAS (qué valoran): ${pos.map(r => `[${r.rating} "${r.text.slice(0,80)}"`)
 
   const prompt = `Eres uno de los mejores copywriters B2B de España, especializado en ventas para empresas de reformas y construcción. Tu misión: escribir el email de prospección más personalizado y persuasivo posible para Voltium Madrid.
 
+REGLA DE VERACIDAD OBLIGATORIA: usa exclusivamente los datos incluidos en este prompt. No inventes noticias, cargos, problemas, obras, opiniones, cifras ni caracteristicas de la empresa. Si falta un dato, omite esa afirmacion y redacta un mensaje prudente basado en el sector.
+
 ═══════════════════════════════════════
 VOLTIUM MADRID — CONTEXTO COMPLETO
 ═══════════════════════════════════════
@@ -1125,7 +1140,7 @@ EMPRESA A CONTACTAR
 ═══════════════════════════════════════
 Nombre: ${lead.company}
 Sector: ${lead.segment}
-Dirección: ${lead.address || 'Madrid'}
+Dirección: ${lead.address || 'No disponible'}
 Web: ${lead.website || 'No disponible'}
 Nota Google: ${reviewsData.rating ? reviewsData.rating + '/5 (' + (reviewsData.ratingCount || 0) + ' reseñas)' : 'Sin datos'}
 Descripción: ${lead.description || 'No disponible'}
@@ -1251,54 +1266,13 @@ EJEMPLO DE FORMATO BIEN APLICADO:
 Responde ÚNICAMENTE con JSON válido, sin markdown, sin texto adicional:
 {"subjects":["asunto opción 1 — emocional","asunto opción 2 — dato/racional","asunto opción 3 — curiosidad/intriga"],"body":"HTML del email empezando con '${saludo},'  y terminando con '{{FIRMA}}'","insight":"2-3 frases sobre QUÉ FUENTE usaste como gancho principal (reseñas/web/noticias/señales) y cómo el tono del sector influyó en el email"}`;
 
-  const response = await aiGatewayGeminiFetch(
-    'gemini-2.5-flash', claudeKey,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 8000
-        }
-      })
-    },
-    { purpose: 'email_body_generation' }
-  );
-
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({}));
-    const msg = err.error?.message || `Error ${response.status}`;
-    if (response.status === 400) throw new Error('API Key de Gemini inválida. Verifica que la copiaste correctamente.');
-    if (response.status === 429) throw new Error('Límite de peticiones alcanzado. Espera un momento e inténtalo de nuevo.');
-    throw new Error(msg);
-  }
-
-  const data = await response.json();
-  console.log('[VOLTFLOW DEBUG] Gemini raw response:', JSON.stringify(data).substring(0, 500));
-
-  // Gemini 2.5 puede devolver el JSON en distintos lugares
-  let rawText = '';
-  const candidate = data.candidates?.[0];
-  if (candidate?.content?.parts) {
-    for (const part of candidate.content.parts) {
-      if (part.text) { rawText = part.text; break; }
-    }
-  }
-  // Fallback: a veces viene en promptFeedback o como objeto directo
-  if (!rawText && data.candidates?.[0]?.content?.parts?.[0]) {
-    rawText = JSON.stringify(data.candidates[0].content.parts[0]);
-  }
-
-  console.log('[VOLTFLOW DEBUG] rawText:', rawText.substring(0, 300));
-  if (!rawText) throw new Error('Gemini no devolvió texto. Respuesta: ' + JSON.stringify(data).substring(0,200));
-
-  // Comprobar si fue truncado por MAX_TOKENS
-  const finishReason = data.candidates?.[0]?.finishReason || '';
-  if (finishReason === 'MAX_TOKENS') {
-    console.warn('[VOLTFLOW] Respuesta truncada por MAX_TOKENS, intentando recuperar...');
-  }
+  const rawText = await AI_ROUTER.call(prompt, claudeKey, {
+    purpose: 'email_body_generation',
+    temperature: 0.7,
+    maxOutputTokens: 2000,
+  });
+  if (!rawText) throw new Error('El proveedor gratuito no devolvio texto.');
+  const finishReason = '';
 
   // Parsear JSON — limpiar fences y recuperar JSON parcial
   let parsed;
@@ -1326,7 +1300,7 @@ Responde ÚNICAMENTE con JSON válido, sin markdown, sin texto adicional:
   } catch {
     // Extraer el primer objeto JSON completo que haya
     const jsonMatch = clean.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('Gemini no devolvió JSON válido. Inténtalo de nuevo.');
+    if (!jsonMatch) throw new Error('El proveedor de IA no devolvio JSON valido. Intentalo de nuevo.');
     try {
       parsed = JSON.parse(jsonMatch[0]);
     } catch(e2) {
@@ -1375,6 +1349,7 @@ function clearFormat() {
 // Recibe HTML de Gemini y lo prepara para el editor visual
 function textToEditorHtml(html) {
   if (!html) return '';
+  html = typeof sanitizeAIHTML === 'function' ? sanitizeAIHTML(html) : html;
 
   // Si viene texto plano (sin etiquetas HTML), convertir parrafos
   if (!html.includes('<')) {
@@ -1400,7 +1375,7 @@ function textToEditorHtml(html) {
   out = out.replace(/<u>/gi, '<u style="text-decoration-color:#0A84FF;text-underline-offset:3px">');
   out = out.replace(/<em>/gi, '<em style="color:#c4b5fd">');
 
-  return out;
+  return typeof sanitizeAIHTML === 'function' ? sanitizeAIHTML(out) : out;
 }
 
 // Copia el email con formato HTML al portapapeles (para Gmail/Outlook)
@@ -1429,23 +1404,18 @@ async function copyHtmlEmail() {
     btn.style.borderColor = 'rgba(16,217,124,0.5)';
     setTimeout(() => { btn.innerText = orig; btn.style.background = ''; btn.style.borderColor = ''; }, 2500);
 
-    // Registrar en historial
+    // Copiar prepara un borrador, pero no acredita apertura ni envio.
     const lead = leads.find(l => l.id == aiCurrentLeadId);
-    if (lead) {
-      const _doContactado = async () => {
-        lead.status = 'Contactado';
-        lead.status_date = new Date().toISOString();
-        emailHistory.unshift({ id: Date.now(), company: lead.company, email: lead.email, segment: lead.segment, date: new Date().toISOString(), status: 'Preparado (IA)', notes: `Asunto: ${subject}` });
-        try {
-          await persistEmailHistory('historial de emails');
-          await saveLeads();
-          renderAll(); renderTracking();
-        } catch {
-          showToast('No se pudo confirmar el historial de email.');
-        }
-      };
-      confirmStatusChange(lead, 'Contactado', _doContactado);
-    }
+    if (lead && typeof recordCommercialDraft === 'function') await recordCommercialDraft({
+      lead,
+      channel: 'email',
+      target: lead.email,
+      subject,
+      body: editor.innerText,
+      purpose: 'b2b_prospecting',
+      generatedBy: 'ai',
+      notes: 'Copiado al portapapeles para revision'
+    });
   } catch(e) {
     // Fallback: copiar texto plano
     try {
@@ -1483,35 +1453,25 @@ async function sendAiEmail() {
   const editor = document.getElementById('ai-body-editor');
   const body = editor ? editor.innerText : document.getElementById('ai-body-out').value;
 
-  window.location.href = `mailto:${lead.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-  emailHistory.unshift({ id: Date.now(), leadId: lead.id, company: lead.company, email: lead.email, segment: lead.segment, date: new Date().toISOString(), status: 'Enviado (IA)', subject, notes: 'Generado con IA + análisis de reseñas' });
-  try {
-    await persistEmailHistory('historial de emails');
-  } catch {
-    showToast('No se pudo confirmar el historial de email.');
+  if (typeof prepareCommercialMessageAndOpen !== 'function') {
+    showToast('El control de comunicaciones no esta disponible. No se ha abierto el correo.');
     return;
   }
-  // MEJORA 1: Registrar time-to-first-contact
-  if (!lead.first_contact_date) {
-    lead.first_contact_date = new Date().toISOString();
-    lead.ttfc_hours = Math.round((Date.now() - new Date(lead.date)) / 3600000);
-  }
-  const oldStatus = lead.status;
-  const _doSend = async () => {
-    lead.status_date = new Date().toISOString();
-    addActivityLog(lead.id, `✉️ Email IA enviado: "${subject}"`);
-    try { await saveLeads(); } catch { return; }
-    renderAll(); renderTracking();
-    updateStreakData();
-    closeAiModal();
-    showToast('✉️ Email abierto en tu gestor de correo');
-  };
-  if (oldStatus !== 'Visita') {
-    confirmStatusChange(lead, 'Visita', () => { lead.status = 'Visita'; _doSend(); });
-  } else {
-    _doSend();
-  }
+  const result = await prepareCommercialMessageAndOpen({
+    lead,
+    channel: 'email',
+    target: lead.email,
+    subject,
+    body,
+    purpose: 'b2b_prospecting',
+    generatedBy: 'ai',
+    notes: 'Generado con IA y revisado por el usuario',
+    externalClient: 'mailto',
+    openExternal: () => {
+      window.location.href = `mailto:${lead.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+  });
+  if (result?.opened) closeAiModal();
 }
 
 // ──  Regenerar ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ─

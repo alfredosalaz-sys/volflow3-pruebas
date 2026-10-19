@@ -913,7 +913,8 @@ async function generateEmail(id) {
   if (!lead) return;
   if (!lead.email) { alert('⚠️ Este lead no tiene email. Añádelo primero.'); return; }
 
-  const already = emailHistory.find(h => h.email.toLowerCase() === lead.email.toLowerCase());
+  const confirmedHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
+  const already = confirmedHistory.find(h => String(h.email || '').toLowerCase() === lead.email.toLowerCase());
   if (already) {
     const fecha = new Date(already.date).toLocaleDateString('es-ES');
     if (!confirm(`⚠️ Ya contactaste a ${lead.company} el ${fecha}.\n¿Enviar otro email de todas formas?`)) return;
@@ -935,31 +936,23 @@ async function generateEmail(id) {
     .replace(/{{Signal}}/g, lead.signal || '')
     .replace(/{{FIRMA}}/g, firma);
 
-  window.location.href = `mailto:${lead.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-  emailHistory.unshift({ id: Date.now(), leadId: lead.id, company: lead.company, email: lead.email, segment: lead.segment, date: new Date().toISOString(), status: 'Enviado', subject, notes: '' });
-  try {
-    await persistEmailHistory('historial de emails');
-  } catch {
-    showToast('No se pudo confirmar el historial de email. Queda pendiente de recuperacion.');
+  if (typeof prepareCommercialMessageAndOpen !== 'function') {
+    showToast('El control de comunicaciones no esta disponible. No se ha abierto el correo.');
     return;
   }
-  // MEJORA 1: Registrar time-to-first-contact
-  if (!lead.first_contact_date) {
-    lead.first_contact_date = new Date().toISOString();
-    lead.ttfc_hours = Math.round((Date.now() - new Date(lead.date)) / 3600000);
-  }
-  const oldStatus = lead.status;
-  const _applyVisita = async () => {
-    lead.status = 'Contactado';
-    lead.status_date = new Date().toISOString();
-    addActivityLog(lead.id, `✉️ Email plantilla enviado: "${subject}"`);
-    try {
-      await saveLeads();
-      renderAll(); renderTracking(); renderRecentActivity(); updateStreakData();
-    } catch {}
-  };
-  confirmStatusChange(lead, 'Contactado', _applyVisita);
+  await prepareCommercialMessageAndOpen({
+    lead,
+    channel: 'email',
+    target: lead.email,
+    subject,
+    body,
+    purpose: 'b2b_prospecting',
+    generatedBy: 'template',
+    externalClient: 'mailto',
+    openExternal: () => {
+      window.location.href = `mailto:${lead.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+  });
 }
 
 

@@ -37,6 +37,21 @@
   };
   let nativeSetItemRef = null;
 
+  function coordinator() { return window.VoltflowWriteCoordinator || null; }
+  async function awaitWritePermission(options = {}) {
+    if (coordinator()?.waitForWritable) await coordinator().waitForWritable(options.coordinationToken || null);
+  }
+  function setCoordinatedLocal(key, value, options = {}) {
+    const token = options.coordinationToken || null;
+    if (token && coordinator()?.authorizedSetItem) return coordinator().authorizedSetItem(token, localStorage, key, value);
+    return localStorage.setItem(key, value);
+  }
+  function removeCoordinatedLocal(key, options = {}) {
+    const token = options.coordinationToken || null;
+    if (token && coordinator()?.authorizedRemoveItem) return coordinator().authorizedRemoveItem(token, localStorage, key);
+    return localStorage.removeItem(key);
+  }
+
   function requestToPromise(req) {
     return new Promise((resolve, reject) => {
       req.onsuccess = () => resolve(req.result);
@@ -193,7 +208,8 @@
     return localStorage.getItem('gordi_indexeddb_ready') === 'true';
   }
 
-  async function saveCollection(storeName, items) {
+  async function saveCollection(storeName, items, options = {}) {
+    await awaitWritePermission(options);
     const db = await openDB();
     const records = (Array.isArray(items) ? items : []).map((item, index) => normalizeRecord(item, index, storeName));
     const tx = db.transaction(storeName, 'readwrite');
@@ -210,7 +226,8 @@
     return records.length;
   }
 
-  async function saveCollectionIncremental(storeName, items) {
+  async function saveCollectionIncremental(storeName, items, options = {}) {
+    await awaitWritePermission(options);
     const db = await openDB();
     const records = (Array.isArray(items) ? items : []).map((item, index) => normalizeRecord(item, index, storeName));
     const currentRows = await getAllRaw(storeName);
@@ -243,21 +260,22 @@
     return { count: records.length, puts: puts.length, deletes: deletes.length, unchanged: Math.max(0, records.length - puts.length) };
   }
 
-  async function saveKeyValue(key, value) {
+  async function saveKeyValue(key, value, options = {}) {
+    await awaitWritePermission(options);
     const db = await openDB();
     const tx = db.transaction(KV_STORE, 'readwrite');
     tx.objectStore(KV_STORE).put({ key, value, updatedAt: new Date().toISOString() });
     await txDone(tx);
   }
 
-  async function saveLocalStorageKey(key, raw) {
+  async function saveLocalStorageKey(key, raw, options = {}) {
     if (COLLECTIONS[key]) {
       const items = safeParse(raw, []);
       if (!Array.isArray(items)) throw new Error(`${key} no es una lista`);
-      return saveCollectionIncremental(COLLECTIONS[key].store, items);
+      return saveCollectionIncremental(COLLECTIONS[key].store, items, options);
     }
     if (KV_KEYS.has(key) || key.startsWith('gordi_scrape_memory_') || key.startsWith('gordi_ecache_')) {
-      return saveKeyValue(key, raw);
+      return saveKeyValue(key, raw, options);
     }
     return null;
   }
@@ -554,6 +572,75 @@
     return snapshot;
   }
 
+  async function exportRawDatabase() {
+    await waitForIdle();
+    const db = await openDB();
+    const storeNames = Array.from(db.objectStoreNames);
+    const tx = db.transaction(storeNames, 'readonly');
+    const stores = {};
+    await Promise.all(storeNames.map(async storeName => {
+      const store = tx.objectStore(storeName);
+      stores[storeName] = {
+        keyPath: store.keyPath,
+        autoIncrement: store.autoIncrement,
+        records: await requestToPromise(store.getAll())
+      };
+    }));
+    await txDone(tx);
+    return {
+      database: DB_NAME,
+      version: db.version,
+      exportedAt: new Date().toISOString(),
+      stores
+    };
+  }
+
+  async function replaceRawDatabase(raw, options = {}) {
+    await awaitWritePermission(options);
+    if (!raw || raw.database !== DB_NAME || !raw.stores || typeof raw.stores !== 'object') {
+      throw new Error('Backup IndexedDB incompatible');
+    }
+    const db = await openDB();
+    const available = new Set(Array.from(db.objectStoreNames));
+    const requested = Object.keys(raw.stores);
+    const missing = requested.filter(name => !available.has(name));
+    if (missing.length) throw new Error(`Stores IndexedDB no disponibles: ${missing.join(', ')}`);
+
+    const tx = db.transaction(requested, 'readwrite');
+    requested.forEach(storeName => {
+      const store = tx.objectStore(storeName);
+      store.clear();
+      const records = Array.isArray(raw.stores[storeName].records) ? raw.stores[storeName].records : [];
+      records.forEach(record => store.put(record));
+    });
+    if (options.failAfterWrites) {
+      tx.abort();
+      throw new Error('Interrupción de restauración simulada');
+    }
+    await txDone(tx);
+    readyCache = null;
+    return exportRawDatabase();
+  }
+
+  async function rebuildReadyMarker(options = {}) {
+    const manifest = await getMeta('manifest');
+    const migration = await getMeta('migration');
+    const ready = !!(manifest && manifest.status === 'complete' && manifest.version === DB_VERSION &&
+      (!migration || migration.status === 'complete'));
+    readyCache = ready;
+    setCoordinatedLocal('gordi_indexeddb_ready', ready ? 'true' : 'false', options);
+    if (ready) {
+      setCoordinatedLocal('_voltflow_idb_manifest', JSON.stringify({
+        version: DB_VERSION,
+        migratedAt: manifest.migratedAt || null,
+        counts: Object.fromEntries(Object.entries(manifest.expected || {}).map(([key, value]) => [key, value.count || 0]))
+      }), options);
+    } else {
+      removeCoordinatedLocal('_voltflow_idb_manifest', options);
+    }
+    return ready;
+  }
+
   async function recoverInterruptedMigration() {
     const migration = await getMeta('migration');
     const manifest = await getMeta('manifest');
@@ -588,6 +675,9 @@
     getPersistenceStatus,
     saveLocalStorageKey,
     exportSnapshot,
+    exportRawDatabase,
+    replaceRawDatabase,
+    rebuildReadyMarker,
     recoverInterruptedMigration,
     installLocalStorageMirror,
     _checksumItems: checksumItems

@@ -32,5 +32,9 @@ function notifyStateChange(module) {
 }
 
 function getGeminiKey() {
+    try {
+        const sessionKey = sessionStorage.getItem('gordi_gemini_key');
+        if (sessionKey) return sessionKey;
+    } catch {}
     return localStorage.getItem('gordi_gemini_key') || localStorage.getItem('gordi_claude_key') || '';
 }

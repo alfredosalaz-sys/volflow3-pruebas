@@ -1,6 +1,7 @@
 ﻿// ============ STATS ============
 function updateStats() {
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+  const sentHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
   let total = 0;
   let high = 0;
   let pending = 0;
@@ -10,11 +11,11 @@ function updateStats() {
     if (lead.score >= 70) high++;
     if (lead.status === 'Pendiente') pending++;
   }
-  set('stat-sent', emailHistory.length);
-  set('stat-sent2', emailHistory.length);
+  set('stat-sent', sentHistory.length);
+  set('stat-sent2', sentHistory.length);
   const contacted = new Set();
   let waiting = 0;
-  for (const item of emailHistory) {
+  for (const item of sentHistory) {
     if (item.email) contacted.add(String(item.email).toLowerCase());
     if (item.status === 'Visita') waiting++;
   }
@@ -311,7 +312,7 @@ function renderSmartAlert() {
 function renderRecentActivity() {
   const container = document.getElementById('recent-activity');
   if (!container) return;
-  const recent = emailHistory.slice(0, 8);
+  const recent = (typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : []).slice(0, 8);
   container.innerHTML = recent.length
     ? recent.map(e => `
         <div class="activity-item">
@@ -573,12 +574,15 @@ function renderTracking() {
 
   pageItems.forEach(e => {
     const tr = document.createElement('tr');
+    const effectiveState = typeof CommercialCommunications !== 'undefined' ? CommercialCommunications.getEffectiveState(e) : null;
+    const stateLabel = typeof getCommercialDisplayState === 'function' ? getCommercialDisplayState(e) : (e.status || 'Estado desconocido');
+    const canConfirm = effectiveState === 'PENDING_SEND_CONFIRMATION';
     tr.innerHTML = `
       <td style="font-size:.78rem">${new Date(e.date).toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'})}</td>
       <td><div class="lead-name">${e.company}</div></td>
       <td style="color:var(--primary);font-size:.82rem"><span style="display:inline-flex;align-items:center;gap:.35rem">${e.email}<button onclick="event.stopPropagation(); copyToClipboard('${e.email}', 'Email: ${e.email}')" title="Copiar email" style="background:none;border:none;cursor:pointer;color:var(--text-dim);padding:1px 4px;font-size:.75rem;line-height:1;transition:color .15s" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-dim)'">⧉</button></span></td>
       <td><span style="font-size:.75rem;background:var(--glass);padding:2px 8px;border-radius:5px;color:var(--text-muted)">${e.segment}</span></td>
-      <td><span style="color:var(--success);font-size:.78rem">✅ ${e.status}</span></td>
+      <td><span style="color:${effectiveState === 'SENT_CONFIRMED' ? 'var(--success)' : 'var(--warning)'};font-size:.78rem">${stateLabel}</span>${canConfirm ? `<button class="btn-outline btn-sm" style="margin-left:.4rem" onclick="confirmCommercialSend('${e.id}')">Confirmar envio</button>` : ''}</td>
       <td style="font-size:.78rem;color:var(--text-muted)">${e.notes||'—'}</td>`;
     tbody.appendChild(tr);
   });
@@ -718,13 +722,14 @@ function getCampaignLeadList(c) {
 }
 
 function getCampaignSentCount(c) {
+  const sentHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
   const campLeads = getCampaignLeadList(c);
   if (Array.isArray(c.leadIds) && c.leadIds.length) {
     const ids = new Set(c.leadIds.map(String));
     const emails = new Set(campLeads.map(l => l.email).filter(Boolean));
-    return emailHistory.filter(e => ids.has(String(e.leadId)) || emails.has(e.email)).length;
+    return sentHistory.filter(e => ids.has(String(e.leadId)) || emails.has(e.email)).length;
   }
-  return emailHistory.filter(e => c.segment === 'Todos' || e.segment === c.segment).length;
+  return sentHistory.filter(e => c.segment === 'Todos' || e.segment === c.segment).length;
 }
 
 function renderCampaigns() {
@@ -836,7 +841,7 @@ async function deleteCampaign(id) {
   const c = campaigns.find(x => x.id === id);
   if (!c) return;
   const seg = c.segment === 'Todos' ? leads.length : leads.filter(l => l.segment === c.segment).length;
-  const sent = emailHistory.filter(e => c.segment === 'Todos' || e.segment === c.segment).length;
+  const sent = getCampaignSentCount(c);
   const summary = `Campaña: ${c.name}\nLeads: ${seg} · Emails enviados: ${sent}`;
   if (!confirm('¿Eliminar esta campaña?\n\n' + summary)) return;
   campaigns = campaigns.filter(x => x.id !== id);
