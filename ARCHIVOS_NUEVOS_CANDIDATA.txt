@@ -1,0 +1,40 @@
+Archivos de aplicacion nuevos respecto a origin/main
+====================================================
+modules/ai-security.js
+modules/business-providers.js
+data/business-indexes/manifest.json
+data/business-indexes/madrid-sample.json
+
+Pruebas y utilidades incorporadas
+=================================
+voltflow-regression-tests.cjs
+tools/ai-email-free-personalization-test.cjs
+tools/ai-security-test.cjs
+tools/ai-zero-cost-gate-test.cjs
+tools/browser-provider-smoke.html
+tools/browser-search-regression.cjs
+tools/build-business-index.cjs
+tools/build-madrid-open-data-sample.cjs
+tools/business-providers-mock-test.cjs
+tools/check-release-integrity.cjs
+tools/generate-manifest.cjs
+tools/places-search-mock-test.cjs
+tools/provider-performance-smoke.cjs
+tools/quality-check.js
+tools/real-provider-index-test.cjs
+tools/verify-manifest.cjs
+
+Documentacion de la candidata
+=============================
+PROVEEDORES_IA_GRATUITA_20261015.md
+INFORME_FINAL_IA_GRATUITA_AUDITADA_20261015.md
+INSTRUCCIONES_PUBLICACION_IA_AUDITADA.md
+CAMBIOS_ORIGIN_MAIN.patch
+MANIFEST_APLICACION_SHA256.txt
+
+Nota
+====
+CAMBIOS_ORIGIN_MAIN.patch contiene el diff binario exacto de archivos ya
+rastreados. Los archivos nuevos se entregan completos y quedan cubiertos por
+MANIFEST_SHA256.txt. `MANIFEST_APLICACION_SHA256.txt` conserva por separado
+los 29 hashes de los recursos que ejecuta GitHub Pages.

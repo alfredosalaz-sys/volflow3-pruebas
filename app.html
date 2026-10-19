@@ -9,7 +9,7 @@
   <meta http-equiv="Expires" content="0">
   <title>Voltium CRM</title>
   <script>
-    window.GORDI_APP_BUILD = '2026.10.15.0100';
+    window.GORDI_APP_BUILD = '2026.10.15.0300';
     (function guardFreshBuild() {
       try {
         var current = window.GORDI_APP_BUILD;
@@ -56,9 +56,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/themes/dark.min.css">
 
   <!-- CSS principal -->
-  <link rel="stylesheet" href="styles/main.css?v=2026.10.15.0100">
+  <link rel="stylesheet" href="styles/main.css?v=2026.10.15.0300">
 
-  <!-- LibrerÃ­as externas -->
+  <!-- Librerías externas -->
   <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/es.min.js"></script>
@@ -68,10 +68,10 @@
 <!-- --  MMOVIL: overlay del sidebar --  -->
 <div id="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
-<!-- --  MMOVIL: botÃ³n hamburguesa --  -->
-<button id="mobile-menu-btn" onclick="openMobileSidebar()" aria-label="MenÃº">Menu</button>
+<!-- --  MMOVIL: botón hamburguesa --  -->
+<button id="mobile-menu-btn" onclick="openMobileSidebar()" aria-label="Menú">Menu</button>
 
-<!-- --  MMOVIL: barra de navegaciÃ³n inferior --  -->
+<!-- --  MMOVIL: barra de navegación inferior --  -->
 <nav id="mobile-bottom-nav" style="display:none">
   <button class="mob-nav-btn active" onclick="showView('dashboard');setMobileNav(this)" data-view="dashboard">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
@@ -95,7 +95,7 @@
   </button>
   <button class="mob-nav-btn" onclick="openMobileSidebar()" data-view="more">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
-    MÃ¡s
+    Más
   </button>
 </nav>
 
@@ -116,7 +116,7 @@
       </button>
       <select onchange="setFontSize(this.value)"
         style="background:var(--glass);border:1px solid var(--glass-border);color:var(--text-muted);border-radius:8px;padding:4px 6px;font-size:.72rem;cursor:pointer;flex:1">
-        <option value="0.9">PequeÃ±o</option>
+        <option value="0.9">Pequeño</option>
         <option value="1" selected>Normal</option>
         <option value="1.1">Grande</option>
       </select>
@@ -134,7 +134,7 @@
         </li>
         <li data-view="leads" onclick="showView('leads')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          GestiÃ³n de Leads
+          Gestión de Leads
           <span class="nav-badge" id="followup-badge" style="display:none">0</span>
         </li>
         <li data-view="kanban" onclick="showView('kanban')">
@@ -162,10 +162,10 @@
         </li>
         <li data-view="campaigns" onclick="showView('campaigns')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          CampaÃ±as
+          Campañas
         </li>
       </ul>
-      <div class="nav-group-label">ANÃLISIS</div>
+      <div class="nav-group-label">ANÁLISIS</div>
       <ul>
         <li data-view="tracking" onclick="showView('tracking')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -182,7 +182,7 @@
         </li>
         <li data-view="settings" onclick="showView('settings')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
-          ConfiguraciÃ³n
+          Configuración
         </li>
       </ul>
     </nav>
@@ -190,7 +190,7 @@
   <div class="sidebar-profile">
     <div class="profile-avatar">HA</div>
     <div>
-      <div class="profile-name">HÃ©ctor Alfredo</div>
+      <div class="profile-name">Héctor Alfredo</div>
       <div class="profile-role">Voltium Madrid</div>
     </div>
   </div>
@@ -277,17 +277,17 @@
       <div class="glass-panel">
         <div class="panel-header">
           <h3>Contactar Ahora</h3>
-          <span style="font-size:.72rem;color:var(--text-muted)">Ordenado por seÃ±ales reales</span>
+          <span style="font-size:.72rem;color:var(--text-muted)">Ordenado por señales reales</span>
         </div>
         <div id="top-leads-list"></div>
         <button class="btn-text" onclick="showView('leads')">Ver todos -></button>
       </div>
     </div>
 
-    <!-- Fila 2: MÃ©tricas de negocio (Nivel 6) -->
+    <!-- Fila 2: Métricas de negocio (Nivel 6) -->
     <div class="dash-grid" style="margin-top:1.5rem">
       <div class="glass-panel">
-        <div class="panel-header"><h3>MÃ©tricas de ConversiÃ³n</h3></div>
+        <div class="panel-header"><h3>Métricas de Conversión</h3></div>
         <div id="conversion-metrics" style="display:grid;gap:.75rem;margin-top:.5rem"></div>
       </div>
       <div class="glass-panel">
@@ -299,7 +299,7 @@
     <!-- Fila 3: Embudo + Pipeline Value -->
     <div class="dash-grid" style="margin-top:1.5rem">
       <div class="glass-panel">
-        <div class="panel-header"><h3> Embudo de ConversiÃ³n</h3></div>
+        <div class="panel-header"><h3> Embudo de Conversión</h3></div>
         <div id="funnel-chart" class="funnel-wrap"></div>
       </div>
       <div class="glass-panel">
@@ -321,7 +321,7 @@
         <div id="objectives-panel" style="margin-top:.5rem"></div>
       </div>
       <div class="glass-panel">
-        <div class="panel-header"><h3>Racha de ProspecciÃ³n</h3></div>
+        <div class="panel-header"><h3>Racha de Prospección</h3></div>
         <div id="streak-panel" style="margin-top:.5rem"></div>
         <div class="panel-header" style="margin-top:1rem"><h3>Actividad mensual</h3></div>
         <div id="heatmap-panel" style="margin-top:.5rem"></div>
@@ -337,20 +337,20 @@
       <div id="intel-content" style="margin-top:.75rem"></div>
     </div>
 
-    <!-- Fila 6: SeÃ±ales que predicen el cierre (MEJORA 5) -->
+    <!-- Fila 6: Señales que predicen el cierre (MEJORA 5) -->
     <div class="glass-panel" style="margin-top:1.5rem" id="signal-corr-panel">
       <div class="panel-header">
         <h3> Lo que funciona en tu mercado</h3>
-        <span style="font-size:.72rem;color:var(--text-muted)">SeÃ±ales que predicen el cierre en tu historial real</span>
+        <span style="font-size:.72rem;color:var(--text-muted)">Señales que predicen el cierre en tu historial real</span>
       </div>
       <div id="signal-corr-content" style="margin-top:.75rem"></div>
     </div>
 
-    <!-- Fila 7: EstadÃ­sticas diarias -->
+    <!-- Fila 7: Estadísticas diarias -->
     <div class="glass-panel" style="margin-top:1.5rem">
       <div class="panel-header">
-        <h3>Leads Procesados por DÃ­a</h3>
-        <span style="font-size:.72rem;color:var(--text-muted)">Ultimos 30 dÃ­as - efectividad diaria</span>
+        <h3>Leads Procesados por Día</h3>
+        <span style="font-size:.72rem;color:var(--text-muted)">Ultimos 30 días - efectividad diaria</span>
       </div>
       <div id="daily-stats-panel" style="margin-top:.75rem"></div>
     </div>
@@ -359,7 +359,7 @@
     <div class="glass-panel" style="margin-top:1.5rem">
       <div class="panel-header">
         <h3>Actividad Reciente</h3>
-        <a href="https://www.voltiummadrid.es/galer%c3%Ada" target="_blank" class="btn-outline btn-sm">Ver GalerÃ­a</a>
+        <a href="https://www.voltiummadrid.es/galer%c3%Ada" target="_blank" class="btn-outline btn-sm">Ver Galería</a>
       </div>
       <div id="recent-activity"></div>
     </div>
@@ -368,7 +368,7 @@
   <!-- ======================== LEADS ======================== -->
   <section id="leads-view" class="view">
     <div class="page-header">
-      <div><h1>GestiÃ³n de Leads</h1><p class="page-sub">AÃ±ade y gestiona tus contactos B2B</p></div>
+      <div><h1>Gestión de Leads</h1><p class="page-sub">Añade y gestiona tus contactos B2B</p></div>
       <div class="header-actions">
         <button class="btn-outline" onclick="showView('import')">+ Importar CSV / Excel</button>
         <button class="btn-primary" onclick="toggleLeadForm()">+ Nuevo Lead</button>
@@ -376,11 +376,11 @@
     </div>
 
     <div class="glass-panel collapsible" id="lead-form-panel" style="display:none;margin-bottom:1.5rem">
-      <div class="panel-header"><h3>Nuevo Lead EstratÃ©gico</h3><div style="display:flex;align-items:center;gap:.75rem"><span id="autosave-indicator" style="font-size:.7rem;color:var(--text-dim);display:none"><span id="autosave-text">Borrador guardado</span></span><button class="btn-icon" onclick="toggleLeadForm()">
+      <div class="panel-header"><h3>Nuevo Lead Estratégico</h3><div style="display:flex;align-items:center;gap:.75rem"><span id="autosave-indicator" style="font-size:.7rem;color:var(--text-dim);display:none"><span id="autosave-text">Borrador guardado</span></span><button class="btn-icon" onclick="toggleLeadForm()">
       <form id="lead-form" class="grid-form" style="margin-top:1.5rem">
         <div class="input-group">
           <label>Nombre del Decisor</label>
-          <input type="text" id="lead-name" placeholder="Ej: Carlos GarcÃ­a" required>
+          <input type="text" id="lead-name" placeholder="Ej: Carlos García" required>
         </div>
         <div class="input-group">
           <label>Empresa</label>
@@ -391,7 +391,7 @@
           <input type="email" id="lead-email" placeholder="carlos@empresa.com">
         </div>
         <div class="input-group">
-          <label>TelÃ©fono</label>
+          <label>Teléfono</label>
           <input type="text" id="lead-phone" placeholder="+34 600 000 000">
         </div>
         <div class="input-group">
@@ -407,11 +407,11 @@
           </select>
         </div>
         <div class="input-group">
-          <label>TamaÃ±o / Potencial</label>
+          <label>Tamaño / Potencial</label>
           <select id="lead-size">
-            <option value="grande">Grande > 500mÂ² (+30 pts)</option>
-            <option value="mediano">Mediano 100-500mÂ² (+15 pts)</option>
-            <option value="pequeÃ±o">PequeÃ±o < 100mÂ² (+5 pts)</option>
+            <option value="grande">Grande > 500m² (+30 pts)</option>
+            <option value="mediano">Mediano 100-500m² (+15 pts)</option>
+            <option value="pequeño">Pequeño < 100m² (+5 pts)</option>
           </select>
         </div>
         <div class="input-group">
@@ -419,8 +419,8 @@
           <input type="text" id="lead-website" placeholder="https://empresa.com">
         </div>
         <div class="input-group" style="grid-column:span 2">
-          <label>SeÃ±al Detectada (para personalizar el email)</label>
-          <textarea id="lead-signal" rows="3" placeholder="Ej: He visto que estÃ¡n ampliando oficinas en Calle Mayor..." required></textarea>
+          <label>Señal Detectada (para personalizar el email)</label>
+          <textarea id="lead-signal" rows="3" placeholder="Ej: He visto que están ampliando oficinas en Calle Mayor..." required></textarea>
         </div>
         <div class="input-group" style="grid-column:span 2">
           <label>Notas internas</label>
@@ -431,7 +431,7 @@
           <input type="number" id="lead-budget" placeholder="Ej: 25000" min="0">
         </div>
         <div class="input-group">
-          <label>PrÃ³ximo contacto</label>
+          <label>Próximo contacto</label>
           <div class="date-input-wrap">
             <input type="text" id="lead-next-contact" placeholder="Selecciona o escribe una fecha (AAAA-MM-DD)">
             <button type="button" class="cal-icon-btn" onclick="var fp=document.getElementById('lead-next-contact')._flatpickr;if(fp)fp.open();" title="Abrir calendario"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></button>
@@ -490,13 +490,13 @@
         <option value="No interesa">No interesa</option>
       </select>
       <select id="filter-source" onchange="renderLeads(); sfUpdateChips('leads')">
-        <option value="">Todos los orÃ­genes</option>
-        <option value="search">BÃºsqueda</option>
+        <option value="">Todos los orígenes</option>
+        <option value="search">Búsqueda</option>
         <option value="import">Importado</option>
         <option value="manual">Manual</option>
       </select>
       <select id="filter-score-min" onchange="renderLeads(); sfUpdateChips('leads')">
-        <option value="">Score mÃ­n.</option>
+        <option value="">Score mín.</option>
         <option value="25">Score 25+</option>
         <option value="50">Score 50+</option>
         <option value="70">Score 70+</option>
@@ -504,7 +504,7 @@
       </select>
       <select id="filter-date-range" onchange="renderLeads(); sfUpdateChips('leads')">
         <option value="">Cualquier fecha</option>
-        <option value="today">AÃ±adido hoy</option>
+        <option value="today">Añadido hoy</option>
         <option value="week">Esta semana</option>
         <option value="month">Este mes</option>
         <option value="3months">Ultimos 3 meses</option>
@@ -606,9 +606,9 @@
         <option value="Retail">Retail</option>
         <option value="Industrial">Industrial</option>
         <option value="Dental">Dental</option>
-        <option value="Medico">MÃ©dico</option>
-        <option value="Estetico">EstÃ©tico</option>
-        <option value="Hoteles">HotelerÃ­a</option>
+        <option value="Medico">Médico</option>
+        <option value="Estetico">Estético</option>
+        <option value="Hoteles">Hotelería</option>
         <option value="Cultural">Cultural</option>
         <option value="Deportivo">Deportivo</option>
         <option value="Comercial">Comercial</option>
@@ -705,7 +705,7 @@
       </div>
     </div>
 
-    <!-- Barra de bÃºsqueda -->
+    <!-- Barra de búsqueda -->
     <div class="glass-panel" style="margin-bottom:1.5rem">
       <div class="search-engine-bar">
         <div class="input-group" style="flex:1;min-width:160px">
@@ -714,10 +714,10 @@
         </div>
         <div class="input-group" style="flex:1.4;min-width:180px">
           <label>Ciudad / Zona / CP</label>
-          <input type="text" id="plan-location" placeholder="Ej: Madrid, AlcalÃ¡ de Henares, 28001..." oninput="clearRadiusCenter()">
+          <input type="text" id="plan-location" placeholder="Ej: Madrid, Alcalá de Henares, 28001..." oninput="clearRadiusCenter()">
         </div>
         <div class="input-group" style="flex:0.9;min-width:140px">
-          <label>Radio de bÃºsqueda</label>
+          <label>Radio de búsqueda</label>
           <div style="display:flex;align-items:center;gap:.5rem">
             <input type="range" id="plan-radius" min="1" max="50" step="1" value="10"
               oninput="document.getElementById('plan-radius-val').textContent=this.value+'km'"
@@ -729,7 +729,7 @@
         <div class="input-group" style="flex:0.7;min-width:120px">
           <label>Resultados</label>
           <select id="plan-max">
-            <option value="20" selected>20 empresas (rÃ¡pido)</option>
+            <option value="20" selected>20 empresas (rápido)</option>
             <option value="50">50 empresas</option>
             <option value="100">100 empresas</option>
             <option value="200">200 empresas</option>
@@ -770,15 +770,15 @@
           <div id="multi-sector-summary" style="margin-top:.65rem;font-size:.75rem;color:var(--text-muted)"></div>
         </div>
       </div>
-      <!-- MEJORA 5: BÃºsquedas guardadas -->
+      <!-- MEJORA 5: Búsquedas guardadas -->
       <div id="saved-searches-panel" style="margin-top:.75rem;display:none">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem">
-          <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);font-weight:600">BÃºsquedas guardadas</div>
+          <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);font-weight:600">Búsquedas guardadas</div>
           <button id="ss-compare-btn" onclick="openCompareModal()" style="display:none;background:rgba(167,139,250,.15);color:#a78bfa;border:1px solid rgba(167,139,250,.3);border-radius:6px;font-size:.65rem;font-weight:600;padding:.15rem .45rem;cursor:pointer"> Comparar</button>
         </div>
         <div class="ss-filter-wrap">
           <span class="ss-filter-icon">x</span>
-          <input class="ss-filter-input" id="ss-filter" type="text" placeholder="Filtrar bÃºsquedas..." oninput="filterSavedSearches(this.value)">
+          <input class="ss-filter-input" id="ss-filter" type="text" placeholder="Filtrar búsquedas..." oninput="filterSavedSearches(this.value)">
         </div>
         <div class="ss-count-badge">
           <span id="ss-count-label"></span>
@@ -791,13 +791,13 @@
       <div id="ss-compare-modal" onclick="if(event.target===this)closeCompareModal()">
         <div class="ss-compare-box">
           <div class="ss-compare-header">
-            <div style="font-weight:700;font-size:.95rem"> Comparar bÃºsquedas</div>
+            <div style="font-weight:700;font-size:.95rem"> Comparar búsquedas</div>
             <button onclick="closeCompareModal()" style="background:none;border:none;color:var(--text-muted);font-size:1.1rem;cursor:pointer">
           </div>
           <div id="ss-compare-content"></div>
         </div>
       </div>
-      <!-- BÃºsquedas recientes -->
+      <!-- Búsquedas recientes -->
       <div id="search-history-bar" class="search-history" style="margin-top:.5rem"></div>
 
       <!-- Pipeline de progreso -->
@@ -865,12 +865,12 @@
       <div class="enrich-stats-bar" id="enrich-stats-bar" style="display:none">
         <div class="enrich-stat"><span id="es-total">0</span><small>empresas</small></div>
         <div class="enrich-stat enrich-green"><span id="es-email">0</span><small>con email</small></div>
-        <div class="enrich-stat enrich-blue"><span id="es-phone">0</span><small>con telÃ©fono</small></div>
+        <div class="enrich-stat enrich-blue"><span id="es-phone">0</span><small>con teléfono</small></div>
         <div class="enrich-stat enrich-purple"><span id="es-social">0</span><small>con redes</small></div>
-        <div class="enrich-stat enrich-orange"><span id="es-desc">0</span><small>con descripciÃ³n</small></div>
+        <div class="enrich-stat enrich-orange"><span id="es-desc">0</span><small>con descripción</small></div>
       </div>
 
-      <!-- Panel de Inteligencia de SesiÃ³n (IA) -->
+      <!-- Panel de Inteligencia de Sesión (IA) -->
       <div id="session-intel-box" style="display:none;margin-bottom:1rem;padding:1rem 1.25rem;border-radius:12px;border:1px solid rgba(10,132,255,.25);background:linear-gradient(135deg,rgba(10,132,255,.06),rgba(94,92,230,.06));backdrop-filter:blur(8px)">
       </div>
 
@@ -932,7 +932,7 @@
             <select id="search-results-has" onchange="applyAdvancedFilters(); sfUpdateChips('search')">
               <option value="">Cualquier dato</option>
               <option value="email">Con email</option>
-              <option value="phone">Con telÃ©fono</option>
+              <option value="phone">Con teléfono</option>
               <option value="web">Con web</option>
               <option value="social">Con redes</option>
               <option value="decision">Con decisor</option>
@@ -943,32 +943,32 @@
           </div>
           <div class="sf-chips" id="search-sf-chips"></div>
         </div>
-        <!-- Filtros rÃ¡pidos de resultados -->
+        <!-- Filtros rápidos de resultados -->
         <div class="result-filters" id="result-filters" style="display:none;margin-top:1rem;flex-direction:column;gap:.6rem">
           <div style="display:flex;flex-wrap:wrap;gap:.4rem;align-items:center">
             <span style="font-size:.72rem;color:var(--text-muted);margin-right:.3rem">Filtrar:</span>
             <button class="rfilt active" onclick="filterResults('all',this)">Todos</button>
             <button class="rfilt" onclick="filterResults('email',this)">Con email</button>
-            <button class="rfilt" onclick="filterResults('phone',this)">Con telÃ©fono</button>
+            <button class="rfilt" onclick="filterResults('phone',this)">Con teléfono</button>
             <button class="rfilt" onclick="filterResults('social',this)">Con redes</button>
             <button class="rfilt" onclick="filterResults('noemail',this)">Aviso:ï¸ Sin email</button>
             <button class="rfilt" onclick="filterResults('decision',this)">Con decisor</button>
-            <button class="rfilt" onclick="filterResults('signals',this)">Con seÃ±ales</button>
+            <button class="rfilt" onclick="filterResults('signals',this)">Con señales</button>
             <button class="rfilt" onclick="filterResults('pain',this)">Aviso: Dolores web</button>
-            <button class="rfilt" onclick="filterResults('new_domain',this)"> â¬¢ Dominio reciente</button>
+            <button class="rfilt" onclick="filterResults('new_domain',this)"> ⬢ Dominio reciente</button>
             <button class="rfilt" onclick="filterResults('verified',this)">OK Verificada</button>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:.6rem;align-items:center">
-            <span style="font-size:.72rem;color:var(--text-muted)">Rating mÃ­n:</span>
+            <span style="font-size:.72rem;color:var(--text-muted)">Rating mín:</span>
             <input type="range" min="0" max="5" step="0.5" value="0" id="filter-rating-min"
               oninput="document.getElementById('filter-rating-val').textContent=this.value;applyAdvancedFilters()"
               style="width:80px;accent-color:var(--primary)">
             <span id="filter-rating-val" style="font-size:.72rem;color:var(--text)">0</span>
-            <span style="font-size:.72rem;color:var(--text-muted);margin-left:.5rem">ReseÃ±as mÃ­n:</span>
+            <span style="font-size:.72rem;color:var(--text-muted);margin-left:.5rem">Reseñas mín:</span>
             <input type="number" min="0" max="9999" value="0" id="filter-reviews-min"
               oninput="applyAdvancedFilters()"
               style="width:55px;background:var(--glass);border:1px solid var(--glass-border);border-radius:6px;padding:2px 6px;color:var(--text);font-size:.72rem">
-            <span style="font-size:.72rem;color:var(--text-muted);margin-left:.5rem">Dist. mÃ¡x:</span>
+            <span style="font-size:.72rem;color:var(--text-muted);margin-left:.5rem">Dist. máx:</span>
             <input type="range" min="1" max="50" step="1" value="50" id="filter-dist-max"
               oninput="document.getElementById('filter-dist-val').textContent=this.value+'km';applyAdvancedFilters()"
               style="width:70px;accent-color:var(--primary)">
@@ -1007,7 +1007,7 @@
           </div>
           <div id="ai-ranking-content" style="padding:.85rem 1.1rem">
             <div style="font-size:.78rem;color:var(--text-dim);text-align:center;padding:.5rem">
-              Pulsa <strong>Aviso: Analizar</strong> para que la IA identifique las 5 empresas con mayor potencial de conversiÃ³n.
+              Pulsa <strong>Aviso: Analizar</strong> para que la IA identifique las 5 empresas con mayor potencial de conversión.
             </div>
           </div>
         </div>
@@ -1024,7 +1024,7 @@
               <tr>
                 <th style="width:36px"><input type="checkbox" checked onclick="toggleAllSearch(this.checked)"></th>
                 <th>Empresa</th>
-                <th>TelÃ©fono</th>
+                <th>Teléfono</th>
                 <th>Email</th>
                 <th>Decisor</th>
                 <th>Redes</th>
@@ -1055,9 +1055,9 @@
     <div id="import-csv-tab" class="glass-panel import-tab-content">
       <div class="upload-zone" id="upload-zone" onclick="document.getElementById('csv-file-input').click()" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        <p><strong>Arrastra tu archivo aquÃ­</strong></p>
+        <p><strong>Arrastra tu archivo aquí</strong></p>
         <p style="font-size:0.85rem;color:var(--text-muted);margin-top:.5rem">o haz clic para seleccionar</p>
-        <p style="font-size:0.75rem;color:var(--text-muted);margin-top:.5rem">Formatos: CSV, TXT, XLS, XLSX Â· Columnas: Nombre, Empresa, Email, SeÃ±al, Segmento</p>
+        <p style="font-size:0.75rem;color:var(--text-muted);margin-top:.5rem">Formatos: CSV, TXT, XLS, XLSX · Columnas: Nombre, Empresa, Email, Señal, Segmento</p>
         <input type="file" id="csv-file-input" accept=".csv,.txt,.xls,.xlsx" style="display:none" onchange="handleFileSelect(event)">
       </div>
       <div id="csv-status" style="margin-top:1rem;font-size:0.88rem"></div>
@@ -1066,8 +1066,8 @@
     <!-- Paste -->
     <div id="import-paste-tab" class="glass-panel import-tab-content" style="display:none">
       <div class="input-group">
-        <label>Pega aquÃ­ tus datos (Nombre, Empresa, Email, SeÃ±al - separados por coma o tabulaciÃ³n)</label>
-        <textarea id="import-area" rows="10" placeholder="Javier GarcÃ­a, Oficinas Tech SL, javier@tech.com, Nueva sede en C/ Mayor&#10;MarÃ­a LÃ³pez, Retail Shop, maria@shop.es, Local en reforma&#10;..."></textarea>
+        <label>Pega aquí tus datos (Nombre, Empresa, Email, Señal - separados por coma o tabulación)</label>
+        <textarea id="import-area" rows="10" placeholder="Javier García, Oficinas Tech SL, javier@tech.com, Nueva sede en C/ Mayor&#10;María López, Retail Shop, maria@shop.es, Local en reforma&#10;..."></textarea>
       </div>
       <div style="margin-top:1rem;display:flex;gap:1rem">
         <button class="btn-primary" onclick="processBulkImport()">Previsualizar</button>
@@ -1088,7 +1088,7 @@
         <div style="margin-top:.5rem;font-size:.72rem;color:var(--text-muted)">Desmarca los duplicados en la tabla de abajo antes de importar.</div>
       </div>
       <div class="panel-header">
-        <h3>PrevisualizaciÃ³n <span id="import-status-msg" style="color:var(--primary);font-size:0.85rem;font-weight:400"></span></h3>
+        <h3>Previsualización <span id="import-status-msg" style="color:var(--primary);font-size:0.85rem;font-weight:400"></span></h3>
         <div style="display:flex;gap:.75rem">
           <label style="font-size:0.8rem;color:var(--text-muted)"><input type="checkbox" id="select-all-import" onclick="toggleAllImport(this.checked)" checked style="margin-right:4px">Todos</label>
           <button class="btn-primary btn-sm" onclick="importSelectedLeads()">Importar Seleccionados</button>
@@ -1100,7 +1100,7 @@
             <th style="width:40px"><input type="checkbox" checked onclick="toggleAllImport(this.checked)"></th>
             <th>Empresa / Contacto</th>
             <th>Email</th>
-            <th>TelÃ©fono</th>
+            <th>Teléfono</th>
             <th>Segmento</th>
             <th>Score</th>
           </tr>
@@ -1113,14 +1113,14 @@
   <!-- ======================== CAMPAAS ======================== -->
   <section id="campaigns-view" class="view">
     <div class="page-header">
-      <div><h1>Modo CampaÃ±a</h1><p class="page-sub">Agrupa leads y gestiona secuencias completas de emails</p></div>
-      <button class="btn-primary" onclick="openCampaignModal()">+ Nueva CampaÃ±a</button>
+      <div><h1>Modo Campaña</h1><p class="page-sub">Agrupa leads y gestiona secuencias completas de emails</p></div>
+      <button class="btn-primary" onclick="openCampaignModal()">+ Nueva Campaña</button>
     </div>
     <!-- Campaigns Smart Filter -->
     <div class="sf-bar">
       <div class="sf-search-wrap">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" id="campaigns-search" placeholder="Buscar campaÃ±a..." oninput="renderCampaigns(); sfUpdateChips('campaigns')">
+        <input type="text" id="campaigns-search" placeholder="Buscar campaña..." oninput="renderCampaigns(); sfUpdateChips('campaigns')">
       </div>
       <div class="sf-sort-wrap">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M7 12h10M11 18h2"/></svg>
@@ -1151,9 +1151,9 @@
         <option value="Retail">Retail</option>
         <option value="Industrial">Industrial</option>
         <option value="Dental">Dental</option>
-        <option value="Medico">MÃ©dico</option>
-        <option value="Estetico">EstÃ©tico</option>
-        <option value="Hoteles">HotelerÃ­a</option>
+        <option value="Medico">Médico</option>
+        <option value="Estetico">Estético</option>
+        <option value="Hoteles">Hotelería</option>
         <option value="Cultural">Cultural</option>
         <option value="Deportivo">Deportivo</option>
         <option value="Comercial">Comercial</option>
@@ -1162,8 +1162,8 @@
       </select>
       <select id="campaigns-filter-status" onchange="renderCampaigns(); sfUpdateChips('campaigns')">
         <option value="">Cualquier estado</option>
-        <option value="active">Con envÃ­os</option>
-        <option value="empty">Sin envÃ­os</option>
+        <option value="active">Con envíos</option>
+        <option value="empty">Sin envíos</option>
         <option value="complete">100% completadas</option>
       </select>
       <button onclick="resetCampaignsFilters()" class="sf-more-btn" style="color:var(--danger);border-color:rgba(239,68,68,.3)"> Limpiar</button>
@@ -1173,15 +1173,15 @@
         <div id="campaigns-list" class="campaigns-grid"></div>
     <div id="campaigns-empty" class="empty-state">
       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      <p>No hay campaÃ±as activas</p>
-      <button class="btn-primary" onclick="openCampaignModal()">Crear primera campaÃ±a</button>
+      <p>No hay campañas activas</p>
+      <button class="btn-primary" onclick="openCampaignModal()">Crear primera campaña</button>
     </div>
   </section>
 
   <!-- ======================== SEGUIMIENTO ======================== -->
   <section id="tracking-view" class="view">
     <div class="page-header">
-      <div><h1>Seguimiento de Emails</h1><p class="page-sub">Historial de contactos y estado de cada conversaciÃ³n</p></div>
+      <div><h1>Seguimiento de Emails</h1><p class="page-sub">Historial de contactos y estado de cada conversación</p></div>
       <button class="btn-outline" onclick="exportTracking()">Exportar CSV</button>
     </div>
     <!-- Tracking Smart Filter -->
@@ -1218,9 +1218,9 @@
         <option value="Retail">Retail</option>
         <option value="Industrial">Industrial</option>
         <option value="Dental">Dental</option>
-        <option value="Medico">MÃ©dico</option>
-        <option value="Estetico">EstÃ©tico</option>
-        <option value="Hoteles">HotelerÃ­a</option>
+        <option value="Medico">Médico</option>
+        <option value="Estetico">Estético</option>
+        <option value="Hoteles">Hotelería</option>
         <option value="Cultural">Cultural</option>
         <option value="Deportivo">Deportivo</option>
         <option value="Comercial">Comercial</option>
@@ -1256,7 +1256,7 @@
         <tbody id="tracking-body"></tbody>
       </table>
       <div id="tracking-empty" class="empty-state" style="display:none">
-        <p>No hay emails enviados aÃºn</p>
+        <p>No hay emails enviados aún</p>
       </div>
     </div>
   </section>
@@ -1267,7 +1267,7 @@
     <div class="page-header">
       <div>
         <h1>Bandeja de Outlook</h1>
-        <p class="page-sub">Pega emails recibidos - la IA detecta respuestas de tus leads y actualiza el CRM automÃ¡ticamente</p>
+        <p class="page-sub">Pega emails recibidos - la IA detecta respuestas de tus leads y actualiza el CRM automáticamente</p>
       </div>
       <div style="display:flex;gap:.6rem">
         <button class="btn-outline" id="inbox-clear-btn" onclick="clearInboxPaste()" style="display:none">Limpiar</button>
@@ -1279,24 +1279,24 @@
     <div class="glass-panel" style="margin-bottom:1.25rem">
       <div class="panel-header">
         <h3>Pegar emails</h3>
-        <span style="font-size:.72rem;color:var(--text-muted)">Selecciona varios emails en Outlook -> Ctrl+A -> Ctrl+C -> pega aquÃ­</span>
+        <span style="font-size:.72rem;color:var(--text-muted)">Selecciona varios emails en Outlook -> Ctrl+A -> Ctrl+C -> pega aquí</span>
       </div>
       <textarea id="inbox-paste-area"
         rows="10"
-        placeholder="Pega aquÃ­ el contenido de los emails recibidos de Outlook...
+        placeholder="Pega aquí el contenido de los emails recibidos de Outlook...
 
-Puedes pegar uno o varios emails a la vez. Voltflow2 detectarÃ¡ automÃ¡ticamente:
-â¬¢ El remitente (email + nombre)
-â¬¢ La fecha
-â¬¢ El asunto
-â¬¢ Un extracto del contenido
+Puedes pegar uno o varios emails a la vez. Voltflow2 detectará automáticamente:
+⬢ El remitente (email + nombre)
+⬢ La fecha
+⬢ El asunto
+⬢ Un extracto del contenido
 
-Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
+Y cruzará los remitentes con tus leads para actualizar el CRM."
         oninput="onInboxPaste(this)"
         style="width:100%;resize:vertical;font-size:.82rem;line-height:1.6;font-family:monospace;background:var(--bg3);border:1px solid var(--glass-border);border-radius:10px;padding:1rem;color:var(--text);margin-top:.75rem;box-sizing:border-box"
       ></textarea>
       <div id="inbox-paste-hint" style="font-size:.72rem;color:var(--text-dim);margin-top:.4rem;display:none">
-        <span id="inbox-char-count">0</span> caracteres detectados Â· Pulsa "Procesar con IA" para analizar
+        <span id="inbox-char-count">0</span> caracteres detectados · Pulsa "Procesar con IA" para analizar
       </div>
     </div>
 
@@ -1350,11 +1350,11 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
         </div>
         <div id="template-editor-body" style="margin-top:1.5rem">
           <div class="input-group" style="margin-bottom:1rem">
-            <label>Asunto del Email (VersiÃ³n A)</label>
+            <label>Asunto del Email (Versión A)</label>
             <input type="text" id="tpl-subject-a" placeholder="Asunto A/B test...">
           </div>
           <div class="input-group" style="margin-bottom:1rem">
-            <label>Asunto del Email (VersiÃ³n B)</label>
+            <label>Asunto del Email (Versión B)</label>
             <input type="text" id="tpl-subject-b" placeholder="Asunto alternativo...">
           </div>
           <div class="input-group">
@@ -1373,15 +1373,15 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
 
   <!-- ======================== SETTINGS ======================== -->
   <section id="settings-view" class="view">
-    <div class="page-header"><div><h1>ConfiguraciÃ³n</h1><p class="page-sub">Perfil, APIs y gestiÃ³n de datos</p></div></div>
+    <div class="page-header"><div><h1>Configuración</h1><p class="page-sub">Perfil, APIs y gestión de datos</p></div></div>
 
     <div class="glass-panel" style="margin-bottom:1.5rem">
       <div class="panel-header"><h3>Perfil Corporativo (Firma de Emails)</h3></div>
-      <p style="color:var(--text-muted);font-size:0.85rem;margin:1rem 0">Estos datos se insertan automÃ¡ticamente en todas las firmas.</p>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin:1rem 0">Estos datos se insertan automáticamente en todas las firmas.</p>
       <div class="grid-form">
         <div class="input-group">
           <label>Nombre Completo</label>
-          <input type="text" id="user-name-input" value="HÃ©ctor Alfredo Salazar">
+          <input type="text" id="user-name-input" value="Héctor Alfredo Salazar">
         </div>
         <div class="input-group">
           <label>Email de Contacto</label>
@@ -1392,7 +1392,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
           <input type="text" id="user-company-input" value="Voltium Madrid">
         </div>
         <div class="input-group">
-          <label>TelÃ©fono</label>
+          <label>Teléfono</label>
           <input type="text" id="user-phone-input" placeholder="+34 600 000 000">
         </div>
         <div class="input-group" style="grid-column:span 2">
@@ -1402,7 +1402,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
         <div class="input-group" style="grid-column:span 2">
           <label>Logo URL (para firma visual)</label>
           <input type="text" id="user-logo-input" placeholder="https://www.voltiummadrid.es/logo.png">
-          <small style="color:var(--text-muted);font-size:0.75rem">Pega la URL directa de tu logo. AparecerÃ¡ en la firma del email.</small>
+          <small style="color:var(--text-muted);font-size:0.75rem">Pega la URL directa de tu logo. Aparecerá en la firma del email.</small>
         </div>
       </div>
       <div style="margin-top:1.5rem;display:flex;gap:1rem;align-items:center">
@@ -1418,7 +1418,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
 
     <div class="glass-panel" style="margin-bottom:1.5rem">
       <div class="panel-header"><h3>API Key de Google Places</h3></div>
-      <p style="color:var(--text-muted);font-size:0.85rem;margin:1rem 0">Necesaria para buscar empresas reales. <a href="https://console.cloud.google.com" target="_blank" style="color:var(--primary)">Google Cloud Console</a> -> Habilita Â«Places API (New)Â».</p>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin:1rem 0">Necesaria para buscar empresas reales. <a href="https://console.cloud.google.com" target="_blank" style="color:var(--primary)">Google Cloud Console</a> -> Habilita «Places API (New)».</p>
       <div class="input-group">
         <input type="text" id="api-key-input" placeholder="AIzaSy...">
       </div>
@@ -1430,7 +1430,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
 
     <div class="glass-panel" style="margin-bottom:1.5rem">
       <div class="panel-header"><h3>API Key de Hunter.io</h3></div>
-      <p style="color:var(--text-muted);font-size:0.85rem;margin:1rem 0">Para buscar emails automÃ¡ticamente. <a href="https://hunter.io/users/sign_up" target="_blank" style="color:var(--primary)">Cuenta gratis</a> = 25 bÃºsquedas/mes.</p>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin:1rem 0">Para buscar emails automáticamente. <a href="https://hunter.io/users/sign_up" target="_blank" style="color:var(--primary)">Cuenta gratis</a> = 25 búsquedas/mes.</p>
       <div class="input-group">
         <input type="text" id="hunter-key-input" placeholder="Tu API Key de Hunter.io">
       </div>
@@ -1447,7 +1447,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
       </div>
       <p style="color:var(--text-muted);font-size:0.85rem;margin:1rem 0">
         Encuentra el decisor (nombre, cargo, email) de cada empresa.<br>
-        <strong style="color:var(--success)">50 crÃ©ditos/mes gratis</strong> sin tarjeta.<br>
+        <strong style="color:var(--success)">50 créditos/mes gratis</strong> sin tarjeta.<br>
         <a href="https://app.apollo.io/#/settings/integrations/api" target="_blank" style="color:var(--primary)">app.apollo.io -> Settings -> API</a> -> copia tu API Key.
       </p>
       <div class="input-group">
@@ -1462,12 +1462,12 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
     <div class="glass-panel" style="margin-bottom:1.5rem">
       <div class="panel-header">
         <h3>API Key de Gemini (IA de emails)</h3>
-        <span style="background:linear-gradient(135deg,#4285f4,#34a853);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:.75rem;font-weight:700">GRATIS TOTAL</span>
+        <span style="color:var(--warning);font-size:.75rem;font-weight:700">REQUIERE CONFIRMACION</span>
       </div>
       <p style="color:var(--text-muted);font-size:0.85rem;margin:1rem 0">
-        Genera emails hiperpersonalizados analizando las reseÃ±as reales de cada empresa.<br>
-        <strong style="color:var(--success)">100% gratuito</strong> - 1.500 peticiones/dÃ­a sin tarjeta de crÃ©dito.<br>
-        <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--primary)">aistudio.google.com/apikey</a> -> Get API Key -> Create API key (con tu cuenta Google).
+        Genera borradores personalizados con los datos disponibles de cada empresa.<br>
+        Solo se habilita tras confirmar en esta sesion que el proyecto esta en Gemini API Free Tier y sin facturacion vinculada.<br>
+        Modelo permitido: <code>gemini-2.5-flash-lite</code>. <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" style="color:var(--primary)">Abrir Google AI Studio</a>.
       </p>
       <div class="input-group">
         <input type="password" id="claude-key-input" placeholder="AIzaSy...">
@@ -1482,12 +1482,12 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
     <div class="glass-panel" style="margin-bottom:1.5rem">
       <div class="panel-header">
         <h3>Aviso: API Key de Groq (IA de respaldo)</h3>
-        <span style="background:linear-gradient(135deg,#f55036,#ff9500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:.75rem;font-weight:700">GRATIS Â· ULTRA-RÃPIDO</span>
+        <span style="color:var(--warning);font-size:.75rem;font-weight:700">REQUIERE CONFIRMACION</span>
       </div>
       <p style="color:var(--text-muted);font-size:0.85rem;margin:1rem 0">
-        Groq es un proveedor de IA gratuito con modelos de alta calidad (Llama 3.3 70B).<br>
-        Se activa <strong style="color:var(--success)">automÃ¡ticamente</strong> cuando Gemini alcanza su lÃ­mite diario - sin interrupciones para ti.<br>
-        <strong>14.400 peticiones/dÃ­a gratuitas.</strong> <a href="https://console.groq.com" target="_blank" style="color:var(--primary)">console.groq.com</a> -> API Keys -> Create API key (solo necesitas email).
+        Respaldo disponible exclusivamente para cuentas que sigan en Groq Free Plan.<br>
+        Modelo permitido: <code>openai/gpt-oss-20b</code>. La aplicacion usa limites propios mas bajos que los publicados y trata los 429 sin pasar a modelos de pago.<br>
+        <a href="https://console.groq.com" target="_blank" rel="noopener noreferrer" style="color:var(--primary)">Revisar cuenta y limites en Groq Console</a>.
       </p>
       <div class="input-group">
         <input type="password" id="groq-key-input" placeholder="gsk_...">
@@ -1502,12 +1502,12 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
     <div class="glass-panel" style="margin-bottom:1.5rem">
       <div class="panel-header">
         <h3> API Key de OpenRouter (IA de respaldo 2)</h3>
-        <span style="background:linear-gradient(135deg,#6366f1,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:.75rem;font-weight:700">GRATIS Â· 50+ MODELOS</span>
+        <span style="color:var(--warning);font-size:.75rem;font-weight:700">REQUIERE CONFIRMACION</span>
       </div>
       <p style="color:var(--text-muted);font-size:0.85rem;margin:1rem 0">
-        OpenRouter da acceso a 50+ modelos gratuitos y se usa como Ãºltimo respaldo.<br>
-        Se activa solo cuando Gemini y Groq estÃ¡n limitados - <strong style="color:var(--success)">totalmente transparente</strong> para ti.<br>
-        <a href="https://openrouter.ai" target="_blank" style="color:var(--primary)">openrouter.ai</a> -> Sign in -> Keys -> Create Key (solo email, sin tarjeta).
+        Ultimo respaldo mediante <code>openrouter/free</code>, que solo selecciona variantes gratuitas.<br>
+        Requiere confirmar que la cuenta esta en OpenRouter Free, sin creditos comprados, recarga automatica ni metodo de pago.<br>
+        <a href="https://openrouter.ai/settings/keys" target="_blank" rel="noopener noreferrer" style="color:var(--primary)">Revisar cuenta y claves en OpenRouter</a>.
       </p>
       <div class="input-group">
         <input type="password" id="openrouter-key-input" placeholder="sk-or-...">
@@ -1521,6 +1521,33 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
     <!-- --  Estado IA Multi-Proveedor --  -->
     <div class="glass-panel" style="margin-bottom:1.5rem;background:rgba(16,217,124,.04);border-color:rgba(16,217,124,.12)">
       <div class="panel-header"><h3>Estado IA en tiempo real</h3></div>
+      <label style="display:flex;align-items:center;gap:.5rem;margin:.6rem 0;font-size:.78rem;color:var(--text-muted)">
+        <input type="checkbox" id="ai-keys-session-only" checked disabled>
+        Las nuevas claves de IA se guardan solo durante esta sesion
+      </label>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.65rem;margin:.75rem 0">
+        <label style="font-size:.75rem;color:var(--text-muted)">Modo
+          <select id="ai-selection-mode" style="margin-top:.3rem;width:100%" onchange="updateAIControlVisibility()">
+            <option value="automatic">Automatico gratuito</option>
+            <option value="manual">Manual</option>
+          </select>
+        </label>
+        <label id="ai-manual-provider-wrap" style="font-size:.75rem;color:var(--text-muted);display:none">Proveedor permitido
+          <select id="ai-manual-provider" style="margin-top:.3rem;width:100%">
+            <option value="gemini">Gemini Free</option>
+            <option value="groq">Groq Free</option>
+            <option value="openrouter">OpenRouter Free</option>
+          </select>
+        </label>
+        <label style="font-size:.75rem;color:var(--text-muted)">Privacidad
+          <select id="ai-privacy-mode" style="margin-top:.3rem;width:100%">
+            <option value="business_minimal">Solo datos empresariales necesarios</option>
+            <option value="anonymous_only">Solo datos anonimizados</option>
+          </select>
+        </label>
+      </div>
+      <button class="btn-outline" style="font-size:.75rem" onclick="saveAIControlPreferences()">Guardar preferencias de IA</button>
+      <p style="font-size:.75rem;color:var(--warning);margin:.5rem 0">Una web estatica no puede proteger completamente una clave frente a XSS, extensiones o acceso al equipo. Ningun proveedor se habilita solo por guardar la clave.</p>
       <div id="ai-router-status" style="font-size:.82rem;color:var(--text-muted);margin-top:.5rem">
         <em>Cargando estado...</em>
       </div>
@@ -1530,22 +1557,22 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
     <!-- --  Alertas de Email --  -->
     <div class="glass-panel">
       <div class="panel-header">
-        <h3>Alertas de email automÃ¡ticas</h3>
+        <h3>Alertas de email automáticas</h3>
         <span id="email-alerts-connected-badge" style="display:none;background:rgba(16,217,124,.15);color:var(--success);border:1px solid rgba(16,217,124,.3);border-radius:8px;padding:2px 10px;font-size:.72rem;font-weight:700">OK Conectado</span>
       </div>
       <p style="color:var(--text-muted);font-size:.85rem;margin:.75rem 0">
         Recibe un email cuando el agente detecte leads urgentes, seguimientos vencidos o acciones importantes.
       </p>
 
-      <!-- Selector de mÃ©todo -->
+      <!-- Selector de método -->
       <div style="display:flex;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap">
         <button id="method-btn-emailjs" onclick="selectEmailMethod('emailjs')"
           style="flex:1;min-width:120px;padding:.6rem .75rem;border-radius:10px;border:2px solid var(--primary);background:rgba(10,132,255,.1);color:var(--primary);font-weight:700;font-size:.8rem;cursor:pointer;transition:all .15s">
-          Aviso: EmailJS <span style="display:block;font-size:.68rem;font-weight:400;color:var(--text-muted);margin-top:1px">Recomendado Â· 2 min</span>
+          Aviso: EmailJS <span style="display:block;font-size:.68rem;font-weight:400;color:var(--text-muted);margin-top:1px">Recomendado · 2 min</span>
         </button>
         <button id="method-btn-gmail" onclick="selectEmailMethod('gmail')"
           style="flex:1;min-width:120px;padding:.6rem .75rem;border-radius:10px;border:2px solid var(--glass-border);background:var(--glass);color:var(--text-muted);font-weight:600;font-size:.8rem;cursor:pointer;transition:all .15s">
-           Gmail OAuth <span style="display:block;font-size:.68rem;font-weight:400;margin-top:1px">Avanzado Â· 10 min</span>
+           Gmail OAuth <span style="display:block;font-size:.68rem;font-weight:400;margin-top:1px">Avanzado · 10 min</span>
         </button>
       </div>
 
@@ -1575,7 +1602,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
             <span style="background:var(--primary);color:#000;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:1px">3</span>
             <div style="font-size:.8rem">
               <strong>Crea una plantilla de email</strong>
-              <div style="color:var(--text-muted);font-size:.75rem;margin-top:2px">Email Templates -> Create New -> aÃ±ade variables <code style="background:rgba(99,102,241,.15);padding:1px 5px;border-radius:3px">{{subject}}</code> y <code style="background:rgba(99,102,241,.15);padding:1px 5px;border-radius:3px">{{message}}</code> -> copia el <strong>Template ID</strong>.</div>
+              <div style="color:var(--text-muted);font-size:.75rem;margin-top:2px">Email Templates -> Create New -> añade variables <code style="background:rgba(99,102,241,.15);padding:1px 5px;border-radius:3px">{{subject}}</code> y <code style="background:rgba(99,102,241,.15);padding:1px 5px;border-radius:3px">{{message}}</code> -> copia el <strong>Template ID</strong>.</div>
             </div>
           </div>
           <div style="display:flex;gap:.75rem;align-items:flex-start;padding:.6rem .75rem;background:var(--glass);border-radius:8px">
@@ -1590,7 +1617,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
         <!-- Inputs EmailJS -->
         <div style="display:grid;gap:.65rem;margin-bottom:.75rem">
           <div class="input-group">
-            <label>Tu email (donde recibirÃ¡s las alertas)</label>
+            <label>Tu email (donde recibirás las alertas)</label>
             <input type="email" id="ejs-to-email" placeholder="tu@gmail.com">
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem">
@@ -1618,7 +1645,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
       <!-- --  M0TODO GMAIL OAUTH (colapsado por defecto) --  -->
       <div id="gmail-oauth-setup" style="display:none">
         <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:.6rem .75rem;margin-bottom:.75rem;font-size:.78rem;color:var(--warning)">
-          Aviso:ï¸ Este mÃ©todo requiere crear un proyecto en Google Cloud Console. Usa EmailJS si quieres algo mÃ¡s rÃ¡pido.
+          Aviso:ï¸ Este método requiere crear un proyecto en Google Cloud Console. Usa EmailJS si quieres algo más rápido.
         </div>
         <div style="display:grid;gap:.65rem;margin-bottom:.75rem">
           <div class="input-group">
@@ -1644,10 +1671,10 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
         </div>
       </div>
 
-      <!-- Info cuÃ¡ndo avisa + toggle -->
+      <!-- Info cuándo avisa + toggle -->
       <div style="margin-top:1rem;padding:.75rem;background:var(--glass);border-radius:8px;font-size:.78rem;color:var(--text-dim)">
-        <strong>Â¿CuÃ¡ndo te avisa?</strong> Lead caliente sin contactar 3+ dÃ­as Â· Seguimientos vencidos Â·
-        Lead atascado en Visita 10+ dÃ­as Â· Resumen semanal los lunes Â· Acciones del agente completadas
+        <strong>¿Cuándo te avisa?</strong> Lead caliente sin contactar 3+ días · Seguimientos vencidos ·
+        Lead atascado en Visita 10+ días · Resumen semanal los lunes · Acciones del agente completadas
         <div style="margin-top:.5rem">
           <label style="display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.78rem">
             <input type="checkbox" id="gmail-alerts-enabled" onchange="toggleGmailAlerts(this.checked)"
@@ -1664,16 +1691,16 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
     <!-- -- QR SYNC PANEL -- -->
     <div class="glass-panel" style="margin-bottom:1.5rem;border:1px solid rgba(99,102,241,.3);box-shadow:0 0 0 3px rgba(99,102,241,.06)">
       <div class="panel-header" style="display:flex;align-items:center;justify-content:space-between">
-        <h3>SincronizaciÃ³n por QR</h3>
+        <h3>Sincronización por QR</h3>
         <span style="font-size:.7rem;font-weight:700;padding:.2rem .55rem;border-radius:6px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff">NUEVO</span>
       </div>
       <p style="color:var(--text-muted);font-size:.85rem;margin:.75rem 0 1rem">
-        Genera un QR en este dispositivo. EscanÃ©alo con cualquier otro y se configurarÃ¡ automÃ¡ticamente: API keys, perfil y Google Sheets.
+        Genera un QR en este dispositivo. Escanéalo con cualquier otro y se configurará automáticamente: API keys, perfil y Google Sheets.
       </p>
 
-      <!-- Opciones de quÃ© incluir -->
+      <!-- Opciones de qué incluir -->
       <div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem">
-        <label style="font-size:.78rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em">Â¿QuÃ© incluir en el QR?</label>
+        <label style="font-size:.78rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em">¿Qué incluir en el QR?</label>
         <div style="display:flex;flex-wrap:wrap;gap:.5rem">
           <label class="qr-check-label"><input type="checkbox" id="qr-inc-keys" checked> API Keys</label>
           <label class="qr-check-label"><input type="checkbox" id="qr-inc-profile" checked> Perfil corporativo</label>
@@ -1695,7 +1722,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
         <!-- Info y acciones -->
         <div style="flex:1;min-width:200px">
           <div id="qr-status" style="font-size:.8rem;color:var(--text-dim);margin-bottom:.75rem;line-height:1.6">
-            Haz clic en el cuadro para generar el cÃ³digo QR con tu configuraciÃ³n actual.
+            Haz clic en el cuadro para generar el código QR con tu configuración actual.
           </div>
           <div style="display:flex;gap:.5rem;flex-wrap:wrap">
             <button class="btn-primary" onclick="generateQR()" style="font-size:.8rem">Aviso: Generar QR</button>
@@ -1704,10 +1731,10 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
             <button class="btn-outline" id="qr-refresh-btn" onclick="generateQR()" style="font-size:.8rem;display:none">Regenerar</button>
           </div>
           <div id="qr-expire-info" style="font-size:.68rem;color:var(--text-dim);margin-top:.6rem;display:none">
-            â± El QR caduca en <span id="qr-expire-countdown" style="color:var(--primary);font-weight:700"></span>
+            ⏱ El QR caduca en <span id="qr-expire-countdown" style="color:var(--primary);font-weight:700"></span>
           </div>
           <div style="margin-top:.75rem;font-size:.72rem;color:var(--text-dim);line-height:1.6;padding:.55rem .7rem;background:rgba(99,102,241,.07);border-radius:8px;border:1px solid rgba(99,102,241,.2)">
-            <strong>Seguro:</strong> el QR solo funciona mientras esta pestaÃ±a estÃ© abierta. Las keys van cifradas.
+            <strong>Seguro:</strong> el QR solo funciona mientras esta pestaña esté abierta. Las keys van cifradas.
           </div>
         </div>
       </div>
@@ -1718,13 +1745,13 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
     <!-- --  GitHub Sync Panel --  -->
     <div class="glass-panel">
       <div class="panel-header">
-        <h3>GitHub - SincronizaciÃ³n automÃ¡tica (gratis e ilimitada)</h3>
+        <h3>GitHub - sincronización histórica bloqueada</h3>
         <span id="github-badge" style="font-size:.7rem;font-weight:700;padding:.2rem .55rem;border-radius:6px;background:rgba(16,217,124,.15);color:var(--success);display:none">Activo</span>
       </div>
       <p style="color:var(--text-muted);font-size:.85rem;margin:.75rem 0 1rem">
-        Guarda tus datos directamente en tu repositorio de GitHub. <strong>Gratis, ilimitado, sin caducidad.</strong><br>
+        La subida de datos está desactivada porque el formato anterior podía publicar credenciales y datos personales sin cifrado de extremo a extremo.<br>
         <strong>Setup (2 min):</strong>
-        <a href="https://github.com/settings/tokens/new?description=Voltflow2&scopes=repo" target="_blank" style="color:var(--primary)">Crear token aquÃ­</a>
+        <a href="https://github.com/settings/tokens/new?description=Voltflow2&scopes=repo" target="_blank" style="color:var(--primary)">Crear token aquí</a>
         -> selecciona scope <code style="background:var(--glass);padding:1px 5px;border-radius:4px">repo</code> -> copia el token.
       </p>
       <div style="display:grid;gap:.75rem;margin-bottom:1rem">
@@ -1748,48 +1775,53 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
       </div>
       <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap">
         <button class="btn-primary" onclick="saveGithubConfig()">Guardar y conectar</button>
-        <button class="btn-outline" onclick="githubPush(true)">  Subir ahora</button>
-        <button class="btn-outline" onclick="githubPull(true)"> Descargar ahora</button>
+        <button class="btn-outline" onclick="githubPush(true)" disabled>Subida bloqueada</button>
+        <button class="btn-outline" onclick="githubPull(true)" disabled>Descarga bloqueada</button>
         <div id="github-status" style="font-size:.82rem;color:var(--text-muted)"></div>
       </div>
       <div style="margin-top:1rem;display:flex;align-items:center;gap:.5rem">
         <label style="display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.82rem">
           <input type="checkbox" id="github-auto-sync" onchange="toggleGithubAuto(this.checked)"
             style="accent-color:var(--primary)">
-          SincronizaciÃ³n automÃ¡tica (sube al guardar, descarga al abrir)
+          Sincronización automática (sube al guardar, descarga al abrir)
         </label>
       </div>
     </div>
 
     <div class="glass-panel">
-      <div class="panel-header"><h3>GestiÃ³n de Datos</h3></div>
+      <div class="panel-header"><h3>Gestión de Datos</h3></div>
       <div style="font-size:.8rem;color:var(--text-muted);padding:.6rem .8rem;background:rgba(10,132,255,.05);border:1px solid rgba(10,132,255,.15);border-radius:8px;margin-top:.75rem;line-height:1.6"> <strong>Actualizaciones desde GitHub:</strong> GitHub debe usarse para actualizar los archivos, pero el trabajo diario debe abrirse siempre desde la misma URL de siempre.<br>
-        Si ya trabajas con <strong>app.html</strong> local, sigue con esa entrada. Si trabajas desde GitHub Pages, sigue con GitHub Pages. Cambiar entre GitHub Pages, localhost, file:// u otro puerto hace que el navegador use otro almacÃ©n.
+        Si ya trabajas con <strong>app.html</strong> local, sigue con esa entrada. Si trabajas desde GitHub Pages, sigue con GitHub Pages. Cambiar entre GitHub Pages, localhost, file:// u otro puerto hace que el navegador use otro almacén.
       </div>
       <div style="display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap">
         <button class="btn-outline" onclick="exportFilteredData()">Exportar leads (CSV)</button>
         <button class="btn-outline" onclick="exportTracking()">Exportar historial (CSV)</button>
-        <button class="btn-outline" onclick="exportFullBackup()">Backup completo (JSON)</button>
+        <button class="btn-primary" onclick="createSecureBackupNow()">Crear copia completa ahora</button>
+        <button class="btn-outline" onclick="document.getElementById('verify-secure-backup-file').click()">Comprobar copia</button>
         <button class="btn-primary" onclick="connectDiskBackupFolder()" title="Elige una carpeta del disco. Despues la app creara un backup automatico al dia mientras este abierta">Activar backup diario en disco</button>
         <button class="btn-outline" onclick="runDiskBackupNow(true, { requestPermission: true, force: true })" title="Crea ahora el backup de hoy en la carpeta autorizada">Crear backup diario ahora</button>
         <button class="btn-outline" onclick="disconnectDiskBackupFolder()" title="Quita el permiso guardado para la carpeta de backups">Desactivar backup en disco</button>
-        <button class="btn-outline" onclick="exportPortableData()" title="Genera un archivo que puedes importar en cualquier versiÃ³n de Voltflow2"> Exportar datos portÃ¡tiles</button>
-        <button class="btn-outline" onclick="openSafetySnapshotsModal()" title="Ver puntos de recuperaciÃ³n automÃ¡ticos antes de importaciones, restauraciones y sincronizaciones"> Snapshots de seguridad</button>
-        <button class="btn-outline" onclick="createSafetySnapshot('manual', { download: true })" title="Crea un snapshot ahora y descarga una copia fuera del navegador"> Snapshot manual</button>
+        <button class="btn-outline" onclick="exportPortableData()" title="Crea una copia completa cifrada compatible con la restauracion segura">Exportar datos cifrados</button>
+        <button class="btn-outline" onclick="openSafetySnapshotsModal()" title="Ver puntos de recuperación automáticos antes de importaciones, restauraciones y sincronizaciones"> Snapshots de seguridad</button>
+        <button class="btn-outline" onclick="createSafetySnapshot('manual')" title="Crea un punto de recuperacion interno en este navegador">Snapshot interno</button>
         <button class="btn-outline" onclick="showStorageDiagnostics()" title="Muestra la URL y los datos visibles para este navegador">Diagnosticar almacenamiento</button>
-        <button class="btn-outline" onclick="showCriticalRescueDiagnostics()" title="Muestra las copias crÃ­ticas automÃ¡ticas disponibles">Ver rescates crÃ­ticos</button>
-        <button class="btn-outline" onclick="exportLatestCriticalRescue()" title="Descarga la mejor copia crÃ­tica automÃ¡tica">Exportar rescate crÃ­tico</button>
+        <button class="btn-outline" onclick="showCriticalRescueDiagnostics()" title="Muestra las copias críticas automáticas disponibles">Ver rescates críticos</button>
+        <button class="btn-outline" onclick="createSecureBackupNow()" title="Cifra y descarga todos los datos actuales">Exportar rescate cifrado</button>
         <button class="btn-primary" onclick="migrateStorageToIndexedDB()" title="Copia los datos actuales a IndexedDB sin borrar localStorage. Recomendado antes de crecer mucho.">Activar almacenamiento grande</button>
-        <button class="btn-outline" onclick="openPasteRecoveryModal()" title="Pega un JSON exportado desde otra versiÃ³n o URL">Pegar backup JSON</button>
+        <button class="btn-outline" onclick="openPasteRecoveryModal()" title="Pega un JSON exportado desde otra versión o URL">Pegar backup JSON</button>
         <input type="file" id="import-portable-file" accept=".json" style="display:none" onchange="restoreBackup(event)">
-        <button class="btn-primary" onclick="openImportFromLocalStorage()" title="Lee los datos de Voltflow2 guardados en este navegador" style="display:flex;align-items:center;gap:.4rem">Importar desde versiÃ³n anterior</button>
-        <button class="btn-outline" onclick="document.getElementById('restore-file').click()">Restaurar backup</button>
+        <button class="btn-primary" onclick="openImportFromLocalStorage()" title="Lee los datos de Voltflow2 guardados en este navegador" style="display:flex;align-items:center;gap:.4rem">Importar desde versión anterior</button>
+        <button class="btn-primary" onclick="document.getElementById('historical-import-file').click()" title="Analiza y fusiona una copia anterior sin reemplazar el trabajo actual">Recuperar datos antiguos</button>
+        <button class="btn-outline" onclick="document.getElementById('restore-file').click()">Restaurar copia</button>
         <button class="btn-outline" onclick="cleanObsoleteLeads()">Limpiar leads obsoletos</button>
         <button class="btn-danger" onclick="clearAllLeads()">Borrar TODOS los leads</button>
-        <input type="file" id="restore-file" accept=".json" style="display:none" onchange="restoreBackup(event)">
+        <input type="file" id="verify-secure-backup-file" accept=".vfbackup,.json" style="display:none" onchange="verifySecureBackup(event)">
+        <input type="file" id="historical-import-file" accept=".vfbackup,.json" style="display:none" onchange="historicalImportFromFile(event)">
+        <input type="file" id="restore-file" accept=".vfbackup,.json" style="display:none" onchange="restoreBackup(event)">
       </div>
       <!-- Storage info -->
       <div style="margin-top:1.25rem">
+        <div id="secure-backup-status" style="margin-bottom:.9rem;padding:.8rem 1rem;border:1px solid var(--glass-border);border-radius:8px;background:rgba(255,255,255,.035);font-size:.8rem;color:var(--text-muted);line-height:1.6">Comprobando copias externas...</div>
         <div id="disk-backup-status" style="margin-bottom:.9rem;padding:.8rem 1rem;border:1px solid var(--glass-border);border-radius:10px;background:rgba(255,255,255,.035);font-size:.8rem;color:var(--text-muted)">Comprobando backup automatico en disco...</div>
         <div id="indexeddb-status" style="margin-bottom:.9rem;padding:.8rem 1rem;border:1px solid var(--glass-border);border-radius:10px;background:rgba(255,255,255,.035);font-size:.8rem;color:var(--text-muted)">IndexedDB: comprobando...</div>
         <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:.4rem" id="storage-info-text">Calculando espacio...</div>
@@ -1799,10 +1831,10 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
 
     <!-- PIN Protection -->
     <div class="glass-panel" style="margin-top:1.5rem">
-      <div class="panel-header"><h3>ProtecciÃ³n con PIN</h3></div>
-      <p style="color:var(--text-muted);font-size:.85rem;margin:1rem 0">PIN de 4 dÃ­gitos para proteger el acceso a Voltflow2. DÃ©jalo vacÃ­o para desactivarlo.</p>
+      <div class="panel-header"><h3>Protección con PIN</h3></div>
+      <p style="color:var(--text-muted);font-size:.85rem;margin:1rem 0">PIN de 4 dígitos para proteger el acceso a Voltflow2. Déjalo vacío para desactivarlo.</p>
       <div style="display:flex;gap:.75rem;align-items:center">
-        <input type="password" id="pin-input" maxlength="4" placeholder="4 dÃ­gitos" style="width:120px" oninput="this.value=this.value.replace(/\D/g,'')">
+        <input type="password" id="pin-input" maxlength="4" placeholder="4 dígitos" style="width:120px" oninput="this.value=this.value.replace(/\D/g,'')">
         <button class="btn-primary" onclick="savePin()">Guardar PIN</button>
         <button class="btn-outline" onclick="removePin()">Eliminar PIN</button>
         <div id="pin-status" style="font-size:.82rem"></div>
@@ -1836,13 +1868,13 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
 <div id="campaign-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeCampaignModal()">
   <div class="modal-box">
     <div class="modal-header">
-      <h3>Nueva CampaÃ±a</h3>
+      <h3>Nueva Campaña</h3>
       <button class="btn-icon" onclick="closeCampaignModal()">
     </div>
     <div style="padding:1.5rem">
       <div class="input-group" style="margin-bottom:1rem">
-        <label>Nombre de la CampaÃ±a</label>
-        <input type="text" id="camp-name" placeholder="Ej: CampaÃ±a Hoteles Madrid Q1">
+        <label>Nombre de la Campaña</label>
+        <input type="text" id="camp-name" placeholder="Ej: Campaña Hoteles Madrid Q1">
       </div>
       <div class="input-group" style="margin-bottom:1rem">
         <label>Segmento objetivo</label>
@@ -1856,11 +1888,11 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
         </select>
       </div>
       <div class="input-group" style="margin-bottom:1.5rem">
-        <label>DescripciÃ³n / Objetivo</label>
-        <textarea id="camp-desc" rows="3" placeholder="Objetivo de esta campaÃ±a..."></textarea>
+        <label>Descripción / Objetivo</label>
+        <textarea id="camp-desc" rows="3" placeholder="Objetivo de esta campaña..."></textarea>
       </div>
       <div style="display:flex;gap:1rem">
-        <button class="btn-primary" onclick="saveCampaign()">Crear CampaÃ±a</button>
+        <button class="btn-primary" onclick="saveCampaign()">Crear Campaña</button>
         <button class="btn-outline" onclick="closeCampaignModal()">Cancelar</button>
       </div>
     </div>
@@ -1875,7 +1907,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
         <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#5E5CE6,#0A84FF);display:flex;align-items:center;justify-content:center;font-size:1rem">S</div>
         <div>
           <h3 id="ai-modal-title">Generar email con IA</h3>
-          <div style="font-size:.72rem;color:var(--text-muted)" id="ai-modal-sub">Analizando reseÃ±as y generando email personalizado...</div>
+          <div style="font-size:.72rem;color:var(--text-muted)" id="ai-modal-sub">Analizando reseñas y generando email personalizado...</div>
         </div>
       </div>
       <button class="btn-icon" onclick="closeAiModal()">
@@ -1884,8 +1916,8 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
     <!-- --  Selector de punto de ataque --  -->
     <div id="ai-pain-picker" style="display:none;padding:1.5rem">
       <div style="margin-bottom:1rem">
-        <div style="font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.25rem">Â¿QuÃ© punto dÃ©bil quieres atacar?</div>
-        <div style="font-size:.75rem;color:var(--text-dim)">Hemos analizado la empresa. Elige el enfoque del email - la IA lo desarrollarÃ¡ en detalle.</div>
+        <div style="font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.25rem">¿Qué punto débil quieres atacar?</div>
+        <div style="font-size:.75rem;color:var(--text-dim)">Hemos analizado la empresa. Elige el enfoque del email - la IA lo desarrollará en detalle.</div>
       </div>
       <div id="ai-pain-options" style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.25rem"></div>
       <div style="display:flex;gap:.75rem">
@@ -1898,10 +1930,10 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
     <!-- Estado: cargando -->
     <div id="ai-loading" style="padding:2rem;text-align:center">
       <div class="ai-steps" id="ai-steps">
-        <div class="ai-step" id="aistep-reviews"><span class="ai-step-dot"></span><span class="ai-step-label">Leyendo reseÃ±as de Google...</span></div>
+        <div class="ai-step" id="aistep-reviews"><span class="ai-step-dot"></span><span class="ai-step-label">Leyendo reseñas de Google...</span></div>
         <div class="ai-step" id="aistep-scrape"><span class="ai-step-dot"></span><span class="ai-step-label">Rastreando web de la empresa...</span></div>
         <div class="ai-step" id="aistep-news"><span class="ai-step-dot"></span><span class="ai-step-label">Buscando noticias recientes...</span></div>
-        <div class="ai-step" id="aistep-analyze"><span class="ai-step-dot"></span><span class="ai-step-label">Analizando puntos fuertes y dÃ©biles...</span></div>
+        <div class="ai-step" id="aistep-analyze"><span class="ai-step-dot"></span><span class="ai-step-label">Analizando puntos fuertes y débiles...</span></div>
         <div class="ai-step" id="aistep-write"><span class="ai-step-dot"></span><span class="ai-step-label">Redactando email con copywriting...</span></div>
       </div>
     </div>
@@ -1950,10 +1982,10 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
         <textarea id="ai-body-out" style="display:none"></textarea>
       </div>
 
-      <!-- InstrucciÃ³n de pegado -->
+      <!-- Instrucción de pegado -->
       <div style="margin-bottom:1.25rem;padding:.6rem .9rem;background:rgba(16,217,124,0.06);border:1px solid rgba(16,217,124,0.2);border-radius:8px;font-size:.75rem;color:var(--text-muted);line-height:1.5">
-        <strong style="color:var(--success)">CÃ³mo enviar con formato:</strong>
-        Pulsa <strong>"Copiar con formato"</strong> -> abre Gmail/Outlook -> nuevo email -> pega con <strong>Ctrl+V</strong>. El formato (negritas, subrayados) se conserva automÃ¡ticamente.
+        <strong style="color:var(--success)">Cómo enviar con formato:</strong>
+        Pulsa <strong>"Copiar con formato"</strong> -> abre Gmail/Outlook -> nuevo email -> pega con <strong>Ctrl+V</strong>. El formato (negritas, subrayados) se conserva automáticamente.
       </div>
 
       <div style="display:flex;gap:.75rem;flex-wrap:wrap">
@@ -2032,7 +2064,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
   <div id="chat-messages"></div>
 
   <div class="chat-suggestions" id="chat-suggestions">
-    <button class="chat-sug" onclick="chatAsk('Dame el briefing del dÃ­a')">Briefing hoy</button>
+    <button class="chat-sug" onclick="chatAsk('Dame el briefing del día')">Briefing hoy</button>
     <button class="chat-sug" onclick="chatExecute('topLeads')">Leads prioritarios</button>
     <button class="chat-sug" onclick="generateWeeklyPlan()"> Plan semanal</button>
     <button class="chat-sug" onclick="toggleAgentMode()">Modo agente</button>
@@ -2063,7 +2095,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
       style="width:34px;height:34px;border-radius:8px;flex-shrink:0;background:var(--glass);
       border:1px solid var(--glass-border);cursor:pointer;display:flex;align-items:center;
       justify-content:center;font-size:.9rem;transition:all .2s;color:var(--text-muted)">
-    <textarea id="chat-input" placeholder="Pregunta, habla o di quÃ© mejorar..." rows="1"
+    <textarea id="chat-input" placeholder="Pregunta, habla o di qué mejorar..." rows="1"
       onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();chatSend()}"></textarea>
     <button id="chat-send" onclick="chatSend()">
   </div>
@@ -2137,8 +2169,8 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
       <div style="display:flex;align-items:center;gap:.75rem">
         <div style="width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:1rem">x</div>
         <div>
-          <div style="font-weight:700;font-size:.95rem">Importar desde versiÃ³n anterior</div>
-          <div style="font-size:.72rem;color:var(--text-muted)">Selecciona cÃ³mo quieres traer los datos</div>
+          <div style="font-weight:700;font-size:.95rem">Importar desde versión anterior</div>
+          <div style="font-size:.72rem;color:var(--text-muted)">Selecciona cómo quieres traer los datos</div>
         </div>
       </div>
       <button onclick="closeImportModal()" style="background:none;border:none;color:var(--text-muted);font-size:1.2rem;cursor:pointer;padding:4px 8px;border-radius:6px">
@@ -2191,7 +2223,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
   <div class="voice-box">
     <div class="voice-orb" id="voice-orb"></div>
     <h3 style="margin-bottom:.35rem">Registrar llamada por voz</h3>
-    <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:.75rem">Habla. Di la empresa, lo que pasÃ³ y quÃ© acordasteis. La IA lo convierte en nota estructurada.</p>
+    <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:.75rem">Habla. Di la empresa, lo que pasó y qué acordasteis. La IA lo convierte en nota estructurada.</p>
     <div class="voice-transcript" id="voice-transcript">Pulsa "Iniciar" y habla...</div>
     <div class="voice-result" id="voice-result"></div>
     <div style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap">
@@ -2212,10 +2244,10 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
       <h3>Escanear empresa</h3>
       <button onclick="closeScanModal()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem">S"</button>
     </div>
-    <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:.5rem">FotografÃ­a la fachada o el cartel. La IA extrae nombre, sector y crea el lead automÃ¡ticamente.</p>
+    <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:.5rem">Fotografía la fachada o el cartel. La IA extrae nombre, sector y crea el lead automáticamente.</p>
     <div class="scan-drop-zone" id="scan-drop-zone" onclick="document.getElementById('scan-file-input').click()">
       <div style="font-size:2rem;margin-bottom:.5rem">
-      <div style="font-size:.83rem;color:var(--text-muted)">Toca para abrir cÃ¡mara o seleccionar foto</div>
+      <div style="font-size:.83rem;color:var(--text-muted)">Toca para abrir cámara o seleccionar foto</div>
     </div>
     <input type="file" id="scan-file-input" accept="image/*" capture="environment" style="display:none" onchange="handleScanFile(this)">
     <img id="scan-preview" alt="preview">
@@ -2233,7 +2265,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
     <span style="font-size:1.5rem">Aviso:</span>
     <div style="flex:1">
       <h2 style="font-size:1.1rem;margin:0">Modo Enfoque</h2>
-      <div style="font-size:.75rem;color:var(--text-muted)" id="focus-subtitle">Los leads que necesitan tu atenciÃ³n ahora</div>
+      <div style="font-size:.75rem;color:var(--text-muted)" id="focus-subtitle">Los leads que necesitan tu atención ahora</div>
     </div>
     <button class="btn-outline" onclick="closeFocusMode()" style="white-space:nowrap"> Salir</button>
   </div>
@@ -2248,7 +2280,7 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
       <div style="width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#5E5CE6,#0A84FF);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0">x</div>
       <div style="flex:1;min-width:0">
         <h3 style="font-size:.92rem;margin:0" id="briefing-title">Briefing de visita</h3>
-        <div style="font-size:.72rem;color:var(--text-muted)" id="briefing-subtitle">PreparÃ¡ndote para la reuniÃ³n...</div>
+        <div style="font-size:.72rem;color:var(--text-muted)" id="briefing-subtitle">Preparándote para la reunión...</div>
       </div>
       <button onclick="closeBriefingModal()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem;padding:2px 6px">
     </div>
@@ -2267,15 +2299,15 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
       <div>
         <h3 style="font-size:.95rem;margin:0"> Voltflow2 Guardian</h3>
-        <div style="font-size:.72rem;color:var(--text-muted);margin-top:.2rem">Integridad del cÃ³digo verificada en cada carga</div>
+        <div style="font-size:.72rem;color:var(--text-muted);margin-top:.2rem">Integridad del código verificada en cada carga</div>
       </div>
       <button onclick="closeIntegrityModal()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem">
     </div>
     <div id="integrity-report"></div>
     <div style="margin-top:1rem;font-size:.7rem;color:var(--text-dim);border-top:1px solid var(--glass-border);padding-top:.6rem">
-      VersiÃ³n: <strong id="integrity-version">-</strong> &nbsp;Â·&nbsp; 
-      Funciones: <strong id="integrity-funccount">-</strong> &nbsp;Â·&nbsp;
-      Aviso:ltima verificaciÃ³n: <strong id="integrity-timestamp">-</strong>
+      Versión: <strong id="integrity-version">-</strong> &nbsp;·&nbsp; 
+      Funciones: <strong id="integrity-funccount">-</strong> &nbsp;·&nbsp;
+      Aviso:ltima verificación: <strong id="integrity-timestamp">-</strong>
     </div>
   </div>
 </div>
@@ -2411,26 +2443,31 @@ Y cruzarÃ¡ los remitentes con tus leads para actualizar el CRM."
     }, 20000);
   })();
 </script>
-<script defer src="modules/state.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/storage.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/email-templates.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/scoring.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/init.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/business-providers.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/search.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/leads.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/dashboard.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/ai-email.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/chat.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/ui.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/inbox.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/ai-router.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/coverage.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/misc.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/smart-import.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/disk-backup.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/workflow.js?v=2026.10.15.0100" charset="UTF-8"></script>
-<script defer src="modules/help-system.js?v=2026.10.15.0100" charset="UTF-8"></script>
+<script defer src="modules/write-coordinator.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/state.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/ai-security.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/storage.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/email-templates.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/scoring.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/init.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/secure-backup.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/historical-import.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/commercial-communications.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/business-providers.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/search.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/leads.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/dashboard.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/ai-email.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/chat.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/ui.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/inbox.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/ai-router.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/coverage.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/misc.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/smart-import.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/disk-backup.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/workflow.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/help-system.js?v=2026.10.15.0300" charset="UTF-8"></script>
 
 </body>
 </html>
