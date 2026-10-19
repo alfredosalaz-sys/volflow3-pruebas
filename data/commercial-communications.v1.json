@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "contractVersion": "1.2.0",
+  "prospectingProfileVersion": "1.0.0",
+  "taxonomyVersion": "1.1.0",
+  "maxConfirmedContactsPerSequence": 5,
+  "states": [
+    "DRAFT_CREATED",
+    "DRAFT_REVIEWED",
+    "DRAFT_APPROVED",
+    "EXTERNAL_CLIENT_OPENED",
+    "PENDING_SEND_CONFIRMATION",
+    "SENT_CONFIRMED",
+    "INBOUND_RECEIVED",
+    "CANCELLED",
+    "LEGACY_SENT_UNVERIFIED"
+  ],
+  "transitions": {
+    "DRAFT_CREATED": ["DRAFT_REVIEWED", "CANCELLED"],
+    "DRAFT_REVIEWED": ["DRAFT_CREATED", "DRAFT_APPROVED", "CANCELLED"],
+    "DRAFT_APPROVED": ["DRAFT_CREATED", "EXTERNAL_CLIENT_OPENED", "CANCELLED"],
+    "EXTERNAL_CLIENT_OPENED": ["PENDING_SEND_CONFIRMATION", "CANCELLED"],
+    "PENDING_SEND_CONFIRMATION": ["EXTERNAL_CLIENT_OPENED", "SENT_CONFIRMED", "CANCELLED"],
+    "SENT_CONFIRMED": [],
+    "INBOUND_RECEIVED": [],
+    "CANCELLED": [],
+    "LEGACY_SENT_UNVERIFIED": []
+  },
+  "sentCountingStates": ["SENT_CONFIRMED"],
+  "confirmationMethods": ["manual_explicit", "provider_verified"],
+  "providerConfirmationRequiredFields": ["provider", "providerMessageId", "verifiedAt"],
+  "manualConfirmationRequiredFields": ["confirmedBy", "confirmedAt", "confirmationId"],
+  "identity": {
+    "required": ["companyId", "establishmentId", "contactId"],
+    "optional": ["opportunityId", "sequenceId"],
+    "stableIdPattern": "^[a-z][a-z0-9-]*:[a-z0-9-]{6,}$",
+    "persistentReferencesRequired": true,
+    "verifiedEquivalencesPreserved": true,
+    "destructiveMigrationAllowed": false,
+    "establishmentsRemainDistinct": true,
+    "collisionMustBlock": true
+  },
+  "authorizationBinding": {
+    "required": ["channel", "target", "contactId", "purpose", "sourceId"],
+    "targetNormalizationRequired": true,
+    "legacyAuthorizationRequiresExplicitReview": true,
+    "targetChangeRequiresNewAuthorization": true,
+    "preservePreviousAuthorizations": true
+  },
+  "sequencePolicy": {
+    "scopeFields": ["companyId", "contactId", "purpose"],
+    "canonicalKeyRequired": true,
+    "storedKeyIsNotAuthority": true,
+    "deriveFromCanonicalIdentity": true,
+    "legacyEquivalencesSupported": true,
+    "countOnlyValidConfirmedRecords": true,
+    "enforceOnDraftCreation": true,
+    "enforceOnConfirmation": true,
+    "independentContactsAllowed": true,
+    "independentPurposesAllowed": true
+  },
+  "confirmationEvidence": {
+    "strictObjectRequired": true,
+    "validTimestampRequired": true,
+    "invalidEvidencePreservedUncounted": true,
+    "uniqueEventRequired": true,
+    "manualScopeFields": ["method", "confirmedBy", "confirmationId"],
+    "providerScopeFields": ["method", "provider", "providerAccountId", "providerMessageId"],
+    "duplicateAttemptPreservedUncounted": true
+  },
+  "commercialRestrictions": {
+    "allowedLegalBasisStatus": "allowed_for_purpose",
+    "blockingLegalBasisStatuses": ["unknown", "pending_review", "blocked"],
+    "doNotContactAlwaysBlocks": true,
+    "channelVerificationRequired": true,
+    "contactSourceRequired": true
+  },
+  "legacyCompatibility": {
+    "preserveOriginalRecord": true,
+    "ambiguousOutboundStatuses": ["Enviado", "Enviado (IA)"],
+    "normalizedState": "LEGACY_SENT_UNVERIFIED",
+    "countAsConfirmed": false
+  },
+  "humanControl": {
+    "individualReviewRequired": true,
+    "individualApprovalRequired": true,
+    "automaticSendAllowed": false,
+    "externalClientOpenConfirmsSend": false,
+    "elapsedTimeConfirmsSend": false,
+    "tabOrWindowCloseConfirmsSend": false
+  }
+}

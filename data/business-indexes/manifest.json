@@ -1,7 +1,52 @@
 {
-  "version": "2026.10.14.0200",
-  "generatedAt": "2026-10-14T13:40:29.233Z",
-  "description": "Manifest for browser-sized open-data business indexes. Empty by default; generate partitions with tools/build-business-index.cjs.",
+  "schemaVersion": 2,
+  "datasetRelease": "catalog-contract-e1.2-priority-segments",
+  "generatedAt": "2026-10-15T00:00:00.000Z",
+  "description": "Manifest v2 for browser-sized open-data business indexes. No new source is enabled by E1.",
+  "schema": { "file": "data/business-indexes/schema-v2.json", "version": "2.0.0" },
+  "taxonomyVersion": "1.1.0",
+  "geographyVersion": "1.0.0",
+  "taxonomy": { "file": "data/business-taxonomy.v1.json", "version": "1.1.0" },
+  "geography": { "file": "data/geography-es.v1.json", "version": "1.0.0" },
+  "limits": {
+    "maxManifestBytes": 256000,
+    "maxPartitionBytes": 1048576,
+    "maxPartitionRecords": 10000
+  },
+  "licenses": {
+    "overture-cdla-permissive-2-0": {
+      "name": "CDLA Permissive 2.0 with source-specific notices",
+      "url": "https://docs.overturemaps.org/attribution/",
+      "status": "requires_source_notices"
+    },
+    "foursquare-apache-2-0": {
+      "name": "Apache License 2.0 with Foursquare NOTICE",
+      "url": "https://github.com/foursquare/fsq-os-places",
+      "status": "requires_notice"
+    },
+    "madrid-cc-by-4-0": {
+      "name": "Creative Commons Attribution 4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/",
+      "status": "verified_for_current_sample"
+    },
+    "osm-odbl-1-0": {
+      "name": "Open Data Commons Open Database License 1.0",
+      "url": "https://www.openstreetmap.org/copyright",
+      "status": "requires_attribution"
+    },
+    "alltheplaces-unverified": {
+      "name": "Not approved until each output license is verified",
+      "url": "https://www.alltheplaces.xyz/",
+      "status": "blocked"
+    }
+  },
+  "attributions": {
+    "overture-contributors": { "text": "Overture Maps Foundation and source contributors" },
+    "foursquare-labs": { "text": "Foursquare Labs, Inc." },
+    "madrid-city-council": { "text": "Ayuntamiento de Madrid" },
+    "osm-geofabrik": { "text": "OpenStreetMap contributors / Geofabrik extract" },
+    "alltheplaces-sources": { "text": "AllThePlaces and original store sources" }
+  },
   "licenseMetadata": {
     "overture_places_static": {
       "license": "CDLA Permissive 2.0 / source-specific notices",
@@ -14,9 +59,9 @@
       "status": "pending_configuration"
     },
     "madrid_open_data_static": {
-      "license": "Open data municipal; verify current datos.madrid.es terms",
+      "license": "CC BY 4.0",
       "attribution": "Ayuntamiento de Madrid",
-      "status": "importable_dataset"
+      "status": "sample_index_generated"
     },
     "geofabrik_osm_static": {
       "license": "ODbL 1.0",
@@ -32,38 +77,56 @@
   "providers": {
     "overture_places_static": {
       "enabled": false,
+      "licenseId": "overture-cdla-permissive-2-0",
+      "attributionId": "overture-contributors",
       "partitions": []
     },
     "foursquare_os_places_static": {
       "enabled": false,
+      "licenseId": "foursquare-apache-2-0",
+      "attributionId": "foursquare-labs",
       "partitions": []
     },
     "madrid_open_data_static": {
       "enabled": true,
       "status": "sample_index_generated",
       "sourceResourceId": "200085-1-censo-locales",
+      "licenseId": "madrid-cc-by-4-0",
+      "attributionId": "madrid-city-council",
       "partitions": [
         {
           "file": "data/business-indexes/madrid_open_data_static/postal-28.json",
+          "sha256": "2275627a2a9f7d12b9ba981bb4e53d10211afc055a8615bc797696e6301d431b",
+          "bytes": 44036,
+          "recordCount": 29,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": ["28079"],
+          "sectorIds": ["dental", "accounting-advisory", "real-estate-agencies"],
+          "sectorFamilies": ["health-care", "professional-services", "property-services"],
+          "sourceUpdatedAt": "2026-10-13T00:00:00.000Z",
+          "generatedAt": "2026-10-14T13:40:29.232Z",
+          "licenseId": "madrid-cc-by-4-0",
+          "attributionId": "madrid-city-council",
           "postalPrefix": "28",
           "locality": "Madrid",
           "province": "Madrid",
-          "sectors": [
-            "Dental",
-            "Gestorias",
-            "Inmobiliarias"
-          ],
-          "count": 29,
-          "sha256": "2275627a2a9f7d12b9ba981bb4e53d10211afc055a8615bc797696e6301d431b"
+          "sectors": ["Dental", "Gestorias", "Inmobiliarias"],
+          "count": 29
         }
       ]
     },
     "geofabrik_osm_static": {
       "enabled": false,
+      "licenseId": "osm-odbl-1-0",
+      "attributionId": "osm-geofabrik",
       "partitions": []
     },
     "alltheplaces_static": {
       "enabled": false,
+      "licenseId": "alltheplaces-unverified",
+      "attributionId": "alltheplaces-sources",
       "partitions": []
     }
   }

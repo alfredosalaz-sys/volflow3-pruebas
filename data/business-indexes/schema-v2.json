@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://alfredosalaz-sys.github.io/Voltflow3/data/business-indexes/schema-v2.json",
+  "title": "Voltflow business catalog manifest v2",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schemaVersion",
+    "datasetRelease",
+    "generatedAt",
+    "schema",
+    "taxonomyVersion",
+    "geographyVersion",
+    "taxonomy",
+    "geography",
+    "limits",
+    "licenses",
+    "attributions",
+    "providers"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "datasetRelease": { "type": "string", "minLength": 1 },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "schema": { "$ref": "#/$defs/catalogReference" },
+    "taxonomyVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "geographyVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "taxonomy": { "$ref": "#/$defs/catalogReference" },
+    "geography": { "$ref": "#/$defs/catalogReference" },
+    "limits": {
+      "type": "object",
+      "required": ["maxManifestBytes", "maxPartitionBytes", "maxPartitionRecords"],
+      "properties": {
+        "maxManifestBytes": { "type": "integer", "minimum": 1, "maximum": 256000 },
+        "maxPartitionBytes": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "maxPartitionRecords": { "type": "integer", "minimum": 1, "maximum": 10000 }
+      }
+    },
+    "licenses": { "type": "object", "minProperties": 1 },
+    "attributions": { "type": "object", "minProperties": 1 },
+    "providers": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/provider" }
+    }
+  },
+  "$defs": {
+    "catalogReference": {
+      "type": "object",
+      "required": ["file", "version"],
+      "properties": {
+        "file": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" }
+      }
+    },
+    "provider": {
+      "type": "object",
+      "required": ["enabled", "licenseId", "attributionId", "partitions"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "licenseId": { "type": "string", "minLength": 1 },
+        "attributionId": { "type": "string", "minLength": 1 },
+        "partitions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/partition" }
+        }
+      }
+    },
+    "partition": {
+      "type": "object",
+      "required": [
+        "file",
+        "sha256",
+        "bytes",
+        "recordCount",
+        "country",
+        "provinceCode",
+        "municipalityCodes",
+        "sectorIds",
+        "sectorFamilies",
+        "sourceUpdatedAt",
+        "generatedAt",
+        "licenseId",
+        "attributionId"
+      ],
+      "properties": {
+        "file": { "type": "string", "pattern": "^data/business-indexes/" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "recordCount": { "type": "integer", "minimum": 0, "maximum": 10000 },
+        "country": { "const": "ES" },
+        "provinceCode": { "type": "string", "pattern": "^[0-9]{2}$" },
+        "municipalityCodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^[0-9]{5}$" }
+        },
+        "sectorIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }
+        },
+        "sectorFamilies": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }
+        },
+        "sourceUpdatedAt": { "type": "string", "format": "date-time" },
+        "generatedAt": { "type": "string", "format": "date-time" },
+        "licenseId": { "type": "string", "minLength": 1 },
+        "attributionId": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

@@ -1,0 +1,2960 @@
+{
+  "schema": "voltflow-persistence-contract",
+  "schemaVersion": 1,
+  "generatedAt": "build:2026.10.15.0300",
+  "sourceDigest": "93241cfa502484d31f52925b1983fd3a64fa0829f04b5fc203cf295096557320",
+  "classifications": {
+    "critical": "Datos de negocio e historial que no pueden regenerarse.",
+    "secret": "Credenciales, tokens, contraseñas y material de autenticación.",
+    "configuration": "Preferencias y configuración transportable.",
+    "recreatable": "Caché o marcadores que deben reconstruirse desde datos reales.",
+    "non_transportable": "Permisos y handles que Chrome exige reautorizar."
+  },
+  "rules": {
+    "unknownFields": "preserve",
+    "importedReadyMarkers": "discard_and_rebuild",
+    "sessionSecrets": "include_only_with_explicit_consent_and_restore_to_session",
+    "fileSystemHandles": "never_serialize_reauthorize_manually",
+    "cloudSnapshots": "deny_unencrypted"
+  },
+  "literalKeys": [
+    {
+      "storage": "localStorage",
+      "key": "_gordi_app_build",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "app.html",
+          "line": 16
+        },
+        {
+          "file": "app.html",
+          "line": 17
+        },
+        {
+          "file": "app.html",
+          "line": 42
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "_voltflow_idb_manifest",
+      "classification": "recreatable",
+      "references": [
+        {
+          "file": "modules/storage.js",
+          "line": 529
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "_voltflow_last_auto_rescue",
+      "classification": "recreatable",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 756
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "_voltflow_last_idb_load_error",
+      "classification": "recreatable",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 226
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "_voltflow_last_idb_write_error",
+      "classification": "recreatable",
+      "references": [
+        {
+          "file": "modules/storage.js",
+          "line": 376
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "_voltflow_last_large_snapshot_skip",
+      "classification": "recreatable",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 628
+        },
+        {
+          "file": "modules/init.js",
+          "line": 697
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "_voltflow_last_migration",
+      "classification": "recreatable",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1070
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "_voltflow_last_version",
+      "classification": "recreatable",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1068
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1071
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1559
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1568
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1854
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "_voltflow_pending_write_recovery",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/storage.js",
+          "line": 87
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "_voltflow_restore_transaction",
+      "classification": "recreatable",
+      "references": [
+        {
+          "file": "modules/secure-backup.js",
+          "line": 659
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_api_key",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/ai-email.js",
+          "line": 806
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 1640
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 204
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1915
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 2164
+        },
+        {
+          "file": "modules/inbox.js",
+          "line": 618
+        },
+        {
+          "file": "modules/inbox.js",
+          "line": 943
+        },
+        {
+          "file": "modules/inbox.js",
+          "line": 986
+        },
+        {
+          "file": "modules/inbox.js",
+          "line": 1036
+        },
+        {
+          "file": "modules/inbox.js",
+          "line": 1268
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1044
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1157
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1654
+        },
+        {
+          "file": "modules/search.js",
+          "line": 1215
+        },
+        {
+          "file": "modules/search.js",
+          "line": 1266
+        },
+        {
+          "file": "modules/search.js",
+          "line": 2368
+        },
+        {
+          "file": "modules/search.js",
+          "line": 3948
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4038
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4185
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 602
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1628
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_api_log",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ui.js",
+          "line": 1417
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1420
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1426
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1429
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_apollo_key",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 1642
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 204
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 2167
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 3051
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1213
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1674
+        },
+        {
+          "file": "modules/search.js",
+          "line": 3499
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4818
+        },
+        {
+          "file": "modules/search.js",
+          "line": 5129
+        },
+        {
+          "file": "modules/search.js",
+          "line": 5364
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_auto_backup",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ui.js",
+          "line": 1344
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1347
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_backup_export_reminded",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ui.js",
+          "line": 1349
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1350
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_campaigns",
+      "classification": "critical",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1875
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1033
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 595
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 735
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1310
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_chat_history",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 2059
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 2063
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 2196
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_chat_memory",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 2052
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 2055
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_claude_key",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 1644
+        },
+        {
+          "file": "modules/state.js",
+          "line": 39
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_commercial_memory",
+      "classification": "critical",
+      "references": [
+        {
+          "file": "modules/search.js",
+          "line": 5500
+        },
+        {
+          "file": "modules/search.js",
+          "line": 5508
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_coverage_active_mission",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/coverage.js",
+          "line": 7
+        },
+        {
+          "file": "modules/coverage.js",
+          "line": 123
+        },
+        {
+          "file": "modules/help-system.js",
+          "line": 178
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_coverage_daily_plan",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/coverage.js",
+          "line": 3
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_coverage_events",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/coverage.js",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_coverage_filter",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/coverage.js",
+          "line": 4
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_coverage_lead_filter",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/coverage.js",
+          "line": 8
+        },
+        {
+          "file": "modules/leads.js",
+          "line": 109
+        },
+        {
+          "file": "modules/leads.js",
+          "line": 117
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_coverage_targets",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/coverage.js",
+          "line": 2
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_coverage_update_tour",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/help-system.js",
+          "line": 9
+        },
+        {
+          "file": "modules/help-system.js",
+          "line": 417
+        },
+        {
+          "file": "modules/help-system.js",
+          "line": 425
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_coverage_view_mode",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/coverage.js",
+          "line": 6
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_critical_rescue_snapshots",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 370
+        },
+        {
+          "file": "modules/init.js",
+          "line": 674
+        },
+        {
+          "file": "modules/init.js",
+          "line": 682
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_custom_proxy",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 2168
+        },
+        {
+          "file": "modules/search.js",
+          "line": 900
+        },
+        {
+          "file": "modules/search.js",
+          "line": 940
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_daily_copilot_agenda",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/misc.js",
+          "line": 1407
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 1412
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_daily_copilot_last_run",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/misc.js",
+          "line": 1408
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 1495
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_disk_backup_db",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/disk-backup.js",
+          "line": 6
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_disk_backup_enabled",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/disk-backup.js",
+          "line": 10
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 163
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 189
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 215
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 225
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 248
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_disk_backup_last_date",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/disk-backup.js",
+          "line": 11
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 147
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 148
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 164
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 193
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 249
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_disk_backup_last_error",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/disk-backup.js",
+          "line": 14
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 89
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 90
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_disk_backup_last_file",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/disk-backup.js",
+          "line": 13
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 165
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 250
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_disk_backup_last_status",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/disk-backup.js",
+          "line": 12
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 88
+        },
+        {
+          "file": "modules/disk-backup.js",
+          "line": 247
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_ecache_",
+      "classification": "recreatable",
+      "references": [
+        {
+          "file": "modules/search.js",
+          "line": 2587
+        },
+        {
+          "file": "modules/search.js",
+          "line": 128
+        },
+        {
+          "file": "modules/search.js",
+          "line": 135
+        },
+        {
+          "file": "modules/search.js",
+          "line": 1189
+        },
+        {
+          "file": "modules/search.js",
+          "line": 1193
+        },
+        {
+          "file": "modules/search.js",
+          "line": 1207
+        },
+        {
+          "file": "modules/search.js",
+          "line": 2588
+        },
+        {
+          "file": "modules/search.js",
+          "line": 2593
+        },
+        {
+          "file": "modules/search.js",
+          "line": 2624
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_ejs_key",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/misc.js",
+          "line": 839
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 867
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 891
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 903
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_ejs_service",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/misc.js",
+          "line": 837
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 865
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 891
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 901
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_ejs_template",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/misc.js",
+          "line": 838
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 866
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 902
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_ejs_to",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/misc.js",
+          "line": 836
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 868
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 900
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_email_history",
+      "classification": "critical",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1874
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1032
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 594
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 734
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1309
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_email_method",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/misc.js",
+          "line": 841
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 861
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 911
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 918
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_enrich_cache",
+      "classification": "recreatable",
+      "references": [
+        {
+          "file": "modules/search.js",
+          "line": 864
+        },
+        {
+          "file": "modules/search.js",
+          "line": 871
+        },
+        {
+          "file": "modules/search.js",
+          "line": 876
+        },
+        {
+          "file": "modules/search.js",
+          "line": 881
+        },
+        {
+          "file": "modules/search.js",
+          "line": 888
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_filters",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 2868
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 2873
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_font_scale",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 102
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 10
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_gemini_key",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 1643
+        },
+        {
+          "file": "modules/state.js",
+          "line": 39
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_gh_auto",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1725
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1733
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1742
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1829
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1908
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1630
+        },
+        {
+          "file": "modules/leads.js",
+          "line": 97
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_gh_last_pull",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1854
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1882
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_gh_last_push",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1787
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1855
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_gh_repo",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1706
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1724
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_gh_token",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1704
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1722
+        },
+        {
+          "file": "modules/init.js",
+          "line": 934
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1629
+        },
+        {
+          "file": "modules/leads.js",
+          "line": 97
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_gh_user",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1705
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1723
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_gmail_client_id",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1334
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1351
+        },
+        {
+          "file": "app.html",
+          "line": 1659
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_gmail_client_secret",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1335
+        },
+        {
+          "file": "app.html",
+          "line": 1664
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_gmail_email",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1333
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1389
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 840
+        },
+        {
+          "file": "app.html",
+          "line": 1654
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_gmail_enabled",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1346
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1370
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1387
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1458
+        },
+        {
+          "file": "app.html",
+          "line": 1682
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_gmail_token",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1364
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1380
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1877
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 892
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_gmail_token_ts",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1365
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1381
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_groq_key",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1201
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 1472
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_historical_indexeddb_quarantine",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/historical-import.js",
+          "line": 16
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_hunter_key",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 1641
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 204
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 2166
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 3034
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1044
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1158
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1666
+        },
+        {
+          "file": "modules/search.js",
+          "line": 3438
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4817
+        },
+        {
+          "file": "modules/search.js",
+          "line": 5128
+        },
+        {
+          "file": "modules/search.js",
+          "line": 5363
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_incorporated_files_archive",
+      "classification": "critical",
+      "references": [
+        {
+          "file": "modules/secure-backup.js",
+          "line": 13
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_indexeddb_ready",
+      "classification": "recreatable",
+      "references": [
+        {
+          "file": "modules/storage.js",
+          "line": 208
+        },
+        {
+          "file": "modules/storage.js",
+          "line": 528
+        },
+        {
+          "file": "modules/storage.js",
+          "line": 649
+        },
+        {
+          "file": "modules/storage.js",
+          "line": 654
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_intentional_empty_leads_at",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 371
+        },
+        {
+          "file": "modules/init.js",
+          "line": 738
+        },
+        {
+          "file": "modules/init.js",
+          "line": 743
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_jsonbin_auto",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/dashboard.js",
+          "line": 640
+        },
+        {
+          "file": "modules/dashboard.js",
+          "line": 705
+        },
+        {
+          "file": "modules/init.js",
+          "line": 117
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1226
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1342
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1376
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1419
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1641
+        },
+        {
+          "file": "modules/leads.js",
+          "line": 100
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_jsonbin_bin",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1220
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1328
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1362
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1382
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1425
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1527
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_jsonbin_key",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 934
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1219
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1322
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1381
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1424
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1526
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_jsonbin_last_push",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1404
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1446
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_last_backup",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ui.js",
+          "line": 1337
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1340
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_last_briefing_email",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1470
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1472
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_last_build_change_check",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/secure-backup.js",
+          "line": 666
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_last_external_backup_created",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ui.js",
+          "line": 926
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 971
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_last_external_backup_verified",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/disk-backup.js",
+          "line": 166
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 949
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 972
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_last_historical_import_report",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ui.js",
+          "line": 1189
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_last_maintenance",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1653
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1654
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_last_overdue_email",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1477
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1481
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_last_safety_snapshot",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 369
+        },
+        {
+          "file": "modules/init.js",
+          "line": 663
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_last_seen_build",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/secure-backup.js",
+          "line": 658
+        },
+        {
+          "file": "modules/secure-backup.js",
+          "line": 674
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_last_verified_restore",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ui.js",
+          "line": 973
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_last_weekly_email",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1488
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1489
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_lead_form_draft",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/misc.js",
+          "line": 611
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 630
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 644
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 648
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 667
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_leads",
+      "classification": "critical",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1873
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1915
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1031
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1128
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1454
+        },
+        {
+          "file": "modules/leads.js",
+          "line": 60
+        },
+        {
+          "file": "modules/leads.js",
+          "line": 78
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 593
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 733
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1308
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_light_mode",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 99
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1667
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_local_last_modified",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1853
+        },
+        {
+          "file": "modules/leads.js",
+          "line": 74
+        },
+        {
+          "file": "modules/secure-backup.js",
+          "line": 351
+        },
+        {
+          "file": "modules/secure-backup.js",
+          "line": 372
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_manual_state",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/help-system.js",
+          "line": 11
+        },
+        {
+          "file": "modules/help-system.js",
+          "line": 571
+        },
+        {
+          "file": "modules/help-system.js",
+          "line": 573
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_map_geocode_cache",
+      "classification": "recreatable",
+      "references": [
+        {
+          "file": "modules/inbox.js",
+          "line": 931
+        },
+        {
+          "file": "modules/inbox.js",
+          "line": 934
+        },
+        {
+          "file": "modules/inbox.js",
+          "line": 938
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_multi_sector_selection",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/coverage.js",
+          "line": 1500
+        },
+        {
+          "file": "modules/search.js",
+          "line": 301
+        },
+        {
+          "file": "modules/search.js",
+          "line": 309
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_objectives",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 30
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 191
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1311
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_openrouter_key",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1206
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 1472
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_pin",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/ui.js",
+          "line": 546
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 561
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 562
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 565
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_places_field_mode",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/search.js",
+          "line": 1511
+        },
+        {
+          "file": "modules/search.js",
+          "line": 1565
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_professional_update_tour",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/help-system.js",
+          "line": 10
+        },
+        {
+          "file": "modules/help-system.js",
+          "line": 746
+        },
+        {
+          "file": "modules/help-system.js",
+          "line": 754
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_radar_last_run",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/misc.js",
+          "line": 1158
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_reddit_history",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/reddit.js",
+          "line": 267
+        },
+        {
+          "file": "modules/reddit.js",
+          "line": 268
+        },
+        {
+          "file": "modules/reddit.js",
+          "line": 270
+        },
+        {
+          "file": "modules/reddit.js",
+          "line": 279
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_referenced_files_archive",
+      "classification": "critical",
+      "references": [
+        {
+          "file": "modules/secure-backup.js",
+          "line": 14
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_safety_snapshots",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 368
+        },
+        {
+          "file": "modules/init.js",
+          "line": 612
+        },
+        {
+          "file": "modules/init.js",
+          "line": 620
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_saved_searches",
+      "classification": "critical",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 1382
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 1388
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 1391
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 1393
+        },
+        {
+          "file": "modules/coverage.js",
+          "line": 342
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1035
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 320
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 1137
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 1336
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_search_coverage",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/coverage.js",
+          "line": 1
+        },
+        {
+          "file": "modules/coverage.js",
+          "line": 88
+        },
+        {
+          "file": "modules/coverage.js",
+          "line": 92
+        },
+        {
+          "file": "modules/coverage.js",
+          "line": 341
+        },
+        {
+          "file": "modules/coverage.js",
+          "line": 380
+        },
+        {
+          "file": "modules/coverage.js",
+          "line": 380
+        },
+        {
+          "file": "modules/help-system.js",
+          "line": 172
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 321
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_search_history",
+      "classification": "critical",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1034
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 319
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 357
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_sheets_client_id",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 1660
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 1869
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1190
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 1058
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4548
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4602
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_sheets_id",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 740
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 795
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 837
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 854
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 969
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 1659
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 1868
+        },
+        {
+          "file": "modules/init.js",
+          "line": 934
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1189
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 1057
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4522
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4601
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_sheets_last_sync",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 785
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 836
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_sheets_token",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 741
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 796
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 854
+        },
+        {
+          "file": "modules/ai-router.js",
+          "line": 970
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1191
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4523
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4565
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4581
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4603
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4613
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_sheets_token_expiry",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 965
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4566
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4582
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4587
+        },
+        {
+          "file": "modules/search.js",
+          "line": 4614
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_streak",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ui.js",
+          "line": 253
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 260
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 265
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_templates",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 1666
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1144
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1312
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_tts",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 1545
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1579
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 1878
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_tutorial_done",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 94
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1461
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_user_company",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 1651
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1164
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1577
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_user_email",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 1650
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1163
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1576
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_user_logo",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1167
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1580
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_user_name",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 1649
+        },
+        {
+          "file": "modules/init.js",
+          "line": 948
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1045
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1162
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1575
+        },
+        {
+          "file": "modules/misc.js",
+          "line": 1188
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 604
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_user_phone",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 1652
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1165
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1578
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_user_web",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 1653
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1166
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1579
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_workflow_audit_log",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/workflow.js",
+          "line": 8
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_workflow_restore_points",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/help-system.js",
+          "line": 175
+        },
+        {
+          "file": "modules/workflow.js",
+          "line": 7
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "gordi_zero_cost_",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/search.js",
+          "line": 47
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "voltflow_diagnostics",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 128
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "key": "voltium_search_history",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/search-history.js",
+          "line": 7
+        },
+        {
+          "file": "modules/search-history.js",
+          "line": 12
+        },
+        {
+          "file": "modules/search-history.js",
+          "line": 17
+        },
+        {
+          "file": "modules/search-history.js",
+          "line": 232
+        }
+      ]
+    },
+    {
+      "storage": "sessionStorage",
+      "key": "_voltflow_storage_notice_dismissed",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 988
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1018
+        }
+      ]
+    },
+    {
+      "storage": "sessionStorage",
+      "key": "gordi_coverage_update_tour_snoozed",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/help-system.js",
+          "line": 325
+        },
+        {
+          "file": "modules/help-system.js",
+          "line": 411
+        }
+      ]
+    },
+    {
+      "storage": "sessionStorage",
+      "key": "gordi_ecache_",
+      "classification": "recreatable",
+      "references": [
+        {
+          "file": "modules/search.js",
+          "line": 128
+        },
+        {
+          "file": "modules/search.js",
+          "line": 134
+        }
+      ]
+    },
+    {
+      "storage": "sessionStorage",
+      "key": "gordi_gemini_key",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1682
+        },
+        {
+          "file": "modules/state.js",
+          "line": 36
+        }
+      ]
+    },
+    {
+      "storage": "sessionStorage",
+      "key": "gordi_groq_key",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1692
+        }
+      ]
+    },
+    {
+      "storage": "sessionStorage",
+      "key": "gordi_openrouter_key",
+      "classification": "secret",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1702
+        }
+      ]
+    },
+    {
+      "storage": "sessionStorage",
+      "key": "gordi_professional_update_tour_snoozed",
+      "classification": "configuration",
+      "references": [
+        {
+          "file": "modules/help-system.js",
+          "line": 684
+        },
+        {
+          "file": "modules/help-system.js",
+          "line": 740
+        }
+      ]
+    }
+  ],
+  "dynamicPatterns": [
+    {
+      "storage": "localStorage",
+      "pattern": "_voltflow_notice_seen_*",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1853
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "pattern": "<dynamic:k>",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 393
+        },
+        {
+          "file": "modules/init.js",
+          "line": 394
+        },
+        {
+          "file": "modules/init.js",
+          "line": 395
+        },
+        {
+          "file": "modules/search.js",
+          "line": 2635
+        },
+        {
+          "file": "modules/search.js",
+          "line": 2640
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 642
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "pattern": "<dynamic:key>",
+      "references": [
+        {
+          "file": "modules/chat.js",
+          "line": 2419
+        },
+        {
+          "file": "modules/chat.js",
+          "line": 2469
+        },
+        {
+          "file": "modules/coverage.js",
+          "line": 22
+        },
+        {
+          "file": "modules/coverage.js",
+          "line": 30
+        },
+        {
+          "file": "modules/init.js",
+          "line": 387
+        },
+        {
+          "file": "modules/init.js",
+          "line": 447
+        },
+        {
+          "file": "modules/init.js",
+          "line": 530
+        },
+        {
+          "file": "modules/init.js",
+          "line": 863
+        },
+        {
+          "file": "modules/init.js",
+          "line": 864
+        },
+        {
+          "file": "modules/init.js",
+          "line": 891
+        },
+        {
+          "file": "modules/init.js",
+          "line": 898
+        },
+        {
+          "file": "modules/init.js",
+          "line": 907
+        },
+        {
+          "file": "modules/init.js",
+          "line": 916
+        },
+        {
+          "file": "modules/init.js",
+          "line": 936
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1119
+        },
+        {
+          "file": "modules/storage.js",
+          "line": 47
+        },
+        {
+          "file": "modules/storage.js",
+          "line": 52
+        },
+        {
+          "file": "modules/storage.js",
+          "line": 168
+        },
+        {
+          "file": "modules/storage.js",
+          "line": 310
+        },
+        {
+          "file": "modules/storage.js",
+          "line": 333
+        },
+        {
+          "file": "modules/storage.js",
+          "line": 500
+        },
+        {
+          "file": "modules/storage.js",
+          "line": 506
+        },
+        {
+          "file": "modules/storage.js",
+          "line": 552
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 778
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 779
+        },
+        {
+          "file": "modules/ui.js",
+          "line": 1304
+        },
+        {
+          "file": "modules/workflow.js",
+          "line": 17
+        },
+        {
+          "file": "modules/workflow.js",
+          "line": 27
+        },
+        {
+          "file": "modules/workflow.js",
+          "line": 106
+        },
+        {
+          "file": "modules/workflow.js",
+          "line": 130
+        },
+        {
+          "file": "modules/workflow.js",
+          "line": 170
+        },
+        {
+          "file": "modules/workflow.js",
+          "line": 371
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "pattern": "<dynamic:noticeKey>",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1563
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "pattern": "<dynamic:statsKey>",
+      "references": [
+        {
+          "file": "modules/search.js",
+          "line": 2494
+        },
+        {
+          "file": "modules/search.js",
+          "line": 2499
+        }
+      ]
+    },
+    {
+      "storage": "sessionStorage",
+      "pattern": "<dynamic:storageKey>",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 423
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "pattern": "<dynamic:storageKey>",
+      "references": [
+        {
+          "file": "modules/ai-router.js",
+          "line": 427
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "pattern": "<dynamic:thisVersionKey>",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1025
+        },
+        {
+          "file": "modules/init.js",
+          "line": 1028
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "pattern": "gordi_query_stats_*",
+      "references": [
+        {
+          "file": "modules/search.js",
+          "line": 1744
+        }
+      ]
+    },
+    {
+      "storage": "localStorage",
+      "pattern": "gordi_user_*",
+      "references": [
+        {
+          "file": "modules/init.js",
+          "line": 1610
+        }
+      ]
+    }
+  ],
+  "indexedDB": [
+    {
+      "name": "gordi_disk_backup_db",
+      "expression": "DB_NAME",
+      "versions": [
+        "DB_VERSION"
+      ],
+      "references": [
+        {
+          "file": "modules/disk-backup.js",
+          "line": 27
+        }
+      ]
+    },
+    {
+      "name": "VoltflowRestoreStaging",
+      "expression": "STAGING_DB",
+      "versions": [
+        "1"
+      ],
+      "references": [
+        {
+          "file": "modules/secure-backup.js",
+          "line": 492
+        }
+      ]
+    },
+    {
+      "name": "VoltiumCRM",
+      "expression": "DB_NAME",
+      "versions": [
+        "DB_VERSION"
+      ],
+      "references": [
+        {
+          "file": "modules/storage.js",
+          "line": 109
+        }
+      ]
+    }
+  ],
+  "supportedFormats": [
+    {
+      "id": "secure_v1",
+      "restore": "transactional",
+      "secrets": "AES-256-GCM"
+    },
+    {
+      "id": "auto_disk_daily",
+      "restore": "legacy_review_required",
+      "secrets": "may_be_plaintext"
+    },
+    {
+      "id": "full_backup_2_9_4",
+      "restore": "legacy_review_required",
+      "secrets": "may_be_plaintext"
+    },
+    {
+      "id": "portable",
+      "restore": "legacy_review_required",
+      "secrets": "may_be_plaintext"
+    },
+    {
+      "id": "safety_snapshot",
+      "restore": "legacy_review_required",
+      "secrets": "may_be_plaintext"
+    },
+    {
+      "id": "legacy_full",
+      "restore": "legacy_review_required",
+      "secrets": "partial"
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "profileVersion": "1.0.0",
+  "taxonomyVersion": "1.1.0",
+  "purpose": "Prospeccion de reformas, obras, rehabilitacion y mantenimiento",
+  "runtimeEnabled": false,
+  "zeroCostRequired": true,
+  "profiles": [
+    {
+      "id": "community-property-management",
+      "label": "Administradores de fincas y comunidades",
+      "sectorId": "property-management",
+      "priority": 1,
+      "commercialRoles": ["direct-client"],
+      "searchTerms": ["administrador de fincas", "administradora de fincas", "administracion de fincas", "administracion de comunidades", "gestoria de fincas", "gestion de comunidades"],
+      "requiredAnyTerms": ["finca", "fincas", "comunidad", "comunidades", "propiedad inmobiliaria"],
+      "excludedTerms": ["gestoria administrativa", "asesoria fiscal", "asesoria laboral", "asesoria contable"],
+      "serviceAngles": ["mantenimiento de comunidades", "rehabilitacion de edificios", "reformas de zonas comunes", "obras y reparaciones"],
+      "sourceSearchMappings": {
+        "osm": { "status": "candidate", "include": ["office=property_management"] },
+        "cnae": { "status": "requires-etl-validation", "include": ["6832"] },
+        "madrid_open_data": { "status": "requires-etl-validation", "includeText": ["gestion y administracion de la propiedad inmobiliaria"] },
+        "barcelona_open_data": { "status": "requires-etl-validation", "includeText": ["gestio i administracio de la propietat immobiliaria"] },
+        "overture": { "status": "requires-source-taxonomy-validation", "include": [] }
+      }
+    },
+    {
+      "id": "technical-architect-prescriber",
+      "label": "Aparejadores y arquitectos tecnicos",
+      "sectorId": "technical-architects",
+      "priority": 1,
+      "commercialRoles": ["collaborator", "prescriber"],
+      "searchTerms": ["aparejador", "aparejadora", "arquitecto tecnico", "arquitecta tecnica", "estudio de arquitectura tecnica", "direccion de ejecucion de obra", "coordinacion de seguridad y salud"],
+      "requiredAnyTerms": ["aparejador", "aparejadora", "arquitecto tecnico", "arquitecta tecnica", "arquitectura tecnica", "ejecucion de obra"],
+      "excludedTerms": [],
+      "serviceAngles": ["colaboracion en ejecucion de obra", "presupuestos de reforma", "rehabilitacion", "mantenimiento tecnico"],
+      "sourceSearchMappings": {
+        "osm": { "status": "broad-candidate", "include": ["office=architect"] },
+        "cnae": { "status": "broad-candidate", "include": ["7111"] },
+        "madrid_open_data": { "status": "requires-etl-validation", "includeText": ["arquitectura tecnica", "aparejador"] },
+        "barcelona_open_data": { "status": "requires-etl-validation", "includeText": ["arquitectura tecnica", "aparellador"] },
+        "overture": { "status": "requires-source-taxonomy-validation", "include": [] }
+      }
+    },
+    {
+      "id": "architect-prescriber",
+      "label": "Arquitectos, despachos y estudios",
+      "sectorId": "architects",
+      "priority": 1,
+      "commercialRoles": ["collaborator", "prescriber"],
+      "searchTerms": ["arquitecto", "arquitecta", "despacho de arquitectura", "estudio de arquitectura", "oficina de arquitectura"],
+      "requiredAnyTerms": ["arquitecto", "arquitecta", "arquitectura"],
+      "excludedTerms": ["arquitectura tecnica"],
+      "serviceAngles": ["colaboracion en reformas", "ejecucion de proyectos", "rehabilitacion", "mantenimiento de inmuebles"],
+      "sourceSearchMappings": {
+        "osm": { "status": "candidate", "include": ["office=architect"] },
+        "cnae": { "status": "broad-candidate", "include": ["7111"] },
+        "madrid_open_data": { "status": "requires-etl-validation", "includeText": ["servicios tecnicos de arquitectura"] },
+        "barcelona_open_data": { "status": "requires-etl-validation", "includeText": ["serveis tecnics d'arquitectura"] },
+        "overture": { "status": "requires-source-taxonomy-validation", "include": [] }
+      }
+    },
+    {
+      "id": "real-estate-commercial",
+      "label": "Inmobiliarias y servicios inmobiliarios",
+      "sectorId": "real-estate-agencies",
+      "priority": 1,
+      "commercialRoles": ["direct-client", "prescriber"],
+      "searchTerms": ["inmobiliaria", "agencia inmobiliaria", "servicios inmobiliarios", "intermediacion inmobiliaria", "consultoria inmobiliaria"],
+      "requiredAnyTerms": ["inmobiliaria", "inmobiliario", "inmobiliarios", "estate agent"],
+      "excludedTerms": ["administracion de comunidades", "asesoria fiscal"],
+      "serviceAngles": ["reformas para venta o alquiler", "puesta a punto de inmuebles", "mantenimiento", "rehabilitacion"],
+      "sourceSearchMappings": {
+        "osm": { "status": "candidate", "include": ["office=estate_agent"] },
+        "cnae": { "status": "requires-etl-validation", "include": ["6831"] },
+        "madrid_open_data": { "status": "requires-etl-validation", "includeText": ["agentes de la propiedad inmobiliaria"] },
+        "barcelona_open_data": { "status": "requires-etl-validation", "includeText": ["agents de la propietat immobiliaria"] },
+        "overture": { "status": "requires-source-taxonomy-validation", "include": [] }
+      }
+    },
+    {
+      "id": "property-asset-management",
+      "label": "Gestion patrimonial y de inmuebles",
+      "sectorId": "property-management",
+      "priority": 1,
+      "commercialRoles": ["direct-client"],
+      "searchTerms": ["gestion patrimonial", "gestion de inmuebles", "gestion inmobiliaria patrimonial", "property management", "asset management inmobiliario"],
+      "requiredAnyTerms": ["gestion patrimonial", "gestion de inmuebles", "property management", "asset management inmobiliario"],
+      "excludedTerms": ["asesoria patrimonial fiscal", "gestion de patrimonio financiero", "gestoria administrativa"],
+      "serviceAngles": ["mantenimiento de cartera inmobiliaria", "reformas de activos", "rehabilitacion", "obras de adecuacion"],
+      "sourceSearchMappings": {
+        "osm": { "status": "candidate", "include": ["office=property_management"] },
+        "cnae": { "status": "requires-etl-validation", "include": ["6832"] },
+        "madrid_open_data": { "status": "requires-etl-validation", "includeText": ["gestion y administracion de la propiedad inmobiliaria"] },
+        "barcelona_open_data": { "status": "requires-etl-validation", "includeText": ["gestio i administracio de la propietat immobiliaria"] },
+        "overture": { "status": "requires-source-taxonomy-validation", "include": [] }
+      }
+    }
+  ],
+  "disambiguation": {
+    "specificTermsOverrideGeneric": true,
+    "requestedSectorIsEvidence": false,
+    "administrativeConsultancy": {
+      "sectorId": "accounting-advisory",
+      "positiveTerms": ["gestoria administrativa", "asesoria fiscal", "asesoria laboral", "asesoria contable"],
+      "negativeTerms": ["administrador de fincas", "administracion de fincas", "administracion de comunidades", "gestoria de fincas", "gestion patrimonial", "gestion de inmuebles"]
+    },
+    "propertyManagement": {
+      "sectorId": "property-management",
+      "positiveTerms": ["administrador de fincas", "administracion de fincas", "administracion de comunidades", "gestoria de fincas", "gestion patrimonial", "gestion de inmuebles"],
+      "negativeTerms": ["gestoria administrativa", "asesoria fiscal", "asesoria laboral", "asesoria contable"]
+    }
+  },
+  "contactDataContract": {
+    "fields": ["corporatePhone", "corporateEmail", "website", "responsiblePerson", "responsibleRole"],
+    "requiredMetadata": ["sourceId", "sourceUrl", "obtainedAt", "confidence", "verificationStatus"],
+    "confidenceValues": ["high", "medium", "low", "unknown"],
+    "rules": [
+      "No inventar valores ni inferir correos.",
+      "Priorizar canales corporativos publicados legitimamente.",
+      "Una persona responsable y su cargo solo se registran desde una fuente publica profesional y con revision juridica aplicable.",
+      "Un dato sin procedencia y fecha no cuenta como contacto util.",
+      "La ausencia de un dato se conserva como desconocida; no se completa con IA."
+    ]
+  },
+  "measurementContract": {
+    "requiredMetrics": ["companiesFound", "uniqueEstablishments", "usefulContacts", "decisionMakersIdentified", "personalizedEmailsPrepared"],
+    "usefulContactDefinition": "Empresa con al menos un canal corporativo verificable, vigente y trazable.",
+    "decisionMakerDefinition": "Persona y cargo obtenidos de fuente publica profesional, con procedencia y fecha.",
+    "preparedEmailDefinition": "Borrador personalizado generado o editado, revisado y aprobado antes de abrir Outlook; no equivale a envio."
+  },
+  "emailPolicy": {
+    "aiMayUseOnlyVerifiedFields": true,
+    "unknownFieldsMustRemainUnknown": true,
+    "individualReviewRequired": true,
+    "individualApprovalRequired": true,
+    "outboundClient": "outlook-user-action",
+    "automaticSendingAllowed": false,
+    "legalChecksRequired": ["source", "purpose", "opposition", "doNotContact", "duplicateCampaignContact", "requiredInformationAndOptOut"]
+  },
+  "performanceContract": {
+    "localIndexesFirst": true,
+    "progressiveResults": true,
+    "optionalEnrichment": true,
+    "maxConcurrentEnrichment": 1,
+    "maxRecordsPerShard": 10000,
+    "maxShardBytes": 1048576,
+    "physicalCeleronValidationRequiredBeforeClaim": true
+  },
+  "phaseAcceptance": {
+    "E3": ["Los cinco perfiles se miden por separado en Madrid y Barcelona.", "Los mappings de Overture se validan contra la release usada antes de activarse.", "Se informan las cinco metricas comerciales obligatorias."],
+    "E4": ["OSM aporta resultados por perfil con atribucion ODbL.", "Los tags amplios de arquitectura no confirman por si solos arquitecto tecnico.", "Se mide el aporte marginal y los contactos trazables."],
+    "E5": ["La busqueda muestra primero indices locales y resultados progresivos.", "El usuario puede filtrar por perfil y rol comercial sin cambiar los IDs de sector.", "Gestoria administrativa y administracion de fincas superan pruebas de desambiguacion.", "Importar conserva procedencia por campo y no envia correos."],
+    "E6": ["La cache aislada conserva version de taxonomia y perfil.", "Datos de contacto obsoletos se marcan; no se sobrescriben sin procedencia.", "Eliminar cache no altera CRM."],
+    "E7": ["Cada lote provincial informa cobertura y las cinco metricas por perfil.", "La ausencia de una fuente no se presenta como cero empresas.", "Los presupuestos de shard y memoria siguen siendo bloqueantes."],
+    "E8": ["El backup normal conserva datos comerciales y procedencia, excluye secretos por defecto.", "Oposiciones y exclusiones sobreviven a backup/restauracion.", "La personalizacion IA usa solo datos verificados, exige revision y nunca envia automaticamente."]
+  }
+}

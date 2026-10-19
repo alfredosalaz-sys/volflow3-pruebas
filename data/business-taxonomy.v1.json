@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "taxonomyVersion": "1.1.0",
+  "generatedAt": "2026-10-15T00:00:00.000Z",
+  "families": [
+    { "id": "professional-services", "label": "Servicios profesionales" },
+    { "id": "property-services", "label": "Servicios inmobiliarios" },
+    { "id": "commerce-hospitality", "label": "Comercio y hosteleria" },
+    { "id": "industry", "label": "Industria" },
+    { "id": "health-care", "label": "Salud y cuidados" },
+    { "id": "education-culture-sport", "label": "Educacion, cultura y deporte" }
+  ],
+  "sectors": [
+    {
+      "id": "offices",
+      "label": "Oficinas / Consultoras",
+      "familyId": "professional-services",
+      "legacyValues": ["Oficinas"],
+      "aliases": ["oficina", "oficinas", "consultora", "despacho profesional"],
+      "sourceMappings": { "osm": ["office"] },
+      "status": "active"
+    },
+    {
+      "id": "accounting-advisory",
+      "label": "Gestorias / Asesorias",
+      "familyId": "professional-services",
+      "legacyValues": ["Gestorias"],
+      "aliases": ["gestoria", "gestoria administrativa", "asesoria", "asesoria fiscal", "asesoria laboral", "asesoria contable"],
+      "sourceMappings": { "osm": ["office=accountant", "office=tax_advisor"] },
+      "negativeTerms": ["administrador de fincas", "administracion de fincas", "administracion de comunidades", "gestoria de fincas", "gestion patrimonial", "gestion de inmuebles"],
+      "status": "active"
+    },
+    {
+      "id": "architects",
+      "label": "Arquitectos",
+      "familyId": "professional-services",
+      "legacyValues": ["Arquitectos"],
+      "aliases": ["arquitecto", "arquitecta", "despacho de arquitectura", "estudio de arquitectura", "oficina de arquitectura"],
+      "sourceMappings": { "osm": ["office=architect"], "cnae": ["7111"] },
+      "status": "active"
+    },
+    {
+      "id": "technical-architects",
+      "label": "Aparejadores / Arquitectos tecnicos",
+      "familyId": "professional-services",
+      "legacyValues": ["Aparejadores"],
+      "aliases": ["aparejador", "aparejadora", "arquitecto tecnico", "arquitecta tecnica", "arquitectura tecnica", "estudio de arquitectura tecnica", "direccion de ejecucion de obra", "coordinacion de seguridad y salud"],
+      "sourceMappings": { "osm": ["office=architect"], "cnae": ["7111"] },
+      "classificationNotes": ["Los mappings de arquitectura son candidatos; la distincion tecnica requiere evidencia textual de la fuente y nunca el sector solicitado."],
+      "status": "active"
+    },
+    {
+      "id": "property-management",
+      "label": "Administradores de fincas",
+      "familyId": "property-services",
+      "legacyValues": ["AdministradoresFincas"],
+      "aliases": ["administrador de fincas", "administradora de fincas", "administracion de fincas", "administracion de comunidades", "gestoria de fincas", "gestion de comunidades", "gestion patrimonial", "gestion de inmuebles", "gestion inmobiliaria patrimonial"],
+      "sourceMappings": { "osm": ["office=property_management"], "cnae": ["6832"] },
+      "negativeTerms": ["gestoria administrativa", "asesoria fiscal", "asesoria laboral", "asesoria contable"],
+      "status": "active"
+    },
+    {
+      "id": "real-estate-agencies",
+      "label": "Inmobiliarias",
+      "familyId": "property-services",
+      "legacyValues": ["Inmobiliarias"],
+      "aliases": ["inmobiliaria", "agencia inmobiliaria", "servicios inmobiliarios", "intermediacion inmobiliaria", "consultoria inmobiliaria"],
+      "sourceMappings": { "osm": ["office=estate_agent"], "cnae": ["6831"] },
+      "status": "active"
+    },
+    {
+      "id": "retail",
+      "label": "Retail / Tiendas",
+      "familyId": "commerce-hospitality",
+      "legacyValues": ["Retail"],
+      "aliases": ["retail", "tienda", "comercio minorista"],
+      "sourceMappings": { "osm": ["shop=*"] },
+      "status": "active"
+    },
+    {
+      "id": "industry",
+      "label": "Industrial / Naves",
+      "familyId": "industry",
+      "legacyValues": ["Industrial"],
+      "aliases": ["industrial", "fabrica", "nave industrial", "taller"],
+      "sourceMappings": { "osm": ["landuse=industrial", "craft=*"] },
+      "status": "active"
+    },
+    {
+      "id": "hotels-hospitality",
+      "label": "Hoteles / Hosteleria",
+      "familyId": "commerce-hospitality",
+      "legacyValues": ["Hoteles"],
+      "aliases": ["hotel", "hostal", "alojamiento", "hosteleria"],
+      "sourceMappings": { "osm": ["tourism=hotel", "tourism=hostel"] },
+      "status": "active"
+    },
+    {
+      "id": "education",
+      "label": "Educacion / Colegios",
+      "familyId": "education-culture-sport",
+      "legacyValues": ["Educativo"],
+      "aliases": ["colegio", "academia", "centro educativo", "formacion"],
+      "sourceMappings": { "osm": ["amenity=school", "amenity=college", "amenity=university"] },
+      "status": "active"
+    },
+    {
+      "id": "sports-fitness",
+      "label": "Deportivo / Gimnasios",
+      "familyId": "education-culture-sport",
+      "legacyValues": ["Deportivo"],
+      "aliases": ["gimnasio", "centro deportivo", "fitness"],
+      "sourceMappings": { "osm": ["leisure=fitness_centre", "leisure=sports_centre"] },
+      "status": "active"
+    },
+    {
+      "id": "culture",
+      "label": "Cultural / Museos",
+      "familyId": "education-culture-sport",
+      "legacyValues": ["Cultural"],
+      "aliases": ["museo", "centro cultural", "galeria"],
+      "sourceMappings": { "osm": ["tourism=museum", "amenity=arts_centre"] },
+      "status": "active"
+    },
+    {
+      "id": "shopping-centres",
+      "label": "Centros comerciales",
+      "familyId": "commerce-hospitality",
+      "legacyValues": ["Comercial"],
+      "aliases": ["centro comercial", "galeria comercial"],
+      "sourceMappings": { "osm": ["shop=mall"] },
+      "status": "active"
+    },
+    {
+      "id": "elderly-care",
+      "label": "Residencias de ancianos",
+      "familyId": "health-care",
+      "legacyValues": ["Residencias"],
+      "aliases": ["residencia de mayores", "geriatrico", "centro sociosanitario"],
+      "sourceMappings": { "osm": ["amenity=nursing_home", "social_facility=group_home"] },
+      "status": "active"
+    },
+    {
+      "id": "dental",
+      "label": "Clinicas dentales",
+      "familyId": "health-care",
+      "legacyValues": ["Dental"],
+      "aliases": ["dentista", "clinica dental", "odontologia"],
+      "sourceMappings": { "osm": ["amenity=dentist", "healthcare=dentist"] },
+      "status": "active"
+    },
+    {
+      "id": "medical",
+      "label": "Centros medicos",
+      "familyId": "health-care",
+      "legacyValues": ["Medico"],
+      "aliases": ["centro medico", "clinica medica", "policlinica"],
+      "sourceMappings": { "osm": ["amenity=clinic", "healthcare=clinic", "healthcare=doctor"] },
+      "status": "active"
+    },
+    {
+      "id": "aesthetics",
+      "label": "Centros esteticos",
+      "familyId": "health-care",
+      "legacyValues": ["Estetico"],
+      "aliases": ["centro estetico", "clinica estetica", "salon de belleza"],
+      "sourceMappings": { "osm": ["shop=beauty", "healthcare=clinic"] },
+      "status": "active"
+    }
+  ],
+  "redirects": {}
+}
