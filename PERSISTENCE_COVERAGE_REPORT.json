@@ -1,0 +1,15 @@
+{
+  "generatedAt": "build:2026.10.15.0300",
+  "valuesIncluded": false,
+  "literalKeyCount": 129,
+  "dynamicPatternCount": 10,
+  "indexedDatabaseCount": 3,
+  "classes": {
+    "configuration": 91,
+    "recreatable": 13,
+    "secret": 17,
+    "critical": 8
+  },
+  "uncoveredDynamicReferences": 7,
+  "note": "Las referencias dinámicas se conservan mediante enumeración en tiempo de ejecución; este informe no contiene valores."
+}

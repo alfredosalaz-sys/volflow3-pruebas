@@ -1,11 +1,11 @@
 {
   "version": "2.9.4",
-  "build": "2026.10.15.0100",
+  "build": "2026.10.15.0300",
   "date": "2026-10-15",
   "changelog": [
     {
-      "title": "Control estricto de coste para IA",
-      "desc": "Todas las rutas de IA usan una pasarela unica que falla en modo cerrado mientras no exista un control externo de facturacion verificable. El buscador inicia con indices locales y enriquecimiento opcional."
+      "title": "IA gratuita auditada y protegida",
+      "desc": "La redaccion y mejora de correos usa una pasarela unica con modelos gratuitos permitidos, autorizacion por sesion, cuotas conservadoras, cancelacion, privacidad y sanitizacion de respuestas. El estado gratuito de cada cuenta debe confirmarse antes de usarla."
     },
     {
       "title": "Buscador gratuito multifuente",
@@ -119,10 +119,17 @@
   "history": [
     {
       "version": "2.9.4",
-      "build": "2026.10.15.0100",
+      "build": "2026.10.15.0300",
       "date": "2026-10-15",
-      "title": "Pasarela de IA y busqueda local predeterminada",
-      "description": "Centralizacion de proveedores IA con bloqueo estricto de red y optimizacion local-first para equipos modestos."
+      "title": "Auditoria final de IA gratuita",
+      "description": "Control centralizado por proveedor y modelo, autorizacion reforzada, telemetria de cuotas, cancelacion, sanitizacion de contenido y claves nuevas limitadas a la sesion."
+    },
+    {
+      "version": "2.9.4",
+      "build": "2026.10.15.0200",
+      "date": "2026-10-15",
+      "title": "IA gratuita controlada y busqueda local predeterminada",
+      "description": "Centralizacion de proveedores IA gratuitos con confirmacion por sesion, bloqueo de modelos de pago, fallback controlado y optimizacion local-first para equipos modestos."
     },
     {
       "version": "2.9.3",

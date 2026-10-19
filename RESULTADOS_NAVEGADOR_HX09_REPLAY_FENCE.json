@@ -1,0 +1,28 @@
+{
+  "generatedAt": "2026-10-16T13:15:11.081Z",
+  "browser": "Google Chrome headless",
+  "profile": "isolated temporary",
+  "tabs": 2,
+  "cpuThrottling": 4,
+  "externalNetworkBlocked": true,
+  "result": {
+    "ok": true,
+    "acquired": {
+      "type": "fence-acquired",
+      "ok": true,
+      "id": "op-1792156510640-84r5chc371"
+    },
+    "blockedReplay": 0,
+    "preservedWhileFenced": true,
+    "appliedAfterRelease": true,
+    "journalsAfterRelease": [],
+    "raceReplayed": 20,
+    "raceApplied": true,
+    "finalJournals": [],
+    "contention": {
+      "type": "replay-contention",
+      "ok": false,
+      "error": "PERSISTENCE_REPLAY_IN_PROGRESS"
+    }
+  }
+}

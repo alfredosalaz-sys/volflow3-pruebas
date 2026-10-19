@@ -1,0 +1,68 @@
+{
+  "generatedAt": "2026-10-16T13:15:33.068Z",
+  "browser": "Google Chrome headless",
+  "profiles": "isolated temporary",
+  "runs": [
+    {
+      "phase": "create",
+      "durationMs": 192.59999990463257,
+      "diskBytes": 7273
+    },
+    {
+      "ok": true,
+      "phase": "restore",
+      "ms": 269.6999999284744,
+      "cleanBefore": true,
+      "lead": "browser-lead-1",
+      "exclusion": "blocked-browser@example.invalid",
+      "secretPresence": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "unknown": "preserve-browser",
+      "idbLead": true,
+      "restoreMarker": null
+    },
+    {
+      "ok": true,
+      "phase": "rollback",
+      "rejected": true,
+      "marker": null
+    },
+    {
+      "ok": true,
+      "phase": "verify",
+      "lead": "browser-lead-1",
+      "exclusion": "blocked-browser@example.invalid",
+      "secretPresent": "[PRESENT_REDACTED]",
+      "ready": "true",
+      "restart": 1
+    },
+    {
+      "ok": true,
+      "phase": "verify",
+      "lead": "browser-lead-1",
+      "exclusion": "blocked-browser@example.invalid",
+      "secretPresent": "[PRESENT_REDACTED]",
+      "ready": "true",
+      "restart": 2
+    },
+    {
+      "ok": true,
+      "phase": "verify",
+      "lead": "browser-lead-1",
+      "exclusion": "blocked-browser@example.invalid",
+      "secretPresent": "[PRESENT_REDACTED]",
+      "ready": "true",
+      "restart": 3
+    }
+  ],
+  "pass": true,
+  "notes": [
+    "Archivo escrito en disco y leído por un perfil Chrome distinto mediante HTTP local.",
+    "Perfil habitual intacto; ninguna petición a servicios externos."
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "generatedAt": "2026-10-16T13:15:23.211Z",
+  "browser": "Google Chrome headless",
+  "cpuThrottling": 4,
+  "profiles": "isolated temporary",
+  "runs": [
+    {
+      "phase": "merge",
+      "ok": true,
+      "counts": {
+        "leads": 2,
+        "messages": 1,
+        "exclusions": 2
+      },
+      "content": {
+        "contact": true,
+        "relation": true,
+        "custom": true,
+        "file": true,
+        "reference": true
+      },
+      "keyPreserved": true,
+      "permissionBlocked": true,
+      "unknownPreserved": true,
+      "artifactBytes": 10941
+    },
+    {
+      "phase": "restart",
+      "restart": 1,
+      "ok": true,
+      "counts": {
+        "leads": 2,
+        "messages": 1,
+        "exclusions": 2
+      },
+      "content": {
+        "contact": true,
+        "relation": true,
+        "custom": true,
+        "file": true,
+        "reference": true
+      },
+      "keyPresent": "[PRESENT_REDACTED]"
+    },
+    {
+      "phase": "restart",
+      "restart": 2,
+      "ok": true,
+      "counts": {
+        "leads": 2,
+        "messages": 1,
+        "exclusions": 2
+      },
+      "content": {
+        "contact": true,
+        "relation": true,
+        "custom": true,
+        "file": true,
+        "reference": true
+      },
+      "keyPresent": "[PRESENT_REDACTED]"
+    },
+    {
+      "phase": "restart",
+      "restart": 3,
+      "ok": true,
+      "counts": {
+        "leads": 2,
+        "messages": 1,
+        "exclusions": 2
+      },
+      "content": {
+        "contact": true,
+        "relation": true,
+        "custom": true,
+        "file": true,
+        "reference": true
+      },
+      "keyPresent": "[PRESENT_REDACTED]"
+    },
+    {
+      "phase": "clean-profile-restore",
+      "ok": true,
+      "counts": {
+        "leads": 2,
+        "messages": 1,
+        "exclusions": 2
+      },
+      "content": {
+        "contact": true,
+        "relation": true,
+        "custom": true,
+        "file": true,
+        "reference": true
+      },
+      "keyPresent": "[PRESENT_REDACTED]"
+    },
+    {
+      "phase": "rollback",
+      "ok": true,
+      "failed": true,
+      "outcome": null,
+      "error": "Interrupción de restauración simulada",
+      "planFingerprint": "1ab836fc88216fbde3ec3f1f80c7f572155be4a1f1cbcb98e3890798cd8992ba",
+      "preCommitFingerprint": "1ab836fc88216fbde3ec3f1f80c7f572155be4a1f1cbcb98e3890798cd8992ba",
+      "counts": {
+        "leads": 2,
+        "messages": 1,
+        "exclusions": 2
+      }
+    }
+  ],
+  "pass": true
+}

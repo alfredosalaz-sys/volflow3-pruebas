@@ -1,0 +1,13 @@
+{
+  "generatedAt": "2026-10-16T13:15:13.714Z",
+  "browser": "Google Chrome headless",
+  "profile": "isolated temporary",
+  "cpuThrottling": 4,
+  "writerTabClosedBeforeRelease": true,
+  "result": {
+    "ok": true,
+    "value": "lead-created-before-tab-close",
+    "journals": [],
+    "fence": null
+  }
+}

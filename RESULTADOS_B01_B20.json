@@ -1,0 +1,151 @@
+{
+  "generatedAt": "2026-10-16T10:11:45.705Z",
+  "passed": 20,
+  "failed": 0,
+  "limitations": [
+    "B03 se complementa con RESULTADOS_NAVEGADOR_RESTAURACION.json en un perfil Chrome temporal limpio.",
+    "B18 no se ha ejecutado en el Celeron N4020 físico; esta máquina usa otro procesador."
+  ],
+  "results": [
+    {
+      "id": "B01",
+      "name": "P0/P1 y claves sintéticas quedan cubiertas",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 1
+    },
+    {
+      "id": "B02",
+      "name": "el archivo cifrado no contiene secretos legibles",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 33
+    },
+    {
+      "id": "B03",
+      "name": "archivo escrito y leído restaura contenido equivalente",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE EN DISCO; COMPLEMENTADO POR PRUEBA CHROME AISLADA",
+      "ms": 38
+    },
+    {
+      "id": "B04",
+      "name": "formatos históricos y auto_disk_daily reconocidos",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 1
+    },
+    {
+      "id": "B05",
+      "name": "contrato conserva IndexedDB separado como autoridad",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 0
+    },
+    {
+      "id": "B06",
+      "name": "tres copias del mismo día tienen nombres únicos",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 1
+    },
+    {
+      "id": "B07",
+      "name": "restauración contiene staging y rollback ante corte",
+      "status": "PASS",
+      "classification": "VERIFICADO EN CÓDIGO; CORTE DE NAVEGADOR PENDIENTE",
+      "ms": 0
+    },
+    {
+      "id": "B08",
+      "name": "contraseña errónea, corrupción y truncado fallan sin descifrar",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 31
+    },
+    {
+      "id": "B09",
+      "name": "errores de escritura no se convierten en éxito",
+      "status": "PASS",
+      "classification": "VERIFICADO EN CÓDIGO; CUOTA REAL PENDIENTE",
+      "ms": 1
+    },
+    {
+      "id": "B10",
+      "name": "campos desconocidos y alias se conservan",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 32
+    },
+    {
+      "id": "B11",
+      "name": "Gmail, Sheets, GitHub, JSONBin e IA se restauran",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 35
+    },
+    {
+      "id": "B12",
+      "name": "oposiciones y máximo de cinco siguen bloqueantes",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 1
+    },
+    {
+      "id": "B13",
+      "name": "el código avisa sobre colisión de origen GitHub Pages",
+      "status": "PASS",
+      "classification": "VERIFICADO EN CÓDIGO; PERFIL REAL NO TOCADO",
+      "ms": 1
+    },
+    {
+      "id": "B14",
+      "name": "GitHub y JSONBin salen antes de cualquier fetch",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 3
+    },
+    {
+      "id": "B15",
+      "name": "adjunto binario se recupera byte a byte y referencia queda marcada",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 62
+    },
+    {
+      "id": "B16",
+      "name": "tres ciclos de build/reinicio criptográfico preservan datos",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 191
+    },
+    {
+      "id": "B17",
+      "name": "manifiesto exige escrituras drenadas y coordinación declarada",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 0
+    },
+    {
+      "id": "B18",
+      "name": "carga sintética de miles de registros completa sin error",
+      "status": "PASS",
+      "classification": "CPU DE ESCRITORIO; CELERON N4020 FÍSICO PENDIENTE",
+      "ms": 105
+    },
+    {
+      "id": "B19",
+      "name": "OAuth y handles quedan marcados para reautorización",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 1
+    },
+    {
+      "id": "B20",
+      "name": "inventario vivo no contiene valores y cubre referencias dinámicas",
+      "status": "PASS",
+      "classification": "PROBADO AUTOMÁTICAMENTE",
+      "ms": 2
+    }
+  ]
+}

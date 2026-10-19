@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-10-16T13:15:16.932Z",
+  "browser": "Google Chrome headless",
+  "profiles": "isolated temporary",
+  "tabs": 2,
+  "cpuThrottling": 4,
+  "externalNetworkBlocked": true,
+  "result": {
+    "ok": true,
+    "result": {
+      "ok": false,
+      "code": "CONCURRENT_WRITE_DETECTED_IMPORT_ABORTED",
+      "requiresReanalysis": true
+    },
+    "attempted": true,
+    "localIds": [
+      "created-in-another-tab",
+      "original"
+    ],
+    "idbIds": [
+      "created-in-another-tab",
+      "original"
+    ],
+    "fence": null
+  }
+}
