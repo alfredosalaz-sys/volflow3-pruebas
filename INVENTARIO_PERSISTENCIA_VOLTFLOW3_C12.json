@@ -1,0 +1,2188 @@
+{
+  "title": "Inventario estático de persistencia de Voltflow3 C1.2",
+  "source_folder": "Voltflow3-C1.2-CORRECCION-20261016",
+  "method": "Búsqueda estática de literales gordi_/voltium_/voltflow_ en módulos JS y app.html. No equivale a censo exhaustivo de claves dinámicas ni a lectura de datos de usuario.",
+  "indexed_db": [
+    {
+      "database": "VoltiumCRM",
+      "version": 1,
+      "object_stores": [
+        "meta",
+        "kv",
+        "leads",
+        "emailHistory",
+        "campaigns",
+        "searchHistory",
+        "savedSearches"
+      ],
+      "code": "modules/storage.js"
+    },
+    {
+      "database": "gordi_disk_backup_db",
+      "version": 1,
+      "object_stores": [
+        "handles"
+      ],
+      "note": "Handle y permisos File System Access no transportables entre perfiles; configurar de nuevo",
+      "code": "modules/disk-backup.js"
+    }
+  ],
+  "additional_dynamic_patterns": [
+    "gordi_scrape_memory_*",
+    "gordi_ecache_*",
+    "gordi_geo_cache_*",
+    "gordi_query_stats_*",
+    "gordi_zero_cost_ai_*",
+    "gordi_ai_telemetry_*",
+    "gordi_user_*",
+    "gordi_*",
+    "voltium_*"
+  ],
+  "entries": [
+    {
+      "key": "_gordi_app_build",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "app.html:16",
+        "app.html:17",
+        "app.html:42"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "_voltflow_idb_manifest",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/storage.js:511"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "_voltflow_last_auto_rescue",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:756"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "_voltflow_last_idb_load_error",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:226"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "_voltflow_last_idb_write_error",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/storage.js:358",
+        "modules/storage.js:81"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "_voltflow_last_large_snapshot_skip",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:628",
+        "modules/init.js:697"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "_voltflow_last_local_compat_error",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/storage.js:274"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "_voltflow_last_migration",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:1063"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "_voltflow_last_storage_quota_error",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/storage.js:384"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "_voltflow_last_version",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:1061",
+        "modules/init.js:1064",
+        "modules/init.js:1537",
+        "modules/init.js:1546",
+        "modules/init.js:1832"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "_voltflow_notice_seen_${VOLTFLOW_VERSION}",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:1831"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "_voltflow_pending_write_recovery",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/storage.js:72",
+        "modules/storage.js:80"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "_voltflow_storage_notice_dismissed",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "sessionStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:1011",
+        "modules/init.js:981"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "_voltflow_version",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/misc.js:335"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_ai_manual_model",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/ai-router.js:201",
+        "modules/ai-router.js:213"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_ai_manual_provider",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/ai-router.js:200",
+        "modules/ai-router.js:212"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_ai_privacy_mode",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/ai-router.js:220",
+        "modules/ai-router.js:226"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_ai_selection_mode",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/ai-router.js:199",
+        "modules/ai-router.js:215"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_api_key",
+      "category": "SECRETO_CRITICO_CIFRADO",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ai-email.js:806",
+        "modules/ai-router.js:1640",
+        "modules/ai-router.js:1840",
+        "modules/chat.js:1902",
+        "modules/chat.js:204",
+        "modules/chat.js:2151",
+        "modules/inbox.js:1036",
+        "modules/inbox.js:1268",
+        "modules/inbox.js:618",
+        "modules/inbox.js:943",
+        "modules/inbox.js:986",
+        "modules/init.js:1037"
+      ],
+      "more_locations_possible": true
+    },
+    {
+      "key": "gordi_api_log",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "removeItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ui.js:1153",
+        "modules/ui.js:1156",
+        "modules/ui.js:1162",
+        "modules/ui.js:1165"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_apollo_key",
+      "category": "SECRETO_CRITICO_CIFRADO",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1642",
+        "modules/ai-router.js:1842",
+        "modules/chat.js:204",
+        "modules/chat.js:2154",
+        "modules/chat.js:3038",
+        "modules/init.js:1206",
+        "modules/init.js:1652",
+        "modules/init.js:345",
+        "modules/init.js:707",
+        "modules/init.js:928",
+        "modules/misc.js:1047",
+        "modules/search.js:3499"
+      ],
+      "more_locations_possible": true
+    },
+    {
+      "key": "gordi_auto_backup",
+      "category": "METADATOS_BACKUP_Y_RESCATE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:379",
+        "modules/storage.js:27",
+        "modules/ui.js:1081",
+        "modules/ui.js:1084"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_backup_export_reminded",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ui.js:1086",
+        "modules/ui.js:1087"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_campaigns",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1863",
+        "modules/dashboard.js:704",
+        "modules/dashboard.js:849",
+        "modules/dashboard.js:863",
+        "modules/init.js:1026",
+        "modules/init.js:1126",
+        "modules/init.js:343",
+        "modules/init.js:468",
+        "modules/init.js:482",
+        "modules/init.js:510",
+        "modules/init.js:553",
+        "modules/init.js:570"
+      ],
+      "more_locations_possible": true
+    },
+    {
+      "key": "gordi_chat_history",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "removeItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:2046",
+        "modules/chat.js:2050",
+        "modules/chat.js:2183"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_chat_memory",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:2039",
+        "modules/chat.js:2042"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_claude_key",
+      "category": "SECRETO_CRITICO_CIFRADO",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1644",
+        "modules/ai-router.js:1844",
+        "modules/init.js:346",
+        "modules/init.js:707",
+        "modules/init.js:928",
+        "modules/misc.js:1047",
+        "modules/state.js:39",
+        "modules/workflow.js:104"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_commercial_memory",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:1029",
+        "modules/init.js:354",
+        "modules/init.js:473",
+        "modules/init.js:924",
+        "modules/search.js:5500",
+        "modules/search.js:5506",
+        "modules/search.js:5508",
+        "modules/storage.js:19",
+        "modules/storage.js:434"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_coverage_active_mission",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/coverage.js:7",
+        "modules/help-system.js:178",
+        "modules/init.js:357",
+        "modules/workflow.js:77"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_coverage_daily_plan",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/coverage.js:3",
+        "modules/init.js:356"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_coverage_events",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/coverage.js:5",
+        "modules/init.js:356"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_coverage_filter",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/coverage.js:4"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_coverage_lead_filter",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "removeItem"
+      ],
+      "code_locations": [
+        "modules/coverage.js:8",
+        "modules/init.js:358",
+        "modules/leads.js:109",
+        "modules/leads.js:117"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_coverage_targets",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/coverage.js:2",
+        "modules/init.js:355",
+        "modules/workflow.js:72"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_coverage_update_tour",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/help-system.js:9",
+        "modules/init.js:359"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_coverage_update_tour_snoozed",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "sessionStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/help-system.js:325",
+        "modules/help-system.js:411"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_coverage_view_mode",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/coverage.js:6",
+        "modules/init.js:357"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_critical_rescue_snapshots",
+      "category": "METADATOS_BACKUP_Y_RESCATE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/init.js:370",
+        "modules/storage.js:25"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_custom_proxy",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:2155",
+        "modules/search.js:900",
+        "modules/search.js:940"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_daily_copilot_agenda",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/misc.js:1407",
+        "modules/misc.js:1412"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_daily_copilot_last_run",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/misc.js:1408",
+        "modules/misc.js:1495"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_disk_backup_db",
+      "category": "METADATOS_BACKUP_Y_RESCATE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/disk-backup.js:6"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_disk_backup_enabled",
+      "category": "METADATOS_BACKUP_Y_RESCATE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/disk-backup.js:10"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_disk_backup_last_date",
+      "category": "METADATOS_BACKUP_Y_RESCATE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/disk-backup.js:11"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_disk_backup_last_error",
+      "category": "METADATOS_BACKUP_Y_RESCATE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/disk-backup.js:14"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_disk_backup_last_file",
+      "category": "METADATOS_BACKUP_Y_RESCATE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/disk-backup.js:13"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_disk_backup_last_status",
+      "category": "METADATOS_BACKUP_Y_RESCATE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/disk-backup.js:12"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_ecache_",
+      "category": "CACHE_REGENERABLE_O_CON_VALOR_HISTORICO_REVISAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/init.js:1033",
+        "modules/init.js:393",
+        "modules/init.js:528",
+        "modules/init.js:547",
+        "modules/init.js:926",
+        "modules/search.js:2587",
+        "modules/search.js:2600",
+        "modules/search.js:2633",
+        "modules/storage.js:259",
+        "modules/storage.js:487",
+        "modules/workflow.js:369"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_ejs_key",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/misc.js:839",
+        "modules/misc.js:867",
+        "modules/misc.js:891",
+        "modules/misc.js:903"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_ejs_service",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/misc.js:837",
+        "modules/misc.js:865",
+        "modules/misc.js:891",
+        "modules/misc.js:901"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_ejs_template",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/misc.js:838",
+        "modules/misc.js:866",
+        "modules/misc.js:902"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_ejs_to",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/misc.js:836",
+        "modules/misc.js:868",
+        "modules/misc.js:900"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_email_history",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1862",
+        "modules/init.js:1025",
+        "modules/init.js:1125",
+        "modules/init.js:343",
+        "modules/init.js:467",
+        "modules/init.js:478",
+        "modules/init.js:509",
+        "modules/init.js:552",
+        "modules/init.js:570",
+        "modules/init.js:886",
+        "modules/init.js:933",
+        "modules/ui.js:1046"
+      ],
+      "more_locations_possible": true
+    },
+    {
+      "key": "gordi_email_method",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/misc.js:841",
+        "modules/misc.js:861",
+        "modules/misc.js:911",
+        "modules/misc.js:918"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_enrich_cache",
+      "category": "CACHE_REGENERABLE_O_CON_VALOR_HISTORICO_REVISAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/search.js:864",
+        "modules/search.js:871",
+        "modules/search.js:876",
+        "modules/search.js:881",
+        "modules/search.js:888"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_filters",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:2855",
+        "modules/chat.js:2860"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_font_scale",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:102",
+        "modules/init.js:353",
+        "modules/ui.js:10"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_gemini_key",
+      "category": "SECRETO_CRITICO_CIFRADO",
+      "storage_apis": [
+        "localStorage",
+        "sessionStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1643",
+        "modules/ai-router.js:1843",
+        "modules/ai-router.js:419",
+        "modules/init.js:1660",
+        "modules/init.js:346",
+        "modules/init.js:707",
+        "modules/init.js:928",
+        "modules/misc.js:1047",
+        "modules/state.js:36",
+        "modules/state.js:39",
+        "modules/ui.js:727",
+        "modules/workflow.js:104"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_geo_cache_",
+      "category": "CACHE_REGENERABLE_O_CON_VALOR_HISTORICO_REVISAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/search.js:1180",
+        "modules/search.js:1185",
+        "modules/search.js:1204",
+        "modules/search.js:2633",
+        "modules/search.js:2636"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_gh_auto",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1733",
+        "modules/chat.js:1896",
+        "modules/init.js:1608",
+        "modules/init.js:365",
+        "modules/leads.js:97"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_gh_last_pull",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1842",
+        "modules/chat.js:1870"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_gh_last_push",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1780",
+        "modules/chat.js:1843"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_gh_repo",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1706",
+        "modules/chat.js:1724",
+        "modules/init.js:365"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_gh_token",
+      "category": "SECRETO_CRITICO_CIFRADO",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1704",
+        "modules/chat.js:1722",
+        "modules/chat.js:1753",
+        "modules/init.js:1607",
+        "modules/init.js:365",
+        "modules/init.js:927",
+        "modules/leads.js:97"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_gh_user",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1705",
+        "modules/chat.js:1723",
+        "modules/init.js:365"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_gmail_client_id",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "app.html:1659",
+        "modules/chat.js:1334",
+        "modules/chat.js:1351"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_gmail_client_secret",
+      "category": "SECRETO_CRITICO_CIFRADO",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "app.html:1664",
+        "modules/chat.js:1335"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_gmail_email",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "app.html:1654",
+        "modules/chat.js:1333",
+        "modules/chat.js:1389",
+        "modules/misc.js:840"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_gmail_enabled",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "app.html:1682",
+        "modules/chat.js:1346",
+        "modules/chat.js:1370",
+        "modules/chat.js:1387",
+        "modules/chat.js:1458"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_gmail_token",
+      "category": "SECRETO_CRITICO_CIFRADO",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1364",
+        "modules/chat.js:1380",
+        "modules/chat.js:1865",
+        "modules/misc.js:892"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_gmail_token_ts",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1365",
+        "modules/chat.js:1381"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_groq_key",
+      "category": "SECRETO_CRITICO_CIFRADO",
+      "storage_apis": [
+        "localStorage",
+        "sessionStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:419",
+        "modules/init.js:1194",
+        "modules/init.js:1670",
+        "modules/init.js:347",
+        "modules/init.js:707",
+        "modules/init.js:928",
+        "modules/misc.js:1472",
+        "modules/workflow.js:104"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_hunter_key",
+      "category": "SECRETO_CRITICO_CIFRADO",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1641",
+        "modules/ai-router.js:1841",
+        "modules/chat.js:204",
+        "modules/chat.js:2153",
+        "modules/chat.js:3021",
+        "modules/init.js:1037",
+        "modules/init.js:1151",
+        "modules/init.js:1644",
+        "modules/init.js:345",
+        "modules/init.js:707",
+        "modules/init.js:928",
+        "modules/misc.js:1047"
+      ],
+      "more_locations_possible": true
+    },
+    {
+      "key": "gordi_indexeddb_ready",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/storage.js:193",
+        "modules/storage.js:510",
+        "modules/storage.js:562",
+        "modules/storage.js:567"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_intentional_empty_leads_at",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/init.js:371",
+        "modules/storage.js:26"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_jsonbin_auto",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/dashboard.js:640",
+        "modules/dashboard.js:705",
+        "modules/init.js:117",
+        "modules/init.js:1219",
+        "modules/init.js:1619",
+        "modules/init.js:363",
+        "modules/leads.js:100"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_jsonbin_bin",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:1213",
+        "modules/init.js:1321",
+        "modules/init.js:1350",
+        "modules/init.js:1365",
+        "modules/init.js:1403",
+        "modules/init.js:1505",
+        "modules/init.js:363"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_jsonbin_key",
+      "category": "SECRETO_CRITICO_CIFRADO",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:1212",
+        "modules/init.js:1315",
+        "modules/init.js:1364",
+        "modules/init.js:1402",
+        "modules/init.js:1504",
+        "modules/init.js:363",
+        "modules/init.js:927"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_jsonbin_last_push",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:1387",
+        "modules/init.js:1424"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_last_backup",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ui.js:1074",
+        "modules/ui.js:1077"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_last_briefing_email",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1470",
+        "modules/chat.js:1472"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_last_maintenance",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1653",
+        "modules/chat.js:1654"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_last_overdue_email",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1477",
+        "modules/chat.js:1481"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_last_safety_snapshot",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/init.js:369",
+        "modules/storage.js:24"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_last_weekly_email",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1488",
+        "modules/chat.js:1489"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_lead_form_draft",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/misc.js:611"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_leads",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1838",
+        "modules/chat.js:1861",
+        "modules/chat.js:1902",
+        "modules/init.js:1024",
+        "modules/init.js:1121",
+        "modules/init.js:1122",
+        "modules/init.js:1426",
+        "modules/init.js:1431",
+        "modules/init.js:1432",
+        "modules/init.js:343",
+        "modules/init.js:466",
+        "modules/init.js:508"
+      ],
+      "more_locations_possible": true
+    },
+    {
+      "key": "gordi_light_mode",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:353",
+        "modules/init.js:99",
+        "modules/ui.js:1403"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_local_last_modified",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1841",
+        "modules/leads.js:74"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_manual_state",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/help-system.js:11",
+        "modules/init.js:361"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_map_geocode_cache",
+      "category": "CACHE_REGENERABLE_O_CON_VALOR_HISTORICO_REVISAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/inbox.js:931"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_multi_sector_selection",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/coverage.js:1500",
+        "modules/search.js:301",
+        "modules/search.js:309"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_objectives",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:191",
+        "modules/chat.js:30",
+        "modules/init.js:1127",
+        "modules/init.js:344",
+        "modules/init.js:471",
+        "modules/init.js:490",
+        "modules/init.js:571",
+        "modules/init.js:578",
+        "modules/storage.js:17",
+        "modules/storage.js:432",
+        "modules/ui.js:1048",
+        "modules/ui.js:309"
+      ],
+      "more_locations_possible": true
+    },
+    {
+      "key": "gordi_openrouter_key",
+      "category": "SECRETO_CRITICO_CIFRADO",
+      "storage_apis": [
+        "localStorage",
+        "sessionStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:419",
+        "modules/init.js:1199",
+        "modules/init.js:1680",
+        "modules/init.js:347",
+        "modules/init.js:707",
+        "modules/init.js:928",
+        "modules/misc.js:1472",
+        "modules/workflow.js:105"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_pin",
+      "category": "SECRETO_CRITICO_CIFRADO",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "removeItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:352",
+        "modules/ui.js:546",
+        "modules/ui.js:561",
+        "modules/ui.js:562",
+        "modules/ui.js:565",
+        "modules/ui.js:729"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_places_field_mode",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/search.js:1511",
+        "modules/search.js:1565"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_professional_update_tour",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/help-system.js:10",
+        "modules/init.js:360"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_professional_update_tour_snoozed",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "sessionStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/help-system.js:684",
+        "modules/help-system.js:740"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_query_stats_${segment}",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/search.js:1744"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_radar_last_run",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/misc.js:1158"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_reddit_history",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/reddit.js:267",
+        "modules/reddit.js:279"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_safety_snapshots",
+      "category": "METADATOS_BACKUP_Y_RESCATE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/init.js:368",
+        "modules/storage.js:23"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_saved_searches",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1382",
+        "modules/coverage.js:342",
+        "modules/init.js:1028",
+        "modules/init.js:354",
+        "modules/init.js:470",
+        "modules/init.js:511",
+        "modules/init.js:571",
+        "modules/init.js:886",
+        "modules/init.js:935",
+        "modules/misc.js:1137",
+        "modules/misc.js:1336",
+        "modules/misc.js:320"
+      ],
+      "more_locations_possible": true
+    },
+    {
+      "key": "gordi_scrape_memory_",
+      "category": "CACHE_REGENERABLE_O_CON_VALOR_HISTORICO_REVISAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/init.js:1033",
+        "modules/init.js:546",
+        "modules/init.js:925",
+        "modules/search.js:2645",
+        "modules/storage.js:259",
+        "modules/storage.js:487"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_scrape_tmp_",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/workflow.js:369"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_search_coverage",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/coverage.js:1",
+        "modules/help-system.js:172",
+        "modules/init.js:355",
+        "modules/misc.js:321",
+        "modules/workflow.js:67"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_search_history",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:1027",
+        "modules/init.js:1128",
+        "modules/init.js:344",
+        "modules/init.js:469",
+        "modules/init.js:511",
+        "modules/init.js:554",
+        "modules/init.js:571",
+        "modules/init.js:886",
+        "modules/init.js:935",
+        "modules/misc.js:319",
+        "modules/ui.js:355",
+        "modules/ui.js:357"
+      ],
+      "more_locations_possible": true
+    },
+    {
+      "key": "gordi_sender_email",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/init.js:350"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_sender_name",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/init.js:350"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_sheets_client_id",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1660",
+        "modules/ai-router.js:1869",
+        "modules/init.js:1183",
+        "modules/init.js:351",
+        "modules/misc.js:1058",
+        "modules/search.js:4548",
+        "modules/search.js:4602"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_sheets_id",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1659",
+        "modules/ai-router.js:1868",
+        "modules/ai-router.js:740",
+        "modules/ai-router.js:795",
+        "modules/ai-router.js:837",
+        "modules/ai-router.js:854",
+        "modules/ai-router.js:969",
+        "modules/init.js:1182",
+        "modules/init.js:351",
+        "modules/init.js:927",
+        "modules/misc.js:1057",
+        "modules/search.js:4522"
+      ],
+      "more_locations_possible": true
+    },
+    {
+      "key": "gordi_sheets_last_sync",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:785",
+        "modules/ai-router.js:836"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_sheets_token",
+      "category": "SECRETO_CRITICO_CIFRADO",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:741",
+        "modules/ai-router.js:796",
+        "modules/ai-router.js:854",
+        "modules/ai-router.js:970",
+        "modules/init.js:1184",
+        "modules/init.js:351",
+        "modules/search.js:4523",
+        "modules/search.js:4565",
+        "modules/search.js:4581",
+        "modules/search.js:4603",
+        "modules/search.js:4613"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_sheets_token_expiry",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:965",
+        "modules/search.js:4566",
+        "modules/search.js:4582",
+        "modules/search.js:4587",
+        "modules/search.js:4614"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_streak",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:352",
+        "modules/ui.js:253",
+        "modules/ui.js:260",
+        "modules/ui.js:265"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_templates",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1666",
+        "modules/ai-router.js:1876",
+        "modules/dashboard.js:639",
+        "modules/init.js:1137",
+        "modules/init.js:344",
+        "modules/init.js:472",
+        "modules/init.js:486",
+        "modules/init.js:923",
+        "modules/misc.js:1064",
+        "modules/storage.js:18",
+        "modules/storage.js:433",
+        "modules/ui.js:1049"
+      ],
+      "more_locations_possible": true
+    },
+    {
+      "key": "gordi_tts",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/chat.js:1545",
+        "modules/chat.js:1579",
+        "modules/chat.js:1866"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_tutorial_done",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem",
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:352",
+        "modules/init.js:94",
+        "modules/ui.js:1197"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_user_${k}",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "setItem"
+      ],
+      "code_locations": [
+        "modules/init.js:1588"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_user_company",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1651",
+        "modules/ai-router.js:1856",
+        "modules/init.js:1157",
+        "modules/init.js:1555",
+        "modules/init.js:348",
+        "modules/misc.js:1052",
+        "modules/ui.js:728"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_user_email",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1650",
+        "modules/ai-router.js:1855",
+        "modules/init.js:1156",
+        "modules/init.js:1554",
+        "modules/init.js:348",
+        "modules/misc.js:1052",
+        "modules/ui.js:728"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_user_logo",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1859",
+        "modules/init.js:1160",
+        "modules/init.js:1558",
+        "modules/init.js:349",
+        "modules/ui.js:729"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_user_name",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1649",
+        "modules/ai-router.js:1854",
+        "modules/init.js:1038",
+        "modules/init.js:1155",
+        "modules/init.js:1553",
+        "modules/init.js:348",
+        "modules/init.js:941",
+        "modules/misc.js:1052",
+        "modules/misc.js:1188",
+        "modules/ui.js:602",
+        "modules/ui.js:728"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_user_phone",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1652",
+        "modules/ai-router.js:1857",
+        "modules/init.js:1158",
+        "modules/init.js:1556",
+        "modules/init.js:349",
+        "modules/misc.js:1052",
+        "modules/ui.js:728"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_user_web",
+      "category": "CONFIGURACION_IMPORTANTE",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/ai-router.js:1653",
+        "modules/ai-router.js:1858",
+        "modules/init.js:1159",
+        "modules/init.js:1557",
+        "modules/init.js:349",
+        "modules/misc.js:1052",
+        "modules/ui.js:728"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_workflow_audit_log",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/init.js:362",
+        "modules/workflow.js:8"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_workflow_restore_points",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/help-system.js:175",
+        "modules/init.js:362",
+        "modules/workflow.js:7"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "gordi_zero_cost_",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/search.js:47"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "voltflow_diagnostics",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [
+        "localStorage"
+      ],
+      "operation_types": [
+        "getItem"
+      ],
+      "code_locations": [
+        "modules/init.js:128"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "voltflow_leads_map",
+      "category": "OTROS_CONFIG_DIAGNOSTICO_VERIFICAR",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/inbox.js:1002"
+      ],
+      "more_locations_possible": false
+    },
+    {
+      "key": "voltium_search_history",
+      "category": "DATOS_COMERCIALES_CRITICOS",
+      "storage_apis": [],
+      "operation_types": [],
+      "code_locations": [
+        "modules/search-history.js:7"
+      ],
+      "more_locations_possible": false
+    }
+  ]
+}
