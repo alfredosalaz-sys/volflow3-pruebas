@@ -617,13 +617,13 @@ function _smartImportFile(file) {
 // ══════════════════════════════════════════════════════════════════════════
 // IMPORTAR SELECCIONADOS (reemplaza processBulkImport + importSelectedLeads)
 // ══════════════════════════════════════════════════════════════════════════
-function importSelectedLeads() {
+async function importSelectedLeads() {
   const checked = document.querySelectorAll('.import-check:checked');
   const indices = [...checked].map(c => parseInt(c.dataset.idx));
 
   if (!indices.length) { showToast('⚠️ Selecciona al menos un lead'); return; }
 
-  if (typeof createSafetySnapshot === 'function') createSafetySnapshot('before_smart_import');
+  if (typeof createSafetySnapshot === 'function') await createSafetySnapshot('before_smart_import');
 
   let imported = 0;
   let skippedDup = 0;

@@ -2,6 +2,43 @@
 // HILO DE EMAILS INLINE EN DRAWER (v2.5b)
 // ============================================================
 
+function extractInboundMetadata(raw) {
+  const text = String(raw || '');
+  const messageId = text.match(/^(?:Message-ID|Message-Id)\s*:\s*<?([^>\r\n]+)>?/im)?.[1]?.trim() || '';
+  const sourceDate = text.match(/^(?:Date|Fecha)\s*:\s*(.+)$/im)?.[1]?.trim() || '';
+  return { messageId, sourceDate };
+}
+
+function fallbackInboundHash(value) {
+  let result = 2166136261;
+  const text = String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  for (let index = 0; index < text.length; index++) {
+    result ^= text.charCodeAt(index);
+    result = Math.imul(result, 16777619);
+  }
+  return (result >>> 0).toString(36).padStart(7, '0');
+}
+
+function extractInboundBody(raw) {
+  return String(raw || '').split(/\r?\n/)
+    .filter(line => !/^(?:Asunto|Subject|De|From|Para|To|Enviado|Sent|Date|Fecha|Message-ID|Message-Id)\s*:/i.test(line.trim()))
+    .join('\n').trim();
+}
+
+function getInboundFingerprint(input) {
+  if (typeof VoltflowCommercialMemory !== 'undefined' && VoltflowCommercialMemory.inboundMessageFingerprint) {
+    return VoltflowCommercialMemory.inboundMessageFingerprint(input);
+  }
+  return `inbound-message:${fallbackInboundHash([
+    input.companyId || input.leadId || '', input.channel || 'email', input.contactId || input.target || input.email || '',
+    input.messageId || '', input.sourceDate || '', input.subject || '', input.raw || input.body || input.notes || ''
+  ].join('|'))}`;
+}
+
+function findInboundRecord(fingerprint) {
+  return (Array.isArray(emailHistory) ? emailHistory : []).find(record => record?.direction === 'inbound' && record.inboundFingerprint === fingerprint) || null;
+}
+
 // Builds email thread HTML without nested template literals
 function buildEmailThread(emails) {
   if (!emails || !emails.length) {
@@ -86,6 +123,22 @@ async function registerInlineReply(leadId) {
   const lead = leads.find(l => l.id == leadId);
   if (!lead) return;
 
+  // C5 owns pasted Outlook replies. Fail closed instead of using the legacy writer.
+  if (typeof openCommercialResponseReview !== 'function') {
+    showToast('La revision segura C5 no esta disponible. No se ha guardado la respuesta.');
+    return { opened: false, reason: 'C5_REVIEW_UNAVAILABLE' };
+  }
+  const result = await openCommercialResponseReview(lead, { initialRaw: raw, sourceRef: 'lead_inline_reply' });
+  if (!result?.opened) {
+    showToast('No se pudo abrir la revision C5. No se ha guardado la respuesta.');
+    return { opened: false, reason: result?.reason || 'C5_REVIEW_NOT_OPENED' };
+  }
+  ta.value = '';
+  zone.classList.remove('expanded', 'has-content');
+  if (btn) { btn.disabled = false; btn.style.display = 'none'; }
+  return result;
+
+  /* istanbul ignore next -- unreachable legacy implementation retained only for source compatibility */
   // Disable button during processing
   if (btn) { btn.textContent = '⏳ Procesando...'; btn.disabled = true; }
 
@@ -131,6 +184,22 @@ ${raw.slice(0, 1500)}`;
     } catch(e) { /* use raw fallback */ }
   }
 
+  const inboundMetadata = extractInboundMetadata(raw);
+  const inboundIdentities = CommercialCommunications.deriveIdentities({ lead, channel: 'email', target: lead.email });
+  const inboundFingerprint = getInboundFingerprint({
+    ...inboundIdentities, leadId: lead.id, channel: 'email', target: lead.email,
+    messageId: inboundMetadata.messageId, sourceDate: inboundMetadata.sourceDate,
+    subject, body: extractInboundBody(raw) || raw
+  });
+  const existingInbound = findInboundRecord(inboundFingerprint);
+  if (existingInbound) {
+    showToast('Esta respuesta ya estaba registrada; no se ha duplicado.');
+    ta.value = '';
+    zone.classList.remove('expanded','has-content');
+    if (btn) { btn.textContent = '✅ Registrar respuesta'; btn.disabled = false; btn.style.display = 'none'; }
+    return existingInbound;
+  }
+
   // Apply all 4 actions
   // 1. Estado -> Respuesta del cliente (con confirmación)
   const oldStatus = lead.status;
@@ -160,9 +229,9 @@ ${raw.slice(0, 1500)}`;
   }
 
   // 4. Registrar en emailHistory como inbound
-  emailHistory.unshift({
-    id: Date.now() + Math.random(),
-    ...CommercialCommunications.deriveIdentities({ lead, channel: 'email', target: lead.email }),
+  const inboundRecord = {
+    id: `inbound:${inboundFingerprint}`,
+    ...inboundIdentities,
     leadId: lead.id,
     company: lead.company,
     email: lead.email,
@@ -173,7 +242,11 @@ ${raw.slice(0, 1500)}`;
     subject,
     notes: cleanBody.slice(0, 200),
     direction: 'inbound',
-  });
+    inboundFingerprint,
+    sourceMessageId: inboundMetadata.messageId || null,
+    sourceDate: inboundMetadata.sourceDate || null,
+  };
+  emailHistory.unshift(inboundRecord);
   try {
     await persistEmailHistory('historial de emails');
   } catch {
@@ -185,6 +258,16 @@ ${raw.slice(0, 1500)}`;
   lead.score = recalculateLeadScore(lead);
   try {
     await saveLeads();
+    if (typeof recordCommercialMemoryEvent === 'function') {
+      await recordCommercialMemoryEvent(lead, 'response_received', { text: cleanBody, subject }, {
+        contactId: inboundRecord.contactId,
+        communicationId: inboundRecord.id,
+        channel: 'email',
+        occurredAt: inboundRecord.date,
+        sourceRef: 'outlook_manual_paste',
+        idempotencyKey: `inbound:${inboundFingerprint}`
+      });
+    }
   } catch {
     return;
   }
@@ -375,133 +458,113 @@ function renderInboxResults() {
   // Update badge
   updateInboxBadge(matched.length);
 
-  // Render matched
-  list.innerHTML = matched.length ? matched.map((em, i) => {
-    const l = em.lead;
-    const originalIndex = em.originalIndex;
-    const initials = (em.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    const applied = _inboxApplied.has(em.email);
-    return `<div class="inbox-match-card matched ${applied?'applied':''}" id="imatch-${i}">
-      <div class="inbox-match-avatar">${initials}</div>
-      <div class="inbox-match-info">
-        <div class="inbox-match-from">${em.name} <span style="font-weight:400;color:var(--text-dim);font-size:.72rem">&lt;${em.email}&gt;</span></div>
-        <div class="inbox-match-sub">📧 ${em.subject} &nbsp;·&nbsp; 🗓️ ${em.date}</div>
-        ${em.body ? `<div class="inbox-match-body">${em.body.slice(0,160)}${em.body.length>160?'…':''}</div>` : ''}
-        <div class="inbox-match-lead">🎯 Lead: ${l.company} — ${l.name} · Estado actual: <strong>${l.status}</strong></div>
-      </div>
-      <div class="inbox-match-actions">
-        ${applied
-          ? `<span style="font-size:.72rem;color:var(--success)">✅ Aplicado</span>
-             <button class="btn-action btn-sm" onclick="openReplyModal(${originalIndex})" style="white-space:nowrap;background:rgba(99,102,241,.15);color:#a78bfa;border:1px solid rgba(99,102,241,.3)">✨ Contestar</button>`
-          : `<button class="btn-action btn-sm" onclick="applySingleMatch(${originalIndex})" style="white-space:nowrap">✅ Aplicar</button>
-             <button class="btn-action btn-sm" onclick="openLeadDrawer('${l.id}')" style="white-space:nowrap">Ver lead</button>
-             <button class="btn-action btn-sm" onclick="openReplyModal(${originalIndex})" style="white-space:nowrap;background:rgba(99,102,241,.15);color:#a78bfa;border:1px solid rgba(99,102,241,.3)">✨ Contestar</button>`
-        }
-      </div>
-    </div>`;
-  }).join('') : '<div style="font-size:.82rem;color:var(--text-muted);padding:.5rem">Ningún email coincide con leads de tu CRM.</div>';
+  const safeText = value => String(value == null ? '' : value);
+  const matchKey = em => [em.email, em.date, em.subject, em.body].map(safeText).join('\u001f');
+  const canBuildDom = typeof document.createElement === 'function';
+  const clear = element => {
+    if (typeof element.replaceChildren === 'function') element.replaceChildren();
+    else element.textContent = '';
+  };
+  const make = (tag, className, text) => {
+    const element = document.createElement(tag);
+    if (className) element.className = className;
+    if (text !== undefined) element.textContent = safeText(text);
+    return element;
+  };
 
-  // Render unmatched
+  clear(list);
+  clear(nomatchList);
+  if (!canBuildDom) {
+    list.textContent = matched.map(em => `${safeText(em.name)} <${safeText(em.email)}> ${safeText(em.subject)} ${safeText(em.date)}`).join('\n');
+    nomatchList.textContent = unmatched.map(em => `${safeText(em.name)} <${safeText(em.email)}> ${safeText(em.subject)}`).join('\n');
+  } else if (!matched.length) {
+    list.append(make('div', 'inbox-empty', 'Ningun email coincide con leads de tu CRM.'));
+  } else {
+    matched.forEach((em, index) => {
+      const lead = em.lead;
+      const applied = _inboxApplied.has(matchKey(em));
+      const card = make('div', `inbox-match-card matched${applied ? ' applied' : ''}`); card.id = `imatch-${index}`;
+      const initials = safeText(em.name || '?').split(' ').map(word => word[0]).join('').slice(0, 2).toUpperCase();
+      card.append(make('div', 'inbox-match-avatar', initials));
+      const info = make('div', 'inbox-match-info');
+      info.append(make('div', 'inbox-match-from', `${safeText(em.name)} <${safeText(em.email)}>`));
+      info.append(make('div', 'inbox-match-sub', `${safeText(em.subject)} - ${safeText(em.date)}`));
+      if (em.body) info.append(make('div', 'inbox-match-body', `${safeText(em.body).slice(0, 160)}${safeText(em.body).length > 160 ? '...' : ''}`));
+      info.append(make('div', 'inbox-match-lead', `Lead: ${safeText(lead.company)} - ${safeText(lead.name)} - Estado actual: ${safeText(lead.status)}`));
+      card.append(info);
+      const actions = make('div', 'inbox-match-actions');
+      if (applied) {
+        actions.append(make('span', 'inbox-match-applied', 'Revisado e incorporado'));
+      } else {
+        const review = make('button', 'btn-action btn-sm', 'Revisar respuesta'); review.type = 'button'; review.addEventListener('click', () => applySingleMatch(em.originalIndex));
+        const view = make('button', 'btn-action btn-sm', 'Ver lead'); view.type = 'button'; view.addEventListener('click', () => openLeadDrawer(lead.id));
+        actions.append(review, view);
+      }
+      card.append(actions); list.append(card);
+    });
+  }
+
   if (unmatched.length) {
     nomatchPanel.style.display = 'block';
-    nomatchList.innerHTML = unmatched.map(em => `
-      <div class="inbox-match-card nomatch" style="padding:.6rem 1rem">
-        <div class="inbox-match-avatar" style="width:30px;height:30px;font-size:.72rem">${(em.name||'?')[0].toUpperCase()}</div>
-        <div class="inbox-match-info">
-          <div class="inbox-match-from" style="font-size:.8rem">${em.name} &lt;${em.email}&gt;</div>
-          <div class="inbox-match-sub">${em.subject}</div>
-        </div>
-        <button class="btn-action btn-sm" onclick="createLeadFromInbox('${em.email}','${(em.name||'').replace(/'/g,'')}','${(em.subject||'').replace(/'/g,'').slice(0,60)}')" style="white-space:nowrap;flex-shrink:0">+ Crear lead</button>
-      </div>`).join('');
-  } else {
-    nomatchPanel.style.display = 'none';
-  }
+    if (canBuildDom) unmatched.forEach(em => {
+      const card = make('div', 'inbox-match-card nomatch');
+      card.append(make('div', 'inbox-match-avatar', safeText(em.name || '?')[0].toUpperCase()));
+      const info = make('div', 'inbox-match-info');
+      info.append(make('div', 'inbox-match-from', `${safeText(em.name)} <${safeText(em.email)}>`));
+      info.append(make('div', 'inbox-match-sub', em.subject));
+      const notice = make('button', 'btn-action btn-sm', 'Crear lead primero'); notice.type = 'button';
+      notice.addEventListener('click', () => showToast('Crea y verifica el lead antes de incorporar su respuesta mediante C5.'));
+      card.append(info, notice); nomatchList.append(card);
+    });
+  } else nomatchPanel.style.display = 'none';
 
   document.getElementById('inbox-apply-btn').style.display = matched.length ? 'inline-flex' : 'none';
   panel.style.display = 'block';
 }
 
-async function applyInboxMatch(emailAddr, leadId, subject, body, date) {
+async function applyInboxMatch(emailAddr, leadId, subject, body, date, options = {}) {
   const lead = leads.find(l => l.id == leadId);
-  if (!lead) return;
-
-  // 1. Cambiar estado (con confirmación)
-  const oldStatus = lead.status;
-  const _applyResp2 = () => {
-    if (!['Respuesta del cliente','Visita','Entrega de presupuesto','Cerrado'].includes(lead.status)) {
-      lead.status = 'Respuesta del cliente';
-      lead.status_date = new Date().toISOString();
-      addActivityLog(lead.id, `Estado cambiado: ${oldStatus} -> Respuesta del cliente`);
-    }
-  };
-  if (!['Respuesta del cliente','Visita','Entrega de presupuesto','Cerrado'].includes(lead.status)) {
-    confirmStatusChange(lead, 'Respuesta del cliente', _applyResp2);
-  } else {
-    _applyResp2();
-  }
-
-  // 2. Guardar extracto en notas
-  const ts = `[${new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'short'})}]`;
-  const noteEntry = `${ts} 📬 Respuesta recibida — Asunto: "${subject}"${body ? '\n' + body.slice(0,200) : ''}`;
-  lead.notes = (lead.notes ? lead.notes + '\n' : '') + noteEntry;
-
-  // 3. Programar seguimiento automático (2 días)
-  if (!lead.next_contact) {
-    const d = new Date(); d.setDate(d.getDate() + 2);
-    lead.next_contact = d.toISOString().slice(0,10);
-    addActivityLog(lead.id, `📅 Seguimiento auto: ${d.toLocaleDateString('es-ES')}`);
-  }
-
-  // 4. Registrar en emailHistory como recibido
-  emailHistory.unshift({
-    id: Date.now() + Math.random(),
-    ...CommercialCommunications.deriveIdentities({ lead, channel: 'email', target: emailAddr }),
-    leadId: lead.id,
-    company: lead.company,
-    email: emailAddr,
-    segment: lead.segment,
-    date: new Date().toISOString(),
-    status: 'Respuesta recibida',
-    commercialState: 'INBOUND_RECEIVED',
-    subject: subject || '(respuesta)',
-    notes: body ? body.slice(0,200) : '',
-    direction: 'inbound',
+  if (!lead) throw new Error('C5_INBOX_LEAD_NOT_FOUND');
+  if (typeof openCommercialResponseReview !== 'function') throw new Error('C5_REVIEW_UNAVAILABLE');
+  const raw = [
+    `De: <${String(emailAddr || '').trim()}>`,
+    `Asunto: ${String(subject || '(respuesta)').trim()}`,
+    date ? `Fecha: ${String(date).trim()}` : '',
+    '',
+    String(body || '').trim()
+  ].filter((value, index) => value || index >= 3).join('\n');
+  const result = await openCommercialResponseReview(lead, {
+    initialRaw: raw,
+    sourceRef: 'legacy_outlook_inbox',
+    onCommitted: options.onCommitted
   });
-  await persistEmailHistory('historial de emails');
-
-  lead.score = recalculateLeadScore(lead);
-  await saveLeads();
-  renderAll(); renderTracking();
-  updateFollowupBadge();
+  if (!result?.opened) throw new Error(result?.reason || 'C5_REVIEW_NOT_OPENED');
+  return result;
 }
 
 async function applySingleMatch(idx) {
   const em = _inboxMatched[idx];
   if (!em?.lead) return;
+  const key = [em.email, em.date, em.subject, em.body].map(value => String(value == null ? '' : value)).join('\u001f');
   try {
-    await applyInboxMatch(em.email, em.lead.id, em.subject, em.body, em.date);
-    _inboxApplied.add(em.email);
-    showToast(`✅ ${em.lead.company} -> Respuesta del cliente`);
-    renderInboxResults();
-  } catch {
-    showToast('No se pudo confirmar la respuesta del inbox.');
+    await applyInboxMatch(em.email, em.lead.id, em.subject, em.body, em.date, { onCommitted: () => {
+      _inboxApplied.add(key);
+      showToast(`Respuesta revisada e incorporada: ${em.lead.company}`);
+      renderInboxResults();
+    } });
+    showToast('Revisa individualmente la respuesta antes de incorporarla.');
+  } catch (error) {
+    showToast(`No se pudo abrir la revision segura: ${error.message}`);
   }
 }
 
 async function applyInboxMatches() {
-  const matched = _inboxMatched.filter(e => e.lead && !_inboxApplied.has(e.email));
+  const keyFor = em => [em.email, em.date, em.subject, em.body].map(value => String(value == null ? '' : value)).join('\u001f');
+  const matched = _inboxMatched.filter(em => em.lead && !_inboxApplied.has(keyFor(em)));
   if (!matched.length) { showToast('Nada nuevo que aplicar'); return; }
-  for (const em of matched) {
-    try {
-      await applyInboxMatch(em.email, em.lead.id, em.subject, em.body, em.date);
-      _inboxApplied.add(em.email);
-    } catch {
-      showToast('No se pudo confirmar una respuesta del inbox.');
-      break;
-    }
-  }
-  showToast(`📬 ${_inboxApplied.size} lead${_inboxApplied.size>1?'s':''} actualizados como "Respuesta del cliente"`);
-  renderInboxResults();
+  const first = matched[0];
+  await applySingleMatch(_inboxMatched.indexOf(first));
+  if (matched.length > 1) showToast(`Quedan ${matched.length - 1} respuestas. Deben revisarse una a una.`);
 }
 
 function createLeadFromInbox(email, name, subject) {

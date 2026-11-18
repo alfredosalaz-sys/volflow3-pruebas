@@ -50,45 +50,382 @@ async function saveLead() {
 }
 
 let _saveLeadsTimer = null;
+let _savedLeadFingerprints = null;
+let _savedLeadsSnapshot = null;
+let _savedLeadsById = null;
+let _visibleLeadBaselineById = new Map();
+const INCREMENTAL_LEAD_WRITE_LIMIT = 250;
+function persistenceLeadFingerprint(lead) {
+  return JSON.stringify(lead);
+}
+function leadFingerprintMap(rows) {
+  const output = new Map();
+  for (const lead of Array.isArray(rows) ? rows : []) if (lead?.id != null) output.set(String(lead.id), persistenceLeadFingerprint(lead));
+  return output;
+}
+function refreshVisibleLeadBaseline(rows = leads) {
+  _visibleLeadBaselineById = new Map((Array.isArray(rows) ? rows : [])
+    .filter(item => item?.id != null)
+    .map(item => [String(item.id), structuredClone(item)]));
+}
+function refreshVisibleLeadBaselineIds(ids, rowsById) {
+  for (const rawId of Array.isArray(ids) ? ids : []) {
+    const id = String(rawId);
+    const item = rowsById?.get(id);
+    if (item) _visibleLeadBaselineById.set(id, structuredClone(item));
+    else _visibleLeadBaselineById.delete(id);
+  }
+}
+async function loadAuthoritativeLeadsForSave() {
+  if (typeof window !== 'undefined' && window.VoltflowStorage?.isReady && await window.VoltflowStorage.isReady()) {
+    const stored = await window.VoltflowStorage.loadCriticalValue('gordi_leads', []);
+    if (Array.isArray(stored)) return stored;
+  }
+  let confirmedResult = null;
+  try {
+    const stored = JSON.parse(localStorage.getItem('gordi_leads') || '[]');
+    return Array.isArray(stored) ? stored : [];
+  } catch { return []; }
+}
+async function acquireLeadWriteToken() {
+  if (!window.VoltflowWriteCoordinator?.acquireExclusive) return null;
+  let lastError;
+  for (let attempt = 0; attempt < 80; attempt++) {
+    try { return await window.VoltflowWriteCoordinator.acquireExclusive('guardar leads'); }
+    catch (error) {
+      lastError = error;
+      if (!/LOCKED|LOCK_RACE|REPLAY_IN_PROGRESS/.test(String(error?.message))) throw error;
+      await new Promise(resolve => setTimeout(resolve, 25));
+    }
+  }
+  throw lastError || new Error('PERSISTENCE_WRITE_ALREADY_LOCKED');
+}
+async function initializeSavedLeadFingerprints(force = false) {
+  if (_savedLeadFingerprints && !force && (_savedLeadFingerprints.size > 0 || !Array.isArray(leads) || leads.length === 0)) return;
+  try {
+    if (typeof window !== 'undefined') {
+      const stored = await loadAuthoritativeLeadsForSave();
+      if (Array.isArray(stored)) {
+        _savedLeadFingerprints = leadFingerprintMap(stored);
+        _savedLeadsSnapshot = structuredClone(stored);
+        _savedLeadsById = new Map(_savedLeadsSnapshot.filter(item => item?.id != null).map(item => [String(item.id), item]));
+      }
+    }
+  } catch {}
+  if (!_savedLeadFingerprints) {
+    try {
+      const stored = JSON.parse(localStorage.getItem('gordi_leads') || '[]');
+      if (Array.isArray(stored)) {
+        _savedLeadFingerprints = leadFingerprintMap(stored);
+        _savedLeadsSnapshot = structuredClone(stored);
+        _savedLeadsById = new Map(_savedLeadsSnapshot.filter(item => item?.id != null).map(item => [String(item.id), item]));
+      }
+    } catch {}
+  }
+}
+async function refreshSavedLeadBaselineIfNeeded(rows) {
+  if (!Array.isArray(rows) || rows.length === 0 || (_savedLeadsById?.size || 0) > 0) return;
+  const authoritative = await loadAuthoritativeLeadsForSave();
+  if (!Array.isArray(authoritative) || authoritative.length === 0) return;
+  _savedLeadsSnapshot = structuredClone(authoritative);
+  _savedLeadsById = new Map(_savedLeadsSnapshot.filter(item => item?.id != null).map(item => [String(item.id), item]));
+  _savedLeadFingerprints = leadFingerprintMap(authoritative);
+}
+function persistedLeadChanges(rows) {
+  const next = new Map(); const byId = new Map();
+  for (const lead of rows) { if (lead?.id == null) continue; const id = String(lead.id); next.set(id, persistenceLeadFingerprint(lead)); byId.set(id, lead); }
+  if (!_savedLeadFingerprints) return { global: true, leadIds: [], changedLeads: [], next, byId };
+  const ids = new Set();
+  for (const [id, fingerprint] of next) if (_savedLeadFingerprints.get(id) !== fingerprint) ids.add(id);
+  for (const id of _savedLeadFingerprints.keys()) if (!next.has(id)) ids.add(id);
+  return { global: false, leadIds: [...ids], changedLeads: [...ids].map(id => byId.get(id)).filter(Boolean), next, byId };
+}
+function canonicalLeadValue(value) {
+  return window.VoltflowPersistenceRecovery?.canonical
+    ? window.VoltflowPersistenceRecovery.canonical(value)
+    : JSON.stringify(value);
+}
+function leadMatchesPersistedBaseline(local, baseline) {
+  if (local == null || baseline == null) return persistenceLeadFingerprint(local) === persistenceLeadFingerprint(baseline);
+  const baselineHasIdentity = !!(baseline.commercialRefs && typeof baseline.commercialRefs === 'object');
+  const strip = value => {
+    const copy = { ...value };
+    // Derived display fields may change during rendering. Commercial identity is
+    // compared once it exists in the persisted/visible baseline. Initial C2
+    // projection may legitimately add it to legacy rows without user editing.
+    delete copy.date; delete copy.status_date; delete copy.score;
+    if (!baselineHasIdentity) delete copy.commercialRefs;
+    return copy;
+  };
+  return canonicalLeadValue(strip(local)) === canonicalLeadValue(strip(baseline));
+}
+function cacheRejectedLeadDraft(drafts, id, draft) {
+  const current = drafts.get(id);
+  const identity = value => canonicalLeadValue({
+    companyId: value?.commercialRefs?.companyId || null,
+    establishmentId: value?.commercialRefs?.establishmentId || null,
+    contactId: value?.commercialRefs?.contactId || null
+  });
+  const currentIdentityConflict = !!current && identity(current.value) !== identity(current.authoritative);
+  const incomingIdentityConflict = !!draft && identity(draft.value) !== identity(draft.authoritative);
+  if (currentIdentityConflict && !incomingIdentityConflict) return current;
+  drafts.set(id, draft);
+  return draft;
+}
+async function reconcileRejectedLeadWrite(ids, intendedById, error) {
+  if (!window.VoltflowStorage?.loadCollectionRecords || !Array.isArray(ids) || !ids.length) return;
+  const uniqueIds = [...new Set(ids.map(String))];
+  const authoritative = await window.VoltflowStorage.loadCollectionRecords('gordi_leads', uniqueIds);
+  const drafts = window.__voltflowRejectedLeadDrafts ||= new Map();
+  const reconciled = [];
+  const pending = [];
+  for (const id of uniqueIds) {
+    const index = currentLeadIndexById(id);
+    const local = index >= 0 ? leads[index] : null;
+    const intended = intendedById.has(id) ? intendedById.get(id) : null;
+    const confirmed = authoritative[id] || null;
+    const localIsRejectedAttempt = canonicalLeadValue(local) === canonicalLeadValue(intended);
+    if (localIsRejectedAttempt) {
+      const draft = {
+        id, value: structuredClone(intended), authoritative: structuredClone(confirmed),
+        status: 'rejected-not-persisted', error: String(error?.code || error?.message || error),
+        createdAt: new Date().toISOString()
+      };
+      const durable = window.VoltflowStorage?.persistConflictDraft ? await window.VoltflowStorage.persistConflictDraft(draft) : draft;
+      cacheRejectedLeadDraft(drafts, id, durable);
+      if (index >= 0) leads.splice(index, 1);
+      if (confirmed) leads.push(structuredClone(confirmed));
+      reconciled.push(id);
+    } else if (canonicalLeadValue(local) !== canonicalLeadValue(confirmed)) {
+      const draft = {
+        id, value: structuredClone(local), authoritative: structuredClone(confirmed),
+        status: 'newer-edit-pending-review', error: String(error?.code || error?.message || error),
+        createdAt: new Date().toISOString()
+      };
+      const durable = window.VoltflowStorage?.persistConflictDraft ? await window.VoltflowStorage.persistConflictDraft(draft) : draft;
+      cacheRejectedLeadDraft(drafts, id, durable);
+      pending.push(id);
+    }
+    _savedLeadsById ||= new Map();
+    if (confirmed) _savedLeadsById.set(id, structuredClone(confirmed));
+    else _savedLeadsById.delete(id);
+    _savedLeadFingerprints ||= new Map();
+    if (confirmed) _savedLeadFingerprints.set(id, persistenceLeadFingerprint(confirmed));
+    else _savedLeadFingerprints.delete(id);
+  }
+  window.dispatchEvent(new CustomEvent('voltflow:lead-write-reconciled', {
+    detail: { ids: uniqueIds, reconciled, pending, persisted: false }
+  }));
+  if (typeof renderActiveView === 'function') renderActiveView();
+}
+function currentLeadIndexById(id) {
+  return Array.isArray(leads) ? leads.findIndex(item => String(item?.id ?? '') === String(id)) : -1;
+}
+async function reconcileAuthoritativeLeadRefresh(current, ids, marker = {}) {
+  await initializeSavedLeadFingerprints((_savedLeadsById?.size || 0) === 0 && Array.isArray(leads) && leads.length > 0);
+  const drafts = window.__voltflowRejectedLeadDrafts ||= new Map();
+  const pending = [];
+  const refreshed = [];
+  for (const rawId of ids || []) {
+    const id = String(rawId);
+    const confirmed = current[id] || null;
+    const index = currentLeadIndexById(id);
+    const local = index >= 0 ? leads[index] : null;
+    const baseline = _visibleLeadBaselineById.get(id) || _savedLeadsById?.get(id) || null;
+    const locallyEdited = !leadMatchesPersistedBaseline(local, baseline);
+    if (locallyEdited && canonicalLeadValue(local) !== canonicalLeadValue(confirmed)) {
+      const draft = {
+        id, value: structuredClone(local), authoritative: structuredClone(confirmed),
+        status: 'cross-tab-edit-pending-review', revision: Number(marker.revision || 0),
+        createdAt: new Date().toISOString()
+      };
+      const durable = window.VoltflowStorage?.persistConflictDraft ? await window.VoltflowStorage.persistConflictDraft(draft) : draft;
+      cacheRejectedLeadDraft(drafts, id, durable);
+      pending.push(id);
+      continue;
+    }
+    if (index >= 0) leads.splice(index, 1);
+    if (confirmed) leads.push(structuredClone(confirmed));
+    _savedLeadsById ||= new Map();
+    _savedLeadFingerprints ||= new Map();
+    if (confirmed) {
+      _savedLeadsById.set(id, structuredClone(confirmed));
+      _savedLeadFingerprints.set(id, persistenceLeadFingerprint(confirmed));
+    } else {
+      _savedLeadsById.delete(id);
+      _savedLeadFingerprints.delete(id);
+    }
+    if (confirmed) _visibleLeadBaselineById.set(id, structuredClone(confirmed));
+    else _visibleLeadBaselineById.delete(id);
+    // A refresh confirms the authoritative row, but it does not resolve the
+    // user's rejected edit. Durable drafts remain until an explicit review.
+    refreshed.push(id);
+  }
+  if (pending.length && typeof showToast === 'function') {
+    showToast(`Hay ${pending.length} cambio(s) local(es) sin guardar en conflicto. Revisa antes de reintentar.`);
+  }
+  window.dispatchEvent(new CustomEvent('voltflow:lead-authoritative-refresh', {
+    detail: { ids, refreshed, pending, revision: marker.revision, trigger: marker.trigger }
+  }));
+  if (refreshed.length && typeof renderActiveView === 'function') renderActiveView();
+}
+window.reconcileAuthoritativeLeadRefresh = reconcileAuthoritativeLeadRefresh;
+window.initializeLeadPersistenceBaseline = initializeSavedLeadFingerprints;
+window.refreshVisibleLeadBaseline = refreshVisibleLeadBaseline;
 async function saveLeads() {
+  const pendingToken = window.VoltflowPersistenceRecovery?.beginPending?.('leads');
   const currentLeads = Array.isArray(leads) ? leads : [];
-  if (currentLeads.length > 0 && typeof createCriticalRescueSnapshot === 'function') {
-    createCriticalRescueSnapshot('before_leads_save', { throttleMs: 5 * 60 * 1000 });
+  await initializeSavedLeadFingerprints();
+  await refreshSavedLeadBaselineIfNeeded(currentLeads);
+  const commercialChanges = persistedLeadChanges(currentLeads);
+  const nextById = commercialChanges.byId;
+  const recordChanges = { ids: commercialChanges.leadIds, before: _savedLeadsById || new Map(), next: nextById };
+  const indexedDbReady = !!window.VoltflowStorage?.isReady && await window.VoltflowStorage.isReady();
+  const canPatch = indexedDbReady && !!window.VoltflowStorage?.persistCollectionPatch && !!_savedLeadsSnapshot &&
+    recordChanges.ids.length > 0 && recordChanges.ids.length <= INCREMENTAL_LEAD_WRITE_LIMIT;
+  const baselineRows = canPatch ? null : (_savedLeadsById ? [..._savedLeadsById.values()] : (_savedLeadsSnapshot || []));
+  const baseline = canPatch
+    ? recordChanges.ids.map(id => recordChanges.before.get(id)).filter(Boolean).map(item => structuredClone(item))
+    : structuredClone(baselineRows);
+  const intended = canPatch
+    ? recordChanges.ids.map(id => recordChanges.next.get(id)).filter(Boolean).map(item => structuredClone(item))
+    : structuredClone(currentLeads);
+  if (!canPatch && baseline.length > 0 && recordChanges.ids.length > 0 && typeof createCriticalRescueSnapshot === 'function') {
+    const rescue = await createCriticalRescueSnapshot('before_leads_save', {
+      throttleMs: 5 * 60 * 1000,
+      maxBytes: 512000
+    });
+    if (!rescue?.recoverable && !rescue?.snapshot) {
+      throw new Error('CRITICAL_RESCUE_NOT_CONFIRMED');
+    }
   }
   if (currentLeads.length === 0) {
     try {
       const stored = JSON.parse(localStorage.getItem('gordi_leads') || '[]');
       if (Array.isArray(stored) && stored.length > 0 && typeof createSafetySnapshot === 'function') {
-        createSafetySnapshot('before_empty_leads_save');
+        await createSafetySnapshot('before_empty_leads_save');
         console.warn('Snapshot creado antes de guardar cero leads sobre un almacenamiento con datos.');
       }
       if (Array.isArray(stored) && stored.length > 0 && typeof createCriticalRescueSnapshot === 'function') {
-        createCriticalRescueSnapshot('before_empty_leads_save');
+        await createCriticalRescueSnapshot('before_empty_leads_save');
       }
     } catch (e) {
-      if (typeof createSafetySnapshot === 'function') createSafetySnapshot('before_empty_leads_save_unparsed');
-      if (typeof createCriticalRescueSnapshot === 'function') createCriticalRescueSnapshot('before_empty_leads_save_unparsed');
+      if (typeof createSafetySnapshot === 'function') await createSafetySnapshot('before_empty_leads_save_unparsed');
+      if (typeof createCriticalRescueSnapshot === 'function') await createCriticalRescueSnapshot('before_empty_leads_save_unparsed');
     }
   }
-  try {
-    localStorage.setItem('gordi_local_last_modified', new Date().toISOString());
-    if (typeof persistCriticalData === 'function') {
-      await persistCriticalData('gordi_leads', currentLeads, { label: 'leads' });
-    } else {
-      localStorage.setItem('gordi_leads', JSON.stringify(currentLeads));
+  const commit = async () => {
+    if (recordChanges.ids.length === 0) return { value: [], persistenceResult: { ok: true, mode: 'unchanged' } };
+    let token = null;
+    try {
+      token = await acquireLeadWriteToken();
+      const authoritativeMap = canPatch
+        ? await window.VoltflowStorage.loadCollectionRecords('gordi_leads', recordChanges.ids)
+        : null;
+      const authoritative = canPatch
+        ? recordChanges.ids.map(id => authoritativeMap[id]).filter(Boolean)
+        : await loadAuthoritativeLeadsForSave();
+      const merge = window.VoltflowPersistenceRecovery?.mergeCollectionsById
+        ? window.VoltflowPersistenceRecovery.mergeCollectionsById(baseline, intended, authoritative, 'id')
+        : { ok: JSON.stringify(authoritative) === JSON.stringify(baseline), value: intended, conflicts: [] };
+      if (!merge.ok) {
+        const error = new Error(`PERSISTENCE_VERSION_CONFLICT:${merge.conflicts.join(',')}`);
+        error.code = 'PERSISTENCE_VERSION_CONFLICT';
+        error.conflicts = merge.conflicts;
+        throw error;
+      }
+      const value = merge.value;
+      if (token && window.VoltflowWriteCoordinator?.authorizedSetItem) {
+        window.VoltflowWriteCoordinator.authorizedSetItem(token, localStorage, 'gordi_local_last_modified', new Date().toISOString());
+      } else localStorage.setItem('gordi_local_last_modified', new Date().toISOString());
+      let persistenceResult;
+      if (canPatch) {
+        const mergedById = new Map(value.map(item => [String(item.id), item]));
+        persistenceResult = await window.VoltflowStorage.persistCollectionPatch('gordi_leads', {
+          puts: recordChanges.ids.map(id => mergedById.get(id)).filter(Boolean),
+          deletes: recordChanges.ids.filter(id => !mergedById.has(id)),
+          expected: authoritativeMap
+        }, { label: 'leads', coordinationToken: token, stateReflectsPatch: true });
+      } else if (typeof persistCriticalData === 'function') {
+        const nextIds = new Set(value.map(item => String(item?.id ?? item?._id ?? '')));
+        const allowedDeletes = baseline
+          .map(item => String(item?.id ?? item?._id ?? ''))
+          .filter(id => id && !nextIds.has(id));
+        persistenceResult = await persistCriticalData('gordi_leads', value, {
+          label: 'leads', coordinationToken: token, baselineItems: baseline, allowedDeletes
+        });
+      } else {
+        localStorage.setItem('gordi_leads', JSON.stringify(value));
+      }
+      const verified = canPatch ? value : await loadAuthoritativeLeadsForSave();
+      const verifiedByPersistenceFingerprint = Array.isArray(verified) && verified.length === value.length && value.every(expected => {
+        const actual = verified.find(row => String(row?.id) === String(expected?.id));
+        return !!actual && persistenceLeadFingerprint(actual) === persistenceLeadFingerprint(expected);
+      });
+      if (!verifiedByPersistenceFingerprint) {
+        throw new Error('PERSISTENCE_WRITE_VERIFICATION_FAILED');
+      }
+      if (canPatch) {
+        const mergedById = new Map(value.map(item => [String(item.id), item]));
+        const changedIdSet = new Set(recordChanges.ids);
+        for (let index = currentLeads.length - 1; index >= 0; index--) {
+          const id = String(currentLeads[index]?.id ?? '');
+          if (!changedIdSet.has(id)) continue;
+          if (mergedById.has(id)) currentLeads[index] = structuredClone(mergedById.get(id));
+          else currentLeads.splice(index, 1);
+        }
+        for (const [id, item] of mergedById) {
+          if (!currentLeads.some(row => String(row?.id ?? '') === id)) currentLeads.push(structuredClone(item));
+        }
+        _savedLeadsById ||= new Map();
+        recordChanges.ids.forEach(id => _savedLeadsById.delete(id));
+        value.forEach(item => _savedLeadsById.set(String(item.id), structuredClone(item)));
+        return { value, persistenceResult };
+      }
+      if (Array.isArray(leads)) leads.splice(0, leads.length, ...structuredClone(value));
+      _savedLeadsSnapshot = structuredClone(value);
+      _savedLeadsById = new Map(_savedLeadsSnapshot.filter(item => item?.id != null).map(item => [String(item.id), item]));
+      return { value, persistenceResult };
+    } finally {
+      if (token && window.VoltflowWriteCoordinator?.getFence?.()?.id === token.id) window.VoltflowWriteCoordinator.release(token);
     }
+  };
+  try {
+    const operationSource = `${window.VoltflowPersistenceRecovery?.canonical(baseline)}>${window.VoltflowPersistenceRecovery?.canonical(intended)}`;
+    let operationHash = 2166136261;
+    for (let index = 0; index < operationSource.length; index++) operationHash = Math.imul(operationHash ^ operationSource.charCodeAt(index), 16777619);
+    const operationId = `leads:${operationHash >>> 0}`;
+    if (window.VoltflowPersistenceRecovery?.run) {
+      confirmedResult = await window.VoltflowPersistenceRecovery.run({ id: operationId, label: 'leads', execute: commit, retry: commit });
+    } else confirmedResult = await commit();
   } catch (e) {
     console.error('No se pudieron confirmar los leads en el almacenamiento autoritativo:', e);
+    try { await reconcileRejectedLeadWrite(recordChanges.ids, nextById, e); } catch (reconcileError) {
+      console.error('No se pudo reconciliar la vista con IndexedDB:', reconcileError);
+    }
     if (typeof createCriticalRescueSnapshot === 'function') {
-      try { createCriticalRescueSnapshot('critical_save_failed', { throttleMs: 0 }); } catch {}
+      try { await createCriticalRescueSnapshot('critical_save_failed', { throttleMs: 0 }); } catch {}
     }
     showToast('No se pudieron guardar los leads. El cambio queda pendiente de recuperacion.');
+    window.VoltflowPersistenceRecovery?.endPending?.(pendingToken);
     throw e;
   }
   _goldenProfile = null; // Invalidar cache lookalike
 
   // 🏛️ ARQUITECTURA: Notificar cambio global
-  if (typeof notifyStateChange === 'function') notifyStateChange();
+  if (canPatch || recordChanges.ids.length === 0) {
+    _savedLeadFingerprints = commercialChanges.next;
+    for (const id of recordChanges.ids) {
+      const item = commercialChanges.byId.get(id);
+      if (item) _savedLeadFingerprints.set(id, persistenceLeadFingerprint(item));
+      else _savedLeadFingerprints.delete(id);
+    }
+  } else _savedLeadFingerprints = leadFingerprintMap(_savedLeadsSnapshot || currentLeads);
+  if (typeof notifyStateChange === 'function') notifyStateChange('leads', {
+    global: commercialChanges.global,
+    leadIds: commercialChanges.leadIds,
+    changedLeads: commercialChanges.changedLeads
+  });
 
   // Debounce heavy network calls — batch multiple saves into one push
   if (_saveLeadsTimer) clearTimeout(_saveLeadsTimer);
@@ -101,7 +438,19 @@ async function saveLeads() {
       if (typeof jsonbinPush === 'function') jsonbinPush(false);
     }
   }, 2000); // wait 2s after last save before pushing to cloud
-  return { ok: true, count: currentLeads.length };
+  window.VoltflowPersistenceRecovery?.endPending?.(pendingToken);
+  const result = {
+    ok: true,
+    count: currentLeads.length,
+    mode: confirmedResult?.persistenceResult?.mode || (recordChanges.ids.length ? 'full-collection' : 'unchanged'),
+    changedRecords: recordChanges.ids.length,
+    timings: confirmedResult?.persistenceResult?.timings || null,
+    compat: confirmedResult?.persistenceResult?.compat || null
+  };
+  window.__voltflowLastLeadPersistence = result;
+  if (canPatch) refreshVisibleLeadBaselineIds(recordChanges.ids, _savedLeadsById);
+  else refreshVisibleLeadBaseline(currentLeads);
+  return result;
 }
 
 function getCoverageLeadScope() {
@@ -288,6 +637,7 @@ function showLeadEmptyState(empty, activeCount, totalLeads) {
 function renderLeads() {
   saveFilters();
   renderCoverageLeadScopeBar();
+  if (typeof renderCommercialFollowupOverview === 'function') renderCommercialFollowupOverview();
   const tbody = document.getElementById('leads-body');
   const empty = document.getElementById('leads-empty');
   if (!tbody) return;
@@ -702,6 +1052,8 @@ function openLeadDetail(id) {
         <button class="btn-outline" onclick="duplicateLead('${lead.id}');closeLead()">⎘ Duplicar</button>
         <button class="btn-outline" onclick="closeLead()">Cancelar</button>
       </div>
+      <div id="lead-data-quality-c71" class="c71-evidence"></div>
+      <div id="commercial-memory-panel" class="commercial-memory-panel"></div>
       <!-- Emails enviados -->
       <div style="border-top:1px solid var(--glass-border);padding-top:.75rem">
         <div style="font-size:.72rem;color:var(--text-muted);margin-bottom:.4rem;font-weight:600">EMAILS ENVIADOS A ESTA EMPRESA</div>
@@ -724,6 +1076,8 @@ function openLeadDetail(id) {
       </div>
     </div>`;
   document.getElementById('lead-modal').style.display = 'flex';
+  if (typeof renderLeadContextC71 === 'function') renderLeadContextC71(lead);
+  if (typeof renderCommercialMemoryLeadPanel === 'function') renderCommercialMemoryLeadPanel(lead);
   // Inicializar datepicker en el modal de detalle
   setTimeout(initDetailDatePicker, 50);
   // Auto-render psych profile if it exists
@@ -734,6 +1088,8 @@ async function saveLeadDetail(id) {
   const lead = leads.find(l => l.id == id);
   if (!lead) return;
   const oldStatus = lead.status;
+  const oldNotes = lead.notes || '';
+  const oldNextContact = lead.next_contact || '';
   lead.email = document.getElementById('detail-email').value.trim();
   lead.phone = document.getElementById('detail-phone').value.trim();
   lead.status = document.getElementById('detail-status').value;
@@ -752,6 +1108,30 @@ async function saveLeadDetail(id) {
   lead.score = recalculateLeadScore(lead);
   try {
     await saveLeads();
+    if (typeof ensureCommercialMemoryForLead === 'function') {
+      try {
+        await ensureCommercialMemoryForLead(lead);
+        if (lead.notes && lead.notes !== oldNotes && typeof recordCommercialMemoryEvent === 'function') {
+          await recordCommercialMemoryEvent(lead, 'note_added', { text: lead.notes }, {
+            idempotencyKey: `lead-note:${lead.id}:${VoltflowCommercialMemory.hash(lead.notes)}`
+          });
+        }
+        if (lead.status !== oldStatus && typeof recordCommercialMemoryEvent === 'function') {
+          const statusMap = { Pendiente: 'new', Contactado: 'contacted', 'Entrega de presupuesto': 'quote', Cerrado: 'won', 'No interesa': 'rejected' };
+          await recordCommercialMemoryEvent(lead, 'commercial_status_changed', {
+            status: statusMap[lead.status] || 'contacted',
+            legacyStatus: lead.status,
+            previousLegacyStatus: oldStatus
+          }, { idempotencyKey: `lead-status:${lead.id}:${lead.status}:${lead.status_date}` });
+        }
+        if (lead.next_contact && lead.next_contact !== oldNextContact && typeof setCommercialNextAction === 'function') {
+          await setCommercialNextAction(lead, { text: 'Revisar proximo contacto', dueAt: lead.next_contact });
+        }
+      } catch (memoryError) {
+        console.error('C2 commercial memory persistence failed:', memoryError?.message || memoryError);
+        showToast('Lead guardado; la memoria comercial necesita reintento.');
+      }
+    }
     renderAll();
     closeLead();
     showToast('Lead actualizado ✓');
@@ -760,26 +1140,44 @@ async function saveLeadDetail(id) {
   }
 }
 
-function logCall(id) {
+async function logCall(id) {
   const note = prompt('Nota de la llamada (qué se habló):');
   if (!note) return;
   const lead = leads.find(l => l.id == id);
   if (!lead) return;
+  const occurredAt = new Date().toISOString();
   addActivityLog(id, `📞 Llamada: ${note}`);
   const notesEl = document.getElementById('detail-notes');
   if (notesEl) notesEl.value = (notesEl.value ? notesEl.value + '\n' : '') + `[${new Date().toLocaleDateString('es-ES')}] 📞 ${note}`;
-  saveLeads();
-  showToast('Llamada registrada ✓');
+  try {
+    await saveLeads();
+    if (typeof recordCommercialMemoryEvent === 'function') {
+      await recordCommercialMemoryEvent(lead, 'call_logged', { text: note }, {
+        occurredAt,
+        idempotencyKey: `lead-call:${lead.id}:${occurredAt}`
+      });
+    }
+    showToast('Llamada registrada ✓');
+  } catch {
+    showToast('No se pudo confirmar el registro de la llamada.');
+  }
 }
 
 function markNotInterested(id) {
   const lead = leads.find(l => l.id == id);
   if (!lead) return;
-  confirmStatusChange(lead, 'No interesa', () => {
+  confirmStatusChange(lead, 'No interesa', async () => {
     lead.status = 'No interesa';
     lead.status_date = new Date().toISOString();
     addActivityLog(id, 'Marcado como No interesa');
-    saveLeads(); closeLead(); renderAll();
+    await saveLeads();
+    if (typeof recordCommercialMemoryEvent === 'function') {
+      await recordCommercialMemoryEvent(lead, 'contact_rejected', { text: 'Marcado como no interesa por el usuario.' }, {
+        occurredAt: lead.status_date,
+        idempotencyKey: `lead-rejected:${lead.id}:${lead.status_date}`
+      });
+    }
+    closeLead(); renderAll();
     showToast('Lead marcado como No interesa');
   });
 }

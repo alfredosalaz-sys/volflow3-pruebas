@@ -5,6 +5,7 @@
 const AI_ZERO_COST_MODE = true;
 const AI_FREE_POLICY_VERSION = '2026-10-15.2';
 const AI_FREE_APPROVAL_TTL_MS = 8 * 60 * 60 * 1000;
+const AI_PROVIDER_SETTINGS_KEY = 'gordi_ai_provider_settings_v1';
 const AI_ZERO_COST_PROVIDERS = {
   gemini: {
     model: 'gemini-2.5-flash-lite',
@@ -56,6 +57,7 @@ const aiRuntime = {
   controllers: new Map(),
 };
 const AI_TASK_PROFILES = Object.freeze({
+  commercial_first_contact: Object.freeze({ capability: 'json', order: Object.freeze(['gemini', 'groq', 'openrouter']) }),
   email_body_generation: Object.freeze({ capability: 'json', order: Object.freeze(['gemini', 'groq', 'openrouter']) }),
   email_subject_regeneration: Object.freeze({ capability: 'text', order: Object.freeze(['groq', 'gemini', 'openrouter']) }),
   email_followup_generation: Object.freeze({ capability: 'json', order: Object.freeze(['gemini', 'groq', 'openrouter']) }),
@@ -72,6 +74,127 @@ function aiSafeStorageGet(store, key, fallback = '') {
 
 function aiSafeStorageSet(store, key, value) {
   try { store.setItem(key, String(value)); return true; } catch { return false; }
+}
+
+function aiSafeStorageRemove(store, key) {
+  try { store.removeItem(key); return true; } catch { return false; }
+}
+
+function aiDefaultProviderSettings() {
+  const priority = Object.keys(AI_ZERO_COST_PROVIDERS);
+  return {
+    schemaVersion: 1,
+    priority,
+    providers: Object.fromEntries(priority.map(provider => [provider, {
+      enabled: true,
+      model: AI_ZERO_COST_PROVIDERS[provider].model
+    }]))
+  };
+}
+
+function getAIProviderSettings() {
+  const defaults = aiDefaultProviderSettings();
+  let parsed = {};
+  try { parsed = JSON.parse(aiSafeStorageGet(localStorage, AI_PROVIDER_SETTINGS_KEY, '{}')); } catch {}
+  const known = Object.keys(AI_ZERO_COST_PROVIDERS);
+  const requestedPriority = Array.isArray(parsed?.priority) ? parsed.priority.filter(provider => known.includes(provider)) : [];
+  const priority = [...new Set([...requestedPriority, ...known])];
+  const providers = {};
+  for (const provider of known) {
+    const cfg = AI_ZERO_COST_PROVIDERS[provider];
+    const saved = parsed?.providers?.[provider] || {};
+    providers[provider] = {
+      enabled: saved.enabled !== false,
+      model: cfg.freeModels.includes(saved.model) ? saved.model : cfg.model
+    };
+  }
+  return { schemaVersion: 1, priority, providers };
+}
+
+function saveAIProviderSettings(settings = {}) {
+  const current = getAIProviderSettings();
+  const known = Object.keys(AI_ZERO_COST_PROVIDERS);
+  const priority = Array.isArray(settings.priority)
+    ? [...new Set(settings.priority.filter(provider => known.includes(provider)))]
+    : current.priority;
+  const providers = {};
+  for (const provider of known) {
+    const cfg = AI_ZERO_COST_PROVIDERS[provider];
+    const requested = settings.providers?.[provider] || current.providers[provider];
+    providers[provider] = {
+      enabled: requested.enabled !== false,
+      model: cfg.freeModels.includes(requested.model) ? requested.model : cfg.model
+    };
+    if (!providers[provider].enabled) revokeAIFreeProvider(provider);
+  }
+  const normalized = { schemaVersion: 1, priority: [...priority, ...known.filter(provider => !priority.includes(provider))], providers };
+  if (!aiSafeStorageSet(localStorage, AI_PROVIDER_SETTINGS_KEY, JSON.stringify(normalized))) {
+    return { ok: false, reason: 'provider_settings_not_persisted' };
+  }
+  return { ok: true, settings: normalized };
+}
+
+function aiProviderStorageKey(provider) {
+  return ({ gemini: 'gordi_gemini_key', groq: 'gordi_groq_key', openrouter: 'gordi_openrouter_key' })[provider] || null;
+}
+
+function validateAIProviderKey(provider, value) {
+  const key = String(value || '').trim();
+  const patterns = {
+    gemini: /^AIza[0-9A-Za-z_-]{12,}$/,
+    groq: /^gsk_[0-9A-Za-z_-]{12,}$/,
+    openrouter: /^sk-or-[0-9A-Za-z_-]{12,}$/
+  };
+  if (!AI_ZERO_COST_PROVIDERS[provider]) return { ok: false, reason: 'provider_not_registered' };
+  if (!key) return { ok: false, reason: 'missing_key' };
+  if (!patterns[provider]?.test(key)) return { ok: false, reason: 'invalid_key_format' };
+  return { ok: true, key };
+}
+
+function maskAIProviderKey(value) {
+  const key = String(value || '');
+  if (!key) return '';
+  const visible = Math.min(4, key.length);
+  return `${key.slice(0, Math.min(4, Math.max(0, key.length - visible)))}${'*'.repeat(Math.max(8, key.length - visible))}${key.slice(-visible)}`;
+}
+
+function setAIProviderKey(provider, value, options = {}) {
+  const validation = validateAIProviderKey(provider, value);
+  if (!validation.ok) return validation;
+  const storageKey = aiProviderStorageKey(provider);
+  const persistence = options.persistence === 'persistent' ? 'persistent' : 'session';
+  revokeAIFreeProvider(provider);
+  if (persistence === 'persistent') {
+    if (!aiSafeStorageSet(localStorage, storageKey, validation.key)) return { ok: false, reason: 'key_not_persisted' };
+    aiSafeStorageRemove(sessionStorage, storageKey);
+  } else {
+    if (!aiSafeStorageSet(sessionStorage, storageKey, validation.key)) return { ok: false, reason: 'key_not_stored_in_session' };
+    aiSafeStorageRemove(localStorage, storageKey);
+  }
+  return { ok: true, provider, persistence, masked: maskAIProviderKey(validation.key), connectionVerified: false };
+}
+
+function removeAIProviderKey(provider) {
+  const storageKey = aiProviderStorageKey(provider);
+  if (!storageKey) return { ok: false, reason: 'provider_not_registered' };
+  revokeAIFreeProvider(provider);
+  const removedSession = aiSafeStorageRemove(sessionStorage, storageKey);
+  const removedPersistent = aiSafeStorageRemove(localStorage, storageKey);
+  return { ok: removedSession && removedPersistent, provider };
+}
+
+function getAIProviderKeyMetadata(provider) {
+  const storageKey = aiProviderStorageKey(provider);
+  if (!storageKey) return { configured: false, persistence: null, masked: '', connectionVerified: false };
+  const sessionKey = aiSafeStorageGet(sessionStorage, storageKey, '');
+  const persistentKey = aiSafeStorageGet(localStorage, storageKey, '');
+  const key = sessionKey || persistentKey;
+  return {
+    configured: !!key,
+    persistence: sessionKey ? 'session' : persistentKey ? 'persistent' : null,
+    masked: maskAIProviderKey(key),
+    connectionVerified: false
+  };
 }
 
 function aiEstimateTokens(text = '') {
@@ -275,6 +398,7 @@ function aiZeroCostAllowed(provider, model, key = '') {
   if (!AI_ZERO_COST_MODE) return { ok: true };
   const cfg = AI_ZERO_COST_PROVIDERS[provider];
   if (!cfg) return { ok: false, reason: 'provider_not_registered' };
+  if (getAIProviderSettings().providers[provider]?.enabled === false) return { ok: false, reason: 'provider_disabled' };
   if (!cfg.verifiedFree) return { ok: false, reason: 'provider_not_verified_free' };
   const selectedModel = model || cfg.model;
   if (!cfg.freeModels.includes(selectedModel)) return { ok: false, reason: 'paid_or_unverified_model_blocked' };
@@ -416,8 +540,7 @@ function aiFinalizeResponse(response, data, success = true) {
 }
 
 function getAIProviderKey(provider) {
-  const keyMap = { gemini: 'gordi_gemini_key', groq: 'gordi_groq_key', openrouter: 'gordi_openrouter_key' };
-  const storageKey = keyMap[provider];
+  const storageKey = aiProviderStorageKey(provider);
   if (!storageKey) return '';
   try {
     const sessionKey = sessionStorage.getItem(storageKey);
@@ -567,6 +690,8 @@ const AI_ROUTER = {
       openrouter: getAIProviderKey('openrouter'),
     };
     let order = [...profile.order];
+    const providerSettings = getAIProviderSettings();
+    order = [...providerSettings.priority.filter(name => profile.order.includes(name)), ...profile.order.filter(name => !providerSettings.priority.includes(name))];
     if (preference.mode === 'manual') order = [preference.provider];
     if (options.provider) order = [options.provider];
 
@@ -623,9 +748,9 @@ const AI_ROUTER = {
     const groqKey = getAIProviderKey('groq');
     const openrouterKey = getAIProviderKey('openrouter');
     return {
-      gemini: { configured: !!geminiKey, limited: this._isLimited('gemini'), model: AI_ZERO_COST_PROVIDERS.gemini.model, telemetry: aiReadTelemetry('gemini', AI_ZERO_COST_PROVIDERS.gemini.model), ...aiZeroCostAllowed('gemini', AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey) },
-      groq: { configured: !!groqKey, limited: this._isLimited('groq'), model: AI_ZERO_COST_PROVIDERS.groq.model, telemetry: aiReadTelemetry('groq', AI_ZERO_COST_PROVIDERS.groq.model), ...aiZeroCostAllowed('groq', AI_ZERO_COST_PROVIDERS.groq.model, groqKey) },
-      openrouter: { configured: !!openrouterKey, limited: this._isLimited('openrouter'), model: AI_ZERO_COST_PROVIDERS.openrouter.model, telemetry: aiReadTelemetry('openrouter', AI_ZERO_COST_PROVIDERS.openrouter.model), ...aiZeroCostAllowed('openrouter', AI_ZERO_COST_PROVIDERS.openrouter.model, openrouterKey) },
+      gemini: { ...getAIProviderKeyMetadata('gemini'), enabled: getAIProviderSettings().providers.gemini.enabled, limited: this._isLimited('gemini'), model: AI_ZERO_COST_PROVIDERS.gemini.model, telemetry: aiReadTelemetry('gemini', AI_ZERO_COST_PROVIDERS.gemini.model), ...aiZeroCostAllowed('gemini', AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey) },
+      groq: { ...getAIProviderKeyMetadata('groq'), enabled: getAIProviderSettings().providers.groq.enabled, limited: this._isLimited('groq'), model: AI_ZERO_COST_PROVIDERS.groq.model, telemetry: aiReadTelemetry('groq', AI_ZERO_COST_PROVIDERS.groq.model), ...aiZeroCostAllowed('groq', AI_ZERO_COST_PROVIDERS.groq.model, groqKey) },
+      openrouter: { ...getAIProviderKeyMetadata('openrouter'), enabled: getAIProviderSettings().providers.openrouter.enabled, limited: this._isLimited('openrouter'), model: AI_ZERO_COST_PROVIDERS.openrouter.model, telemetry: aiReadTelemetry('openrouter', AI_ZERO_COST_PROVIDERS.openrouter.model), ...aiZeroCostAllowed('openrouter', AI_ZERO_COST_PROVIDERS.openrouter.model, openrouterKey) },
     };
   },
 };
@@ -637,6 +762,12 @@ if (typeof window !== 'undefined') {
     approve: approveAIFreeProvider,
     revoke: revokeAIFreeProvider,
     getKey: getAIProviderKey,
+    setKey: setAIProviderKey,
+    removeKey: removeAIProviderKey,
+    keyMetadata: getAIProviderKeyMetadata,
+    validateKey: validateAIProviderKey,
+    getProviderSettings: getAIProviderSettings,
+    setProviderSettings: saveAIProviderSettings,
     providers: AI_ZERO_COST_PROVIDERS,
     allowed: aiZeroCostAllowed,
     telemetry: aiReadTelemetry,
@@ -645,6 +776,11 @@ if (typeof window !== 'undefined') {
     setSelection: setAISelectionPreference,
     getPrivacy: getAIPrivacyPreference,
     setPrivacy: setAIPrivacyPreference,
+    generate: async (prompt, options = {}) => {
+      const text = await AI_ROUTER.call(prompt, null, options);
+      return { text, provider: AI_ROUTER._lastProvider || null, purpose: options.purpose || 'default' };
+    },
+    status: () => AI_ROUTER.getStatus(),
     cancel: purpose => AI_ROUTER.cancel(purpose),
     taskProfiles: AI_TASK_PROFILES,
     policy: Object.freeze({ mode: 'strict-zero-cost', approval: 'manual-per-session', version: AI_FREE_POLICY_VERSION }),
@@ -1079,6 +1215,7 @@ function openLeadDrawer(id) {
   if (!drawerFilteredIds.includes(String(id))) drawerFilteredIds = leads.filter(l=>!l.archived).map(l=>String(l.id));
   renderDrawer();
   document.getElementById('lead-drawer').classList.add('open');
+  document.body.classList.add('lead-drawer-open');
   document.getElementById('drawer-backdrop').style.display = 'block';
 }
 
@@ -1135,6 +1272,7 @@ function renderDrawer() {
       <button class="btn-outline btn-sm" onclick="openBriefingModal('${lead.id}')" title="Briefing IA para visita">🧠 Briefing</button>
       <button class="btn-outline btn-sm" onclick="markNotInterested('${lead.id}')" style="color:var(--danger)">🚫 No interesa</button>
     </div>
+    <div id="commercial-memory-drawer-panel" class="commercial-memory-panel"></div>
     <div style="border-top:1px solid var(--glass-border);padding-top:.75rem;margin-bottom:.75rem" id="drawer-thread-section">
       <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);font-weight:600;margin-bottom:.5rem">
         Hilo de emails ${prevEmails.length > 0 ? '(' + prevEmails.length + ')' : ''}
@@ -1167,6 +1305,10 @@ function renderDrawer() {
     </div>
   `;
 
+  if (typeof renderCommercialMemoryLeadPanel === 'function') {
+    renderCommercialMemoryLeadPanel(lead, 'commercial-memory-drawer-panel');
+  }
+
   // Slash command on notes textarea
   setTimeout(() => {
     const ta = document.getElementById('drawer-notes');
@@ -1178,6 +1320,8 @@ async function saveDrawerLead(id) {
   const lead = leads.find(l => l.id == id);
   if (!lead) return;
   const oldStatus = lead.status;
+  const oldNotes = lead.notes || '';
+  const oldNextContact = lead.next_contact || '';
   lead.email = document.getElementById('drawer-email')?.value.trim() || lead.email;
   lead.phone = document.getElementById('drawer-phone')?.value.trim() || lead.phone;
   const dwWa = document.getElementById('drawer-whatsapp');
@@ -1195,6 +1339,23 @@ async function saveDrawerLead(id) {
   lead.score = recalculateLeadScore(lead);
   try {
     await saveLeads();
+    if (typeof ensureCommercialMemoryForLead === 'function') {
+      await ensureCommercialMemoryForLead(lead);
+      if (lead.notes && lead.notes !== oldNotes && typeof recordCommercialMemoryEvent === 'function') {
+        await recordCommercialMemoryEvent(lead, 'note_added', { text: lead.notes }, {
+          idempotencyKey: `drawer-note:${lead.id}:${VoltflowCommercialMemory.hash(lead.notes)}`
+        });
+      }
+      if (lead.status !== oldStatus && typeof recordCommercialMemoryEvent === 'function') {
+        const statusMap = { Pendiente: 'new', Contactado: 'contacted', 'Entrega de presupuesto': 'quote', Cerrado: 'won', 'No interesa': 'rejected' };
+        await recordCommercialMemoryEvent(lead, 'commercial_status_changed', {
+          status: statusMap[lead.status] || 'contacted', legacyStatus: lead.status, previousLegacyStatus: oldStatus
+        }, { idempotencyKey: `drawer-status:${lead.id}:${lead.status}:${lead.status_date}` });
+      }
+      if (lead.next_contact && lead.next_contact !== oldNextContact && typeof setCommercialNextAction === 'function') {
+        await setCommercialNextAction(lead, { text: 'Revisar proximo contacto', dueAt: lead.next_contact });
+      }
+    }
     renderAll();
     showToast('Lead guardado ✓');
   } catch {
@@ -1217,6 +1378,7 @@ function closeDrawer() {
   // Auto-save on close
   if (drawerLeadId) saveDrawerLead(drawerLeadId);
   document.getElementById('lead-drawer').classList.remove('open');
+  document.body.classList.remove('lead-drawer-open');
   document.getElementById('drawer-backdrop').style.display = 'none';
   drawerLeadId = null;
 }

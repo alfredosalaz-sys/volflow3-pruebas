@@ -85,9 +85,9 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     Buscar
   </button>
-  <button class="mob-nav-btn" onclick="showView('coverage');setMobileNav(this)" data-view="coverage">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-    Cobertura
+  <button class="mob-nav-btn" onclick="showView('commercial-integration-c7');setMobileNav(this)" data-view="commercial-integration-c7">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h7"/><path d="m16 17 2 2 4-5"/></svg>
+    Trabajo
   </button>
   <button class="mob-nav-btn" onclick="showView('kanban');setMobileNav(this)" data-view="kanban">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="18"/><rect x="10" y="3" width="5" height="12"/><rect x="17" y="3" width="5" height="8"/></svg>
@@ -141,6 +141,14 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="18"/><rect x="10" y="3" width="5" height="12"/><rect x="17" y="3" width="5" height="8"/></svg>
           Pipeline Kanban
         </li>
+        <li data-view="commercial-integration-c7" onclick="showView('commercial-integration-c7')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h7"/><path d="m16 17 2 2 4-5"/></svg>
+          Trabajo comercial
+        </li>
+        <li data-view="opportunities" onclick="showView('opportunities')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18v13H3z"/><path d="M8 7V4h8v3"/><path d="M3 12h18"/><path d="M10 12v2h4v-2"/></svg>
+          Centro de oportunidades
+        </li>
         <li data-view="map" onclick="showView('map')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
           Mapa de Leads
@@ -155,6 +163,10 @@
         <li data-view="coverage" onclick="showView('coverage')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
           Cobertura
+        </li>
+        <li data-view="postal-radar" onclick="showView('postal-radar')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/><path d="M8 3v18M16 3v9"/></svg>
+          Radar postal
         </li>
         <li data-view="import" onclick="showView('import')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -179,6 +191,10 @@
         <li data-view="templates" onclick="showView('templates')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           Plantillas Email
+        </li>
+        <li data-view="provider-settings" onclick="showView('provider-settings')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7.5" cy="15.5" r="3.5"/><path d="m10 13 9-9 2 2-9 9"/><path d="m15 8 2 2"/></svg>
+          Integraciones y servicios
         </li>
         <li data-view="settings" onclick="showView('settings')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
@@ -448,6 +464,8 @@
       </form>
     </div>
 
+    <div id="leads-saved-views" class="c71-saved-views" aria-label="Vistas reutilizables de leads"></div>
+
     <!-- Filters + Search - Smart Filter System -->
     <div id="leads-sf-bar" class="sf-bar">
       <div class="sf-search-wrap">
@@ -522,6 +540,8 @@
     <!-- Active filter chips -->
     <div class="sf-chips" id="leads-sf-chips"></div>
 
+    <div id="commercial-followup-overview" class="commercial-followup-overview" aria-label="Seguimiento comercial"></div>
+
         <!-- Bulk Actions Bar -->
     <div id="bulk-bar" role="toolbar">
       <span id="bulk-count">0 seleccionados</span>
@@ -564,6 +584,16 @@
         <button class="btn-primary" onclick="showView('planner')">Buscar empresas</button>
       </div>
     </div>
+  </section>
+
+  <!-- ======================== INTEGRACION COMERCIAL C7 ======================== -->
+  <section id="commercial-integration-c7-view" class="view">
+    <div id="commercial-integration-c7-root" aria-live="polite"></div>
+  </section>
+
+  <!-- ======================== OPORTUNIDADES C6 ======================== -->
+  <section id="opportunities-view" class="view">
+    <div id="opportunities-c6-root" aria-live="polite"></div>
   </section>
 
   <!-- ======================== KANBAN ======================== -->
@@ -694,6 +724,11 @@
       </div>
     </div>
     <div id="coverage-root"></div>
+  </section>
+
+  <!-- ======================== RADAR POSTAL C7.2 ======================== -->
+  <section id="postal-radar-view" class="view">
+    <div id="postal-radar-c72-root" aria-live="polite"></div>
   </section>
 
   <!-- ======================== BUSCAR ======================== -->
@@ -1371,6 +1406,12 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
     </div>
   </section>
 
+  <!-- ======================== IA Y CLAVES C7.1 ======================== -->
+  <section id="provider-settings-view" class="view">
+    <div id="integration-center-c73-root" aria-live="polite"></div>
+    <div id="provider-settings-c71-root" class="c73-compat-host" aria-hidden="true"></div>
+  </section>
+
   <!-- ======================== SETTINGS ======================== -->
   <section id="settings-view" class="view">
     <div class="page-header"><div><h1>Configuración</h1><p class="page-sub">Perfil, APIs y gestión de datos</p></div></div>
@@ -1459,7 +1500,7 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
       </div>
     </div>
 
-    <div class="glass-panel" style="margin-bottom:1.5rem">
+    <div class="glass-panel legacy-ai-key-panel" style="margin-bottom:1.5rem">
       <div class="panel-header">
         <h3>API Key de Gemini (IA de emails)</h3>
         <span style="color:var(--warning);font-size:.75rem;font-weight:700">REQUIERE CONFIRMACION</span>
@@ -1479,7 +1520,7 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
     </div>
 
     <!-- --  IA Multi-Proveedor: Groq --  -->
-    <div class="glass-panel" style="margin-bottom:1.5rem">
+    <div class="glass-panel legacy-ai-key-panel" style="margin-bottom:1.5rem">
       <div class="panel-header">
         <h3>Aviso: API Key de Groq (IA de respaldo)</h3>
         <span style="color:var(--warning);font-size:.75rem;font-weight:700">REQUIERE CONFIRMACION</span>
@@ -1499,7 +1540,7 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
     </div>
 
     <!-- --  IA Multi-Proveedor: OpenRouter --  -->
-    <div class="glass-panel" style="margin-bottom:1.5rem">
+    <div class="glass-panel legacy-ai-key-panel" style="margin-bottom:1.5rem">
       <div class="panel-header">
         <h3> API Key de OpenRouter (IA de respaldo 2)</h3>
         <span style="color:var(--warning);font-size:.75rem;font-weight:700">REQUIERE CONFIRMACION</span>
@@ -1516,6 +1557,11 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
         <button class="btn-primary" onclick="saveOpenRouterKey()">Guardar OpenRouter Key</button>
         <div id="openrouter-key-status" style="font-size:0.85rem"></div>
       </div>
+    </div>
+
+    <div class="glass-panel c71-provider-shortcut" style="margin-bottom:1.5rem">
+      <div><h3>Credenciales de inteligencia artificial</h3><p>Gemini, Groq y OpenRouter se administran desde una unica pantalla con prioridad, bloqueo y autorizacion por sesion.</p></div>
+      <button class="btn-primary" type="button" onclick="showView('provider-settings')">Abrir IA y claves</button>
     </div>
 
     <!-- --  Estado IA Multi-Proveedor --  -->
@@ -2447,12 +2493,14 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
 <script defer src="modules/state.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/ai-security.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/storage.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/persistence-recovery.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/email-templates.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/scoring.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/init.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/secure-backup.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/historical-import.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/commercial-communications.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/commercial-memory.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/business-providers.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/search.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/leads.js?v=2026.10.15.0300" charset="UTF-8"></script>
@@ -2462,6 +2510,15 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
 <script defer src="modules/ui.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/inbox.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/ai-router.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/commercial-email-c3.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/commercial-followups-c4.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/commercial-responses-c5.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/commercial-opportunities-c6.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/commercial-integration-c7.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/provider-settings-c71.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/usability-c71.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/postal-radar-c72.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/enrichment-center-c73.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/coverage.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/misc.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/smart-import.js?v=2026.10.15.0300" charset="UTF-8"></script>

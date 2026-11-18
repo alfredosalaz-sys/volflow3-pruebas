@@ -119,52 +119,64 @@
     };
   }
 
-  function createRestorePoint(reason) {
+  async function createRestorePoint(reason) {
     try {
-      let snapshot = null;
-      if (typeof exportDataSnapshot === 'function') snapshot = exportDataSnapshot();
-      if (!snapshot) {
-        snapshot = {};
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key && key.startsWith('gordi_')) snapshot[key] = localStorage.getItem(key);
-        }
-      }
+      const safety = typeof createSafetySnapshot === 'function'
+        ? await createSafetySnapshot(`workflow_${reason || 'auto'}`, { throttleMs: 0, maxBytes: 1200000 })
+        : null;
+      if (!safety?.snapshot) throw new Error('No se pudo obtener snapshot autoritativo');
+      const snapshot = safety.snapshot;
       delete snapshot[RESTORE_KEY];
       delete snapshot[AUDIT_KEY];
-      if (typeof createSafetySnapshot === 'function') {
-        try { createSafetySnapshot(`workflow_${reason || 'auto'}`, { throttleMs: 0, maxBytes: 1200000 }); } catch {}
-      }
-      const summary = typeof getSnapshotSummary === 'function' ? getSnapshotSummary(snapshot) : dataSummary();
+      const summary = safety.summary || (typeof getSnapshotSummary === 'function' ? getSnapshotSummary(snapshot) : dataSummary());
       const storeSnapshot = !summary.bytes || summary.bytes <= 1200000;
       const points = readJson(RESTORE_KEY, []);
-      const point = {
+      const storedPoint = {
         id: `${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
         reason: reason || 'auto',
         at: new Date().toISOString(),
         summary,
+        authority: safety.authority,
+        integrity: safety.integrity,
         snapshot: storeSnapshot ? snapshot : null,
-        skippedSnapshot: storeSnapshot ? false : 'too_large_for_local_storage'
+        snapshotRef: safety.snapshotRef || null,
+        recoverable: storeSnapshot || !!safety.snapshotRef,
+        skippedSnapshot: false
       };
-      points.unshift(point);
+      points.unshift(storedPoint);
       writeJson(RESTORE_KEY, points.slice(0, MAX_RESTORE_POINTS));
-      logAudit('restore_point', point.reason);
+      logAudit('restore_point', storedPoint.reason);
       if (String(reason || '').startsWith('manual')) toast('Backup inteligente creado');
       scheduleWorkflowPanels(80);
-      return point;
+      return storeSnapshot ? storedPoint : { ...storedPoint, snapshot };
     } catch (err) {
       console.warn('Workflow restore point failed', err);
       return null;
     }
   }
 
-  function restorePoint(id) {
-    const point = readJson(RESTORE_KEY, []).find(item => item.id === id);
+  async function requireRestorePoint(reason) {
+    const point = await createRestorePoint(reason);
+    if (point?.recoverable || point?.snapshot) return true;
+    toast('Operacion cancelada: no se pudo confirmar un punto de recuperacion valido.');
+    logAudit('operation_blocked', `restore point unavailable: ${reason}`);
+    return false;
+  }
+
+  async function restorePoint(id) {
+    let point = readJson(RESTORE_KEY, []).find(item => item.id === id);
+    if (point && !point.snapshot && point.snapshotRef && window.VoltflowStorage?.loadRecoverySnapshot) {
+      const stored = await window.VoltflowStorage.loadRecoverySnapshot(point.snapshotRef);
+      if (stored?.snapshot) point = { ...point, snapshot: stored.snapshot, integrity: stored.integrity, authority: stored.authority, summary: stored.summary };
+    }
     if (!point || !point.snapshot) return toast('No se encontro el punto de restauracion');
     if (!confirm('Restaurar este punto? Se creara un backup antes de restaurar.')) return;
-    createRestorePoint('before_workflow_restore');
-    if (typeof importDataSnapshot === 'function') {
-      importDataSnapshot(point.snapshot, true, { reason: 'workflow_restore' });
+    const validation = typeof validateRestorableSnapshotItem === 'function'
+      ? await validateRestorableSnapshotItem(point)
+      : { ok: false, reason: 'validator_unavailable' };
+    if (!validation.ok) return toast(`Restauracion bloqueada: ${validation.reason}`);
+    if (typeof importDataSnapshotAsync === 'function') {
+      await importDataSnapshotAsync(point.snapshot, true, { reason: 'workflow_restore' });
     } else {
       Object.entries(point.snapshot).forEach(([key, value]) => {
         if (key.startsWith('gordi_')) localStorage.setItem(key, value);
@@ -344,7 +356,7 @@
   }
 
   async function importRecommendedResults() {
-    createRestorePoint('before_import_recommended');
+    if (!(await requireRestorePoint('before_import_recommended'))) return false;
     const count = selectRecommendedResults();
     if (!count) return toast('No hay resultados recomendados para importar');
     if (typeof importSelectedSearch === 'function') {
@@ -354,8 +366,8 @@
     }
   }
 
-  function createCampaignFromRecommended() {
-    createRestorePoint('before_campaign_from_search');
+  async function createCampaignFromRecommended() {
+    if (!(await requireRestorePoint('before_campaign_from_search'))) return false;
     selectRecommendedResults();
     if (typeof createProspectingCampaignFromSearch === 'function') createProspectingCampaignFromSearch();
     scheduleWorkflowPanels(80);
@@ -686,23 +698,34 @@
     const original = window[name];
     if (typeof original !== 'function' || original.__workflowWrapped) return;
     const wrapped = function (...args) {
-      if (before) {
-        const decision = before(name, args);
-        if (decision === false) return false;
-      }
-      try {
-        const result = original.apply(this, args);
-        if (result && typeof result.then === 'function') {
-          return result.then(value => {
-            if (after) after(name, args, value);
-            return value;
-          }).catch(err => {
-            logAudit('error', `${name}: ${err && err.message ? err.message : err}`);
-            throw err;
-          });
+      const invoke = () => {
+        try {
+          const result = original.apply(this, args);
+          if (result && typeof result.then === 'function') {
+            return result.then(value => {
+              if (after) after(name, args, value);
+              return value;
+            }).catch(err => {
+              logAudit('error', `${name}: ${err && err.message ? err.message : err}`);
+              throw err;
+            });
+          }
+          if (after) after(name, args, result);
+          return result;
+        } catch (err) {
+          logAudit('error', `${name}: ${err && err.message ? err.message : err}`);
+          throw err;
         }
-        if (after) after(name, args, result);
-        return result;
+      };
+      try {
+        if (before) {
+          const decision = before(name, args);
+          if (decision && typeof decision.then === 'function') {
+            return decision.then(allowed => allowed === false ? false : invoke());
+          }
+          if (decision === false) return false;
+        }
+        return invoke();
       } catch (err) {
         logAudit('error', `${name}: ${err && err.message ? err.message : err}`);
         throw err;
@@ -713,7 +736,7 @@
   }
 
   function installWrappers() {
-    wrapFunction('searchBusinesses', () => {
+    wrapFunction('searchBusinesses', async () => {
       const ctx = getSearchContext();
       const risk = repeatRisk(ctx.segment, ctx.location);
       if (risk && !repeatBypassOnce) {
@@ -721,8 +744,7 @@
         return false;
       }
       repeatBypassOnce = false;
-      createRestorePoint('before_search');
-      return true;
+      return requireRestorePoint('before_search');
     }, () => {
       logAudit('search_completed', JSON.stringify(searchStats()));
       scheduleWorkflowPanels(120);
@@ -735,22 +757,19 @@
       });
     });
 
-    wrapFunction('importSelectedSearch', () => {
-      createRestorePoint('before_import_selected');
-      return true;
+    wrapFunction('importSelectedSearch', async () => {
+      return requireRestorePoint('before_import_selected');
     }, () => {
       logAudit('import_selected', 'Resultados volcados a leads');
       scheduleWorkflowPanels(120);
     });
 
-    wrapFunction('quickImportOne', () => {
-      createRestorePoint('before_quick_import');
-      return true;
+    wrapFunction('quickImportOne', async () => {
+      return requireRestorePoint('before_quick_import');
     }, () => scheduleWorkflowPanels(120));
 
-    wrapFunction('createProspectingCampaignFromSearch', () => {
-      createRestorePoint('before_campaign_from_search');
-      return true;
+    wrapFunction('createProspectingCampaignFromSearch', async () => {
+      return requireRestorePoint('before_campaign_from_search');
     }, () => scheduleWorkflowPanels(120));
 
     wrapFunction('renderSearchCards', null, () => setTimeout(renderWorkflowPostScrapingPanel, 40));

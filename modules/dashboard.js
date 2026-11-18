@@ -1,4 +1,4 @@
-﻿// ============ STATS ============
+// ============ STATS ============
 function updateStats() {
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
   const sentHistory = typeof getConfirmedCommercialHistory === 'function' ? getConfirmedCommercialHistory() : [];
@@ -692,6 +692,13 @@ function switchImportTab(tab, btn) {
 function openCampaignModal() { document.getElementById('campaign-modal').style.display = 'flex'; }
 function closeCampaignModal() { document.getElementById('campaign-modal').style.display = 'none'; }
 
+function nextCampaignId() {
+  const used = new Set(campaigns.map(campaign => String(campaign.id)));
+  let id = Date.now();
+  while (used.has(String(id))) id += 1;
+  return id;
+}
+
 async function saveCampaign() {
   const name = document.getElementById('camp-name').value.trim();
   if (!name) { alert('Ponle nombre a la campaña.'); return; }
@@ -699,9 +706,11 @@ async function saveCampaign() {
   const seq = document.getElementById('camp-sequence').value;
   const desc = document.getElementById('camp-desc').value.trim();
   const filtered = seg === 'Todos' ? leads : leads.filter(l => l.segment === seg);
-  campaigns.push({ id: Date.now(), name, segment: seg, sequence: seq, desc, leadCount: filtered.length, sent: 0, date: new Date().toISOString(), active: true });
+  const campaign = { id: nextCampaignId(), name, segment: seg, sequence: seq, desc, leadCount: filtered.length, sent: 0, date: new Date().toISOString(), active: true };
+  const nextCampaigns = [...campaigns, campaign];
   try {
-    await persistCriticalData('gordi_campaigns', campaigns, { label: 'campanas' });
+    await persistCriticalData('gordi_campaigns', nextCampaigns, { label: 'campanas' });
+    campaigns = nextCampaigns;
     if (localStorage.getItem('gordi_jsonbin_auto') === 'true') {
       if (typeof jsonbinPush === 'function') jsonbinPush(false);
     }
@@ -844,9 +853,10 @@ async function deleteCampaign(id) {
   const sent = getCampaignSentCount(c);
   const summary = `Campaña: ${c.name}\nLeads: ${seg} · Emails enviados: ${sent}`;
   if (!confirm('¿Eliminar esta campaña?\n\n' + summary)) return;
-  campaigns = campaigns.filter(x => x.id !== id);
+  const nextCampaigns = campaigns.filter(x => x.id !== id);
   try {
-    await persistCriticalData('gordi_campaigns', campaigns, { label: 'campanas' });
+    await persistCriticalData('gordi_campaigns', nextCampaigns, { label: 'campanas', allowedDeletes: [String(id)] });
+    campaigns = nextCampaigns;
     renderCampaigns();
     showToast('Campaña eliminada');
   } catch {
@@ -857,10 +867,11 @@ async function deleteCampaign(id) {
 async function duplicateCampaign(id) {
   const c = campaigns.find(x => x.id === id);
   if (!c) return;
-  const copy = { ...c, id: Date.now(), name: c.name + ' (copia)', date: new Date().toISOString() };
-  campaigns.push(copy);
+  const copy = { ...c, id: nextCampaignId(), name: c.name + ' (copia)', date: new Date().toISOString() };
+  const nextCampaigns = [...campaigns, copy];
   try {
-    await persistCriticalData('gordi_campaigns', campaigns, { label: 'campanas' });
+    await persistCriticalData('gordi_campaigns', nextCampaigns, { label: 'campanas' });
+    campaigns = nextCampaigns;
     renderCampaigns();
     showToast('Campaña duplicada ✓');
   } catch {
@@ -884,13 +895,13 @@ function downloadCSV(content, filename) {
   URL.revokeObjectURL(url);
 }
 
-function clearAllLeads() {
+async function clearAllLeads() {
   if (!confirm('⚠️ ¿Borrar TODOS los leads? Esta acción no se puede deshacer.')) return;
-  if (typeof createSafetySnapshot === 'function') createSafetySnapshot('before_clear_all_leads');
-  if (typeof createCriticalRescueSnapshot === 'function') createCriticalRescueSnapshot('before_clear_all_leads');
+  if (typeof createSafetySnapshot === 'function') await createSafetySnapshot('before_clear_all_leads');
+  if (typeof createCriticalRescueSnapshot === 'function') await createCriticalRescueSnapshot('before_clear_all_leads');
   if (typeof markIntentionalEmptyLeads === 'function') markIntentionalEmptyLeads();
   leads = [];
-  saveLeads();
+  await saveLeads();
   renderAll();
   renderDashboardCharts();
   showToast('Todos los leads eliminados');

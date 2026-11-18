@@ -730,13 +730,34 @@ async function executeLocalImport(mode) {
     'gordi_user_name','gordi_user_email','gordi_user_company','gordi_user_phone','gordi_user_web',
     'gordi_user_logo','gordi_templates','gordi_objectives','gordi_pin'];
 
+  if (mode === 'replace' || mode === 'merge') {
+    const authority = window.VoltflowStorage?.resolveDataAuthority
+      ? await window.VoltflowStorage.resolveDataAuthority()
+      : { source: 'unknown', status: 'unavailable' };
+    if (authority.source === 'indexeddb') {
+      const message = authority.status === 'available'
+        ? 'La importacion legacy desde localStorage esta bloqueada porque IndexedDB contiene los datos autoritativos. Usa el asistente de importacion historica con vista previa y rollback.'
+        : 'IndexedDB es la fuente autoritativa pero no esta disponible. No se modificaron los datos.';
+      if (typeof showToast === 'function') showToast(message);
+      return { ok: false, blocked: true, reason: 'indexeddb_authoritative', authority };
+    }
+    if (!(authority.source === 'localStorage' && authority.status === 'legacy-confirmed')) {
+      if (typeof showToast === 'function') showToast('No se puede demostrar la autoridad del almacenamiento. Importacion bloqueada sin modificar datos.');
+      return { ok: false, blocked: true, reason: 'authority_unknown', authority };
+    }
+  }
+
   const leadsData  = (() => { try { return JSON.parse(localStorage.getItem('gordi_leads') || '[]'); } catch { return []; } })();
   const histData   = (() => { try { return JSON.parse(localStorage.getItem('gordi_email_history') || '[]'); } catch { return []; } })();
   const campsData  = (() => { try { return JSON.parse(localStorage.getItem('gordi_campaigns') || '[]'); } catch { return []; } })();
 
   const safety = typeof createSafetySnapshot === 'function'
-    ? createSafetySnapshot(`before_local_import_${mode}`)
+    ? await createSafetySnapshot(`before_local_import_${mode}`)
     : null;
+  if (mode === 'replace' && !safety?.snapshot) {
+    if (typeof showToast === 'function') showToast('No se pudo confirmar el punto de recuperacion. Importacion cancelada sin modificar datos.');
+    return { ok: false, blocked: true, reason: 'recovery_point_unavailable' };
+  }
   if (mode === 'replace' && !confirm(`Vas a reemplazar los datos actuales por los datos del storage.\n\nSnapshot de seguridad: ${safety ? 'creado' : 'no disponible'}.\n\nContinuar?`)) {
     return;
   }
@@ -1258,7 +1279,7 @@ function restoreBackup(event) {
           showToast(`✅ Backup completo restaurado: ${validation.summary.leads} leads`);
           return;
         }
-        if (typeof createSafetySnapshot === 'function') createSafetySnapshot('before_restore_legacy_backup');
+        if (typeof createSafetySnapshot === 'function') await createSafetySnapshot('before_restore_legacy_backup');
 
         leads        = data.leads        || [];
         emailHistory = data.emailHistory || [];
@@ -1295,7 +1316,7 @@ function restoreBackup(event) {
           : 'fecha desconocida';
         const warnings = validation.warnings && validation.warnings.length ? `\n\nAvisos:\n- ${validation.warnings.join('\n- ')}` : '';
         if (!confirm(`Restaurar datos portatiles del ${dateStr}?\nSe cargaran ${parsedLeads.length} leads.\nSe creara un snapshot de seguridad antes de reemplazar los datos actuales.${warnings}`)) return;
-        if (typeof createSafetySnapshot === 'function') createSafetySnapshot('before_restore_portable_snapshot');
+        if (typeof createSafetySnapshot === 'function') await createSafetySnapshot('before_restore_portable_snapshot');
 
         // Volcar todas las claves gordi_* al localStorage
         let restored = 0;
@@ -1333,14 +1354,14 @@ function restoreBackup(event) {
   };
   reader.readAsText(file);
 }
-function autoWeeklyBackup() {
+async function autoWeeklyBackup() {
   const last = localStorage.getItem('gordi_last_backup');
   const now = Date.now();
   if (!last || now - parseInt(last) > 7 * 86400000) {
     localStorage.setItem('gordi_last_backup', now.toString());
     if (leads.length > 0) {
       if (typeof createSafetySnapshot === 'function') {
-        const item = createSafetySnapshot('auto_weekly', { maxBytes: 1200000 });
+        const item = await createSafetySnapshot('auto_weekly', { maxBytes: 1200000 });
         if (item) localStorage.setItem('gordi_auto_backup', JSON.stringify({ version:'2.0', date:item.date, snapshotId:item.id, summary:item.summary }));
       } else {
         const data = { version:'2.0', date:new Date().toISOString(), leads, emailHistory, campaigns };
@@ -1635,6 +1656,9 @@ function ensureGoogleMapsLoaded() {
 
 
 function showToast(msg) {
+  if (window.VoltflowPersistenceRecovery?.hasPending?.() && /(guardad|actualiz|cread|confirmad|\u2713|\u2705)/i.test(String(msg))) {
+    msg = 'Guardando cambios. La confirmacion aparecera cuando termine la escritura.';
+  }
   const t = document.createElement('div');
   t.style.cssText = `position:fixed;bottom:2rem;right:2rem;background:var(--bg2);border:1px solid var(--glass-border);color:var(--text);padding:.75rem 1.25rem;border-radius:10px;font-size:.83rem;z-index:9999;animation:fadeIn .3s ease;box-shadow:0 8px 24px rgba(0,0,0,.4)`;
   t.innerText = cleanVisibleText(msg);

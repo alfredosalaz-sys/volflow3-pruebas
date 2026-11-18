@@ -362,6 +362,15 @@
     const identities = deriveIdentities({ ...input, lead, channel, target, purpose });
     const policy = input.policy || lead.commercialContactPolicy || {};
     const channelPolicy = policy.channels?.[channel] || {};
+    const memory = input.memory && typeof input.memory === 'object' ? input.memory : null;
+    const aliasedCompanyId = lead.id != null ? memory?.aliases?.[`lead:${lead.id}`]?.companyId : null;
+    const memoryCompany = memory?.companies?.[identities.companyId] || memory?.companies?.[aliasedCompanyId];
+    const memoryExclusion = memory ? Object.values(memory.exclusions || {}).find(exclusion => exclusion?.active !== false
+      && exclusion.companyId === (memoryCompany?.companyId || identities.companyId)
+      && (!exclusion.contactId || exclusion.contactId === identities.contactId)
+      && (!exclusion.channel || exclusion.channel === channel)
+      && (!exclusion.target || normalizeTarget(channel, exclusion.target) === target)) : null;
+    if (memoryCompany?.restrictions?.doNotContact || memoryCompany?.commercialStatus === 'excluded' || memoryExclusion) return { ok: false, reason: 'DO_NOT_CONTACT' };
     if (lead.doNotContact || lead.optOut || policy.doNotContact || policy.legalBasisStatus === 'blocked') return { ok: false, reason: 'DO_NOT_CONTACT' };
     if (policy.legalBasisStatus !== 'allowed_for_purpose') return { ok: false, reason: 'LEGAL_BASIS_NOT_ALLOWED' };
     if (!target) return { ok: false, reason: 'CONTACT_TARGET_REQUIRED' };
@@ -510,10 +519,27 @@
     if (typeof saveLeads === 'function') await saveLeads();
   }
 
+  async function persistCommercialMemory(record, lead) {
+    if (typeof root.recordCommercialCommunicationState !== 'function') return;
+    const targetLead = lead || leadById(record?.leadId);
+    if (targetLead && record) await root.recordCommercialCommunicationState(record, targetLead);
+  }
+
   async function ensureCommercialPermission(lead, channel, target, purpose, contactId) {
     const normalizedTarget = api.normalizeTarget(channel, target);
     const normalizedPurpose = api.normalizePurpose(purpose);
     const identities = api.deriveIdentities({ lead, channel, target: normalizedTarget, purpose: normalizedPurpose, contactId });
+    if (typeof root.getCommercialMemoryRestriction === 'function') {
+      const restriction = await root.getCommercialMemoryRestriction(lead, channel, normalizedTarget, normalizedPurpose, identities.contactId);
+      if (!restriction.ok) {
+        lead.commercialContactPolicy = lead.commercialContactPolicy || { channels: {} };
+        lead.commercialContactPolicy.doNotContact = true;
+        lead.commercialContactPolicy.legalBasisStatus = 'blocked';
+        await persistLeadPolicy();
+        toast('Contacto bloqueado por oposicion o exclusion comercial.');
+        return restriction;
+      }
+    }
     let result = api.checkCommercialRestrictions({ lead, channel, target: normalizedTarget, purpose: normalizedPurpose, contactId: identities.contactId });
     if (result.ok) return result;
     if (result.reason === 'DO_NOT_CONTACT') {
@@ -565,19 +591,32 @@
 
   async function recordCommercialDraft(params = {}) {
     const lead = params.lead || leadById(params.leadId);
+    const restriction = typeof root.getCommercialMemoryRestriction === 'function'
+      ? await root.getCommercialMemoryRestriction(lead, params.channel, params.target, params.purpose, params.contactId)
+      : { ok: true };
+    if (!restriction.ok) throw new Error('COMMERCIAL_DO_NOT_CONTACT');
     const created = api.createDraft(history(), { ...params, lead });
     if (lead?.commercialRefs) await persistLeadPolicy();
     await persistHistory('borrador comercial');
+    await persistCommercialMemory(created.record, lead);
     return created.record;
   }
 
   async function prepareCommercialMessageAndOpen(params = {}) {
     const lead = params.lead || leadById(params.leadId);
     if (!lead) throw new Error('COMMERCIAL_LEAD_REQUIRED');
+    const restriction = typeof root.getCommercialMemoryRestriction === 'function'
+      ? await root.getCommercialMemoryRestriction(lead, params.channel, params.target, params.purpose, params.contactId)
+      : { ok: true };
+    if (!restriction.ok) {
+      toast('Contacto bloqueado por oposicion o exclusion comercial.');
+      return { record: null, opened: false, reason: restriction.reason };
+    }
     const created = api.createDraft(history(), { ...params, lead });
     const record = created.record;
     if (lead.commercialRefs) await persistLeadPolicy();
     await persistHistory('borrador comercial');
+    await persistCommercialMemory(record, lead);
 
     const permission = await ensureCommercialPermission(lead, params.channel, params.target, record.purpose, record.contactId);
     if (!permission.ok) {
@@ -591,6 +630,7 @@
       }
       api.markReviewed(record);
       await persistHistory('borrador revisado');
+      await persistCommercialMemory(record, lead);
     }
     if (api.getEffectiveState(record) === api.STATES.DRAFT_REVIEWED) {
       if (!root.confirm('Apruebas expresamente este borrador para prepararlo en el cliente externo?')) {
@@ -598,6 +638,7 @@
       }
       api.markApproved(record);
       await persistHistory('borrador aprobado');
+      await persistCommercialMemory(record, lead);
     }
 
     if (typeof params.openExternal !== 'function') throw new Error('COMMERCIAL_EXTERNAL_OPENER_REQUIRED');
@@ -608,6 +649,7 @@
     }
     api.markExternalClientOpened(record, params.externalClient || params.channel);
     await persistHistory('cliente externo abierto');
+    await persistCommercialMemory(record, lead);
     toast('Cliente externo abierto. El envio sigue pendiente de confirmacion.');
 
     root.setTimeout(function requestConfirmation() {
@@ -621,6 +663,11 @@
   async function confirmCommercialSend(recordId, confirmation = {}) {
     const record = history().find(item => String(item.id) === String(recordId));
     if (!record) throw new Error('COMMERCIAL_RECORD_NOT_FOUND');
+    const confirmationLead = leadById(record.leadId);
+    if (confirmationLead && typeof root.getCommercialMemoryRestriction === 'function') {
+      const restriction = await root.getCommercialMemoryRestriction(confirmationLead, record.channel, record.target, record.purpose, record.contactId);
+      if (!restriction.ok) throw new Error('COMMERCIAL_DO_NOT_CONTACT');
+    }
     const result = api.confirmSent(record, {
       method: confirmation.method || 'manual_explicit',
       confirmedBy: confirmation.confirmedBy || 'user_manual',
@@ -638,6 +685,7 @@
     }
     await persistHistory('envio confirmado');
     const lead = leadById(record.leadId);
+    await persistCommercialMemory(record, lead);
     if (lead) {
       if (!lead.first_contact_date) {
         lead.first_contact_date = record.sendConfirmation.confirmedAt;

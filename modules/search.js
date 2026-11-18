@@ -673,7 +673,7 @@ function getBusinessIdentity(c = {}) {
   const address = normalizeLeadText(c.address || '').slice(0, 60);
   const email = String(c.email || '').trim().toLowerCase();
   return {
-    placeId: c.placeId || '',
+    placeId: String(c.placeId || c.externalId || c.externalIds?.overture_places_static || c.id || '').replace(/^overture:/, ''),
     domain,
     phone,
     name,
@@ -5518,6 +5518,9 @@ function getLeadMemory(c) {
 function recordLeadMemory(c, event, extra = {}) {
   const key = getCommercialMemoryKey(c);
   if (!key) return;
+  if (typeof recordCommercialDiscoveryMemory === 'function') {
+    return recordCommercialDiscoveryMemory(c, event, { ...extra, memoryKey: key }).catch(() => null);
+  }
   const memory = loadCommercialMemory();
   const prev = memory[key] || { firstSeen: new Date().toISOString(), events: [] };
   prev.company = c.name || prev.company || '';
@@ -5532,6 +5535,9 @@ function recordLeadMemory(c, event, extra = {}) {
 
 async function recordLeadMemoryBulk(items, event, extraFn = () => ({})) {
   if (!Array.isArray(items) || !items.length) return;
+  if (typeof recordCommercialDiscoveryMemoryBulk === 'function') {
+    return recordCommercialDiscoveryMemoryBulk(items, event, extraFn, getCommercialMemoryKey).catch(() => null);
+  }
   const memory = loadCommercialMemory();
   const now = new Date().toISOString();
   items.forEach((c, i) => {
@@ -5922,7 +5928,7 @@ function buildCardHTML(c, i) {
       <div class="sc-avatar" style="${c.logo ? 'padding:0;overflow:hidden' : ''}">
         ${c.logo
           ? `<img src="${c.logo}" alt="${c.name}" style="width:100%;height:100%;object-fit:contain;border-radius:inherit"
-               onerror="this.parentNode.innerHTML='${initials}';this.parentNode.style.padding='';">`
+               onerror="this.parentNode.style.padding='';this.parentNode.innerHTML='${initials}';">`
           : initials}
       </div>
       <div>
@@ -6330,7 +6336,7 @@ function buildLeadFromSearchCompany(c, segment, location, campaignName = '') {
     source: 'search',
     rating: c.rating || null,
     ratingCount: c.ratingCount || 0,
-    placeId: c.placeId || '',
+    placeId: String(c.placeId || c.externalId || c.externalIds?.overture_places_static || c.id || '').replace(/^overture:/, ''),
     address: c.address || '',
     lat: c.lat ?? null,
     lng: c.lng ?? null,
@@ -6390,16 +6396,19 @@ async function createProspectingCampaignFromSearch() {
     return;
   }
   if (!confirm(`Crear campana con ${candidates.length} leads nuevos?\nFiltro: score scraping >= ${minScore}\n\nSe guardaran en Leads y se creara una campana lista para trabajar.`)) return;
-  if (typeof createSafetySnapshot === 'function') createSafetySnapshot('before_scraping_campaign');
+  if (typeof createSafetySnapshot === 'function') await createSafetySnapshot('before_scraping_campaign');
 
   const campaignSegment = multiSectorSearchState
     ? (currentMultiSectorFilter && currentMultiSectorFilter !== 'all' ? currentMultiSectorFilter : 'Todos')
     : segment;
   const newLeads = candidates.map(c => buildLeadFromSearchCompany(c, c.sourceSector || campaignSegment || segment, location, baseName));
-  leads = [...newLeads, ...leads];
+  const nextLeads = [...newLeads, ...leads];
   const leadIds = newLeads.map(l => l.id);
-  campaigns.push({
-    id: Date.now(),
+  const usedCampaignIds = new Set(campaigns.map(campaign => String(campaign.id)));
+  let campaignId = Date.now();
+  while (usedCampaignIds.has(String(campaignId))) campaignId += 1;
+  const campaign = {
+    id: campaignId,
     name: baseName,
     segment: campaignSegment,
     sequence: 'cold',
@@ -6409,9 +6418,10 @@ async function createProspectingCampaignFromSearch() {
     sent: 0,
     date: new Date().toISOString(),
     active: true
-  });
+  };
+  const nextCampaigns = [...campaigns, campaign];
   try {
-    await persistBusinessState({ leads, campaigns }, { label: 'campana desde scraping' });
+    await persistBusinessState({ leads: nextLeads, campaigns: nextCampaigns }, { label: 'campana desde scraping' });
     await recordLeadMemoryBulk(candidates, 'campaign_created', c => ({ segment, location, score: c.opportunityScore || 0 }));
   } catch {
     showToast('No se pudo confirmar la campana de scraping.');
@@ -6424,7 +6434,7 @@ async function createProspectingCampaignFromSearch() {
   showToast(`Campana creada: ${leadIds.length} leads`);
 }
 
-function quickImportOne(idx) {
+async function quickImportOne(idx) {
   try {
     const c = tempSearchResults[idx];
     if (!c) { showToast('No se encontro este resultado. Recarga la busqueda.'); return; }
@@ -6439,7 +6449,10 @@ function quickImportOne(idx) {
     lead.activity = [{ action: `Lead importado desde busqueda en ${location}`, date: lead.date }];
     leads.unshift(lead);
     recordLeadMemory(c, 'imported_quick', { score: c.opportunityScore || 0, location });
-    saveLeads();
+    await saveLeads();
+    if (typeof ensureCommercialMemoryForLead === 'function') {
+      await ensureCommercialMemoryForLead(lead);
+    }
     renderAll();
     renderDashboardCharts();
     if (typeof renderTracking === 'function') renderTracking();
