@@ -5042,6 +5042,17 @@ body.light-mode .panel-header { border-bottom-color: rgba(0,0,0,0.05) !important
 .credential-manager-header p { margin: 0; color: var(--text-muted); font-size: .78rem; }
 .credential-manager-kicker { color: var(--primary) !important; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .credential-manager-zero { flex: 0 0 auto; padding: .42rem .65rem; border: 1px solid rgba(16,217,124,.35); border-radius: 8px; color: var(--success); font-size: .72rem; font-weight: 700; white-space: nowrap; }
+.credential-manager-route { display: grid; grid-template-columns: minmax(180px,.55fr) minmax(0,1.45fr); gap: 1rem; align-items: center; padding: 1rem 1.35rem; border: 1px solid var(--glass-border); border-top: 0; background: rgba(10,132,255,.035); }
+.credential-manager-route-copy h3 { margin: .15rem 0 0; font-size: .94rem; }
+.credential-manager-route-copy p { margin: 0; font-size: .68rem; }
+.credential-manager-route-rail { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.15rem; }
+.credential-manager-route-node { position: relative; display: grid; grid-template-columns: auto 1fr; gap: .05rem .5rem; align-items: center; min-width: 0; padding: .7rem; border: 1px solid var(--glass-border); border-radius: 10px; background: var(--glass); }
+.credential-manager-route-node:not(:last-child)::after { content: "→"; position: absolute; right: -1rem; color: var(--primary); font-weight: 800; }
+.credential-manager-route-node strong { min-width: 0; overflow-wrap: anywhere; font-size: .78rem; }
+.credential-manager-route-node small { grid-column: 2; color: var(--text-dim); font-size: .65rem; }
+.credential-manager-route-step { grid-row: 1 / span 2; display: grid; place-items: center; width: 1.55rem; height: 1.55rem; border-radius: 50%; background: rgba(10,132,255,.13); color: var(--primary); font-size: .68rem; font-weight: 800; }
+.credential-manager-route-node.is-local { border-color: rgba(16,217,124,.28); }
+.credential-manager-route-node.is-local .credential-manager-route-step { background: rgba(16,217,124,.12); color: var(--success); }
 .credential-manager-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; padding: 1rem; border: 1px solid var(--glass-border); border-top: 0; background: rgba(255,255,255,.018); }
 .credential-manager-group { min-width: 0; padding: 1rem; border: 1px solid var(--glass-border); border-radius: 12px; background: var(--glass); }
 .credential-manager-group h3 { margin: 0; font-size: .94rem; }
@@ -5079,6 +5090,9 @@ body.light-mode .panel-header { border-bottom-color: rgba(0,0,0,0.05) !important
   .credential-manager-groups { padding: .65rem; }
   .credential-manager-group { padding: .8rem; }
   .credential-manager-service-top { align-items: flex-start; }
+  .credential-manager-route { grid-template-columns: 1fr; padding: .85rem; }
+  .credential-manager-route-rail { grid-template-columns: 1fr; gap: .55rem; }
+  .credential-manager-route-node:not(:last-child)::after { content: "↓"; right: auto; bottom: -.58rem; left: 50%; z-index: 1; }
   .credential-manager-actions > *, .credential-manager-form-actions > * { flex: 1 1 auto; }
 }
 
