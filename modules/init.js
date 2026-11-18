@@ -1628,6 +1628,7 @@ function showView(view) {
   if (view === 'tracking') renderTracking();
   if (view === 'opportunities' && typeof renderOpportunityCenter === 'function') renderOpportunityCenter();
   if (view === 'commercial-integration-c7' && typeof renderCommercialIntegrationCenter === 'function') renderCommercialIntegrationCenter();
+  if (view === 'settings' && typeof renderCredentialManager === 'function') renderCredentialManager();
   if (view === 'provider-settings' && typeof renderIntegrationCenterC73 === 'function') renderIntegrationCenterC73();
   else if (view === 'provider-settings' && typeof renderProviderSettingsC71 === 'function') renderProviderSettingsC71();
   if (view === 'postal-radar' && typeof renderPostalRadarC72 === 'function') renderPostalRadarC72(true);

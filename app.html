@@ -1457,6 +1457,9 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
       <button class="btn-outline btn-sm" style="margin-top:1rem" onclick="previewFirma()">Vista previa de firma</button>
     </div>
 
+    <div id="credential-manager-root" aria-live="polite"></div>
+
+    <div id="legacy-credential-panels" hidden aria-hidden="true">
     <div class="glass-panel" style="margin-bottom:1.5rem">
       <div class="panel-header"><h3>API Key de Google Places</h3></div>
       <p style="color:var(--text-muted);font-size:0.85rem;margin:1rem 0">Necesaria para buscar empresas reales. <a href="https://console.cloud.google.com" target="_blank" style="color:var(--primary)">Google Cloud Console</a> -> Habilita «Places API (New)».</p>
@@ -1731,8 +1734,7 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
         </div>
       </div>
     </div>
-
-
+    </div>
 
     <!-- -- QR SYNC PANEL -- -->
     <div class="glass-panel" style="margin-bottom:1.5rem;border:1px solid rgba(99,102,241,.3);box-shadow:0 0 0 3px rgba(99,102,241,.06)">
@@ -1789,7 +1791,7 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
     <!-- -- JSONBIN SYNC PANEL -- -->
 
     <!-- --  GitHub Sync Panel --  -->
-    <div class="glass-panel">
+    <div class="glass-panel" hidden aria-hidden="true">
       <div class="panel-header">
         <h3>GitHub - sincronización histórica bloqueada</h3>
         <span id="github-badge" style="font-size:.7rem;font-weight:700;padding:.2rem .55rem;border-radius:6px;background:rgba(16,217,124,.15);color:var(--success);display:none">Activo</span>
@@ -2510,6 +2512,7 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
 <script defer src="modules/ui.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/inbox.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/ai-router.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/credential-manager.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/commercial-email-c3.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/commercial-followups-c4.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/commercial-responses-c5.js?v=2026.10.15.0300" charset="UTF-8"></script>
