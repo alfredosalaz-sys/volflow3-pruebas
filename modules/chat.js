@@ -1,4 +1,4 @@
-﻿// VOLTFLOW ASSISTANT — Chat de ayuda con IA (Gemini)
+// VOLTFLOW ASSISTANT — Chat de ayuda con ruta IA gratuita y fallback local
 // Conoce la app completa y puede guiar al usuario paso a paso
 // ------------------------------------------------------------------------------
 
@@ -201,7 +201,7 @@ Leads en "Visita" >14 días sin avance: ${stale}
 Top leads por score sin contactar: ${topLeads || 'ninguno'}
 Últimos emails enviados: ${recentEmails || 'ninguno'}
 ${obj.emails ? 'Objetivo semanal emails: ' + obj.emails : ''}
-APIs activas: Google(${localStorage.getItem('gordi_api_key')?'Sí':'No'}) Gemini(${getGeminiKey()?'Sí':'No'}) Hunter(${localStorage.getItem('gordi_hunter_key')?'Sí':'No'}) Apollo(${localStorage.getItem('gordi_apollo_key')?'Sí':'No'})`;
+APIs activas: Google(${localStorage.getItem('gordi_api_key')?'Sí':'No'}) IA gratuita(${getAIFreeRouteToken()!=='local'?'Sí':'modo local'}) Hunter(${localStorage.getItem('gordi_hunter_key')?'Sí':'No'}) Apollo(${localStorage.getItem('gordi_apollo_key')?'Sí':'No'})`;
 }
 
 // ── MEJORA 4: Análisis de embudo inteligente ──────────────────────────────────
@@ -535,9 +535,9 @@ function showPendingProactive() {
 // 🎯 MEJORA 5: PLAN SEMANAL — lunes por la mañana
 // ------------------------------------------------------------------------------
 async function generateWeeklyPlan() {
-  const claudeKey = getGeminiKey();
+  const claudeKey = getAIFreeRouteToken();
   if (!claudeKey) {
-    chatAddMessage('bot', '⚠️ Necesitas la API key de Gemini para generar el plan semanal.');
+    chatAddMessage('bot', 'El plan semanal se generará en modo local porque no hay un proveedor gratuito autorizado.');
     chatToggleCommands(true);
     renderChatDiagnostics();
     return;
@@ -575,8 +575,8 @@ Responde SOLO en JSON válido:
   "motivation": "frase motivadora"
 }`;
 
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
+    const res = await aiGatewayCompatFetch(
+      AI_ZERO_COST_PROVIDERS.openrouter.model, claudeKey,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -669,7 +669,7 @@ Responde SOLO en JSON válido:
   } catch(e) {
     chatRemoveTyping();
     console.error('Weekly plan error:', e);
-    chatAddMessage('bot', '❌ Error generando el plan. Verifica tu API key de Gemini.');
+    chatAddMessage('bot', 'No se pudo generar el plan remoto; revisa los datos y utiliza el modo local.');
   }
 }
 
@@ -813,7 +813,7 @@ function toggleAgentMode() {
 // 🔄 MEJORA 1: BUCLE DE SEGUIMIENTO AUTÓNOMO
 // ------------------------------------------------------------------------------
 async function runAgentScan() {
-  const claudeKey = getGeminiKey();
+  const claudeKey = getAIFreeRouteToken();
   chatAddMessage('bot', '⚡ <strong>Modo Agente activado</strong> — Escaneando leads y preparando acciones...');
   chatShowTyping();
 
@@ -947,8 +947,8 @@ async function agentExecuteAll() {
 async function generateLeadProfile(leadId) {
   const lead = leads.find(l => l.id == leadId);
   if (!lead) return;
-  const claudeKey = getGeminiKey();
-  if (!claudeKey) { showToast('⚠️ Necesitas la API key de Gemini'); return; }
+  const claudeKey = getAIFreeRouteToken();
+  if (!claudeKey) { showToast('Modo local de IA no disponible'); return; }
 
   // Check cache (regenerate if >7 days)
   if (lead.psychProfile && lead.psychProfile._generated) {
@@ -992,8 +992,8 @@ Responde SOLO en JSON válido:
 }`;
 
   try {
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
+    const res = await aiGatewayCompatFetch(
+      AI_ZERO_COST_PROVIDERS.openrouter.model, claudeKey,
       { method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.4,maxOutputTokens:600} }) },
       { purpose: 'chat_lead_profile' }
@@ -1042,8 +1042,8 @@ function lead_forceProfileRegen(leadId) {
 // 📡 MEJORA 3: VIGILANCIA DE OPORTUNIDADES — noticias de leads
 // ------------------------------------------------------------------------------
 async function scanLeadOpportunities() {
-  const claudeKey = getGeminiKey();
-  if (!claudeKey) { chatAddMessage('bot','⚠️ Necesitas la API key de Gemini para escanear oportunidades.'); return; }
+  const claudeKey = getAIFreeRouteToken();
+  if (!claudeKey) { chatAddMessage('bot','No se pudo iniciar el análisis local de oportunidades.'); return; }
 
   const hotLeads = leads.filter(l => !l.archived && (l.score||0) >= 60).slice(0, 6);
   if (!hotLeads.length) { chatAddMessage('bot','No hay leads con score suficiente para vigilar.'); return; }
@@ -1075,8 +1075,8 @@ Responde SOLO JSON:
 Genera 3-4 oportunidades para las empresas con más potencial.`;
 
   try {
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
+    const res = await aiGatewayCompatFetch(
+      AI_ZERO_COST_PROVIDERS.openrouter.model, claudeKey,
       { method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.7,maxOutputTokens:800} }) },
       { purpose: 'chat_opportunity_analysis' }
@@ -1127,8 +1127,8 @@ async function agentPrepareEmailWithHook(leadId, hook) {
 async function agentHandleObjection(leadId) {
   const lead = leads.find(l => l.id == leadId);
   if (!lead) return;
-  const claudeKey = getGeminiKey();
-  if (!claudeKey) { chatAddMessage('bot','⚠️ Necesitas API key de Gemini'); return; }
+  const claudeKey = getAIFreeRouteToken();
+  if (!claudeKey) { chatAddMessage('bot','No se pudo iniciar la estrategia local.'); return; }
 
   const objection = lead.notes || '';
   chatAddMessage('bot', `🥊 Analizando objeción de <strong>${lead.company}</strong>...`);
@@ -1158,8 +1158,8 @@ Responde SOLO JSON:
 }`;
 
   try {
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
+    const res = await aiGatewayCompatFetch(
+      AI_ZERO_COST_PROVIDERS.openrouter.model, claudeKey,
       { method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.65,maxOutputTokens:900} }) },
       { purpose: 'chat_objection_strategy' }
@@ -1220,8 +1220,8 @@ function agentUseStrategy(leadId, stratIdx, strategiesJson) {
 // 🤝 MEJORA 5: MODO DELEGADO — el agente ejecuta acciones en masa
 // ------------------------------------------------------------------------------
 async function agentBatchPrepare(criteria) {
-  const claudeKey = getGeminiKey();
-  if (!claudeKey) { chatAddMessage('bot','⚠️ Necesitas API key de Gemini'); return; }
+  const claudeKey = getAIFreeRouteToken();
+  if (!claudeKey) { chatAddMessage('bot','No se pudo iniciar la preparación local.'); return; }
 
   // Parse criteria from natural language or use defaults
   let targetLeads = [];
@@ -1940,8 +1940,8 @@ CONOCES LA APP AL COMPLETO:
 - Campañas: email en masa por segmento
 - Plantillas: 8 templates por sector con copywriting PAS
 - Importar CSV: importar leads desde Excel
-- Configuración: perfil Voltium, APIs (Google, Hunter, Gemini)
-- Email IA (botón ✨): lee reseñas Google -> Gemini genera email hiperpersonalizado con formato
+- Configuración: perfil Voltium y ruta IA gratuita (OpenRouter/Groq)
+- Email IA (botón ✨): usa los datos disponibles y la ruta gratuita; si no está disponible, crea una plantilla local
 - Chat: este mismo asistente que puede mejorar la app en tiempo real
 - Control por voz: botón 🎙️ en el chat para hablar directamente
 - Memoria persistente: recuerdas las preferencias del usuario entre sesiones
@@ -1957,7 +1957,7 @@ CONOCES LA APP AL COMPLETO:
 APIs necesarias (todas gratuitas):
 - Google Places: console.cloud.google.com
 - Hunter.io: hunter.io (25/mes gratis)
-- Gemini: aistudio.google.com/apikey (1500/día gratis)
+- IA sin instalación: OpenRouter Free principal y Groq Free de respaldo
 
 ---------------------------------------
 MODO 2: AUTOPROGRAMACIÓN DE MEJORAS
@@ -2162,7 +2162,7 @@ function renderChatDiagnostics() {
   if (!el) return;
   const checks = [
     ['Google Places', !!localStorage.getItem('gordi_api_key'), 'Necesario para buscar empresas'],
-    ['Gemini', !!getGeminiKey(), 'Necesario para el asistente y emails IA'],
+    ['IA gratuita', getAIFreeRouteToken() !== 'local', 'OpenRouter/Groq; siempre existe respaldo local'],
     ['Hunter', !!localStorage.getItem('gordi_hunter_key'), 'Opcional: mejora emails corporativos'],
     ['Apollo', !!localStorage.getItem('gordi_apollo_key'), 'Opcional: mejora decisores'],
     ['Proxy CORS', !!localStorage.getItem('gordi_custom_proxy'), 'Opcional: estabiliza scraping si los proxies publicos fallan']
@@ -2521,9 +2521,9 @@ async function chatSend() {
   chatAddMessage('user', text);
   document.getElementById('chat-suggestions').style.display = 'none';
 
-  const geminiKey = getGeminiKey();
+  const geminiKey = getAIFreeRouteToken();
   if (!geminiKey) {
-    chatAddMessage('bot', 'Necesitas configurar una <strong>API Key de Gemini</strong>. ZERO_COST_MODE no realizara llamadas hasta que exista un control externo de facturacion verificable.');
+    chatAddMessage('bot', 'No hay proveedor remoto autorizado. Continuaré en <strong>modo local</strong> sin llamadas externas.');
     chatToggleCommands(true);
     renderChatDiagnostics();
     return;
@@ -2588,8 +2588,8 @@ async function chatSend() {
       ...chatHistory
     ];
 
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey,
+    const res = await aiGatewayCompatFetch(
+      AI_ZERO_COST_PROVIDERS.openrouter.model, geminiKey,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -2670,7 +2670,7 @@ async function chatSend() {
 
   } catch(e) {
     chatRemoveTyping();
-    chatAddMessage('bot', '❌ Error: ' + e.message + '. Verifica tu API key de Gemini en Configuración.');
+    chatAddMessage('bot', '❌ Error: ' + e.message + '. Puedes revisar OpenRouter/Groq en Configuración o continuar en modo local.');
     chatToggleCommands(true);
     renderChatDiagnostics();
   }

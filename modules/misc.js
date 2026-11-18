@@ -1468,10 +1468,9 @@ function runDailyCopilot(manual = false, returnAgenda = false) {
 
 async function enhanceDailyCopilotWithAI() {
   const agenda = dcLoadAgenda() || buildDailyCopilotAgenda();
-  const key = typeof getGeminiKey === 'function' ? getGeminiKey() : '';
-  const hasAnyAI = key || localStorage.getItem('gordi_groq_key') || localStorage.getItem('gordi_openrouter_key');
-  if (!hasAnyAI || typeof callGeminiAPI !== 'function') {
-    showToast('Configura Gemini, Groq u OpenRouter para mejorar con IA');
+  const key = typeof getAIFreeRouteToken === 'function' ? getAIFreeRouteToken() : 'local';
+  if (typeof callGeminiAPI !== 'function') {
+    showToast('El modo local de IA no está disponible');
     return;
   }
   const el = document.getElementById('daily-copilot-content');

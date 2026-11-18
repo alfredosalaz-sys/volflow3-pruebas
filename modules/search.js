@@ -3705,7 +3705,7 @@ function getClearbitLogo(website) {
 }
 
 // ─── DEDUPLICACIÓN por nombre similar ────────────────────────────────────────
-// ─── CAPA 7: IA Email Rescue (Gemini Flash) ─────────────────────────────────
+// ─── CAPA 7: rescate de email mediante ruta IA gratuita ─────────────────────
 async function extractEmailWithAI(websiteUrl, companyName, geminiKey) {
   if (isZeroCostMode()) return null;
   if (!geminiKey || !websiteUrl) return null;
@@ -3727,8 +3727,8 @@ async function extractEmailWithAI(websiteUrl, companyName, geminiKey) {
 
     const prompt = `Eres un experto extrayendo emails de contacto de webs de empresas. Busca el email de contacto de la empresa "${companyName}" en este texto extraído de su web. Responde ÚNICAMENTE con el email encontrado, o con la palabra "null" si no hay ninguno. No añadas explicaciones ni texto adicional.\n\nTexto:\n${textSnippet}`;
 
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey,
+    const res = await aiGatewayCompatFetch(
+      AI_ZERO_COST_PROVIDERS.openrouter.model, geminiKey,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -3745,7 +3745,7 @@ async function extractEmailWithAI(websiteUrl, companyName, geminiKey) {
     if (answer === 'null' || !answer.includes('@')) return null;
     const emailMatch = answer.match(/[a-zA-Z0-9._%+\-]{1,64}@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,10}/);
     if (emailMatch && isValidEmail(emailMatch[0])) return emailMatch[0];
-  } catch { /* Gemini falló, continuar */ }
+  } catch { /* La ruta IA falló; continuar con los datos locales. */ }
   return null;
 }
 
@@ -4179,11 +4179,11 @@ function getLookalikeSimilarity(company) {
   return Math.min(100, Math.round(sim));
 }
 
-// ─── CAPA STREETVIEW: Análisis visual de fachada con Gemini Vision ────────────
+// ─── CAPA STREETVIEW: análisis visual mediante proveedor gratuito compatible ─
 async function enrichFromStreetView(company) {
   if (isZeroCostMode()) return markZeroCostSkipped(company, 'google_street_view', 'billing_risk_not_allowed');
   const apiKey    = localStorage.getItem('gordi_api_key');
-  const geminiKey = getGeminiKey();
+  const geminiKey = getAIFreeRouteToken();
   if (!apiKey || !geminiKey || !company.address) return company;
   try {
     const svUrl = 'https://maps.googleapis.com/maps/api/streetview?size=640x400'
@@ -4198,8 +4198,8 @@ async function enrichFromStreetView(company) {
       reader.readAsDataURL(blob);
     });
     if (!base64 || base64.length < 500) return company;
-    const gemRes = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey,
+    const gemRes = await aiGatewayCompatFetch(
+      AI_ZERO_COST_PROVIDERS.openrouter.model, geminiKey,
       { method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents: [{ parts: [
           { inline_data: { mime_type: 'image/jpeg', data: base64 } },
@@ -5215,7 +5215,7 @@ async function searchBusinessesSingle(options = {}) {
   }
 
   // ── Capa Especial Avanzada (Borme + Street View + LinkedIn + IA Rescue) ────
-  const geminiKey = getGeminiKey();
+  const geminiKey = getAIFreeRouteToken();
   if (enrichMode === 'all') {
     logEnrich('💎 Capas Avanzadas: ejecutando análisis de alto valor...');
     setStep('empresite', 'active', 'Consultando...');
@@ -5249,7 +5249,7 @@ async function searchBusinessesSingle(options = {}) {
           tempSearchResults[i] = await enrichFromStreetView(tempSearchResults[i]);
         }
         
-        // 6. IA Email Rescue (Último recurso con Gemini)
+        // 6. Rescate de email mediante la ruta gratuita.
         if (geminiKey && !tempSearchResults[i].email && tempSearchResults[i].website) {
           const rescued = await extractEmailWithAI(tempSearchResults[i].website, tempSearchResults[i].name, geminiKey);
           if (rescued) {
@@ -5362,7 +5362,7 @@ async function enrichSingleCard(idx) {
 
   const hunterKey  = localStorage.getItem('gordi_hunter_key');
   const apolloKey  = localStorage.getItem('gordi_apollo_key');
-  const geminiKey  = getGeminiKey();
+  const geminiKey  = getAIFreeRouteToken();
   let hadError = false;
 
   try {
@@ -5402,9 +5402,9 @@ async function enrichSingleCard(idx) {
   }
 }
 
-// ── Panel de Inteligencia de Sesión (Gemini) ───────────────────────────────────
+// ── Panel de inteligencia de sesión (ruta gratuita + modo local) ──────────────
 async function generateSessionIntel(results, segment, location) {
-  const geminiKey = getGeminiKey();
+  const geminiKey = getAIFreeRouteToken();
   const el = document.getElementById('session-intel-box');
   if (!geminiKey || !results.length || !el) return;
 
@@ -5428,8 +5428,8 @@ async function generateSessionIntel(results, segment, location) {
   const prompt = `Eres un experto en ventas B2B para Voltium Madrid, empresa de instalaciones eléctricas y reformas integrales. Analiza los ${top.length} mejores leads encontrados en "${location}" (sector: ${segment}) y crea un briefing ejecutivo CONCISO. Para cada lead: una frase de por qué es prioritario y una frase con el mejor ángulo de primer contacto. Sin listas con guiones, sin markdown, texto en prosa con saltos de línea entre leads. Máximo 220 palabras.\n\nLeads:\n${summary}`;
 
   try {
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey,
+    const res = await aiGatewayCompatFetch(
+      AI_ZERO_COST_PROVIDERS.openrouter.model, geminiKey,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -5760,7 +5760,7 @@ function buildCommercialAudit(c) {
       <div style="padding:.8rem;border:1px solid var(--glass-border);border-radius:10px;background:rgba(255,255,255,.03)">
         <strong>Auditoria visual/web:</strong>
         <div style="margin-top:.45rem;color:var(--text-muted);font-size:.85rem;line-height:1.45">
-          ${c.fachadaAnalysis || c.reviewSummary || c.description || 'Sin auditoria visual todavia. Ejecuta enriquecimiento completo para activar Street View/IA si hay clave Gemini.'}
+          ${c.fachadaAnalysis || c.reviewSummary || c.description || 'Sin auditoría visual todavía. Ejecuta el enriquecimiento completo para intentar el análisis con la ruta gratuita.'}
           ${c.webLoadMs ? `<br>Web: ${(c.webLoadMs / 1000).toFixed(1)}s de carga.` : ''}
           ${(c.techStack || []).length ? `<br>Stack: ${(c.techStack || []).slice(0, 6).join(', ')}` : ''}
         </div>

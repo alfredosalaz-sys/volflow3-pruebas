@@ -161,8 +161,8 @@ async function registerInlineReply(leadId) {
   const fromMatch = raw.match(/(?:De|From)\s*:\s*(.+?)(?:\n|$)/i);
   if (fromMatch) senderName = fromMatch[1].replace(/<.*?>/, '').replace(/["']/g,'').trim();
 
-  // Use Gemini to extract clean body if available
-  const geminiKey = getGeminiKey();
+  // Usar la ruta gratuita o el limpiador local si está disponible.
+  const geminiKey = getAIFreeRouteToken();
   let cleanBody = raw.slice(0, 300);
 
   if (geminiKey && raw.length > 50) {
@@ -171,8 +171,8 @@ async function registerInlineReply(leadId) {
 
 EMAIL:
 ${raw.slice(0, 1500)}`;
-      const res = await aiGatewayGeminiFetch(
-        AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey,
+      const res = await aiGatewayCompatFetch(
+        AI_ZERO_COST_PROVIDERS.openrouter.model, geminiKey,
         { method:'POST', headers:{'Content-Type':'application/json'},
           body: JSON.stringify({ contents:[{parts:[{text:prompt}]}] }),
           signal: AbortSignal.timeout(10000) },
@@ -407,16 +407,16 @@ async function processInboxEmails() {
   // Parse emails from pasted text
   _inboxParsed = parseEmailsFromText(raw);
 
-  // If we have Gemini, use AI to improve extraction
-  const geminiKey = getGeminiKey();
+  // La ruta gratuita puede mejorar la extracción; el parser local sigue siendo respaldo.
+  const geminiKey = getAIFreeRouteToken();
   if (geminiKey && _inboxParsed.length === 0) {
     try {
       const prompt = `Analiza este texto que contiene uno o varios emails de Outlook y extrae los datos de cada email.
 Responde SOLO en JSON válido (array): [{"email":"remitente@empresa.com","name":"Nombre Remitente","subject":"Asunto","date":"fecha","body":"primeras 150 palabras del cuerpo del email"}]
 Si no hay emails claros, devuelve [].
 TEXTO:\n${raw.slice(0, 3000)}`;
-      const res = await aiGatewayGeminiFetch(
-        AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey,
+      const res = await aiGatewayCompatFetch(
+        AI_ZERO_COST_PROVIDERS.openrouter.model, geminiKey,
         { method:'POST', headers:{'Content-Type':'application/json'},
           body: JSON.stringify({ contents:[{parts:[{text:prompt}]}] }),
           signal: AbortSignal.timeout(15000) },
@@ -677,7 +677,7 @@ function stopVoiceRecording() {
 async function processVoiceNote() {
   const transcript = _voiceTranscript.trim();
   if (!transcript) return;
-  const geminiKey = getGeminiKey();
+  const geminiKey = getAIFreeRouteToken();
   const apiKey    = localStorage.getItem('gordi_api_key');
   if (!geminiKey && !apiKey) { showToast('⚠️ Necesitas configurar una API key'); return; }
 
@@ -697,8 +697,8 @@ Dictado: "${transcript.replace(/"/g, "'")}"`;
   try {
     let responseText = '';
     if (geminiKey) {
-      const res = await aiGatewayGeminiFetch(
-        AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey,
+      const res = await aiGatewayCompatFetch(
+        AI_ZERO_COST_PROVIDERS.openrouter.model, geminiKey,
         { method:'POST', headers:{'Content-Type':'application/json'},
           body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] }),
           signal: AbortSignal.timeout(12000) },
@@ -800,8 +800,8 @@ function handleScanFile(input) {
 }
 
 async function analyzeScanImage() {
-  const geminiKey = getGeminiKey();
-  if (!geminiKey || !_scanImageBase64) { showToast('⚠️ Necesitas API Key de Gemini para analizar imágenes'); return; }
+  const geminiKey = getAIFreeRouteToken();
+  if (!_scanImageBase64) { showToast('⚠️ Primero selecciona una imagen'); return; }
 
   const resultEl = document.getElementById('scan-result');
   resultEl.style.display = 'block';
@@ -826,8 +826,8 @@ Extrae y responde SOLO en JSON válido:
   "score_hint": "alto/medio/bajo según aspecto de las instalaciones"
 }`;
 
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey,
+    const res = await aiGatewayCompatFetch(
+      AI_ZERO_COST_PROVIDERS.openrouter.model, geminiKey,
       { method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ contents:[{ parts:[
           { inline_data:{ mime_type:'image/jpeg', data:_scanImageBase64 } },
@@ -1327,10 +1327,10 @@ Prohibido: ${seg.forbidden}`;
 }
 
 async function generateBriefing(lead) {
-  const geminiKey = getGeminiKey();
+  const geminiKey = getAIFreeRouteToken();
   const apiKey    = localStorage.getItem('gordi_api_key');
   if (!geminiKey && !apiKey) {
-    appendBriefingMsg('⚠️ Necesitas una API Key de Gemini configurada en Ajustes para usar el briefing IA.', 'ai');
+    appendBriefingMsg('El briefing remoto no está disponible; continuaré con el análisis local.', 'ai');
     return;
   }
 
@@ -1376,7 +1376,7 @@ async function sendBriefingMessage() {
   _briefingHistory.push({ role:'user', content: msg });
 
   const lead = leads.find(l => l.id == _briefingLeadId);
-  const geminiKey = getGeminiKey();
+  const geminiKey = getAIFreeRouteToken();
   if (!geminiKey || !lead) return;
 
   const loadingEl = appendBriefingMsg('⏳ Pensando...', 'ai');

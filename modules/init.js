@@ -1402,7 +1402,7 @@ async function tryAutoMigrate() {
     }
     return false;
   })();
-  const hasApiKeys      = !!(localStorage.getItem('gordi_api_key') || getGeminiKey() || localStorage.getItem('gordi_hunter_key'));
+  const hasApiKeys      = !!(localStorage.getItem('gordi_api_key') || localStorage.getItem('gordi_openrouter_key') || localStorage.getItem('gordi_groq_key') || localStorage.getItem('gordi_hunter_key'));
   const hasProfile      = !!localStorage.getItem('gordi_user_name');
 
   // Si no hay ningún dato previo -> primera instalación, nada que migrar
@@ -1553,11 +1553,6 @@ function loadAllData() {
   if (_scid && el('sheets-client-input')) el('sheets-client-input').value = _scid;
   if (_stok && el('sheets-token-input'))  el('sheets-token-input').value  = _stok;
 
-  const claudeKey = getGeminiKey();
-  if (claudeKey && el('claude-key-input')) {
-    el('claude-key-input').value = claudeKey;
-    el('claude-key-status').innerHTML = '<span style="color:var(--warning)">Gemini Key guardada; bloqueada hasta confirmar Free</span>';
-  }
   const groqKey = typeof getAIProviderKey === 'function' ? getAIProviderKey('groq') : localStorage.getItem('gordi_groq_key');
   if (groqKey && el('groq-key-input')) {
     el('groq-key-input').value = groqKey;
@@ -2100,9 +2095,8 @@ function refreshAiRouterStatus() {
     </div>`;
   };
   el.innerHTML =
-    row('gemini', 'Gemini (Principal)', 'G', 'https://aistudio.google.com/apikey') +
-    row('groq', 'Groq (Respaldo 1)', 'G', 'https://console.groq.com') +
-    row('openrouter', 'OpenRouter (Resp. 2)', 'O', 'https://openrouter.ai') +
+    row('openrouter', 'OpenRouter Free (Principal)', 'O', 'https://openrouter.ai/settings/keys') +
+    row('groq', 'Groq Free (Respaldo)', 'G', 'https://console.groq.com/keys') +
     `<p style="margin-top:.6rem;font-size:.75rem;color:var(--text-dim)">Guardar una clave no habilita llamadas. Como esta web no puede verificar de forma segura la facturacion de la cuenta sin contactar al proveedor, cada clave queda bloqueada hasta confirmar manualmente el plan gratuito y la ausencia de facturacion para la sesion actual. Esta confirmacion no sustituye un limite de gasto efectivo configurado en el proveedor.<br><strong>Coste facturado: no verificable desde Voltflow.</strong></p>`;
   const selection = window.VoltflowAIGateway?.getSelection?.() || { mode: 'automatic' };
   const modeEl = document.getElementById('ai-selection-mode');
@@ -2124,7 +2118,7 @@ function saveAIControlPreferences() {
   const gateway = window.VoltflowAIGateway;
   if (!gateway) return;
   const mode = document.getElementById('ai-selection-mode')?.value || 'automatic';
-  const provider = document.getElementById('ai-manual-provider')?.value || 'gemini';
+  const provider = document.getElementById('ai-manual-provider')?.value || 'openrouter';
   const model = gateway.providers?.[provider]?.model || '';
   const selection = gateway.setSelection({ mode, provider, model });
   if (!selection.ok) { showToast(`Configuracion bloqueada: ${selection.reason}`); return; }

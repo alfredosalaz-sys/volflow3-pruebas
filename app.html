@@ -1028,7 +1028,7 @@
               <span style="font-size:1.1rem"></span>
               <div>
                 <div style="font-weight:700;font-size:.88rem">Ranking IA - Top 5 oportunidades</div>
-                <div id="ai-ranking-sub" style="font-size:.7rem;color:var(--text-dim)">Analizando resultados con Gemini...</div>
+                <div id="ai-ranking-sub" style="font-size:.7rem;color:var(--text-dim)">Analizando resultados con la ruta gratuita...</div>
               </div>
             </div>
             <div style="display:flex;gap:.5rem;align-items:center">
@@ -1503,25 +1503,6 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
       </div>
     </div>
 
-    <div class="glass-panel legacy-ai-key-panel" style="margin-bottom:1.5rem">
-      <div class="panel-header">
-        <h3>API Key de Gemini (IA de emails)</h3>
-        <span style="color:var(--warning);font-size:.75rem;font-weight:700">REQUIERE CONFIRMACION</span>
-      </div>
-      <p style="color:var(--text-muted);font-size:0.85rem;margin:1rem 0">
-        Genera borradores personalizados con los datos disponibles de cada empresa.<br>
-        Solo se habilita tras confirmar en esta sesion que el proyecto esta en Gemini API Free Tier y sin facturacion vinculada.<br>
-        Modelo permitido: <code>gemini-2.5-flash-lite</code>. <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" style="color:var(--primary)">Abrir Google AI Studio</a>.
-      </p>
-      <div class="input-group">
-        <input type="password" id="claude-key-input" placeholder="AIzaSy...">
-      </div>
-      <div style="margin-top:1rem;display:flex;gap:1rem;align-items:center">
-        <button class="btn-primary" onclick="saveClaudeKey()">Guardar Gemini Key</button>
-        <div id="claude-key-status" style="font-size:0.85rem"></div>
-      </div>
-    </div>
-
     <!-- --  IA Multi-Proveedor: Groq --  -->
     <div class="glass-panel legacy-ai-key-panel" style="margin-bottom:1.5rem">
       <div class="panel-header">
@@ -1563,7 +1544,7 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
     </div>
 
     <div class="glass-panel c71-provider-shortcut" style="margin-bottom:1.5rem">
-      <div><h3>Credenciales de inteligencia artificial</h3><p>Gemini, Groq y OpenRouter se administran desde una unica pantalla con prioridad, bloqueo y autorizacion por sesion.</p></div>
+      <div><h3>Credenciales de inteligencia artificial</h3><p>OpenRouter y Groq se administran desde una única pantalla; la plantilla local funciona siempre sin clave.</p></div>
       <button class="btn-primary" type="button" onclick="showView('provider-settings')">Abrir IA y claves</button>
     </div>
 
@@ -1583,9 +1564,8 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
         </label>
         <label id="ai-manual-provider-wrap" style="font-size:.75rem;color:var(--text-muted);display:none">Proveedor permitido
           <select id="ai-manual-provider" style="margin-top:.3rem;width:100%">
-            <option value="gemini">Gemini Free</option>
-            <option value="groq">Groq Free</option>
             <option value="openrouter">OpenRouter Free</option>
+            <option value="groq">Groq Free</option>
           </select>
         </label>
         <label style="font-size:.75rem;color:var(--text-muted)">Privacidad
@@ -2507,6 +2487,7 @@ Y cruzará los remitentes con tus leads para actualizar el CRM."
 <script defer src="modules/search.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/leads.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/dashboard.js?v=2026.10.15.0300" charset="UTF-8"></script>
+<script defer src="modules/ai-free-fallbacks.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/ai-email.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/chat.js?v=2026.10.15.0300" charset="UTF-8"></script>
 <script defer src="modules/ui.js?v=2026.10.15.0300" charset="UTF-8"></script>

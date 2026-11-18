@@ -1,11 +1,12 @@
 // VOLTFLOW — ROUTER IA MULTI-PROVEEDOR v2
-// Gemini -> Groq -> OpenRouter (fallback automático al alcanzar límites)
+// OpenRouter Free -> Groq Free (fallback automatico al alcanzar limites)
 // ------------------------------------------------------------------
 
 const AI_ZERO_COST_MODE = true;
 const AI_FREE_POLICY_VERSION = '2026-10-15.2';
 const AI_FREE_APPROVAL_TTL_MS = 8 * 60 * 60 * 1000;
 const AI_PROVIDER_SETTINGS_KEY = 'gordi_ai_provider_settings_v1';
+const AI_ACTIVE_PROVIDER_IDS = Object.freeze(['openrouter', 'groq']);
 const AI_ZERO_COST_PROVIDERS = {
   gemini: {
     model: 'gemini-2.5-flash-lite',
@@ -43,7 +44,7 @@ const AI_ZERO_COST_PROVIDERS = {
     maxOutputTokens: 2000,
     maxInputChars: 18000,
     maxConcurrency: 1,
-    capabilities: Object.freeze(['text', 'json']),
+    capabilities: Object.freeze(['text', 'json', 'vision']),
     privacy: 'variable_downstream_provider',
   },
 };
@@ -57,15 +58,16 @@ const aiRuntime = {
   controllers: new Map(),
 };
 const AI_TASK_PROFILES = Object.freeze({
-  commercial_first_contact: Object.freeze({ capability: 'json', order: Object.freeze(['gemini', 'groq', 'openrouter']) }),
-  email_body_generation: Object.freeze({ capability: 'json', order: Object.freeze(['gemini', 'groq', 'openrouter']) }),
-  email_subject_regeneration: Object.freeze({ capability: 'text', order: Object.freeze(['groq', 'gemini', 'openrouter']) }),
-  email_followup_generation: Object.freeze({ capability: 'json', order: Object.freeze(['gemini', 'groq', 'openrouter']) }),
-  style_correction: Object.freeze({ capability: 'text', order: Object.freeze(['groq', 'gemini', 'openrouter']) }),
-  lead_classification: Object.freeze({ capability: 'json', order: Object.freeze(['groq', 'gemini', 'openrouter']) }),
-  data_extraction: Object.freeze({ capability: 'json', order: Object.freeze(['gemini', 'groq', 'openrouter']) }),
-  summary: Object.freeze({ capability: 'text', order: Object.freeze(['groq', 'gemini', 'openrouter']) }),
-  default: Object.freeze({ capability: 'text', order: Object.freeze(['gemini', 'groq', 'openrouter']) }),
+  commercial_first_contact: Object.freeze({ capability: 'json', order: AI_ACTIVE_PROVIDER_IDS }),
+  email_body_generation: Object.freeze({ capability: 'json', order: AI_ACTIVE_PROVIDER_IDS }),
+  email_subject_regeneration: Object.freeze({ capability: 'text', order: AI_ACTIVE_PROVIDER_IDS }),
+  email_followup_generation: Object.freeze({ capability: 'json', order: AI_ACTIVE_PROVIDER_IDS }),
+  style_correction: Object.freeze({ capability: 'text', order: AI_ACTIVE_PROVIDER_IDS }),
+  lead_classification: Object.freeze({ capability: 'json', order: AI_ACTIVE_PROVIDER_IDS }),
+  data_extraction: Object.freeze({ capability: 'json', order: AI_ACTIVE_PROVIDER_IDS }),
+  inbox_image_scan: Object.freeze({ capability: 'vision', order: AI_ACTIVE_PROVIDER_IDS }),
+  summary: Object.freeze({ capability: 'text', order: AI_ACTIVE_PROVIDER_IDS }),
+  default: Object.freeze({ capability: 'text', order: AI_ACTIVE_PROVIDER_IDS }),
 });
 
 function aiSafeStorageGet(store, key, fallback = '') {
@@ -81,12 +83,12 @@ function aiSafeStorageRemove(store, key) {
 }
 
 function aiDefaultProviderSettings() {
-  const priority = Object.keys(AI_ZERO_COST_PROVIDERS);
+  const priority = [...AI_ACTIVE_PROVIDER_IDS];
   return {
     schemaVersion: 1,
-    priority,
-    providers: Object.fromEntries(priority.map(provider => [provider, {
-      enabled: true,
+    priority: [...priority],
+    providers: Object.fromEntries(Object.keys(AI_ZERO_COST_PROVIDERS).map(provider => [provider, {
+      enabled: AI_ACTIVE_PROVIDER_IDS.includes(provider),
       model: AI_ZERO_COST_PROVIDERS[provider].model
     }]))
   };
@@ -97,14 +99,14 @@ function getAIProviderSettings() {
   let parsed = {};
   try { parsed = JSON.parse(aiSafeStorageGet(localStorage, AI_PROVIDER_SETTINGS_KEY, '{}')); } catch {}
   const known = Object.keys(AI_ZERO_COST_PROVIDERS);
-  const requestedPriority = Array.isArray(parsed?.priority) ? parsed.priority.filter(provider => known.includes(provider)) : [];
-  const priority = [...new Set([...requestedPriority, ...known])];
+  const requestedPriority = Array.isArray(parsed?.priority) ? parsed.priority.filter(provider => AI_ACTIVE_PROVIDER_IDS.includes(provider)) : [];
+  const priority = [...new Set([...requestedPriority, ...AI_ACTIVE_PROVIDER_IDS])];
   const providers = {};
   for (const provider of known) {
     const cfg = AI_ZERO_COST_PROVIDERS[provider];
     const saved = parsed?.providers?.[provider] || {};
     providers[provider] = {
-      enabled: saved.enabled !== false,
+      enabled: AI_ACTIVE_PROVIDER_IDS.includes(provider) && saved.enabled !== false,
       model: cfg.freeModels.includes(saved.model) ? saved.model : cfg.model
     };
   }
@@ -115,19 +117,19 @@ function saveAIProviderSettings(settings = {}) {
   const current = getAIProviderSettings();
   const known = Object.keys(AI_ZERO_COST_PROVIDERS);
   const priority = Array.isArray(settings.priority)
-    ? [...new Set(settings.priority.filter(provider => known.includes(provider)))]
+    ? [...new Set(settings.priority.filter(provider => AI_ACTIVE_PROVIDER_IDS.includes(provider)))]
     : current.priority;
   const providers = {};
   for (const provider of known) {
     const cfg = AI_ZERO_COST_PROVIDERS[provider];
     const requested = settings.providers?.[provider] || current.providers[provider];
     providers[provider] = {
-      enabled: requested.enabled !== false,
+      enabled: AI_ACTIVE_PROVIDER_IDS.includes(provider) && requested.enabled !== false,
       model: cfg.freeModels.includes(requested.model) ? requested.model : cfg.model
     };
     if (!providers[provider].enabled) revokeAIFreeProvider(provider);
   }
-  const normalized = { schemaVersion: 1, priority: [...priority, ...known.filter(provider => !priority.includes(provider))], providers };
+  const normalized = { schemaVersion: 1, priority: [...priority, ...AI_ACTIVE_PROVIDER_IDS.filter(provider => !priority.includes(provider))], providers };
   if (!aiSafeStorageSet(localStorage, AI_PROVIDER_SETTINGS_KEY, JSON.stringify(normalized))) {
     return { ok: false, reason: 'provider_settings_not_persisted' };
   }
@@ -505,6 +507,86 @@ async function aiGatewayGeminiFetch(model, key, options = {}, meta = {}) {
   return aiGatewayFetch('gemini', model, key, options, meta);
 }
 
+function getAIFreeRouteToken() {
+  return AI_ACTIVE_PROVIDER_IDS.find(provider => !!getAIProviderKey(provider)) || 'local';
+}
+
+function buildAICompatFallback(purpose, prompt = '') {
+  const fallbacks = typeof VoltflowAIFallbacks !== 'undefined' ? VoltflowAIFallbacks : null;
+  if (purpose === 'inbox_message_cleanup') return fallbacks?.cleanInbound?.(String(prompt).split(/EMAIL:\s*/i).pop()) || '';
+  if (purpose === 'inbox_email_import') return '[]';
+  if (purpose === 'inbox_voice_lead') return JSON.stringify({ company: '', status: null, note: 'Dictado guardado para revisión manual', next_contact: null });
+  if (purpose === 'inbox_image_scan') return JSON.stringify({ name: '', segment: '', phone: null, address: null, signal: 'Análisis visual no disponible en modo local', score_hint: 'bajo' });
+  if (purpose === 'chat_weekly_plan') return JSON.stringify({
+    diagnosis: 'Plan local basado en los datos disponibles.',
+    tasks: [{ priority: 1, action: 'Revisar y priorizar los leads pendientes', why: 'Mantener el seguimiento comercial', expected: 'Próximos pasos registrados', leadId: null }],
+    weekGoal: { emails: 5, reason: 'Objetivo local conservador' }, motivation: 'La constancia comercial produce resultados.',
+  });
+  if (purpose === 'chat_lead_profile') return JSON.stringify({
+    communicationStyle: 'profesional', mainPain: 'Necesidad por confirmar', objections: [],
+    nextBestAction: 'Verificar datos y realizar un contacto breve', tags: ['modo local'],
+    urgency: 'media', briefing: 'Perfil local construido sin enviar datos a servicios externos.',
+  });
+  if (purpose === 'chat_opportunity_analysis') return JSON.stringify({ opportunities: [] });
+  if (purpose === 'chat_objection_strategy') return JSON.stringify({ strategies: [{
+    name: 'Respuesta prudente', approach: 'siembra', subject: '¿Lo revisamos?',
+    body: 'Gracias por compartirlo. Podemos revisar el caso sin compromiso y concretar si existe una mejora viable.',
+    risk: 'bajo', recommended: true,
+  }] });
+  if (purpose === 'search_email_extraction') return 'null';
+  if (purpose === 'search_facade_analysis') return 'Análisis visual no disponible en modo local.';
+  if (purpose === 'search_session_intelligence') return 'Briefing local: prioriza los leads con mayor puntuación, datos de contacto completos y seguimiento pendiente.';
+  if (purpose === 'chat_conversation') return 'Estoy funcionando en modo local. Puedo ayudarte a revisar los datos y los próximos pasos guardados en Voltflow.';
+  return 'Modo local activo: revisa los datos antes de utilizar el resultado.';
+}
+
+async function aiGatewayCompatFetch(_legacyModel, _legacyKey, options = {}, meta = {}) {
+  let prompt = '';
+  let images = [];
+  try {
+    const body = typeof options.body === 'string' ? JSON.parse(options.body) : (options.body || {});
+    const parts = body.contents?.flatMap(item => item.parts || []) || [];
+    prompt = parts.map(part => part.text || '').filter(Boolean).join('\n')
+      || body.messages?.map(message => message.content || '').filter(Boolean).join('\n')
+      || String(meta.prompt || '');
+    images = parts.map(part => part.inline_data || part.inlineData).filter(Boolean).map(item => ({
+      mimeType: item.mime_type || item.mimeType || 'image/jpeg',
+      data: String(item.data || '')
+    })).filter(item => item.data);
+  } catch {
+    prompt = String(meta.prompt || '');
+  }
+  const purpose = meta.purpose || 'default';
+  let text = typeof meta.localFallback === 'function' ? meta.localFallback() : (meta.localFallback || buildAICompatFallback(purpose, prompt));
+  let provider = 'local';
+  try {
+    const result = await AI_ROUTER.call(prompt, null, {
+      purpose,
+      maxOutputTokens: meta.maxOutputTokens || 2000,
+      containsPersonalData: meta.containsPersonalData === true,
+      signal: options.signal,
+      images,
+    });
+    if (result) {
+      text = result;
+      provider = AI_ROUTER._lastProvider || 'unknown';
+    }
+  } catch (error) {
+    if (!text) throw error;
+  }
+  const payload = {
+    candidates: [{ content: { parts: [{ text: String(text || '') }] } }],
+    provider,
+    local: provider === 'local',
+  };
+  return {
+    ok: true,
+    status: 200,
+    headers: { get() { return null; } },
+    async json() { return payload; },
+  };
+}
+
 function aiRecordZeroCostUse(provider, model, key) {
   const state = aiZeroCostAllowed(provider, model, key);
   if (!state.ok) return;
@@ -641,6 +723,11 @@ const AI_ROUTER = {
   // ── Proveedor 3: OpenRouter (50+ modelos gratuitos) ──────────
   async _callOpenRouter(prompt, key, options = {}) {
     const model = AI_ZERO_COST_PROVIDERS.openrouter.model;
+    const content = Array.isArray(options.images) && options.images.length
+      ? [{ type: 'text', text: prompt }, ...options.images.map(image => ({
+          type: 'image_url', image_url: { url: `data:${image.mimeType || 'image/jpeg'};base64,${image.data}` }
+        }))]
+      : prompt;
     const res = await aiGatewayFetch('openrouter', model, key, {
       method: 'POST',
       headers: {
@@ -651,7 +738,7 @@ const AI_ROUTER = {
       },
       body: JSON.stringify({
         model,
-        messages: [{ role: 'user', content: prompt }],
+        messages: [{ role: 'user', content }],
         max_tokens: Math.min(options.maxOutputTokens || 1500, AI_ZERO_COST_PROVIDERS.openrouter.maxOutputTokens),
       }),
       signal: aiCombinedSignal(options.signal, 25000)
@@ -744,13 +831,11 @@ const AI_ROUTER = {
 
   // Estado visible para UI
   getStatus() {
-    const geminiKey = getAIProviderKey('gemini');
     const groqKey = getAIProviderKey('groq');
     const openrouterKey = getAIProviderKey('openrouter');
     return {
-      gemini: { ...getAIProviderKeyMetadata('gemini'), enabled: getAIProviderSettings().providers.gemini.enabled, limited: this._isLimited('gemini'), model: AI_ZERO_COST_PROVIDERS.gemini.model, telemetry: aiReadTelemetry('gemini', AI_ZERO_COST_PROVIDERS.gemini.model), ...aiZeroCostAllowed('gemini', AI_ZERO_COST_PROVIDERS.gemini.model, geminiKey) },
-      groq: { ...getAIProviderKeyMetadata('groq'), enabled: getAIProviderSettings().providers.groq.enabled, limited: this._isLimited('groq'), model: AI_ZERO_COST_PROVIDERS.groq.model, telemetry: aiReadTelemetry('groq', AI_ZERO_COST_PROVIDERS.groq.model), ...aiZeroCostAllowed('groq', AI_ZERO_COST_PROVIDERS.groq.model, groqKey) },
       openrouter: { ...getAIProviderKeyMetadata('openrouter'), enabled: getAIProviderSettings().providers.openrouter.enabled, limited: this._isLimited('openrouter'), model: AI_ZERO_COST_PROVIDERS.openrouter.model, telemetry: aiReadTelemetry('openrouter', AI_ZERO_COST_PROVIDERS.openrouter.model), ...aiZeroCostAllowed('openrouter', AI_ZERO_COST_PROVIDERS.openrouter.model, openrouterKey) },
+      groq: { ...getAIProviderKeyMetadata('groq'), enabled: getAIProviderSettings().providers.groq.enabled, limited: this._isLimited('groq'), model: AI_ZERO_COST_PROVIDERS.groq.model, telemetry: aiReadTelemetry('groq', AI_ZERO_COST_PROVIDERS.groq.model), ...aiZeroCostAllowed('groq', AI_ZERO_COST_PROVIDERS.groq.model, groqKey) },
     };
   },
 };
@@ -787,20 +872,17 @@ if (typeof window !== 'undefined') {
   });
 }
 
-// Compatibilidad total: todas las llamadas antiguas a callGeminiAPI ahora usan el router
-async function callGeminiAPI(prompt, geminiKey, options = {}) {
-  try {
-    return await AI_ROUTER.call(prompt, geminiKey, options);
-  } catch (err) {
-    if (err.message === 'NO_KEY') {
-      throw new Error('NO_KEY: Configura al menos una API Key de IA en Configuración');
-    }
-    if (err.message === 'ALL_LIMITED') {
-      showToast('⏳ Límite diario alcanzado en todos los proveedores IA. Se recuperarán automáticamente.', 5000);
-      throw new Error('ALL_LIMITED');
-    }
-    throw err;
+// Compatibilidad: las llamadas antiguas usan la ruta gratuita y fallback local.
+async function callGeminiAPI(prompt, _legacyKey, options = {}) {
+  const purpose = options.purpose || 'chat_conversation';
+  if (typeof VoltflowAIFallbacks !== 'undefined') {
+    const generated = await VoltflowAIFallbacks.generate(
+      prompt, { ...options, purpose }, () => buildAICompatFallback(purpose, prompt)
+    );
+    return generated.text;
   }
+  try { return await AI_ROUTER.call(prompt, null, { ...options, purpose }); }
+  catch { return buildAICompatFallback(purpose, prompt); }
 }
 
 function appendBriefingMsg(text, role) {
@@ -2132,14 +2214,6 @@ function openReplyModal(idx) {
 }
 
 async function generateReplyEmail(em, lead, tone) {
-  const key = getGeminiKey();
-  if (!key) {
-    document.getElementById('reply-loading').style.display = 'none';
-    document.getElementById('reply-error').style.display = 'block';
-    document.getElementById('reply-error').textContent = '⚠️ Configura la API Key de Gemini en Configuración.';
-    return;
-  }
-
   document.getElementById('reply-loading-text').textContent = 'Analizando el email y el historial del lead...';
 
   const p = getProfile();
@@ -2202,16 +2276,17 @@ Responde ÚNICAMENTE en JSON válido:
 {"subject":"Re: asunto adaptado","body":"HTML de la respuesta con <br><br> entre párrafos y <strong> en máx 2 puntos clave","intent":"INTERESADO|DUDA|OBJECIÓN|SOLICITUD_PRECIO|RECHAZO_SUAVE|OTRO","tactic":"en 1 frase: qué detectaste en el email y cómo lo abordaste"}`;
 
   try {
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, key,
-      { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.65, maxOutputTokens: 2000 } }),
-        signal: AbortSignal.timeout(25000) },
-      { purpose: 'email_reply_generation' }
+    const localReply = VoltflowAIFallbacks.reply({ lead: lead || {}, subject: em.subject || 'tu mensaje' });
+    const generated = await VoltflowAIFallbacks.generate(
+      prompt,
+      { purpose: 'email_body_generation', maxOutputTokens: 2000 },
+      () => JSON.stringify({
+        subject: `Re: ${em.subject || 'Tu mensaje'}`,
+        body: escapeAIText(localReply).replace(/\n/g, '<br>'),
+        intent: 'OTRO', tactic: 'Respuesta local prudente basada en el mensaje recibido',
+      })
     );
-    const data = await res.json();
-    let raw = data.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('').trim() || '';
+    let raw = generated.text || '';
     raw = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
     const result = JSON.parse(raw);
 
@@ -2323,20 +2398,18 @@ function showAndRunAiRanking() {
 }
 
 async function runAiRanking() {
-  const key = getGeminiKey();
-  if (!key) { showToast('⚠️ Configura la API Key de Gemini'); return; }
   if (!tempSearchResults.length) { showToast('⚠️ Primero realiza una búsqueda'); return; }
 
   const btn = document.getElementById('ai-ranking-btn');
   if (btn) { btn.textContent = '⏳ Analizando...'; btn.disabled = true; }
-  document.getElementById('ai-ranking-sub').textContent = 'Gemini está evaluando todas las empresas...';
+  document.getElementById('ai-ranking-sub').textContent = 'Evaluando empresas con la ruta gratuita...';
   document.getElementById('ai-ranking-content').innerHTML =
     '<div style="text-align:center;padding:1.5rem;font-size:.82rem;color:var(--text-dim)">' +
     '<div style="font-size:1.5rem;margin-bottom:.5rem;animation:spin 1s linear infinite">⚙️</div>' +
     'Analizando ' + tempSearchResults.length + ' empresas...' +
     '</div>';
 
-  // Prepare compact summary of all results for Gemini
+  // Preparar un resumen compacto para la ruta gratuita.
   const segment = document.getElementById('plan-segment')?.value || 'desconocido';
   const location = document.getElementById('plan-location')?.value || 'España';
 
@@ -2376,22 +2449,26 @@ Responde ÚNICAMENTE en JSON válido:
 {"ranking":[{"position":1,"name":"nombre exacto","score":85,"reason":"por qué es top oportunidad","angle":"cómo abrir el contacto","urgency":"ALTA|MEDIA|BAJA"},...],"summary":"1 frase: patrón general que observas en los mejores leads de esta búsqueda"}`;
 
   try {
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, key,
-      { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.3, maxOutputTokens: 2000 } }),
-        signal: AbortSignal.timeout(30000) },
-      { purpose: 'lead_ranking' }
+    const localRanking = VoltflowAIFallbacks.ranking(tempSearchResults).slice(0, 5).map((company, index) => ({
+      position: index + 1,
+      name: company.name || company.company || 'Empresa',
+      score: Number(company.opportunityScore || company.score || 0),
+      reason: 'Priorizada por la puntuación comercial calculada localmente',
+      angle: 'Revisar sus datos y necesidad principal antes del contacto',
+      urgency: Number(company.opportunityScore || company.score || 0) >= 70 ? 'ALTA' : Number(company.opportunityScore || company.score || 0) >= 40 ? 'MEDIA' : 'BAJA',
+    }));
+    const generated = await VoltflowAIFallbacks.generate(
+      prompt,
+      { purpose: 'lead_classification', maxOutputTokens: 2000 },
+      () => JSON.stringify({ ranking: localRanking, summary: 'Ranking local basado en puntuaciones existentes.' })
     );
-    const data = await res.json();
-    let raw = data.candidates?.[0]?.content?.parts?.map(p => p.text||'').join('').trim() || '';
+    let raw = generated.text || '';
     raw = raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
     const result = JSON.parse(raw);
 
     renderAiRanking(result);
     if (btn) { btn.textContent = '🔄 Re-analizar'; btn.disabled = false; }
-    document.getElementById('ai-ranking-sub').textContent = 'TOP 5 identificadas por Gemini IA';
+    document.getElementById('ai-ranking-sub').textContent = `TOP 5 identificadas por ${generated.provider === 'local' ? 'análisis local' : generated.provider}`;
 
   } catch(e) {
     document.getElementById('ai-ranking-content').innerHTML =

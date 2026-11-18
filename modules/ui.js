@@ -390,12 +390,12 @@ async function regenerateSubjectOnly() {
   const btn = event.target;
   btn.textContent = '⏳ Generando...'; btn.disabled = true;
   try {
-    // Usar Gemini para generar asuntos de email
-    const text = await AI_ROUTER.call(
+    const generated = await VoltflowAIFallbacks.generate(
       `Genera 3 asuntos de email comercial cortos y directos para contactar a ${lead.company} (sector ${lead.segment}). Usa solo estos datos y no inventes informacion sobre la empresa. Devuelve solo los 3 asuntos numerados, sin mas texto.`,
-      undefined,
-      { purpose: 'email_subject_regeneration', temperature: 0.65, maxOutputTokens: 300 }
+      { purpose: 'email_subject_regeneration', temperature: 0.65, maxOutputTokens: 300 },
+      () => VoltflowAIFallbacks.subjects(lead).map((subject, index) => `${index + 1}. ${subject}`).join('\n')
     );
+    const text = generated.text;
     const subjects = text.split('\n').filter(l => l.trim() && /^\d/.test(l.trim())).slice(0,3);
     if (subjects.length) {
       const chosen = prompt('Elige un asunto (pega el que prefieras):\n\n' + subjects.join('\n'));
@@ -600,7 +600,8 @@ function openImportFromLocalStorage() {
 
   const hasConfig = !!(
     localStorage.getItem('gordi_api_key') ||
-    getGeminiKey() ||
+    localStorage.getItem('gordi_openrouter_key') ||
+    localStorage.getItem('gordi_groq_key') ||
     localStorage.getItem('gordi_user_name')
   );
 
@@ -1455,7 +1456,7 @@ const tutorialSteps = [
   { icon:'🔍', title:'Busca empresas con IA', body:'Ve a "Buscar Empresas", introduce una zona y sector. Voltflow encontrará empresas reales con email, teléfono y decisor usando Google Maps.' },
   { icon:'✨', title:'Email hiperpersonalizado', body:'Abre cualquier lead y pulsa ✨ IA. Voltflow analiza las reseñas de Google de esa empresa y escribe un email que menciona sus problemas concretos.' },
   { icon:'📋', title:'Pipeline Kanban', body:'Usa el Kanban para gestionar visualmente en qué estado está cada empresa. Arrastra las tarjetas entre columnas conforme avanza la conversación.' },
-  { icon:'🎯', title:'Configura las APIs', body:'Para activar la búsqueda de empresas necesitas una Google Maps API Key (console.cloud.google.com). Para el email IA, una Gemini Key gratis en aistudio.google.com/apikey.' },
+  { icon:'🎯', title:'Configura la IA gratuita', body:'La búsqueda local funciona sin Google Maps. Para mejorar la redacción, configura OpenRouter Free y, opcionalmente, Groq Free como respaldo.' },
 ];
 let tutStep = 0;
 function showTutorial() {

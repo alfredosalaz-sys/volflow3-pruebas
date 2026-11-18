@@ -19,17 +19,6 @@ function openAiEmailModal(id) {
   const lead = leads.find(l => l.id == id);
   if (!lead) return;
 
-  const aiStatus = AI_ROUTER.getStatus();
-  const configured = Object.values(aiStatus).some(item => item.configured);
-  const approved = Object.values(aiStatus).some(item => item.ok && !item.limited);
-  if (!configured || !approved) {
-    alert(configured
-      ? 'Confirma en Configuracion que al menos una cuenta sigue en su plan gratuito y sin facturacion habilitada.'
-      : 'Configura al menos una clave de Gemini Free, Groq Free u OpenRouter Free.');
-    showView('settings');
-    return;
-  }
-
   // Reset modal UI
   document.getElementById('ai-modal-title').innerText = `✨ Email IA para ${lead.company}`;
   document.getElementById('ai-modal-sub').innerHTML = lead.email 
@@ -44,8 +33,7 @@ function openAiEmailModal(id) {
 
   document.getElementById('ai-email-modal').style.display = 'flex';
   // Show pain picker first — analyze weak points, then let user choose
-  if (aiStatus.gemini.ok) showPainPicker(lead);
-  else runAiEmailGeneration(lead, null);
+  showPainPicker(lead);
 }
 
 // ── ─ NUEVAS FUNCIONES ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ─
@@ -77,7 +65,6 @@ async function showPainPicker(lead) {
     <div class="spinner" style="margin:0 auto .75rem"></div>Analizando puntos débiles de ${lead.company}…</div>`;
 
   try {
-    const claudeKey = getGeminiKey();
     // Build a compact context from existing lead data
     const signals = (lead.signals || []).slice(0, 6).map(s => '  · ' + s).join('\n');
     const reviews = lead.reviewSummary
@@ -106,18 +93,17 @@ Responde SOLO JSON válido (sin markdown):
   {"title":"...", "why":"...", "hook":"...", "priority":3}
 ]}`;
 
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.6, maxOutputTokens: 600 } })
-      },
-      { purpose: 'email_pain_analysis' }
+    const localOptions = [
+      { title: 'Eficiencia operativa', why: 'Propuesta prudente basada en la actividad de la empresa.', hook: 'eficiencia', priority: 1 },
+      { title: 'Mantenimiento previsible', why: 'Reducir incidencias y planificar las actuaciones con antelación.', hook: 'problema', priority: 2 },
+      { title: 'Mejora de instalaciones', why: 'Abrir una conversación sobre mejoras concretas sin asumir problemas.', hook: 'oportunidad', priority: 3 },
+    ];
+    const generated = await VoltflowAIFallbacks.generate(
+      prompt,
+      { purpose: 'lead_classification', maxOutputTokens: 600 },
+      () => JSON.stringify({ options: localOptions })
     );
-    const data = await res.json();
-    let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    let raw = generated.text || '';
     raw = raw.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(raw);
     _painPickerOptions = parsed.options || [];
@@ -165,8 +151,7 @@ async function confirmPainAndGenerate() {
 }
 
 async function preGenerateSubjects(lead, painCtx) {
-  const claudeKey = getGeminiKey();
-  if (!claudeKey || !painCtx) return;
+  if (!painCtx) return;
   try {
     const prompt = `Empresa: ${lead.company} | Sector: ${lead.segment}
 Ángulo elegido: "${painCtx.title}" — ${painCtx.why}
@@ -174,14 +159,12 @@ async function preGenerateSubjects(lead, painCtx) {
 Genera EXACTAMENTE 3 asuntos de email B2B para este ángulo. Cortos, sin spam, directos.
 Responde SOLO JSON: {"subjects":["asunto1","asunto2","asunto3"]}`;
 
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
-      { method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.7,maxOutputTokens:200} }) },
-      { purpose: 'email_subject_generation' }
+    const generated = await VoltflowAIFallbacks.generate(
+      prompt,
+      { purpose: 'email_subject_regeneration', maxOutputTokens: 200 },
+      () => JSON.stringify({ subjects: VoltflowAIFallbacks.subjects(lead) })
     );
-    const data = await res.json();
-    let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    let raw = generated.text || '';
     raw = raw.replace(/```json|```/g,'').trim();
     const parsed = JSON.parse(raw);
     const subjects = parsed.subjects || [];
@@ -244,7 +227,6 @@ async function generateContactCalendar(lead) {
     <span class="spinner" style="display:inline-block;margin-right:.3rem"></span>Generando calendario de seguimiento…</div>`;
 
   try {
-    const claudeKey = getGeminiKey();
     const segT = (typeof SEGMENT_TONE !== 'undefined' && SEGMENT_TONE[lead.segment]) || {};
 
     const prompt = `Eres un experto en ventas B2B. Genera un calendario de seguimiento para cuando el lead NO contesta el primer email.
@@ -271,18 +253,16 @@ Responde SOLO JSON válido:
   {"day":30,"channel":"email","angle":"Cierre elegante","subject":"...","note":"Abrir puerta de salida"}
 ]}`;
 
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.7, maxOutputTokens: 800 } })
-      },
-      { purpose: 'email_contact_calendar' }
+    const localTouchpoints = VoltflowAIFallbacks.calendar(lead).map(item => ({
+      day: item.dayOffset, channel: item.channel, angle: item.action,
+      subject: item.action, note: 'Plan local sin llamada externa',
+    }));
+    const generated = await VoltflowAIFallbacks.generate(
+      prompt,
+      { purpose: 'email_followup_generation', maxOutputTokens: 800 },
+      () => JSON.stringify({ touchpoints: localTouchpoints })
     );
-    const data = await res.json();
-    let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    let raw = generated.text || '';
     raw = raw.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(raw);
     _contactCalendarData = parsed.touchpoints || [];
@@ -405,7 +385,6 @@ function closeWaModal() {
 }
 
 async function generateWhatsAppMessage(lead) {
-  const claudeKey = getGeminiKey();
   const phone = lead.whatsapp || lead.phone;
   const waBody = document.getElementById('wa-body');
 
@@ -438,18 +417,12 @@ REGLAS DEL WHATSAPP:
 
 Responde SOLO JSON: {"message":"texto del WA","opener":"frase de apertura resumida en 5 palabras"}`;
 
-    const res = await aiGatewayGeminiFetch(
-      AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.72, maxOutputTokens: 400 } })
-      },
-      { purpose: 'whatsapp_message_generation' }
+    const generated = await VoltflowAIFallbacks.generate(
+      prompt,
+      { purpose: 'commercial_first_contact', maxOutputTokens: 400 },
+      () => JSON.stringify({ message: VoltflowAIFallbacks.whatsapp(lead), opener: 'Contacto comercial local' })
     );
-    const data = await res.json();
-    let raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    let raw = generated.text || '';
     raw = raw.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(raw);
     const msg = parsed.message || '';
@@ -581,8 +554,6 @@ function setAiStep(step, state) {
 
 // ──  Motor principal ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── 
 async function runAiEmailGeneration(lead, painContext) {
-  const claudeKey = getGeminiKey();
-
   // PASO 1: Reseñas de Google Places
   // MEJORA 5: Si el lead ya tiene reviewStats del enriquecimiento reciente (<24h),
   // reutilizamos esos datos y nos saltamos el fetch — ahorra una llamada Places completa.
@@ -666,55 +637,17 @@ async function runAiEmailGeneration(lead, painContext) {
     setAiStep('scrape', 'error');
   }
 
-  // PASO 3: Búsqueda de noticias recientes via Gemini con grounding
+  // PASO 3: no se ejecutan búsquedas IA con herramientas facturables.
   setAiStep('news', 'done');
   let newsContext = '';
-  try {
-    if (false && lead.company && claudeKey) {
-      const newsRes = await aiGatewayGeminiFetch(
-        AI_ZERO_COST_PROVIDERS.gemini.model, claudeKey,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text:
-              `Busca noticias recientes (últimos 12 meses) sobre la empresa "${lead.company}" en ${lead.address || 'España'}, sector ${lead.segment}.
-Busca: inauguraciones, premios, reformas, expansiones, cambios de dirección, menciones en prensa, nuevas aperturas o proyectos.
-Si no encuentras nada específico de esta empresa, responde "Sin noticias relevantes encontradas."
-Responde en máximo 3 frases concretas, sin inventar nada.` }] }],
-            tools: [{ googleSearch: {} }],
-            generationConfig: { temperature: 0.2, maxOutputTokens: 300 }
-          })
-        },
-        { purpose: 'email_news_grounding' }
-      );
-      if (newsRes.ok) {
-        const newsData = await newsRes.json();
-        const rawNews = newsData.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('').trim() || '';
-        if (rawNews && !/sin noticias|no encontr|no hay/i.test(rawNews)) {
-          newsContext = rawNews.slice(0, 500);
-          setAiStep('news', 'done');
-        } else {
-          setAiStep('news', 'done');
-        }
-      } else {
-        setAiStep('news', 'error');
-      }
-    } else {
-      setAiStep('news', 'done');
-    }
-  } catch(e) {
-    console.warn('News search failed:', e.message);
-    setAiStep('news', 'error');
-  }
 
-  // PASO 4 + 5: Gemini analiza todo y redacta el email
+  // PASO 4 + 5: el gateway gratuito analiza y redacta; local es el respaldo.
   setAiStep('analyze', 'active');
 
   try {
     // Enrich liveWebData with chosen pain context
     if (painContext) liveWebData.chosenPainContext = `ENFOQUE ELEGIDO POR EL VENDEDOR — PRIORIZA ESTE ÁNGULO:\n${painContext.title}: ${painContext.why} (Gancho: ${painContext.hook})`;
-    const result = await generateEmailWithClaude(lead, reviewsData, claudeKey, liveWebData, newsContext);
+    const result = await generateEmailWithClaude(lead, reviewsData, '', liveWebData, newsContext);
     setAiStep('analyze', 'done');
     setAiStep('write', 'done');
 
@@ -1266,11 +1199,16 @@ EJEMPLO DE FORMATO BIEN APLICADO:
 Responde ÚNICAMENTE con JSON válido, sin markdown, sin texto adicional:
 {"subjects":["asunto opción 1 — emocional","asunto opción 2 — dato/racional","asunto opción 3 — curiosidad/intriga"],"body":"HTML del email empezando con '${saludo},'  y terminando con '{{FIRMA}}'","insight":"2-3 frases sobre QUÉ FUENTE usaste como gancho principal (reseñas/web/noticias/señales) y cómo el tono del sector influyó en el email"}`;
 
-  const rawText = await AI_ROUTER.call(prompt, claudeKey, {
-    purpose: 'email_body_generation',
-    temperature: 0.7,
-    maxOutputTokens: 2000,
+  const localDraft = VoltflowAIFallbacks.email(lead, {
+    pain: liveWebData.chosenPainContext || (SEGMENT_TONE[lead.segment] || SEGMENT_TONE.Default)?.pain,
   });
+  const localBody = escapeAIText(localDraft.bodyText).replace(/\n/g, '<br>') + '<br><br>{{FIRMA}}';
+  const generated = await VoltflowAIFallbacks.generate(
+    prompt,
+    { purpose: 'email_body_generation', temperature: 0.7, maxOutputTokens: 2000 },
+    () => JSON.stringify({ subjects: VoltflowAIFallbacks.subjects(lead), body: localBody, insight: 'Plantilla local basada en los datos guardados del lead.' })
+  );
+  const rawText = generated.text;
   if (!rawText) throw new Error('El proveedor gratuito no devolvio texto.');
   const finishReason = '';
 
@@ -1346,7 +1284,7 @@ function clearFormat() {
   document.execCommand('removeFormat', false, null);
 }
 
-// Recibe HTML de Gemini y lo prepara para el editor visual
+// Recibe HTML del proveedor activo y lo prepara para el editor visual
 function textToEditorHtml(html) {
   if (!html) return '';
   html = typeof sanitizeAIHTML === 'function' ? sanitizeAIHTML(html) : html;
@@ -1360,7 +1298,7 @@ function textToEditorHtml(html) {
     }).filter(Boolean).join('');
   }
 
-  // Si viene HTML de Gemini: asegurar estilos visuales inline
+  // Si viene HTML del proveedor: asegurar estilos visuales inline
   var out = html;
 
   // Normalizar saltos de parrafo

@@ -7,9 +7,8 @@
   'use strict';
 
   const SERVICE_REGISTRY = Object.freeze([
-    Object.freeze({ id: 'gemini', group: 'ai', label: 'Gemini Free', description: 'Modelo permitido: gemini-2.5-flash-lite', fields: Object.freeze([{ name: 'key', label: 'API key', storageKey: 'gordi_gemini_key', required: true, type: 'password' }]), links: Object.freeze([{ label: 'Crear clave', href: 'https://ai.google.dev/gemini-api/docs/api-key' }]) }),
-    Object.freeze({ id: 'groq', group: 'ai', label: 'Groq Free', description: 'Respaldo de IA sujeto a los límites gratuitos del proveedor', fields: Object.freeze([{ name: 'key', label: 'API key', storageKey: 'gordi_groq_key', required: true, type: 'password' }]), links: Object.freeze([{ label: 'Crear clave', href: 'https://console.groq.com/keys' }]) }),
-    Object.freeze({ id: 'openrouter', group: 'ai', label: 'OpenRouter Free', description: 'Último respaldo, limitado a modelos :free', fields: Object.freeze([{ name: 'key', label: 'API key', storageKey: 'gordi_openrouter_key', required: true, type: 'password' }]), links: Object.freeze([{ label: 'Crear clave', href: 'https://openrouter.ai/settings/keys' }]) }),
+    Object.freeze({ id: 'openrouter', group: 'ai', label: 'OpenRouter Free', description: 'Ruta principal. Solo permite modelos gratuitos mediante openrouter/free.', fields: Object.freeze([{ name: 'key', label: 'API key', storageKey: 'gordi_openrouter_key', required: true, type: 'password' }]), links: Object.freeze([{ label: 'Crear clave', href: 'https://openrouter.ai/settings/keys' }]) }),
+    Object.freeze({ id: 'groq', group: 'ai', label: 'Groq Free', description: 'Respaldo automático cuando OpenRouter no está disponible.', fields: Object.freeze([{ name: 'key', label: 'API key', storageKey: 'gordi_groq_key', required: true, type: 'password' }]), links: Object.freeze([{ label: 'Crear clave', href: 'https://console.groq.com/keys' }]) }),
     Object.freeze({ id: 'emailjs', group: 'email', label: 'EmailJS', description: 'Envío directo de alertas por EmailJS', fields: Object.freeze([
       { name: 'toEmail', label: 'Email de destino', storageKey: 'gordi_ejs_to', required: true, type: 'email', domId: 'ejs-to-email' },
       { name: 'serviceId', label: 'Service ID', storageKey: 'gordi_ejs_service', required: true, type: 'text', domId: 'ejs-service-id' },
@@ -30,7 +29,7 @@
   ]);
 
   const SERVICE_BY_ID = Object.freeze(Object.fromEntries(SERVICE_REGISTRY.map(service => [service.id, service])));
-  const AI_IDS = new Set(['gemini', 'groq', 'openrouter']);
+  const AI_IDS = new Set(['openrouter', 'groq']);
 
   function environment(input = {}) {
     const browser = input.browser || (typeof globalThis !== 'undefined' ? globalThis : {});
@@ -162,6 +161,24 @@
       copy.append(element(document, 'p', 'credential-manager-kicker', 'Control central de credenciales'), element(document, 'h2', '', 'Servicios por función'), element(document, 'p', '', 'Solo aparecen las integraciones que Voltflow utiliza actualmente.'));
       header.append(copy, element(document, 'span', 'credential-manager-zero', 'ZERO_COST_MODE activo'));
       host.append(header);
+
+      const route = element(document, 'section', 'credential-manager-route');
+      const routeCopy = element(document, 'div', 'credential-manager-route-copy');
+      routeCopy.append(element(document, 'p', 'credential-manager-kicker', 'Ruta automática'), element(document, 'h3', '', 'Cómo trabaja la IA sin coste'));
+      const rail = element(document, 'div', 'credential-manager-route-rail');
+      const routeNodes = [
+        { id: 'openrouter', step: '1', label: 'OpenRouter', detail: 'Principal' },
+        { id: 'groq', step: '2', label: 'Groq', detail: 'Respaldo' },
+        { id: 'local', step: '3', label: 'Plantilla local', detail: 'Siempre disponible' }
+      ];
+      for (const item of routeNodes) {
+        const node = element(document, 'div', `credential-manager-route-node is-${item.id}`);
+        node.dataset.aiRouteNode = item.id;
+        node.append(element(document, 'span', 'credential-manager-route-step', item.step), element(document, 'strong', '', item.label), element(document, 'small', '', item.detail));
+        rail.append(node);
+      }
+      route.append(routeCopy, rail);
+      host.append(route);
 
       const grid = element(document, 'div', 'credential-manager-groups');
       for (const group of GROUPS) {
