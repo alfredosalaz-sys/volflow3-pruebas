@@ -3,11 +3,20 @@
   "datasetRelease": "catalog-contract-e1.2-priority-segments",
   "generatedAt": "2026-10-15T00:00:00.000Z",
   "description": "Manifest v2 for browser-sized open-data business indexes. No new source is enabled by E1.",
-  "schema": { "file": "data/business-indexes/schema-v2.json", "version": "2.0.0" },
+  "schema": {
+    "file": "data/business-indexes/schema-v2.json",
+    "version": "2.0.0"
+  },
   "taxonomyVersion": "1.1.0",
   "geographyVersion": "1.0.0",
-  "taxonomy": { "file": "data/business-taxonomy.v1.json", "version": "1.1.0" },
-  "geography": { "file": "data/geography-es.v1.json", "version": "1.0.0" },
+  "taxonomy": {
+    "file": "data/business-taxonomy.v1.json",
+    "version": "1.1.0"
+  },
+  "geography": {
+    "file": "data/geography-es.v1.json",
+    "version": "1.0.0"
+  },
   "limits": {
     "maxManifestBytes": 256000,
     "maxPartitionBytes": 1048576,
@@ -41,17 +50,28 @@
     }
   },
   "attributions": {
-    "overture-contributors": { "text": "Overture Maps Foundation and source contributors" },
-    "foursquare-labs": { "text": "Foursquare Labs, Inc." },
-    "madrid-city-council": { "text": "Ayuntamiento de Madrid" },
-    "osm-geofabrik": { "text": "OpenStreetMap contributors / Geofabrik extract" },
-    "alltheplaces-sources": { "text": "AllThePlaces and original store sources" }
+    "overture-contributors": {
+      "text": "Overture Maps Foundation and source contributors"
+    },
+    "foursquare-labs": {
+      "text": "Foursquare Labs, Inc."
+    },
+    "madrid-city-council": {
+      "text": "Ayuntamiento de Madrid"
+    },
+    "osm-geofabrik": {
+      "text": "OpenStreetMap contributors / Geofabrik extract"
+    },
+    "alltheplaces-sources": {
+      "text": "AllThePlaces and original store sources"
+    }
   },
   "licenseMetadata": {
     "overture_places_static": {
       "license": "CDLA Permissive 2.0 / source-specific notices",
       "attribution": "Overture Maps Foundation and source contributors",
-      "status": "importable_dataset"
+      "status": "sample_index_generated",
+      "release": "2026-10-15"
     },
     "foursquare_os_places_static": {
       "license": "Apache-2.0 with Foursquare NOTICE",
@@ -76,10 +96,4973 @@
   },
   "providers": {
     "overture_places_static": {
-      "enabled": false,
+      "enabled": true,
       "licenseId": "overture-cdla-permissive-2-0",
       "attributionId": "overture-contributors",
-      "partitions": []
+      "partitions": [
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-001.json",
+          "sha256": "2121b8e06340c0f518abe2b4a9acb561c31b5d4fa87bb5992d5e951f56f7e92d",
+          "bytes": 1047574,
+          "recordCount": 971,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 971
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-002.json",
+          "sha256": "7e6f0abd00400e5a611d414e3244fb3b5ebd5736696fc5191585c5eae210ba6b",
+          "bytes": 1048009,
+          "recordCount": 991,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 991
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-003.json",
+          "sha256": "8dc94e090cbdaea04afaf32172542b14adcc944eaf39297124036dcfac675da9",
+          "bytes": 1048248,
+          "recordCount": 990,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 990
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-004.json",
+          "sha256": "e0ccf77df21ac4188ae531f2ff3c754d6694a960e297847690e663f6b14b692b",
+          "bytes": 1048318,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-005.json",
+          "sha256": "c489f373ae116a1da7be09f103934a841c3a95fef9b602e30ae0609a0235a28a",
+          "bytes": 1048554,
+          "recordCount": 989,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 989
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-006.json",
+          "sha256": "089177046e759c2b0c3845a213d7922d880a870b6a2a84d014ad2a7b7dcdd19c",
+          "bytes": 1047626,
+          "recordCount": 990,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 990
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-007.json",
+          "sha256": "b9e3750eb02af5c746b3ffa928d5c28aaf322f6e92f8f9fb04f8e81358295c77",
+          "bytes": 1047947,
+          "recordCount": 985,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 985
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-008.json",
+          "sha256": "82dd1af57f918b36aeace664828e3a0391258c55e09c94d3dc30b3e719c1e8d9",
+          "bytes": 1047857,
+          "recordCount": 990,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 990
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-009.json",
+          "sha256": "27d15e7d618c15c6e7b42360a4c3f2db14ee6783618f5342d10ddd287148abb7",
+          "bytes": 1047672,
+          "recordCount": 988,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 988
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-010.json",
+          "sha256": "b4276af73725d392f5fcd03afc435dd5ac873dcf3528199ec1e291ce9409f3be",
+          "bytes": 1047870,
+          "recordCount": 983,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 983
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-011.json",
+          "sha256": "7acbc8d5da8d69932932458bba9d56d4160b6277ada0760b8c6e0010d95ac50f",
+          "bytes": 1048478,
+          "recordCount": 974,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 974
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-012.json",
+          "sha256": "087c94eedb1bc075ad715a61471b4e7b97248e42f0ddbc318e8d135e1c78a5ef",
+          "bytes": 1047871,
+          "recordCount": 981,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 981
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-013.json",
+          "sha256": "18ea33e304ffdeb33a0adf50d0ebb4533e0a642d9377d609c7aff1ee3151e38a",
+          "bytes": 1047517,
+          "recordCount": 972,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 972
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-014.json",
+          "sha256": "f06064241b71a20f0a711ae5ceb91e4ca24c1355146a064dfaf45733dfe76455",
+          "bytes": 1048072,
+          "recordCount": 973,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 973
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-015.json",
+          "sha256": "c7e71c705710ba42c21ac68478741ae9f53ec07caeacf0fd83c882d29cde159c",
+          "bytes": 1048155,
+          "recordCount": 978,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 978
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-016.json",
+          "sha256": "2f6cde098c7513535e20474bcaa14e878ee3b5c775b337d5de614c0ab84c1ddd",
+          "bytes": 1047586,
+          "recordCount": 976,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 976
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-017.json",
+          "sha256": "1640f5d7f32dfa2f7f3da97d8262f7538d736eef7dffee898f95726fac559183",
+          "bytes": 1048548,
+          "recordCount": 993,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 993
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-018.json",
+          "sha256": "a2886eefd4f8ef5f3c6a6aa9bfa7908816a55e4b4528259fdf8bc392eb1d419c",
+          "bytes": 1048101,
+          "recordCount": 993,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 993
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-019.json",
+          "sha256": "310cd05238ed3c2b0ae6751e89ec86212def307d046146a40cafeae48aad9537",
+          "bytes": 1047596,
+          "recordCount": 996,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 996
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-020.json",
+          "sha256": "ee6407747a0fdb7d753ff8475409eebfc3cd935c992f7132507ad78a6a22428b",
+          "bytes": 1048367,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-021.json",
+          "sha256": "4cb31bbe82569f683ce6b829d1b9250ea9ecbab64770711cbc9dd895a35c0755",
+          "bytes": 1047566,
+          "recordCount": 986,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 986
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-022.json",
+          "sha256": "95fac4c8bba42bc689699913fd0f49c37e2405d2b6cfea8f40f15999ad30f3c6",
+          "bytes": 1048290,
+          "recordCount": 990,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 990
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-023.json",
+          "sha256": "9d61fc44d38fa220183e3389bf9e16229a9881c3799517658150c4b3602d5390",
+          "bytes": 1048408,
+          "recordCount": 998,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 998
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-024.json",
+          "sha256": "d15a31c6b11432304c5dc3415a5300df32bc685860cca23cf79ffbfcb59d04bc",
+          "bytes": 1047933,
+          "recordCount": 999,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 999
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-025.json",
+          "sha256": "cff489150b05663788c4fd83099d81ecec6008bfeeb7b93f96f84c2b044eb46f",
+          "bytes": 1048352,
+          "recordCount": 999,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 999
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-026.json",
+          "sha256": "ac967f6926ce6ffe3ce00720d2af39e2273d4996ebef85415f46aed28d89ea2a",
+          "bytes": 1048551,
+          "recordCount": 998,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 998
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-027.json",
+          "sha256": "e40f639058178fe92b1cc5fa2fd2786d484abe8321d8e1d607db856608797b0e",
+          "bytes": 1047608,
+          "recordCount": 996,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 996
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-028.json",
+          "sha256": "8aa20009e9596d0a612b9a81c33da6862749f815e760874ea76c46bef0d5ad9f",
+          "bytes": 1048254,
+          "recordCount": 1000,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 1000
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-029.json",
+          "sha256": "1ff09f42838e21339ac9d765ca4138d3cc36f56127bc8175934f0eeb0d6c0886",
+          "bytes": 1048500,
+          "recordCount": 1002,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 1002
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-030.json",
+          "sha256": "4429547bc80e35c351e6559d6e3a5a46d99e9f1dfe51508f76f35d1679ec93dc",
+          "bytes": 1048162,
+          "recordCount": 1000,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 1000
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-031.json",
+          "sha256": "d8d30a80b77e678bdae347624504c4dd6d25c30e8eb6d72250d67e579d63347c",
+          "bytes": 1047996,
+          "recordCount": 997,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 997
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-032.json",
+          "sha256": "1f3b4d8ac48a2b4c3e62c7577c16d8f681a81ace3c891d4e04524532cb3c2518",
+          "bytes": 1048200,
+          "recordCount": 995,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 995
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-033.json",
+          "sha256": "7fc131f05b5c8e5c4b7cf68313ec99747020eca742be2c4f8de0a8d353b5e2e7",
+          "bytes": 1047732,
+          "recordCount": 1001,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 1001
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-034.json",
+          "sha256": "bcb1b72765fb285cf76918daaf7277d856a912ad53997ccfc245d5086b58cddd",
+          "bytes": 1048006,
+          "recordCount": 993,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 993
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-035.json",
+          "sha256": "d79dcca4d52ef589b5dea36156b11770dc2f2acae61e847fad5dfd492d38d65e",
+          "bytes": 1047825,
+          "recordCount": 995,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 995
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-036.json",
+          "sha256": "a2cb92634298b237717f46e4e8249befbe71893d153f119c70b073ab34571a95",
+          "bytes": 1048495,
+          "recordCount": 991,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 991
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-037.json",
+          "sha256": "7486849601beaeeb90139f0b445c29382e3005f62e6dd4d1f7d4fba6e430fd7a",
+          "bytes": 1047973,
+          "recordCount": 995,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 995
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-038.json",
+          "sha256": "1a938d2f3e4ec52ed383b2f62627f163419af6561975c7ad15562cd4c937cc7c",
+          "bytes": 1047693,
+          "recordCount": 996,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 996
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-039.json",
+          "sha256": "0fb468eebe68ec8548f911cbb58c5a48c608548a6b1fe43157d23f48eff5529a",
+          "bytes": 1047909,
+          "recordCount": 996,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 996
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-040.json",
+          "sha256": "b35608f7cd61300cdb558074f4abfd16727f8ec585d5602581448ae97bc6f92b",
+          "bytes": 1048444,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-041.json",
+          "sha256": "4a722690dad9178d795673250576473b2f15705ec82fd5c1ff228dfb3b7c4611",
+          "bytes": 1048085,
+          "recordCount": 999,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 999
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-042.json",
+          "sha256": "7d245476df5d79535bd21b7c98acfcf7c6b4b59ed1d29f3257ec3b0ebc0a8157",
+          "bytes": 1047439,
+          "recordCount": 998,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 998
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-043.json",
+          "sha256": "67a953ce5b560ca2861fe5c8a87140c0d180dbc1d10e955a338d38de134a60f5",
+          "bytes": 1048439,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-044.json",
+          "sha256": "bd8fd841ea28eff568ee45f5258507da7bb0d61d3335207cde3b9a5e79cdce7e",
+          "bytes": 1048419,
+          "recordCount": 995,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 995
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-045.json",
+          "sha256": "a84b9f50f1a97dd2343a128b3fbe8f12194c753ada8d00ea34985030118171b9",
+          "bytes": 1047643,
+          "recordCount": 997,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 997
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-046.json",
+          "sha256": "ac99ff9765b66d669d4c5b4ab2529ee361b28b66c98b026bddf181e6daa3fabe",
+          "bytes": 1048134,
+          "recordCount": 997,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 997
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-047.json",
+          "sha256": "af380a8b6fe0228c4c72ba50a52d1e19a44c31510b345bb6eeb10b8693c2b33f",
+          "bytes": 1048123,
+          "recordCount": 1000,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 1000
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-048.json",
+          "sha256": "4c444381395e5c4b0d301f702b3ff074ea05317c7b73aeacc2a81956884e7f27",
+          "bytes": 1048052,
+          "recordCount": 995,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 995
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-049.json",
+          "sha256": "e774229bbaeaf76bdffb6d03663f5951618ec2b8615889682c49eaa7622b1463",
+          "bytes": 1047698,
+          "recordCount": 995,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 995
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-050.json",
+          "sha256": "b521aad428b593390b0d4a693e244d192e4f86fece72bf4b6a966bf6b98f1ef8",
+          "bytes": 1048440,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-051.json",
+          "sha256": "a7a6ee1322ea0cb31f83e186304f65acb31aa267c72498f647b26354661e6ca4",
+          "bytes": 1047715,
+          "recordCount": 998,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 998
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-052.json",
+          "sha256": "7969a5a1b3bc0e9c0ed1b38e3724ded2317cd964c877576bae9e61fa58fdbfe8",
+          "bytes": 1047635,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-053.json",
+          "sha256": "f0042c08d6f8def4b38b137d83833d5aafd46fc12832cb7aa6d7151f52b7f2f6",
+          "bytes": 1047786,
+          "recordCount": 991,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 991
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-054.json",
+          "sha256": "2d22c02af61319f703c0c61055002ef60beee3c995c6085462c90171a2d6124b",
+          "bytes": 1047772,
+          "recordCount": 993,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 993
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-055.json",
+          "sha256": "dec605b735797822c0a105eb7f9ac189895a0b46f5f7b18fa83e032905629b4f",
+          "bytes": 1048266,
+          "recordCount": 996,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 996
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-056.json",
+          "sha256": "e9293ec9cc74672040e9840ec77713c3d3843fd23f7a267cc73004b5f9b74ead",
+          "bytes": 1048151,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-057.json",
+          "sha256": "4978a2da3acb76ffb97627c3c17f52bd7891dfc6c80e77a9051267dc850823a8",
+          "bytes": 1048194,
+          "recordCount": 993,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 993
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-058.json",
+          "sha256": "e6213c6cd00758dda9e1149a11202366bf68811c632eb8f3945f31c46eef98f1",
+          "bytes": 1048185,
+          "recordCount": 993,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 993
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-059.json",
+          "sha256": "19845ad28e04e0cc56e30d543c7446f43ab85611114a2d9f4a3b3903d22e8b2d",
+          "bytes": 1048083,
+          "recordCount": 992,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 992
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-060.json",
+          "sha256": "302d8999ceb908b6bc8b8d9f36fa7a629197f83be355740ca018b966110f4c1c",
+          "bytes": 1047693,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-061.json",
+          "sha256": "e751722d681aeda728048281f461f412533c2845157c83bfb58f45dbac458f37",
+          "bytes": 1048338,
+          "recordCount": 998,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 998
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-062.json",
+          "sha256": "a98e4d97ecf655552c1faaaa97087a0ed4b1a24e23ff6d3ec1ef15da21e4a923",
+          "bytes": 1048367,
+          "recordCount": 984,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 984
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-063.json",
+          "sha256": "4baba087771560be8400ab9033435d7898fe677f6fa08d523d44b44bb9c2f768",
+          "bytes": 1048109,
+          "recordCount": 989,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 989
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-064.json",
+          "sha256": "5ebadf228f3769427a18a6eb156fbd8ff76f6b97b2c80ca1ca7d88d2bc494158",
+          "bytes": 1048536,
+          "recordCount": 995,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 995
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-065.json",
+          "sha256": "132d21b49c82f9b9658219de5d255bd66e33c5fae1ff517d262067937b96bb41",
+          "bytes": 1048031,
+          "recordCount": 998,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 998
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-066.json",
+          "sha256": "f86697f1c51fd21081bd90c977bcbd47dc8215562df276165b987a5478240892",
+          "bytes": 1048454,
+          "recordCount": 989,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 989
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-067.json",
+          "sha256": "5089f46bb9e7d6a11009d381dcadc78f423c15f5fd5ceed391959af39af2049e",
+          "bytes": 1047974,
+          "recordCount": 993,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 993
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-068.json",
+          "sha256": "253e3d3f191f2454f6d176f127fd21be7cedaf43161850573a1b169a95ae3818",
+          "bytes": 1047951,
+          "recordCount": 996,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 996
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-069.json",
+          "sha256": "b7675c4410da756effebd939b548881c4b637c7af7e81a4860202cc3bc963b5e",
+          "bytes": 1047704,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-070.json",
+          "sha256": "24743080c1e15a8b9f40fb75be91fa225b07c9180201479db74e3c4d0f625ffc",
+          "bytes": 1048058,
+          "recordCount": 997,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 997
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-071.json",
+          "sha256": "a48716f729c459f337f6f8d917702176dc64253cf52dd9461b4b9ee223f7dc90",
+          "bytes": 1048214,
+          "recordCount": 996,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 996
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-072.json",
+          "sha256": "a7ac2c3ad921ce91f39fad02d0464845f20a517ee53aef480c3d2b5884a872b2",
+          "bytes": 1047480,
+          "recordCount": 992,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 992
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-073.json",
+          "sha256": "eceee5fd7f0fc256f3ce13a48342dc6d8c752b4868e7be6f9238cd9008b37ee5",
+          "bytes": 1048567,
+          "recordCount": 995,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 995
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-074.json",
+          "sha256": "87d1a91ac13479800f3c244d415c62a9a6c10fb9dd19f812af8b2d62136e5d38",
+          "bytes": 1048113,
+          "recordCount": 996,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 996
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-075.json",
+          "sha256": "3fd95de90fe73cc666a941ce3e5926b7250819a10995ae05ee7e4c0771d25c09",
+          "bytes": 1047846,
+          "recordCount": 997,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 997
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-076.json",
+          "sha256": "3e4bec4a32ffc9a74955f8ee29f03222c03e7618c64111e246c82507184dabdc",
+          "bytes": 1048537,
+          "recordCount": 993,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 993
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-077.json",
+          "sha256": "4469d78f46d49f4beeec516713b89ab86ac1f1452fd945575a378b9f0bb38169",
+          "bytes": 1048107,
+          "recordCount": 993,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 993
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-078.json",
+          "sha256": "8b6875600a1163246f7f9e1db74233d12fe8dc6f41229676817a7e7d1e98e317",
+          "bytes": 1047970,
+          "recordCount": 993,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 993
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-079.json",
+          "sha256": "d6989cb9a550f04c0cb583c010d86ea8bdee82cf125f321b4f3363cfba469eb7",
+          "bytes": 1047601,
+          "recordCount": 991,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 991
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-080.json",
+          "sha256": "5288fcd1f02363cd94c97517d66cf2205de79b5a57997426309c505da047ea48",
+          "bytes": 1047838,
+          "recordCount": 981,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 981
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-081.json",
+          "sha256": "d8e07bd8999b8e59fcf6c4cacca4030ff6b41fe101a11ee17e5d1be74d6f1bb6",
+          "bytes": 1048043,
+          "recordCount": 997,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 997
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-082.json",
+          "sha256": "e61344dcab14cb0ea34daecc90b5d04aafcec3ed8e05daf0b69bd2a39129dd82",
+          "bytes": 1047816,
+          "recordCount": 993,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 993
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-083.json",
+          "sha256": "43c0ae5e738a137db682b3b09f09ed7439e3a384425516755bd7db2e62bb3a37",
+          "bytes": 1047790,
+          "recordCount": 991,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 991
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-084.json",
+          "sha256": "8002b8990398a97dc0f906d0773c428e4ebed46988d10919d6cca575eb2885ee",
+          "bytes": 1048307,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-085.json",
+          "sha256": "2b1dc3a1de2597f33d5459b944e964249054faeade8600d3c41b9370ff51b20a",
+          "bytes": 1048252,
+          "recordCount": 997,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 997
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-086.json",
+          "sha256": "1afde5ab930da37ab61f8e0dd3f94af84a5bfe83b9b0d28b1512f4e6b7f520da",
+          "bytes": 1048451,
+          "recordCount": 992,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 992
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-087.json",
+          "sha256": "dbe35ebccf6c72dccbb4773e22e56b112dca7c370707591bbe96bccdd1ddd928",
+          "bytes": 1048154,
+          "recordCount": 991,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 991
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-088.json",
+          "sha256": "496670ae8534f917ab23e626d13b09f47513a7cf14b9a88e8e86e1778ad4b51b",
+          "bytes": 1048544,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-089.json",
+          "sha256": "bcd99d8bf342b378dc9ab9569518968aea4b3869cece8b085c2ee958a8800e9f",
+          "bytes": 1048399,
+          "recordCount": 995,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 995
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-090.json",
+          "sha256": "37b995e9a2f2707be5b61cbd768675d053e6087df44a64a529cd2588c5a0c3ff",
+          "bytes": 1048298,
+          "recordCount": 999,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 999
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-091.json",
+          "sha256": "4836ce088299f14b2d60ff471f8070be167288728c126d67485bff965974882f",
+          "bytes": 1048085,
+          "recordCount": 988,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 988
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-092.json",
+          "sha256": "34adf1d0193f528928e004fbf5b5970783d872a29bbdafd30efecb81f9a718e5",
+          "bytes": 1048060,
+          "recordCount": 988,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 988
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-093.json",
+          "sha256": "69f3136e542c9ee5d89286ce03814a47d93abed2f5611f28b82ce43d669a8e49",
+          "bytes": 1048151,
+          "recordCount": 978,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 978
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-094.json",
+          "sha256": "c5346e7617264b2c7cf18780b94189af871f873987358da2b3f9097ed67490c6",
+          "bytes": 1048129,
+          "recordCount": 980,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 980
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-095.json",
+          "sha256": "1a754312fcdb122e2785b18fe3563a8e1ee38ec87b147b807a4639bca644a88a",
+          "bytes": 1047579,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-096.json",
+          "sha256": "524ba59490f960376cd4fd049b4a005f160bb5709ac1cbab643d93ebc303e5b1",
+          "bytes": 1048339,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-097.json",
+          "sha256": "74c78601cd0943fd5bd8fe1e72a8dcd2db76ebe099bda1acd45a1a09f3501985",
+          "bytes": 1048359,
+          "recordCount": 995,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 995
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-098.json",
+          "sha256": "618a8c8f03de19d9435cafe7d52a1a770f8fffa84fedac6a3f463d99c48ca664",
+          "bytes": 1047597,
+          "recordCount": 995,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 995
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-099.json",
+          "sha256": "b3e0054b93e431fec61fa5b77d8b7c0fe5097471be4a001f215a1095f76e3724",
+          "bytes": 1048163,
+          "recordCount": 997,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 997
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-100.json",
+          "sha256": "61d4e68be9fbec442d8977e4e9a395f047d6d2280183ab82743e22716e1081c9",
+          "bytes": 1048300,
+          "recordCount": 991,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 991
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-101.json",
+          "sha256": "2a2b868e170bda7590077343cb929efbee6bf390c95fb30e64a319d43279d154",
+          "bytes": 1048019,
+          "recordCount": 997,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 997
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-102.json",
+          "sha256": "96b29ab71f886b60ae3a68e9b41023030d119b91c6e39d085d7897f2109a92b3",
+          "bytes": 1047939,
+          "recordCount": 994,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 994
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-103.json",
+          "sha256": "302ffd1057689bbc8a0a2ecbc7aaa7bc568e800db95590f6d07f7a79a695e263",
+          "bytes": 1047674,
+          "recordCount": 984,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 984
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-104.json",
+          "sha256": "b4610c6a85e0c51b950c56228d8b254a975ec5e68c975f070ab4416bf1eab40f",
+          "bytes": 1047831,
+          "recordCount": 995,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 995
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-105.json",
+          "sha256": "34158ce1735b9599478ea239dac5823c11efe39dd2620f1dd13479bf1698dc85",
+          "bytes": 1047896,
+          "recordCount": 996,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 996
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-106.json",
+          "sha256": "ad8967c0d611698de94508e881efed344d2a9deec0facb4313b930840694b857",
+          "bytes": 1048187,
+          "recordCount": 992,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 992
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-107.json",
+          "sha256": "bcfb1e4fd7fee81df8764c1e13664fed2bbc7c1fd9e55bdda1d184d76739c82a",
+          "bytes": 1048430,
+          "recordCount": 993,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 993
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-108.json",
+          "sha256": "73518cf0fe6c40963d40d9e2536c3f9069ed58d508a9c407238916e0c01942f6",
+          "bytes": 1048247,
+          "recordCount": 997,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 997
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-109.json",
+          "sha256": "cf96fbccae4d9af12215ad7c3a099f4cba635a8176fc44d31a0afbd66c756ded",
+          "bytes": 1048426,
+          "recordCount": 987,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 987
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-110.json",
+          "sha256": "ee262d82033389c1148448698f5e6f6041718d359592713872be4c65a055f0dd",
+          "bytes": 1047732,
+          "recordCount": 981,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 981
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-111.json",
+          "sha256": "b8c684ee01f5f4df28fa375b21d3404141b0cf9c4aebb57a2fd5ae1a5480c3fc",
+          "bytes": 1047966,
+          "recordCount": 977,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 977
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-112.json",
+          "sha256": "49d0c3106de2915636154ba57bd56eb5d7142a8717433205c01a65543673ff29",
+          "bytes": 1048319,
+          "recordCount": 966,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 966
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-113.json",
+          "sha256": "48658e66b665402e90ef4fe385e40c909821256ca7fe0a8b0c5a6bd8881a6269",
+          "bytes": 1048180,
+          "recordCount": 970,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 970
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-114.json",
+          "sha256": "e2f2c761002e1d05c2a82432d8ceea25e26d01c0ea42a2a8ca7bf0e9269f28b8",
+          "bytes": 1048003,
+          "recordCount": 986,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 986
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-115.json",
+          "sha256": "9feef7baa04afef2cd576fd39f6b0716bf249ec96a7dea7f63d589b03919dcc7",
+          "bytes": 1048139,
+          "recordCount": 992,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 992
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-116.json",
+          "sha256": "3e8673d7493f29320e4d5e1eec2dedb6eae09fedced5e230f567131f23dc3b4c",
+          "bytes": 1047991,
+          "recordCount": 991,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 991
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-117.json",
+          "sha256": "13f350a8f2c8591c4a4d79b5891055c87e277189c1ec951ca2647cdacf67def0",
+          "bytes": 1048330,
+          "recordCount": 991,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 991
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-118.json",
+          "sha256": "20a1dc6a3f54670300c8b1dd100f0da1106bc7477761ebfc491f0b97f178fac1",
+          "bytes": 1047958,
+          "recordCount": 985,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 985
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-119.json",
+          "sha256": "6b64d267858740c23072f201dc357dda78b5cf0d89e9b0c992a9da3ad636c7c6",
+          "bytes": 1047847,
+          "recordCount": 986,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 986
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-120.json",
+          "sha256": "7248f5cdc4a788a97ac5c6936bb847077f13e85aa9c3bf63d699f9976ffd91c2",
+          "bytes": 1048557,
+          "recordCount": 993,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 993
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-121.json",
+          "sha256": "c26c52a10cf6f804daf383fdfca85c10adf50d3f345f8a580cb132b6671e5181",
+          "bytes": 1047642,
+          "recordCount": 989,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 989
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-122.json",
+          "sha256": "f0eab67f70d0bb49f06d231e7e9b9a09da2b3c1b6a7bcd722c69581c3103c09c",
+          "bytes": 1047831,
+          "recordCount": 987,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 987
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-123.json",
+          "sha256": "aadb4a7791747b689ec24f8a9819b879a1043b5635ef05e93093e4632a4ad322",
+          "bytes": 1048011,
+          "recordCount": 957,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 957
+        },
+        {
+          "file": "data/business-indexes/overture_places_static/postal-28-124.json",
+          "sha256": "1b5821cfad34a091aa1303d1d902edca9c8c5f50152c7565be0bd2c342861cb5",
+          "bytes": 1027908,
+          "recordCount": 949,
+          "recordSchemaVersion": 1,
+          "country": "ES",
+          "provinceCode": "28",
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectors": [
+            "AdministradoresFincas",
+            "Hoteles",
+            "Retail",
+            "Industrial",
+            "Oficinas",
+            "Inmobiliarias"
+          ],
+          "sectorIds": [
+            "property-management",
+            "hotels-hospitality",
+            "retail",
+            "industry",
+            "offices",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "property-services",
+            "commerce-hospitality",
+            "industry",
+            "professional-services"
+          ],
+          "sourceUpdatedAt": "2026-10-15T00:00:00.000Z",
+          "generatedAt": "2026-11-10T18:32:16.866981+00:00",
+          "licenseId": "overture-cdla-permissive-2-0",
+          "attributionId": "overture-contributors",
+          "postalPrefix": "28",
+          "count": 949
+        }
+      ],
+      "status": "sample_index_generated",
+      "release": "2026-10-15"
     },
     "foursquare_os_places_static": {
       "enabled": false,
@@ -102,9 +5085,19 @@
           "recordSchemaVersion": 1,
           "country": "ES",
           "provinceCode": "28",
-          "municipalityCodes": ["28079"],
-          "sectorIds": ["dental", "accounting-advisory", "real-estate-agencies"],
-          "sectorFamilies": ["health-care", "professional-services", "property-services"],
+          "municipalityCodes": [
+            "28079"
+          ],
+          "sectorIds": [
+            "dental",
+            "accounting-advisory",
+            "real-estate-agencies"
+          ],
+          "sectorFamilies": [
+            "health-care",
+            "professional-services",
+            "property-services"
+          ],
           "sourceUpdatedAt": "2026-10-13T00:00:00.000Z",
           "generatedAt": "2026-10-14T13:40:29.232Z",
           "licenseId": "madrid-cc-by-4-0",
@@ -112,7 +5105,11 @@
           "postalPrefix": "28",
           "locality": "Madrid",
           "province": "Madrid",
-          "sectors": ["Dental", "Gestorias", "Inmobiliarias"],
+          "sectors": [
+            "Dental",
+            "Gestorias",
+            "Inmobiliarias"
+          ],
           "count": 29
         }
       ]
