@@ -5035,6 +5035,53 @@ body.light-mode .panel-header { border-bottom-color: rgba(0,0,0,0.05) !important
   }
 }
 
+/* Credential manager: active services only */
+#credential-manager-root { margin-bottom: 1.5rem; min-width: 0; }
+.credential-manager-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.2rem 1.35rem; border: 1px solid var(--glass-border); border-radius: 14px 14px 0 0; background: var(--glass); }
+.credential-manager-header h2 { margin: .15rem 0; font-size: 1.15rem; }
+.credential-manager-header p { margin: 0; color: var(--text-muted); font-size: .78rem; }
+.credential-manager-kicker { color: var(--primary) !important; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.credential-manager-zero { flex: 0 0 auto; padding: .42rem .65rem; border: 1px solid rgba(16,217,124,.35); border-radius: 8px; color: var(--success); font-size: .72rem; font-weight: 700; white-space: nowrap; }
+.credential-manager-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; padding: 1rem; border: 1px solid var(--glass-border); border-top: 0; background: rgba(255,255,255,.018); }
+.credential-manager-group { min-width: 0; padding: 1rem; border: 1px solid var(--glass-border); border-radius: 12px; background: var(--glass); }
+.credential-manager-group h3 { margin: 0; font-size: .94rem; }
+.credential-manager-group-copy { min-height: 2.4rem; margin: .3rem 0 .8rem; color: var(--text-dim); font-size: .72rem; }
+.credential-manager-service { min-width: 0; padding: .9rem 0; border-top: 1px solid var(--glass-border); }
+.credential-manager-service-top { display: flex; align-items: center; justify-content: space-between; gap: .6rem; min-width: 0; }
+.credential-manager-service-top strong { min-width: 0; overflow-wrap: anywhere; font-size: .82rem; }
+.credential-manager-status { flex: 0 1 auto; color: var(--warning); font-size: .67rem; font-weight: 700; text-align: right; }
+.credential-manager-service.is-connected .credential-manager-status { color: var(--success); }
+.credential-manager-service.is-not_configured .credential-manager-status { color: var(--text-dim); }
+.credential-manager-description { margin: .3rem 0; color: var(--text-muted); font-size: .7rem; }
+.credential-manager-detail { display: block; margin-bottom: .65rem; color: var(--text-dim); font-size: .67rem; }
+.credential-manager-actions, .credential-manager-form-actions { display: flex; flex-wrap: wrap; gap: .4rem; }
+.credential-manager-actions a { text-decoration: none; }
+.credential-manager-external { color: var(--primary); }
+.credential-manager-external::after { content: "↗"; margin-left: .3rem; }
+.credential-manager-remove { color: var(--danger); }
+.credential-manager-form { display: grid; gap: .55rem; margin-top: .75rem; padding: .75rem; border: 1px solid var(--glass-border); border-radius: 9px; background: rgba(0,0,0,.14); }
+.credential-manager-form[hidden] { display: none; }
+.credential-manager-field { display: grid; gap: .25rem; min-width: 0; color: var(--text-muted); font-size: .68rem; }
+.credential-manager-field input { min-width: 0; width: 100%; }
+.credential-manager-persist { display: flex; align-items: center; gap: .4rem; color: var(--text-muted); font-size: .68rem; }
+.credential-manager-form-message { min-height: 1em; color: var(--danger); font-size: .68rem; }
+.credential-manager-notice { margin: 0; padding: .9rem 1rem; border: 1px solid var(--glass-border); border-top: 0; border-left: 3px solid var(--success); border-radius: 0 0 14px 14px; background: rgba(16,217,124,.04); color: var(--text-muted); font-size: .73rem; }
+.credential-manager-notice strong { color: var(--text); }
+
+@media (max-width: 1100px) {
+  .credential-manager-groups { grid-template-columns: 1fr; }
+  .credential-manager-group-copy { min-height: 0; }
+}
+
+@media (max-width: 640px) {
+  .credential-manager-header { align-items: flex-start; flex-direction: column; }
+  .credential-manager-zero { white-space: normal; }
+  .credential-manager-groups { padding: .65rem; }
+  .credential-manager-group { padding: .8rem; }
+  .credential-manager-service-top { align-items: flex-start; }
+  .credential-manager-actions > *, .credential-manager-form-actions > * { flex: 1 1 auto; }
+}
+
 /* C7.3: enriquecimiento selectivo y centro unificado de integraciones */
 #integration-center-c73-root { padding: 1.1rem; max-width: 1440px; margin: 0 auto; }
 .c73-compat-host { display: none !important; }
